@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "allowSyntheticDefaultImports": true,
+        "module": "esnext",
+        "target": "es5",
+        "noImplicitAny": false,
+        "outDir": "./wwwroot",
+        "experimentalDecorators": true,
+        "types": [
+            "vue-typescript-import-dts",
+            "node"
+        ],
+        "typeRoots": [
+            "node_modules/@types",
+        ],
+        "lib": [ "dom", "es2015" ],
+        "baseUrl": ".",
+        "paths": {
+            "@src/*": ["src/*"]
+        },
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "esModuleInterop": true
+    },
+    "exclude": [
+        "node_modules/*"
+    ],
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.vue"
+    ]
+}
