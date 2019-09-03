@@ -12,8 +12,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Capri.Database;
-using Capri.Web.Settings;
 using Capri.Web.Services;
+using Capri.Web.Services.Settings;
 
 namespace Capri.Web
 {
