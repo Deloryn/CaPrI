@@ -30,9 +30,13 @@ namespace Capri.Web.Services
         {
             User user = FindUserByEmail(email);
             if (user == null)
+            {
                 return null;
+            }
             else if (!IsPasswordCorrect(user, password))
+            {
                 return null;
+            }
             else
             {
                 user.Token = GenerateTokenFor(user);
