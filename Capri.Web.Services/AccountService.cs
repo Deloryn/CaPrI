@@ -26,7 +26,7 @@ namespace Capri.Web.Services
             _jwtSettings = jwtSettings.Value;
         }
 
-        public UserTokenDTO Authenticate(string email, string password)
+        public UserToken Authenticate(string email, string password)
         {
             User user = FindUserByEmail(email);
             if (user == null)
