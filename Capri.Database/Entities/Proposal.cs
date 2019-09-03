@@ -16,7 +16,7 @@ namespace Capri.Database.Entities
         public string Description { get; set; }
         [Required]
         public ProposalStatusEnum Status { get; set; }
-        public ICollection<Student> AssignedStudents { get; set; }
-        public ICollection<Student> WillingCandidates { get; set; }
+        public virtual ICollection<Student> AssignedStudents { get; set; }
+        public virtual ICollection<Student> WillingCandidates { get; set; }
     }
 }
