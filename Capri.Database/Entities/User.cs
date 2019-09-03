@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Capri.Database.Entities
 {
-    public class User : IdentityUser
+    public class User : IdentityUser, IEntity
     {
         [Key]
-        public int ID { get; set; }
+        public Guid ID { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]

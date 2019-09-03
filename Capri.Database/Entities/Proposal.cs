@@ -6,10 +6,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Capri.Database.Entities
 {
-    public abstract class Proposal
+    public abstract class Proposal : IEntity
     {
         [Key]
-        public int ID { get; set; }
+        public Guid ID { get; set; }
         [Required]
         public string Topic { get; set; }
         [Required]
