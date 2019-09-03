@@ -36,11 +36,13 @@ namespace Capri.Web
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("Authorisation");
+            var jwtSettingsSection = Configuration.GetSection("JWTSettings");
             services.Configure<AppSettings>(appSettingsSection);
+            services.Configure<JWTSettings>(jwtSettingsSection);
 
             // configure jwt authentication
-            var appSettings = appSettingsSection.Get<AppSettings>();
-            var key = System.Text.Encoding.ASCII.GetBytes(appSettings.Secret);
+            var secret = jwtSettingsSection.Get<JWTSettings>().Secret;
+            var key = System.Text.Encoding.ASCII.GetBytes(secret);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

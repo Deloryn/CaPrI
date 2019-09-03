@@ -18,12 +18,12 @@ namespace Capri.Web.Services
     {
         private readonly ISqlDbContext _context;
 
-        private readonly AppSettings _appSettings;
+        private readonly JWTSettings _jwtSettings;
 
-        public UserService(ISqlDbContext context, IOptions<AppSettings> appSettings)
+        public UserService(ISqlDbContext context, IOptions<JWTSettings> jwtSettings)
         {
             _context = context;
-            _appSettings = appSettings.Value;
+            _jwtSettings = jwtSettings.Value;
         }
 
         public UserTokenDTO Authenticate(string email, string password)
@@ -65,7 +65,7 @@ namespace Capri.Web.Services
         private string GenerateTokenFor(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = System.Text.Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var key = System.Text.Encoding.ASCII.GetBytes(_jwtSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
