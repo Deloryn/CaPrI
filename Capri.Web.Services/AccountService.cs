@@ -9,8 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Options;
 using Capri.Database;
 using Capri.Database.Entities;
-using Capri.Web.Settings;
-using Capri.Web.DTO;
+using Capri.Web.Services.Settings;
+using Capri.Web.ViewModels;
 
 namespace Capri.Web.Services
 {
