@@ -13,10 +13,4 @@ namespace Capri.Database.Entities
         [Required]
         public StudyLevelEnum StudyLevel;
     }
-
-    public enum StudyLevelEnum
-    {
-        Bachelor = 0,
-        Master = 1
-    };
 }

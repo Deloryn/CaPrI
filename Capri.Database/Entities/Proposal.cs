@@ -16,14 +16,8 @@ namespace Capri.Database.Entities
         [Required]
         public string Description { get; set; }
         [Required]
-        public StatusEnum Status { get; set; }
+        public ProposalStatusEnum Status { get; set; }
         public ICollection<Student> AssignedStudents { get; set; }
         public ICollection<Student> WillingCandidates { get; set; }
-    }
-
-    public enum StatusEnum
-    {
-        Taken = 0,
-        Available = 1
     }
 }
