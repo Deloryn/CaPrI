@@ -62,7 +62,7 @@ namespace Capri.Web
             });
 
             // configure DI for application services
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAccountService, AccountService>();
         }
 
         public IConfiguration Configuration { get; }

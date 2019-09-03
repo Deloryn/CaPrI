@@ -14,13 +14,13 @@ using Capri.Web.DTO;
 
 namespace Capri.Web.Services
 {
-    public class UserService : IUserService
+    public class AccountService : IAccountService
     {
         private readonly ISqlDbContext _context;
 
         private readonly JWTSettings _jwtSettings;
 
-        public UserService(ISqlDbContext context, IOptions<JWTSettings> jwtSettings)
+        public AccountService(ISqlDbContext context, IOptions<JWTSettings> jwtSettings)
         {
             _context = context;
             _jwtSettings = jwtSettings.Value;

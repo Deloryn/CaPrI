@@ -12,9 +12,9 @@ namespace Capri.Web.Controllers
     public class UsersController : Controller
     {
 
-        private IUserService _userService;
+        private IAccountService _userService;
 
-        public UsersController(IUserService userService)
+        public UsersController(IAccountService userService)
         {
             _userService = userService;
         }

@@ -6,7 +6,7 @@ using Capri.Web.DTO;
 
 namespace Capri.Web.Services
 {
-    public interface IUserService
+    public interface IAccountService
     {
         UserTokenDTO Authenticate(string username, string password);
     }
