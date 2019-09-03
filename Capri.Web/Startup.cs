@@ -32,7 +32,7 @@ namespace Capri.Web
             services.AddTransient<CapriDbContext, CapriDbContextImpl>();
 
             // configure strongly typed settings objects
-            var appSettingsSection = Configuration.GetSection("AppSettings");
+            var appSettingsSection = Configuration.GetSection("Authorisation");
             services.Configure<AppSettings>(appSettingsSection);
 
             // configure jwt authentication
