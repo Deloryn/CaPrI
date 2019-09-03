@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Capri.Database.Entities;
 
 namespace Capri.Database
 {
