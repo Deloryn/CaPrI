@@ -37,7 +37,7 @@ namespace Capri.Web.Services
             {
                 user.Token = GenerateTokenFor(user);
                 _context.Users.Update(user);
-                _context.SaveChanges();
+                _context.SaveChangesAsync();
                 UserTokenDTO userToken = new UserTokenDTO
                 {
                     Email = user.Email,
