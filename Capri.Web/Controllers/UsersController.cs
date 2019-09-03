@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Capri.Web.DTO;
+using Capri.Web.ViewModels.User;
 using Capri.Web.Services;
 
 namespace Capri.Web.Controllers
@@ -26,7 +26,7 @@ namespace Capri.Web.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login([FromBody]UserCredentialsDTO credentials)
+        public IActionResult Login([FromBody]UserCredentials credentials)
         {
             if (credentials == null)
                 return BadRequest("Credentials not given");

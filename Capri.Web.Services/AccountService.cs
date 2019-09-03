@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 using Capri.Database;
 using Capri.Database.Entities;
 using Capri.Web.Services.Settings;
-using Capri.Web.ViewModels;
+using Capri.Web.ViewModels.User;
 
 namespace Capri.Web.Services
 {
@@ -42,7 +42,7 @@ namespace Capri.Web.Services
                 user.Token = GenerateTokenFor(user);
                 _context.Users.Update(user);
                 _context.SaveChangesAsync();
-                UserTokenDTO userToken = new UserTokenDTO
+                UserToken userToken = new UserToken
                 {
                     Email = user.Email,
                     Token = user.Token

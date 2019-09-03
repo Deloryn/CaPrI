@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Capri.Web.DTO;
+using Capri.Web.ViewModels.User;
 
 namespace Capri.Web.Services
 {
     public interface IAccountService
     {
-        UserTokenDTO Authenticate(string username, string password);
+        UserToken Authenticate(string username, string password);
     }
 }
