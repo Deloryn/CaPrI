@@ -7,8 +7,8 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Options;
-using Capri.DataLayer.Entities;
-using Capri.DataLayer.Contexts;
+using Capri.Database;
+using Capri.Database.Entities;
 using Capri.Web.Settings;
 using Capri.Web.DTO;
 
@@ -16,11 +16,11 @@ namespace Capri.Web.Services
 {
     public class UserService : IUserService
     {
-        private readonly CapriDbContext _context;
+        private readonly ISqlDbContext _context;
 
         private readonly AppSettings _appSettings;
 
-        public UserService(CapriDbContext context, IOptions<AppSettings> appSettings)
+        public UserService(ISqlDbContext context, IOptions<AppSettings> appSettings)
         {
             _context = context;
             _appSettings = appSettings.Value;
