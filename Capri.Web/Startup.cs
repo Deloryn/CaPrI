@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Capri.DataLayer.Contexts;
+using Microsoft.EntityFrameworkCore;
+using Capri.Database;
 using Capri.Web.Settings;
 using Capri.Web.Services;
 
@@ -28,8 +29,10 @@ namespace Capri.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            //services.AddDbContext<CapriDbContextImpl>();
-            services.AddTransient<CapriDbContext, CapriDbContextImpl>();
+
+            var connection = Configuration["DbConnectionString"];
+            services.AddDbContext<SqlDbContext>(options => options.UseSqlServer(connection));
+            services.AddScoped<ISqlDbContext, SqlDbContext>();
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("Authorisation");
