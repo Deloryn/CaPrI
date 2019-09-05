@@ -26,7 +26,7 @@ namespace Capri.Web.Services
             _jwtSettings = jwtSettings.Value;
         }
 
-        public UserToken Authenticate(string email, string password)
+        public UserSecurityStamp Authenticate(string email, string password)
         {
             User user = FindUserByEmail(email);
             if (user == null)
@@ -39,13 +39,13 @@ namespace Capri.Web.Services
             }
             else
             {
-                user.Token = GenerateTokenFor(user);
+                user.SecurityStamp = GenerateTokenFor(user);
                 _context.Users.Update(user);
                 _context.SaveChangesAsync();
-                UserToken userToken = new UserToken
+                UserSecurityStamp userToken = new UserSecurityStamp
                 {
                     Email = user.Email,
-                    Token = user.Token
+                    SecurityStamp = user.SecurityStamp
                 };
                 return userToken;
             }
@@ -70,7 +70,7 @@ namespace Capri.Web.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.ID.ToString())
+                    new Claim(ClaimTypes.Name, user.Id.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

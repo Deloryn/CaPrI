@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Capri.Web.ViewModels.User
 {
-    public class UserToken
+    public class UserSecurityStamp
     {
         public string Email { get; set; }
-        public string Token { get; set; }
+        public string SecurityStamp { get; set; }
     }
 }
