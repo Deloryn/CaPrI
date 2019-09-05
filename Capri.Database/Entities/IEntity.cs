@@ -6,6 +6,6 @@ namespace Capri.Database.Entities
 {
     interface IEntity
     {
-        Guid ID { get; set; }
+        Guid Id { get; set; }
     }
 }
