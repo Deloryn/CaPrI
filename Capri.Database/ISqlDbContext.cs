@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Capri.Database.Entities;
+using Capri.Database.Entities.Identity;
 
 namespace Capri.Database
 {
