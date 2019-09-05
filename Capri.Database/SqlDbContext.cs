@@ -8,7 +8,7 @@ using Capri.Database.Entities.Identity;
 
 namespace Capri.Database
 {
-    public class SqlDbContext : IdentityDbContext<User, GuidRole, Guid, GuidUserClaim, GuidUserRole, GuidUserLogin,
+    public class CapriDbContext : IdentityDbContext<User, GuidRole, Guid, GuidUserClaim, GuidUserRole, GuidUserLogin,
         GuidRoleClaim, GuidUserToken>, ISqlDbContext
     {
         public DbSet<User> Users { get; set; }

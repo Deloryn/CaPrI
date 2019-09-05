@@ -31,8 +31,8 @@ namespace Capri.Web
             services.AddMvc();
 
             var connection = Configuration["DbConnectionString"];
-            services.AddDbContext<SqlDbContext>(options => options.UseSqlServer(connection));
-            services.AddScoped<ISqlDbContext, SqlDbContext>();
+            services.AddDbContext<CapriDbContext>(options => options.UseSqlServer(connection));
+            services.AddScoped<ISqlDbContext, CapriDbContext>();
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("Authorisation");
