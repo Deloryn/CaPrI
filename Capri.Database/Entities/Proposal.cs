@@ -9,7 +9,7 @@ namespace Capri.Database.Entities
     public abstract class Proposal : IEntity
     {
         [Key]
-        public Guid ID { get; set; }
+        public Guid Id { get; set; }
         [Required]
         public string Topic { get; set; }
         [Required]
