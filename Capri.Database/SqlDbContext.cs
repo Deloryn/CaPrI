@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Capri.Database.Entities;
+using Capri.Database.Entities.Identity;
 
 namespace Capri.Database
 {
-    public class SqlDbContext : DbContext, ISqlDbContext
+    public class SqlDbContext : IdentityDbContext<User, GuidRole, Guid, GuidUserClaim, GuidUserRole, GuidUserLogin,
+        GuidRoleClaim, GuidUserToken>, ISqlDbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Student> Students { get; set; }
