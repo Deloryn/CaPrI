@@ -11,9 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Capri.Database;
 using Capri.Web.Services;
 using Capri.Web.Services.Settings;
+using Capri.Database;
+using Capri.Database.Entities.Identity;
 
 namespace Capri.Web
 {
@@ -29,6 +30,7 @@ namespace Capri.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddIdentity<User, GuidRole>(options => { });
 
             var connection = Configuration["DbConnectionString"];
             services.AddDbContext<CapriDbContext>(options => options.UseSqlServer(connection));
