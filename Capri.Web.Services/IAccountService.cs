@@ -8,6 +8,6 @@ namespace Capri.Web.Services
 {
     public interface IAccountService
     {
-        UserSecurityStamp Authenticate(string username, string password);
+        Task<UserSecurityStamp> Authenticate(string username, string password);
     }
 }

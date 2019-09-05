@@ -9,14 +9,14 @@ using Capri.Web.Services;
 
 namespace Capri.Web.Controllers
 {
-    public class UsersController : Controller
+    public class AccountController : Controller
     {
 
-        private IAccountService _userService;
+        private IAccountService _accountService;
 
-        public UsersController(IAccountService userService)
+        public AccountController(IAccountService userService)
         {
-            _userService = userService;
+            _accountService = userService;
         }
 
         public IActionResult Index()
@@ -30,12 +30,16 @@ namespace Capri.Web.Controllers
         {
             if (credentials == null)
                 return BadRequest("Credentials not given");
-            var userToken = _userService.Authenticate(credentials.Email, credentials.Password);
-
+            var userToken = await _accountService.Authenticate(credentials.Email, credentials.Password);
+           
             if (userToken == null)
+            {
                 return BadRequest(new { message = "Username or password is incorrect" });
-
-            return Ok(userToken);
+            }
+            else
+            {
+                return Ok(userToken);
+            }
         }
     }
 }

@@ -16,50 +16,44 @@ namespace Capri.Web.Services
 {
     public class AccountService : IAccountService
     {
-        private readonly ISqlDbContext _context;
+        private readonly SignInManager<User> _signInManager;
+
+        private readonly UserManager<User> _userManager;
 
         private readonly JWTSettings _jwtSettings;
 
-        public AccountService(ISqlDbContext context, IOptions<JWTSettings> jwtSettings)
+        public AccountService(SignInManager<User> signInManager, UserManager<User> userManager, IOptions<JWTSettings> jwtSettings)
         {
-            _context = context;
+            _signInManager = signInManager;
+            _userManager = userManager;
             _jwtSettings = jwtSettings.Value;
         }
 
-        public UserSecurityStamp Authenticate(string email, string password)
+        public async Task<UserSecurityStamp> Authenticate(string email, string password)
         {
-            User user = FindUserByEmail(email);
-            if (user == null)
+            var user = await _userManager.FindByEmailAsync(email);
+            var canSignIn = await _signInManager.CanSignInAsync(user);
+            if(canSignIn)
             {
-                return null;
-            }
-            else if (!IsPasswordCorrect(user, password))
-            {
-                return null;
+                await _userManager.UpdateSecurityStampAsync(user);
+                var result = await _signInManager.PasswordSignInAsync(email, password, true, false);
+                if(result.Succeeded)
+                {
+                    return new UserSecurityStamp
+                    {
+                        Email = user.Email,
+                        SecurityStamp = user.SecurityStamp
+                    };
+                }
+                else
+                {
+                    return null;
+                }
             }
             else
             {
-                user.SecurityStamp = GenerateTokenFor(user);
-                _context.Users.Update(user);
-                _context.SaveChangesAsync();
-                UserSecurityStamp userToken = new UserSecurityStamp
-                {
-                    Email = user.Email,
-                    SecurityStamp = user.SecurityStamp
-                };
-                return userToken;
+                return null;
             }
-        }
-
-        private User FindUserByEmail(string email)
-        {
-            return this._context.Users.FirstOrDefault(s => s.Email == email);
-        }
-
-        private bool IsPasswordCorrect(User user, string password)
-        {
-            PasswordVerificationResult result = new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, password);
-            return result != PasswordVerificationResult.Failed;
         }
 
         private string GenerateTokenFor(User user)
