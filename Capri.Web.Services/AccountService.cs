@@ -20,9 +20,9 @@ namespace Capri.Web.Services
 
         private readonly UserManager<User> _userManager;
 
-        private readonly JWTSettings _jwtSettings;
+        private readonly AuthorisationSettings _jwtSettings;
 
-        public AccountService(SignInManager<User> signInManager, UserManager<User> userManager, IOptions<JWTSettings> jwtSettings)
+        public AccountService(SignInManager<User> signInManager, UserManager<User> userManager, IOptions<AuthorisationSettings> jwtSettings)
         {
             _signInManager = signInManager;
             _userManager = userManager;

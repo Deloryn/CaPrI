@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Capri.Web.Services.Settings
 {
-    public class JWTSettings
+    public class PermissionSettings
     {
-        public string Secret { get; set; }
+        public int MaxNumOfMasterProposalsPerPromoter { get; set; }
     }
 }

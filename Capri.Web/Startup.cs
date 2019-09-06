@@ -37,13 +37,13 @@ namespace Capri.Web
             services.AddScoped<ISqlDbContext, CapriDbContext>();
 
             // configure strongly typed settings objects
-            var appSettingsSection = Configuration.GetSection("Authorisation");
-            var jwtSettingsSection = Configuration.GetSection("JWTSettings");
-            services.Configure<AppSettings>(appSettingsSection);
-            services.Configure<JWTSettings>(jwtSettingsSection);
+            var permissionSettingsSection = Configuration.GetSection("PermissionSettings");
+            var authorisationSettingsSection = Configuration.GetSection("Authorisation");
+            services.Configure<PermissionSettings>(permissionSettingsSection);
+            services.Configure<AuthorisationSettings>(authorisationSettingsSection);
 
             // configure jwt authentication
-            var secret = jwtSettingsSection.Get<JWTSettings>().Secret;
+            var secret = authorisationSettingsSection.Get<AuthorisationSettings>().Secret;
             var key = System.Text.Encoding.ASCII.GetBytes(secret);
             services.AddAuthentication(x =>
             {
