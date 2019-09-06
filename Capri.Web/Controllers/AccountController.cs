@@ -12,11 +12,11 @@ namespace Capri.Web.Controllers
     public class AccountController : Controller
     {
 
-        private IAccountService _accountService;
+        private readonly IAccountService _accountService;
 
-        public AccountController(IAccountService userService)
+        public AccountController(IAccountService accountService)
         {
-            _accountService = userService;
+            _accountService = accountService;
         }
 
         public IActionResult Index()
@@ -26,7 +26,7 @@ namespace Capri.Web.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login([FromBody]UserCredentials credentials)
+        public async Task<IActionResult> Login([FromBody]UserCredentials credentials)
         {
             if (credentials == null)
                 return BadRequest("Credentials not given");
