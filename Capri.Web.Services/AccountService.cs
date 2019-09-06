@@ -35,10 +35,11 @@ namespace Capri.Web.Services
             var canSignIn = await _signInManager.CanSignInAsync(user);
             if(canSignIn)
             {
-                await _userManager.UpdateSecurityStampAsync(user);
                 var result = await _signInManager.PasswordSignInAsync(email, password, true, false);
                 if(result.Succeeded)
                 {
+                    string token = GenerateTokenFor(user);
+                    user.SecurityStamp = token;
                     return new UserSecurityStamp
                     {
                         Email = user.Email,
