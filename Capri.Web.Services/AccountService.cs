@@ -45,15 +45,8 @@ namespace Capri.Web.Services
                         SecurityStamp = user.SecurityStamp
                     };
                 }
-                else
-                {
-                    return null;
-                }
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         private string GenerateTokenFor(User user)
