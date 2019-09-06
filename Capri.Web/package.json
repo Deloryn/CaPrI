@@ -36,6 +36,8 @@
     "webpack-hot-middleware": "^2.25.0"
   },
   "dependencies": {
-    "vue": "^2.6.10"
+    "material-design-icons-iconfont": "^5.0.1",
+    "vue": "^2.6.10",
+    "vuetify": "^2.0.14"
   }
 }

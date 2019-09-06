@@ -1,17 +1,18 @@
 <template>
-  <div id="app">
-    <h1 class="test">Vue works!</h1>
-    <Test></Test>
-  </div>
+  <v-app id="app">
+    <LoginPanel></LoginPanel>
+  </v-app>
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import Test from '@src/test.vue';
+import LoginPanel from '@src/loginPanel.vue';
 
 
 @Component({
   components: {
-    Test
+    Test,
+    LoginPanel
   }
 })
 export default class App extends Vue {
