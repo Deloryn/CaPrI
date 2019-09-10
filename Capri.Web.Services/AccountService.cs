@@ -20,13 +20,13 @@ namespace Capri.Web.Services
 
         private readonly UserManager<User> _userManager;
 
-        private readonly AuthorisationSettings _jwtSettings;
+        private readonly AuthorisationSettings _authSettings;
 
-        public AccountService(SignInManager<User> signInManager, UserManager<User> userManager, IOptions<AuthorisationSettings> jwtSettings)
+        public AccountService(SignInManager<User> signInManager, UserManager<User> userManager, IOptions<AuthorisationSettings> authSettingsOptions)
         {
             _signInManager = signInManager;
             _userManager = userManager;
-            _jwtSettings = jwtSettings.Value;
+            _authSettings = authSettingsOptions.Value;
         }
 
         public async Task<UserSecurityStamp> Authenticate(string email, string password)
@@ -53,7 +53,7 @@ namespace Capri.Web.Services
         private string GenerateTokenFor(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = System.Text.Encoding.ASCII.GetBytes(_jwtSettings.Secret);
+            var key = System.Text.Encoding.ASCII.GetBytes(_authSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
