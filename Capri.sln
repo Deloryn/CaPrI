@@ -7,9 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Capri.Web", "Capri.Web\Capr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Capri.Database", "Capri.Database\Capri.Database.csproj", "{8D5C67D2-E1BE-4267-B40A-7401996140B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capri.Web.Services", "Capri.Web.Services\Capri.Web.Services.csproj", "{58EE9843-C262-42B6-8E45-47D70981358F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Capri.Web.Services", "Capri.Web.Services\Capri.Web.Services.csproj", "{58EE9843-C262-42B6-8E45-47D70981358F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capri.Web.ViewModels", "Capri.Web.ViewModels\Capri.Web.ViewModels.csproj", "{904C3DF8-D097-4F20-BB7C-5C9C8CCEFDAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Capri.Web.ViewModels", "Capri.Web.ViewModels\Capri.Web.ViewModels.csproj", "{904C3DF8-D097-4F20-BB7C-5C9C8CCEFDAA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{65EDD725-8E8F-4016-85AE-F4B1DC11F481}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
