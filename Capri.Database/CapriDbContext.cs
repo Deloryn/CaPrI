@@ -32,11 +32,7 @@ namespace Capri.Database
                 .WithOne();
 
             modelBuilder.Entity<Proposal>()
-                .HasMany(p => p.AssignedStudents)
-                .WithOne();
-
-            modelBuilder.Entity<Proposal>()
-                .HasMany(p => p.WillingCandidates)
+                .HasMany(p => p.Students)
                 .WithOne();
 
             modelBuilder.ApplyConfiguration(new UserConfiguration());

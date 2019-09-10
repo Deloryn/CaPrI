@@ -116,8 +116,7 @@ namespace Capri.Database.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     Discriminator = table.Column<string>(nullable: false),
                     CanSubmitBachelorProposals = table.Column<bool>(nullable: true),
-                    ProposalId = table.Column<Guid>(nullable: true),
-                    ProposalId1 = table.Column<Guid>(nullable: true)
+                    ProposalId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -149,7 +148,7 @@ namespace Capri.Database.Migrations
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("d184c718-b6b3-498f-8f83-df68251257db"), 0, "0dfdf2d2-e0c3-4763-9372-ada56475a5cc", "User", "admin@gmail.com", false, false, null, null, null, "AQAAAAEAACcQAAAAENNo4TTIcEwZshPE9K7B7o9SynFtAK4eKCEtKj1nTr2N4hZOTyGPc3r5Kd/mIs+OQA==", null, false, null, false, "admin@gmail.com" });
+                values: new object[] { new Guid("d44a7f3b-2e70-487a-a35e-59cf6f6dabb6"), 0, "86418d10-5ea8-4817-b9da-70792596ad6b", "User", "admin@gmail.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEDib5bJcUM48yi6z9np6glQfkAe3CAqSBTgt6gKjYtGLLnRVZOOvOtx9ayDjh9HpxA==", null, false, null, false, "admin@gmail.com" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Proposal_PromoterId",
@@ -161,23 +160,10 @@ namespace Capri.Database.Migrations
                 table: "User",
                 column: "ProposalId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_User_ProposalId1",
-                table: "User",
-                column: "ProposalId1");
-
             migrationBuilder.AddForeignKey(
                 name: "FK_User_Proposal_ProposalId",
                 table: "User",
                 column: "ProposalId",
-                principalTable: "Proposal",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_User_Proposal_ProposalId1",
-                table: "User",
-                column: "ProposalId1",
                 principalTable: "Proposal",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);

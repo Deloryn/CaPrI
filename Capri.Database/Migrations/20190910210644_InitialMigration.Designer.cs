@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Capri.Database.Migrations
 {
     [DbContext(typeof(CapriDbContext))]
-    [Migration("20190910194140_InitialMigration")]
+    [Migration("20190910210644_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -164,7 +164,7 @@ namespace Capri.Database.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("User");
 
                     b.HasData(
-                        new { Id = new Guid("d184c718-b6b3-498f-8f83-df68251257db"), AccessFailedCount = 0, ConcurrencyStamp = "0dfdf2d2-e0c3-4763-9372-ada56475a5cc", Email = "admin@gmail.com", EmailConfirmed = false, LockoutEnabled = false, PasswordHash = "AQAAAAEAACcQAAAAENNo4TTIcEwZshPE9K7B7o9SynFtAK4eKCEtKj1nTr2N4hZOTyGPc3r5Kd/mIs+OQA==", PhoneNumberConfirmed = false, TwoFactorEnabled = false, UserName = "admin@gmail.com" }
+                        new { Id = new Guid("d44a7f3b-2e70-487a-a35e-59cf6f6dabb6"), AccessFailedCount = 0, ConcurrencyStamp = "86418d10-5ea8-4817-b9da-70792596ad6b", Email = "admin@gmail.com", EmailConfirmed = false, LockoutEnabled = false, PasswordHash = "AQAAAAEAACcQAAAAEDib5bJcUM48yi6z9np6glQfkAe3CAqSBTgt6gKjYtGLLnRVZOOvOtx9ayDjh9HpxA==", PhoneNumberConfirmed = false, TwoFactorEnabled = false, UserName = "admin@gmail.com" }
                     );
                 });
 
@@ -222,11 +222,7 @@ namespace Capri.Database.Migrations
 
                     b.Property<Guid?>("ProposalId");
 
-                    b.Property<Guid?>("ProposalId1");
-
                     b.HasIndex("ProposalId");
-
-                    b.HasIndex("ProposalId1");
 
                     b.ToTable("Student");
 
@@ -263,12 +259,8 @@ namespace Capri.Database.Migrations
             modelBuilder.Entity("Capri.Database.Entities.Student", b =>
                 {
                     b.HasOne("Capri.Database.Entities.Proposal")
-                        .WithMany("AssignedStudents")
+                        .WithMany("Students")
                         .HasForeignKey("ProposalId");
-
-                    b.HasOne("Capri.Database.Entities.Proposal")
-                        .WithMany("WillingCandidates")
-                        .HasForeignKey("ProposalId1");
                 });
 #pragma warning restore 612, 618
         }
