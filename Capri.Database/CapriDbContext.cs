@@ -20,6 +20,11 @@ namespace Capri.Database
         public DbSet<BachelorProposal> BachelorProposals { get; set; }
         public DbSet<MasterProposal> MasterProposals { get; set; }
 
+        public CapriDbContext(DbContextOptions<CapriDbContext> dbContextOptions) : base(dbContextOptions)
+        {
+
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Promoter>()
