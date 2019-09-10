@@ -4,6 +4,8 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Capri.Database.Entities;
+using Capri.Database.Entities.Configuration;
+
 using Capri.Database.Entities.Identity;
 
 namespace Capri.Database
@@ -31,6 +33,8 @@ namespace Capri.Database
             modelBuilder.Entity<Proposal>()
                 .HasMany(p => p.WillingCandidates)
                 .WithOne();
+
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
     }
 }

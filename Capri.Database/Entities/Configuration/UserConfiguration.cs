@@ -10,19 +10,11 @@ namespace Capri.Database.Entities.Configuration
 {
     public class UserConfiguration : IEntityTypeConfiguration<User>
     {
-        private readonly UserManager<User> _userManager;
-
-        public UserConfiguration(UserManager<User> userManager)
+        public void Configure(EntityTypeBuilder<User> builder)
         {
-            _userManager = userManager;
-        }
-
-        public async void Configure(EntityTypeBuilder<User> builder)
-        {
-            string email = "admin@gmail.com";
-            string password = "qwerty";
-            var user = new User { UserName = email, Email = email };
-            await _userManager.CreateAsync(user, password);
+            var user = new User { Id = Guid.NewGuid(), UserName = "admin@gmail.com", Email = "admin@gmail.com" };
+            user.PasswordHash = new PasswordHasher<User>().HashPassword(user, "qwerty");
+            builder.HasData(user);
         }
     }
 }
