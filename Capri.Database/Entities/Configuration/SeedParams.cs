@@ -14,6 +14,9 @@ namespace Capri.Database.Entities.Configuration
      * admin1@gmail.com, qwerty1
      * dean7@gmail.com, qwerty7
      * student3@gmail.com, qwerty3
+     * 
+     * After you change the numbers below:
+     * remove migrations, create a new migration and update database
      */
     public static class SeedParams
     {
