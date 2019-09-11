@@ -30,11 +30,12 @@ namespace Capri.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddIdentity<User, GuidRole>(options => { });
-
             var connection = Configuration["DbConnectionString"];
             services.AddDbContext<CapriDbContext>(options => options.UseSqlServer(connection));
             services.AddScoped<ISqlDbContext, CapriDbContext>();
+
+            services.AddIdentity<User, GuidRole>(options => { })
+                    .AddEntityFrameworkStores<CapriDbContext>();
 
             // configure strongly typed settings objects
             var permissionSettingsSection = Configuration.GetSection("PermissionSettings");
