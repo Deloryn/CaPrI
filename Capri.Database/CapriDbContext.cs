@@ -36,6 +36,10 @@ namespace Capri.Database
                 .WithOne();
 
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new StudentConfiguration());
+            modelBuilder.ApplyConfiguration(new PromoterConfiguration());
+            modelBuilder.ApplyConfiguration(new GuidRoleConfiguration());
+            modelBuilder.ApplyConfiguration(new GuidUserRoleConfiguration());
         }
     }
 }
