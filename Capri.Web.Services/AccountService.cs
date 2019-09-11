@@ -32,6 +32,11 @@ namespace Capri.Web.Services
         public async Task<UserSecurityStamp> Authenticate(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
+            if(user == null)
+            {
+                return null;
+            }
+
             var canSignIn = await _signInManager.CanSignInAsync(user);
             if(canSignIn)
             {
