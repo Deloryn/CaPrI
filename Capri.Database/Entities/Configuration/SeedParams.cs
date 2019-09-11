@@ -4,6 +4,17 @@ using System.Text;
 
 namespace Capri.Database.Entities.Configuration
 {
+    /*
+     * Here you can define how many seed users should be.
+     * All the credentials use the same pattern.
+     * email: admin/dean/student/promoter + number(1, 2, 3, ...) + @gmail.com
+     * password: qwerty + number(1, 2, 3, ...)
+     * 
+     * For example: 
+     * admin1@gmail.com, qwerty1
+     * dean7@gmail.com, qwerty7
+     * student3@gmail.com, qwerty3
+     */
     public static class SeedParams
     {
         private static readonly int _numOfAdmins = 1;
