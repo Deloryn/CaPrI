@@ -12,9 +12,17 @@ namespace Capri.Database.Entities.Configuration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            var user = new User { Id = Guid.NewGuid(), UserName = "admin@gmail.com", Email = "admin@gmail.com" };
-            user.PasswordHash = new PasswordHasher<User>().HashPassword(user, "qwerty");
-            builder.HasData(user);
+            builder.HasData(new User
+            {
+                Id = Guid.NewGuid(),
+                UserName = "admin@gmail.com",
+                NormalizedUserName = "admin@gmail.com",
+                Email = "admin@gmail.com",
+                NormalizedEmail = "admin@gmail.com",
+                EmailConfirmed = true,
+                PasswordHash = new PasswordHasher<User>().HashPassword(null, "qwerty"),
+                SecurityStamp = string.Empty
+            });
         }
     }
 }
