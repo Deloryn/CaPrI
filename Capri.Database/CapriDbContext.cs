@@ -10,8 +10,10 @@ using Capri.Database.Entities.Identity;
 
 namespace Capri.Database
 {
-    public class CapriDbContext : IdentityDbContext<User, GuidRole, Guid, GuidUserClaim, GuidUserRole, GuidUserLogin,
-        GuidRoleClaim, GuidUserToken>, ISqlDbContext
+    public class CapriDbContext : IdentityDbContext
+        <User, GuidRole, Guid, GuidUserClaim, GuidUserRole, GuidUserLogin,
+        GuidRoleClaim, GuidUserToken>, 
+        ISqlDbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Student> Students { get; set; }

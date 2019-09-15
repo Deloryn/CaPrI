@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Capri.Web.Services.Settings
 {
-    public class PermissionSettings
+    public class SystemSettings
     {
         public int MaxNumOfMasterProposalsPerPromoter { get; set; }
     }

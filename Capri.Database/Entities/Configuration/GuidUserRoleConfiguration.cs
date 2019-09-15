@@ -11,7 +11,7 @@ namespace Capri.Database.Entities.Configuration
     {
         public void Configure(EntityTypeBuilder<GuidUserRole> builder)
         {
-            foreach(Guid adminId in SeedParams.AdminIds)
+            foreach(var adminId in SeedParams.AdminIds)
             {
                 builder.HasData(new GuidUserRole
                 {
@@ -20,7 +20,7 @@ namespace Capri.Database.Entities.Configuration
                     UserId = adminId
                 });
             }
-            foreach (Guid deanId in SeedParams.DeanIds)
+            foreach (var deanId in SeedParams.DeanIds)
             {
                 builder.HasData(new GuidUserRole
                 {
@@ -29,7 +29,7 @@ namespace Capri.Database.Entities.Configuration
                     UserId = deanId
                 });
             }
-            foreach (Guid studentId in SeedParams.StudentIds)
+            foreach (var studentId in SeedParams.StudentIds)
             {
                 builder.HasData(new GuidUserRole
                 {
@@ -38,7 +38,7 @@ namespace Capri.Database.Entities.Configuration
                     UserId = studentId
                 });
             }
-            foreach (Guid promoterId in SeedParams.PromoterIds)
+            foreach (var promoterId in SeedParams.PromoterIds)
             {
                 builder.HasData(new GuidUserRole
                 {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Capri.Web.Services.Settings
 {
-    public class AuthorisationSettings
+    public class JwtSettings
     {
         public string Secret { get; set; }
     }

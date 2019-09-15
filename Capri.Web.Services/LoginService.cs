@@ -14,25 +14,29 @@ using Capri.Web.ViewModels.User;
 
 namespace Capri.Web.Services
 {
-    public class AccountService : IAccountService
+    public class LoginService : ILoginService
     {
         private readonly SignInManager<User> _signInManager;
 
         private readonly UserManager<User> _userManager;
 
-        private readonly AuthorisationSettings _authSettings;
+        private readonly JwtSettings _authSettings;
 
-        public AccountService(SignInManager<User> signInManager, UserManager<User> userManager, IOptions<AuthorisationSettings> authSettingsOptions)
+        public LoginService(
+            SignInManager<User> signInManager, 
+            UserManager<User> userManager, 
+            IOptions<JwtSettings> authSettingsOptions)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _authSettings = authSettingsOptions.Value;
         }
 
-        public async Task<UserSecurityStamp> Authenticate(string email, string password)
+        public async Task<UserSecurityStamp> Login(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            if(user == null)
+
+            if (user == null)
             {
                 return null;
             }
@@ -40,7 +44,8 @@ namespace Capri.Web.Services
             var canSignIn = await _signInManager.CanSignInAsync(user);
             if(canSignIn)
             {
-                var result = await _signInManager.PasswordSignInAsync(email, password, true, false);
+                var result = 
+                    await _signInManager.PasswordSignInAsync(email, password, true, false);
                 if(result.Succeeded)
                 {
                     string token = GenerateTokenFor(user);
@@ -65,7 +70,11 @@ namespace Capri.Web.Services
                     new Claim(ClaimTypes.Name, user.Id.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = 
+                    new SigningCredentials(
+                        new SymmetricSecurityKey(key),
+                        SecurityAlgorithms.HmacSha256Signature
+                        )
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);

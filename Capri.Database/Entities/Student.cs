@@ -10,7 +10,7 @@ namespace Capri.Database.Entities
     public class Student : User
     {
         [Required]
-        public int Semester;
+        public ushort Semester;
         [Required]
         public StudyLevelEnum StudyLevel;
     }

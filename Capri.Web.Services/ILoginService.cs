@@ -6,8 +6,8 @@ using Capri.Web.ViewModels.User;
 
 namespace Capri.Web.Services
 {
-    public interface IAccountService
+    public interface ILoginService
     {
-        Task<UserSecurityStamp> Authenticate(string username, string password);
+        Task<UserSecurityStamp> Login(string username, string password);
     }
 }

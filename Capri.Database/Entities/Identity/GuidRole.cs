@@ -7,10 +7,5 @@ namespace Capri.Database.Entities.Identity
 {
     public class GuidRole : IdentityRole<Guid>
     {
-        public GuidRole()
-        {
-            Id = Guid.NewGuid();
-        }
-        public GuidRole(string name) : this() { Name = name; }
     }
 }

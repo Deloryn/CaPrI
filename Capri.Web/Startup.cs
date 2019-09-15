@@ -30,21 +30,21 @@ namespace Capri.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            var connection = Configuration["DbConnectionString"];
-            services.AddDbContext<CapriDbContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<CapriDbContext>(
+                options => options.UseSqlServer(Configuration["DbConnectionString"]));
             services.AddScoped<ISqlDbContext, CapriDbContext>();
 
             services.AddIdentity<User, GuidRole>(options => { })
                     .AddEntityFrameworkStores<CapriDbContext>();
 
             // configure strongly typed settings objects
-            var permissionSettingsSection = Configuration.GetSection("PermissionSettings");
-            var authorisationSettingsSection = Configuration.GetSection("Authorisation");
-            services.Configure<PermissionSettings>(permissionSettingsSection);
-            services.Configure<AuthorisationSettings>(authorisationSettingsSection);
+            var systemSettingsSection = Configuration.GetSection("SystemSettings");
+            var jwtSettingsSection = Configuration.GetSection("JwtSettings");
+            services.Configure<SystemSettings>(systemSettingsSection);
+            services.Configure<JwtSettings>(jwtSettingsSection);
 
             // configure jwt authentication
-            var secret = authorisationSettingsSection.Get<AuthorisationSettings>().Secret;
+            var secret = jwtSettingsSection.Get<JwtSettings>().Secret;
             var key = System.Text.Encoding.ASCII.GetBytes(secret);
             services.AddAuthentication(x =>
             {
@@ -65,7 +65,7 @@ namespace Capri.Web
             });
 
             // configure DI for application services
-            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<ILoginService, LoginService>();
         }
 
         public IConfiguration Configuration { get; }

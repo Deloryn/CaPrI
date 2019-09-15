@@ -11,12 +11,11 @@ namespace Capri.Web.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly ILoginService _loginService;
 
-        private readonly IAccountService _accountService;
-
-        public AccountController(IAccountService accountService)
+        public AccountController(ILoginService loginService)
         {
-            _accountService = accountService;
+            _loginService = loginService;
         }
 
         [AllowAnonymous]
@@ -24,9 +23,13 @@ namespace Capri.Web.Controllers
         public async Task<IActionResult> Login([FromBody]UserCredentials credentials)
         {
             if (credentials == null)
+            {
                 return BadRequest("Credentials not given");
-            var userSecurityStamp = await _accountService.Authenticate(credentials.Email, credentials.Password);
-           
+            }
+
+            var userSecurityStamp = 
+                await _loginService.Login(credentials.Email, credentials.Password);
+
             if (userSecurityStamp == null)
             {
                 return BadRequest(new { message = "Username or password is incorrect" });
