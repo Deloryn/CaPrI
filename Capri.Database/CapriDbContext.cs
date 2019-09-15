@@ -19,10 +19,9 @@ namespace Capri.Database
         public DbSet<DeanEmployee> DeanEmployees { get; set; }
         public DbSet<Proposal> Proposals { get; set; }
 
-        public CapriDbContext(DbContextOptions<CapriDbContext> dbContextOptions) : base(dbContextOptions)
-        {
-
-        }
+        public CapriDbContext(
+            DbContextOptions<CapriDbContext> dbContextOptions
+            ) : base(dbContextOptions) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
