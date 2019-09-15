@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Capri.Database.Entities
 {
-    public abstract class Proposal : IEntity
+    public class Proposal : IEntity
     {
         [Key]
         public Guid Id { get; set; }
@@ -17,6 +17,8 @@ namespace Capri.Database.Entities
         public string Description { get; set; }
         [Required]
         public ProposalStatusEnum Status { get; set; }
+        [Required]
+        public ProposalTypeEnum Type { get; set; }
         public virtual ICollection<Student> Students { get; set; }
     }
 }
