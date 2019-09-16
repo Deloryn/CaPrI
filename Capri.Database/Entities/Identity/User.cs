@@ -9,6 +9,5 @@ namespace Capri.Database.Entities.Identity
 {
     public class User : IdentityUser<Guid>, IEntity
     {
-
     }
 }

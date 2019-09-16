@@ -18,7 +18,6 @@ namespace Capri.Database
         public DbSet<User> Users { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Promoter> Promoters { get; set; }
-        public DbSet<DeanEmployee> DeanEmployees { get; set; }
         public DbSet<Proposal> Proposals { get; set; }
 
         public CapriDbContext(
