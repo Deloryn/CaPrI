@@ -16,6 +16,7 @@ namespace Capri.Database.Entities.Configuration
             {
                 builder.HasData(new Student
                 {
+                    Id = Guid.NewGuid(),
                     UserId = userId,
                     Semester = 6,
                     StudyLevel = StudyLevelEnum.Bachelor

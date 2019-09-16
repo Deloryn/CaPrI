@@ -16,6 +16,7 @@ namespace Capri.Database.Entities.Configuration
             {
                 builder.HasData(new Promoter
                 {
+                    Id = Guid.NewGuid(),
                     UserId = userId,
                     CanSubmitBachelorProposals = true
                 });
