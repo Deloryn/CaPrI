@@ -12,20 +12,11 @@ namespace Capri.Database.Entities.Configuration
     {
         public void Configure(EntityTypeBuilder<Promoter> builder)
         {
-            for (int i = 1; i <= SeedParams.PromoterIds.Length; i++)
+            foreach(var userId in SeedParams.PromoterIds)
             {
-                string email = "promoter" + i.ToString() + "@gmail.com";
-                string password = "qwerty" + i.ToString();
                 builder.HasData(new Promoter
                 {
-                    Id = SeedParams.PromoterIds[i - 1],
-                    UserName = email,
-                    NormalizedUserName = email,
-                    Email = email,
-                    NormalizedEmail = email,
-                    EmailConfirmed = true,
-                    PasswordHash = new PasswordHasher<User>().HashPassword(null, password),
-                    SecurityStamp = string.Empty,
+                    UserId = userId,
                     CanSubmitBachelorProposals = true
                 });
             }
