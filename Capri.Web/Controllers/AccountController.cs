@@ -27,17 +27,10 @@ namespace Capri.Web.Controllers
                 return BadRequest("Credentials not given");
             }
 
-            var userSecurityStamp = 
+            var result = 
                 await _loginService.Login(credentials.Email, credentials.Password);
 
-            if (userSecurityStamp == null)
-            {
-                return BadRequest(new { message = "Username or password is incorrect" });
-            }
-            else
-            {
-                return Ok(userSecurityStamp);
-            }
+            return Ok(result);
         }
     }
 }

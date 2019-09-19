@@ -32,13 +32,13 @@ namespace Capri.Web.Services
             _jwtSettings = jwtSettingsOptions.Value;
         }
 
-        public async Task<UserSecurityStamp> Login(string email, string password)
+        public async Task<IServiceResult> Login(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
             if (user == null)
             {
-                return null;
+                return ServiceResult.UserNotFound();
             }
 
             var canSignIn = await _signInManager.CanSignInAsync(user);
@@ -50,14 +50,14 @@ namespace Capri.Web.Services
                 {
                     string token = GenerateTokenFor(user);
                     user.SecurityStamp = token;
-                    return new UserSecurityStamp
+                    return ServiceResult.Of(new UserSecurityStamp
                     {
                         Email = user.Email,
                         SecurityStamp = user.SecurityStamp
-                    };
+                    });
                 }
             }
-            return null;
+            return ServiceResult.UserCantSignIn();
         }
 
         private string GenerateTokenFor(User user)
