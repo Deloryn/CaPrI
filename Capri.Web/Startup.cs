@@ -33,9 +33,9 @@ namespace Capri.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddDatabaseConfiguration();
-            services.AddJwtConfiguration();
-            services.AddSystemConfiguration();
+            services.AddDatabaseConfiguration(Configuration);
+            services.AddJwtConfiguration(Configuration);
+            services.AddSystemConfiguration(Configuration);
             services.AddScoped<ILoginService, LoginService>();
         }
 

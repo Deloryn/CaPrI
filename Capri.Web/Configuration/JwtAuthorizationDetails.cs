@@ -12,9 +12,7 @@ namespace Capri.Web.Configuration
 {
     public static class JwtConfiguration
     {
-        private static IConfiguration Configuration { get; }
-
-        public static void AddJwtConfiguration(this IServiceCollection services)
+        public static void AddJwtConfiguration(this IServiceCollection services, IConfiguration Configuration)
         {
             var jwtSection = Configuration.GetSection("JwtAuthorizationDetails");
             services.Configure<JwtAuthorizationDetails>(jwtSection);

@@ -12,9 +12,7 @@ namespace Capri.Web.Configuration
 {
     public static class DatabaseConfiguration
     {
-        private static IConfiguration Configuration { get; }
-
-        public static void AddDatabaseConfiguration(this IServiceCollection services)
+        public static void AddDatabaseConfiguration(this IServiceCollection services, IConfiguration Configuration)
         {
             services.AddDbContext<CapriDbContext>(
                 options => options.UseSqlServer(Configuration["DbConnectionString"]));

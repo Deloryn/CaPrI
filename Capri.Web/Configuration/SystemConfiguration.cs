@@ -10,8 +10,7 @@ namespace Capri.Web.Configuration
 {
     public static class SystemConfiguration
     {
-        private static IConfiguration Configuration { get; }
-        public static void AddSystemConfiguration(this IServiceCollection services)
+        public static void AddSystemConfiguration(this IServiceCollection services, IConfiguration Configuration)
         {
             var systemSettingsSection = Configuration.GetSection("SystemSettings");
             services.Configure<SystemSettings>(systemSettingsSection);
