@@ -20,16 +20,16 @@ namespace Capri.Web.Services
 
         private readonly UserManager<User> _userManager;
 
-        private readonly JwtSettings _jwtSettings;
+        private readonly JwtAuthorizationDetails _jwtAuthorizationDetails;
 
         public LoginService(
             SignInManager<User> signInManager, 
             UserManager<User> userManager, 
-            IOptions<JwtSettings> jwtSettingsOptions)
+            IOptions<JwtAuthorizationDetails> jwtAuthDetailsOptions)
         {
             _signInManager = signInManager;
             _userManager = userManager;
-            _jwtSettings = jwtSettingsOptions.Value;
+            _jwtAuthorizationDetails = jwtAuthDetailsOptions.Value;
         }
 
         public async Task<IServiceResult> Login(string email, string password)
@@ -62,14 +62,15 @@ namespace Capri.Web.Services
 
         private string GenerateTokenFor(User user)
         {
-            var key = System.Text.Encoding.ASCII.GetBytes(_jwtSettings.Secret);
+            var key = System.Text.Encoding.ASCII.GetBytes(_jwtAuthorizationDetails.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, user.Id.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddDays(_jwtSettings.ExpireDays),
+                Issuer = _jwtAuthorizationDetails.Issuer,
+                Expires = DateTime.UtcNow.AddDays(_jwtAuthorizationDetails.ExpireDays),
                 SigningCredentials = 
                     new SigningCredentials(
                         new SymmetricSecurityKey(key),

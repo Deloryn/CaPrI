@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace Capri.Web.Services.Settings
 {
-    public class JwtSettings
+    public class JwtAuthorizationDetails
     {
         public string Secret { get; set; }
+        public string Issuer { get; set; }
         public int ExpireDays { get; set; }
     }
 }

@@ -16,10 +16,10 @@ namespace Capri.Web.Configuration
 
         public static void AddJwtConfiguration(this IServiceCollection services)
         {
-            var jwtSettingsSection = Configuration.GetSection("JwtSettings");
-            services.Configure<JwtSettings>(jwtSettingsSection);
+            var jwtSection = Configuration.GetSection("JwtAuthorizationDetails");
+            services.Configure<JwtAuthorizationDetails>(jwtSection);
 
-            var secret = jwtSettingsSection.Get<JwtSettings>().Secret;
+            var secret = jwtSection.Get<JwtAuthorizationDetails>().Secret;
             var key = System.Text.Encoding.ASCII.GetBytes(secret);
             services.AddAuthentication(x =>
             {
