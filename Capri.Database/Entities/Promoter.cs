@@ -15,6 +15,8 @@ namespace Capri.Database.Entities
         public virtual ICollection<Proposal> Proposals { get; set; }
         [Required]
         public bool CanSubmitBachelorProposals { get; set; }
+        [Required]
+        public bool CanSubmitMasterProposals { get; set; }
         [ForeignKey("ApplicationUser")]
         public Guid UserId { get; set; }
         public virtual User ApplicationUser { get; set; }

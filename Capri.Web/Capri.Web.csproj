@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Capri.Database\Capri.Database.csproj" />
-    <ProjectReference Include="..\Capri.Web.Services\Capri.Web.Services.csproj" />
+    <ProjectReference Include="..\Capri.Web.Services\Capri.Services.csproj" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

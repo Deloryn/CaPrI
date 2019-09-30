@@ -12,8 +12,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Capri.Web.Configuration;
-using Capri.Web.Services;
-using Capri.Web.Services.Settings;
+using Capri.Services;
+using Capri.Services.Settings;
 using Capri.Database;
 using Capri.Database.Entities.Identity;
 
@@ -33,9 +33,9 @@ namespace Capri.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddDatabaseConfiguration(Configuration);
-            services.AddJwtConfiguration(Configuration);
-            services.AddSystemConfiguration(Configuration);
+            services.AddDatabaseConfiguration(Configuration["DbConnectionString"]);
+            services.AddJwtConfiguration(Configuration.GetSection("JwtAuthorizationDetails"));
+            services.AddSystemConfiguration(Configuration.GetSection("SystemSettings"));
             services.AddScoped<ILoginService, LoginService>();
         }
 

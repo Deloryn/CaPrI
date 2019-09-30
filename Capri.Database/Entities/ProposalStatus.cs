@@ -1,6 +1,6 @@
 ﻿namespace Capri.Database.Entities
 {
-    public enum ProposalStatusEnum
+    public enum ProposalStatus
     {
         Taken = 0,
         PartiallyTaken = 1,

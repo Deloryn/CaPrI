@@ -4,16 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Capri.Web.Services.Settings;
+using Capri.Services.Settings;
 
 namespace Capri.Web.Configuration
 {
     public static class SystemConfiguration
     {
-        public static void AddSystemConfiguration(this IServiceCollection services, IConfiguration Configuration)
+        public static void AddSystemConfiguration(this IServiceCollection services, IConfigurationSection systemSection)
         {
-            var systemSettingsSection = Configuration.GetSection("SystemSettings");
-            services.Configure<SystemSettings>(systemSettingsSection);
+            services.Configure<SystemSettings>(systemSection);
         }
     }
 }

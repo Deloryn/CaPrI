@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Capri.Web.Services.Settings
+namespace Capri.Services.Settings
 {
     public class JwtAuthorizationDetails
     {

@@ -19,7 +19,7 @@ namespace Capri.Database.Entities.Configuration
                     Id = Guid.NewGuid(),
                     UserId = userId,
                     Semester = 6,
-                    StudyLevel = StudyLevelEnum.Bachelor
+                    StudyLevel = StudyLevel.Bachelor
                 });
             }
         }

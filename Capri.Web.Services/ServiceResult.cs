@@ -3,52 +3,41 @@ using System.Collections.Generic;
 using System.Text;
 using Capri.Web.ViewModels;
 
-namespace Capri.Web.Services
+namespace Capri.Services
 {
-    public static class ServiceResult
+    public class ServiceResult<T>
     {
-        private static readonly String _userErrorsTag = "User";
+        public string Type { get; set; }
+        public string Description { get; set; }
+        public T Data { get; set; }
 
-        public static IServiceResult Of(Result result)
+        private ServiceResult() { }
+
+        public static ServiceResult<T> Success(T data)
         {
-            return new ServiceResultValue
+            return new ServiceResult<T>
             {
-                Result = result
+                Type = ResultType.Success,
+                Data = data
             };
         }
 
-        public static IServiceResult UserNotFound()
+        public static ServiceResult<T> Failure(string description)
         {
-            return Error(_userErrorsTag, "User not found");
-        }
-
-        public static IServiceResult UserCantSignIn()
-        {
-            return Error(_userErrorsTag, "User can't sign in");
-        }
-
-        private static IServiceResult Error(string tag, string description)
-        {
-            return new ServiceResultError
+            return new ServiceResult<T>
             {
-                Tag = tag,
+                Type = ResultType.Failure,
                 Description = description
             };
         }
-    }
 
-    public interface IServiceResult
-    {
-    }
-
-    class ServiceResultValue : IServiceResult
-    {
-        public Result Result { get; set; }
-    }
-
-    class ServiceResultError : IServiceResult
-    {
-        public String Tag { get; set; }
-        public String Description { get; set; }
+        public static ServiceResult<T> NotFound(string description)
+        {
+            return new ServiceResult<T>
+            {
+                Type = ResultType.NotFound,
+                Description = description
+            };
+        }
     }
 }

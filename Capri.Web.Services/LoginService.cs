@@ -9,10 +9,10 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Options;
 using Capri.Database;
 using Capri.Database.Entities.Identity;
-using Capri.Web.Services.Settings;
+using Capri.Services.Settings;
 using Capri.Web.ViewModels.User;
 
-namespace Capri.Web.Services
+namespace Capri.Services
 {
     public class LoginService : ILoginService
     {
@@ -32,13 +32,13 @@ namespace Capri.Web.Services
             _jwtAuthDetails = jwtSettingsOptions.Value;
         }
 
-        public async Task<IServiceResult> Login(string email, string password)
+        public async Task<ServiceResult<UserSecurityStamp>> Login(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
             if (user == null)
             {
-                return ServiceResult.UserNotFound();
+                return ServiceResult<UserSecurityStamp>.NotFound("User not found");
             }
 
             var canSignIn = await _signInManager.CanSignInAsync(user);
@@ -50,14 +50,14 @@ namespace Capri.Web.Services
                 {
                     string token = GenerateTokenFor(user);
                     user.SecurityStamp = token;
-                    return ServiceResult.Of(new UserSecurityStamp
+                    return ServiceResult<UserSecurityStamp>.Success(new UserSecurityStamp
                     {
                         Email = user.Email,
                         SecurityStamp = user.SecurityStamp
                     });
                 }
             }
-            return ServiceResult.UserCantSignIn();
+            return ServiceResult<UserSecurityStamp>.Failure("User can't sign in. Are you sure you provided the correct password?");
         }
 
         private string GenerateTokenFor(User user)

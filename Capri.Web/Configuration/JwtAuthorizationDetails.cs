@@ -6,15 +6,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Capri.Web.Services.Settings;
+using Capri.Services.Settings;
 
 namespace Capri.Web.Configuration
 {
     public static class JwtConfiguration
     {
-        public static void AddJwtConfiguration(this IServiceCollection services, IConfiguration Configuration)
+        public static void AddJwtConfiguration(this IServiceCollection services, IConfigurationSection jwtSection)
         {
-            var jwtSection = Configuration.GetSection("JwtAuthorizationDetails");
             services.Configure<JwtAuthorizationDetails>(jwtSection);
 
             var secret = jwtSection.Get<JwtAuthorizationDetails>().Secret;

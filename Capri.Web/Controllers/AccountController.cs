@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Capri.Web.ViewModels.User;
-using Capri.Web.Services;
+using Capri.Services;
 
 namespace Capri.Web.Controllers
 {
@@ -30,7 +30,15 @@ namespace Capri.Web.Controllers
             var result = 
                 await _loginService.Login(credentials.Email, credentials.Password);
 
-            return Ok(result);
+            switch(result.Type)
+            {
+                case ResultType.Success:
+                    return Ok(result);
+                case ResultType.NotFound:
+                    return NotFound(result);
+                default:
+                    return BadRequest(result);
+            }
         }
     }
 }

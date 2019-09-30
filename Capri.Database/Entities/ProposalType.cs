@@ -1,6 +1,6 @@
 ﻿namespace Capri.Database.Entities
 {
-    public enum StudyLevelEnum
+    public enum ProposalType
     {
         Bachelor = 0,
         Master = 1
