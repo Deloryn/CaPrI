@@ -19,12 +19,12 @@ namespace Capri.Web
 
             try
             {
-                logger.Debug("Starting Main");
+                logger.Debug("Starting application.");
                 CreateWebHostBuilder(args).Build().Run();
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "Program stopped.");
+                logger.Fatal(ex, "Fatal error. Program stopped.");
             }
             finally
             {
