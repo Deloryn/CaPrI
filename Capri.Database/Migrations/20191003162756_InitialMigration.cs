@@ -192,10 +192,10 @@ namespace Capri.Database.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("5933c8bb-6094-49cc-9313-6b784a820c1e"), "c1718cd9-c480-494f-b5f2-03ade3a7a474", "admin", "admin" },
-                    { new Guid("756f25fc-0dc8-4893-b1cd-96aef6baa645"), "29c07907-6221-475a-b705-182fb7a89713", "dean", "dean" },
-                    { new Guid("1fdd44c4-37fb-4302-88b8-7ff29d7f205d"), "cded1c98-6b49-4ca1-a64f-0cb1c7f21ef5", "student", "student" },
-                    { new Guid("acce96ec-bcb9-44c1-b6a5-99a67803bd30"), "8cafe5da-7928-4187-8519-1b6c25914443", "promoter", "promoter" }
+                    { new Guid("e78bc187-e8b5-45c4-b33b-5717e61fec46"), "29124110-3aa4-464f-a0f7-9887b2e3077d", "admin", "admin" },
+                    { new Guid("2195c00a-aeb2-4fdd-a4e1-5914405b0232"), "980b2457-4ea1-4746-b2aa-1db4f193e39e", "dean", "dean" },
+                    { new Guid("e27a1eaa-62dc-473e-bc5e-8b53be54147a"), "0a50de7d-0a4f-4a13-88e8-33dcc7e15d53", "student", "student" },
+                    { new Guid("8196d3fb-8242-4ef1-98f5-a84641e872cc"), "15f9c570-69ef-41a5-95f1-5ff9b0a60d78", "promoter", "promoter" }
                 });
 
             migrationBuilder.InsertData(
@@ -203,19 +203,19 @@ namespace Capri.Database.Migrations
                 columns: new[] { "Id", "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("f1811b5c-2f7a-4176-a762-4be1a6e47b14"), new Guid("acce96ec-bcb9-44c1-b6a5-99a67803bd30"), new Guid("5cc5d319-2d46-44ed-95eb-aae8a0d85bf5") },
-                    { new Guid("81833620-9b63-4d9c-8852-8fcf78a53e4d"), new Guid("acce96ec-bcb9-44c1-b6a5-99a67803bd30"), new Guid("90426b18-c881-424d-97b2-11fd0d232ad6") },
-                    { new Guid("4fa33943-39e7-4412-ad02-75ea1e764b8b"), new Guid("1fdd44c4-37fb-4302-88b8-7ff29d7f205d"), new Guid("11315ff8-6bc5-4eba-b95a-00420e822330") },
-                    { new Guid("7fd66867-5801-470c-825e-d12876c470f9"), new Guid("1fdd44c4-37fb-4302-88b8-7ff29d7f205d"), new Guid("f9f25735-14c0-4e64-92c0-c2763d77b99e") },
-                    { new Guid("4b503ff0-5123-4624-a841-d7d2076c91c9"), new Guid("1fdd44c4-37fb-4302-88b8-7ff29d7f205d"), new Guid("8e1fc3de-e849-42fe-8c4e-918f8942263c") },
-                    { new Guid("503ad0ab-60fb-4540-882c-67206b6d46b3"), new Guid("1fdd44c4-37fb-4302-88b8-7ff29d7f205d"), new Guid("767eb583-513d-455e-b586-6910127c49c5") },
-                    { new Guid("121a1a2c-90ab-4a89-94b4-5cbf78c519f0"), new Guid("1fdd44c4-37fb-4302-88b8-7ff29d7f205d"), new Guid("ba730cd3-13eb-42a0-bcd5-23c321cfe300") },
-                    { new Guid("dea94d3e-8571-480f-a915-3ce2936faec8"), new Guid("1fdd44c4-37fb-4302-88b8-7ff29d7f205d"), new Guid("3a373b54-007f-482b-a147-37d692e63c8c") },
-                    { new Guid("4e485017-3be6-45de-a86e-d737a70ad675"), new Guid("1fdd44c4-37fb-4302-88b8-7ff29d7f205d"), new Guid("5382ad90-7ee3-421c-af3b-22a5ae4f1303") },
-                    { new Guid("8e8a4d66-05a0-4b16-8005-b2e2145024da"), new Guid("756f25fc-0dc8-4893-b1cd-96aef6baa645"), new Guid("19d6e93e-d674-4e9c-812e-8889f6125248") },
-                    { new Guid("2f483a0f-8c82-42a1-94ae-7525377e5337"), new Guid("756f25fc-0dc8-4893-b1cd-96aef6baa645"), new Guid("018dea98-9c46-4995-850b-407ffdef4e92") },
-                    { new Guid("215cfeb4-ea0e-4e12-b1c7-9fba18d04ecb"), new Guid("5933c8bb-6094-49cc-9313-6b784a820c1e"), new Guid("3b7bc181-a375-47ff-8b49-43c78f25137d") },
-                    { new Guid("dda29efe-66fd-4bc5-8058-8b63ce7e5a7f"), new Guid("1fdd44c4-37fb-4302-88b8-7ff29d7f205d"), new Guid("e2d7b9f1-9e76-4910-b1b5-16e16a8a8383") }
+                    { new Guid("3ccf946c-9293-409d-9ab0-8631845672d2"), new Guid("8196d3fb-8242-4ef1-98f5-a84641e872cc"), new Guid("1d6a3813-eedd-4ad8-8e85-acbd5742519a") },
+                    { new Guid("a3fb053d-f3ab-4cb1-9e0a-b23660a6dfd1"), new Guid("8196d3fb-8242-4ef1-98f5-a84641e872cc"), new Guid("902c3696-477f-4a76-8010-f43bea1fc1ce") },
+                    { new Guid("050d61a7-6c28-4063-9b30-6ccc4b5917a3"), new Guid("e27a1eaa-62dc-473e-bc5e-8b53be54147a"), new Guid("1d98d2f9-fc2b-445e-9240-2b52f855fdff") },
+                    { new Guid("ab9dbd09-49d3-4b4e-9d01-7dc0ad3fc56f"), new Guid("e27a1eaa-62dc-473e-bc5e-8b53be54147a"), new Guid("85744990-e124-44b1-9551-667f2d2b18f8") },
+                    { new Guid("da3492a6-a71f-486d-9131-ba6e48c78cef"), new Guid("e27a1eaa-62dc-473e-bc5e-8b53be54147a"), new Guid("42611b34-024e-44e6-b9e2-9e899348226e") },
+                    { new Guid("1ff6862d-559b-4de9-a17a-cf50c37df6d9"), new Guid("e27a1eaa-62dc-473e-bc5e-8b53be54147a"), new Guid("0612bfba-673a-412a-8066-c4e8edf80ae0") },
+                    { new Guid("29cdb480-bcf7-4454-b2eb-51f42f44f28e"), new Guid("e27a1eaa-62dc-473e-bc5e-8b53be54147a"), new Guid("6a5041d4-61e5-4853-93c8-087e04a37eab") },
+                    { new Guid("91ed289c-ff8f-4f51-ad8e-31174e389be3"), new Guid("e27a1eaa-62dc-473e-bc5e-8b53be54147a"), new Guid("193ee547-0487-4be6-8484-98bb490f1d28") },
+                    { new Guid("236603e8-b149-490d-b44d-ac7d7c751fc4"), new Guid("e27a1eaa-62dc-473e-bc5e-8b53be54147a"), new Guid("5b2ddf01-17ef-43e5-afcc-e56999a223d2") },
+                    { new Guid("44d9de78-08d7-4be5-b9df-7a54c24bc93b"), new Guid("2195c00a-aeb2-4fdd-a4e1-5914405b0232"), new Guid("155efa13-0af5-42ee-82de-a933dacfbf72") },
+                    { new Guid("37b94448-753b-4f7e-acb6-a13b83ab1a3c"), new Guid("2195c00a-aeb2-4fdd-a4e1-5914405b0232"), new Guid("38dd8e9c-5b77-4de1-a93b-d6aad9b4b2e9") },
+                    { new Guid("292e36a9-fc57-4e6e-b2b5-38fd046d5054"), new Guid("e78bc187-e8b5-45c4-b33b-5717e61fec46"), new Guid("0366953a-71e8-4f6c-b3d8-2196c36f63c0") },
+                    { new Guid("4facfa07-e351-4d65-821f-9088ae6ed1c7"), new Guid("e27a1eaa-62dc-473e-bc5e-8b53be54147a"), new Guid("147c9928-3d2d-440e-bd2c-783b9ae625a4") }
                 });
 
             migrationBuilder.InsertData(
@@ -223,19 +223,19 @@ namespace Capri.Database.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("ba730cd3-13eb-42a0-bcd5-23c321cfe300"), 0, "7f6cf40c-5ea5-46be-bbe8-df22df7fea14", "student8@gmail.com", true, false, null, "student8@gmail.com", "student8@gmail.com", "AQAAAAEAACcQAAAAEJdSjHZwCRgzcGGWcTxqxkMbkTM62MKBvTkG83widrtQiBRGE9OuukuU87ylSBcsxg==", null, false, "", false, "student8@gmail.com" },
-                    { new Guid("11315ff8-6bc5-4eba-b95a-00420e822330"), 0, "f44dbd55-32b6-463b-915e-b882d171773f", "student7@gmail.com", true, false, null, "student7@gmail.com", "student7@gmail.com", "AQAAAAEAACcQAAAAEP0yu+NtTH/Y3TdKIWkUq0zhmOu8ISvrMFY4oLmReoXAKbc7FWEFUyIhsAnWPP+GAg==", null, false, "", false, "student7@gmail.com" },
-                    { new Guid("f9f25735-14c0-4e64-92c0-c2763d77b99e"), 0, "35ae3ac3-abcf-498c-bef0-e1ba846c81e4", "student6@gmail.com", true, false, null, "student6@gmail.com", "student6@gmail.com", "AQAAAAEAACcQAAAAEPAI6nds8MRLGb/aRu0WRer0ij7pYYWUzRc3wWLJ69a7nHuARazuVd2T6exB10Epvg==", null, false, "", false, "student6@gmail.com" },
-                    { new Guid("8e1fc3de-e849-42fe-8c4e-918f8942263c"), 0, "9833219d-5d3d-4a0b-90ec-572d74dc1dda", "student5@gmail.com", true, false, null, "student5@gmail.com", "student5@gmail.com", "AQAAAAEAACcQAAAAEMR2zXezp+z7AVR38GdRCh2u6UqLBTeYlwPIkVjL8LaswDFyAWFTnrIAh1W/jTJURw==", null, false, "", false, "student5@gmail.com" },
-                    { new Guid("767eb583-513d-455e-b586-6910127c49c5"), 0, "edb90797-9451-4e65-9413-8bced1d67d5b", "student4@gmail.com", true, false, null, "student4@gmail.com", "student4@gmail.com", "AQAAAAEAACcQAAAAEKama54Yqxfcc2o8wWIPu5zOdeXjwYlklyGEjkQXNSlysbuLqnMbASkNsYA6E2RIaw==", null, false, "", false, "student4@gmail.com" },
-                    { new Guid("5382ad90-7ee3-421c-af3b-22a5ae4f1303"), 0, "335e65c4-1b2e-4ef9-be3e-b2e0a6f01a17", "student1@gmail.com", true, false, null, "student1@gmail.com", "student1@gmail.com", "AQAAAAEAACcQAAAAEB4+Dvq5gXcfo5gML3Lwb1D5jWz/a8C8DfDZr+j51zYNhzMk50wmkXfRG3L6gs8ErA==", null, false, "", false, "student1@gmail.com" },
-                    { new Guid("3a373b54-007f-482b-a147-37d692e63c8c"), 0, "4c68e1f2-71e4-400d-8c76-ba17182d384b", "student2@gmail.com", true, false, null, "student2@gmail.com", "student2@gmail.com", "AQAAAAEAACcQAAAAED2xnpOYFnMufIpFWyhFg2rrsPAlCF682ltqXBG1o6oW51YzjR1iadC+anJfPXfvkA==", null, false, "", false, "student2@gmail.com" },
-                    { new Guid("19d6e93e-d674-4e9c-812e-8889f6125248"), 0, "fef98029-9662-4294-93ae-0e8845f9881e", "dean2@gmail.com", true, false, null, "dean2@gmail.com", "dean2@gmail.com", "AQAAAAEAACcQAAAAEMlKgNutDU1j9Err5exojPcm3sTvAlDbx3jg2oWJ41ALPn8+ftaRvT7TkWuTgMj0Tw==", null, false, "", false, "dean2@gmail.com" },
-                    { new Guid("018dea98-9c46-4995-850b-407ffdef4e92"), 0, "77fe6514-c7a1-431a-a874-34e63163a2a3", "dean1@gmail.com", true, false, null, "dean1@gmail.com", "dean1@gmail.com", "AQAAAAEAACcQAAAAEBRB/5OBOW+HbQgdDIPP4pdqDrxM0CD3+jvIj/WMqztuMjBF6mN29uwJjgHUMuAkUg==", null, false, "", false, "dean1@gmail.com" },
-                    { new Guid("3b7bc181-a375-47ff-8b49-43c78f25137d"), 0, "7a8c3498-a54b-482f-be2e-a7dd8b0ff3e6", "admin1@gmail.com", true, false, null, "admin1@gmail.com", "admin1@gmail.com", "AQAAAAEAACcQAAAAEE9XzU3yahak5pgbPscgb8zxHBICkOGA5JMB0egeM63e0gMjJREfuogrwhaf/OLd6w==", null, false, "", false, "admin1@gmail.com" },
-                    { new Guid("90426b18-c881-424d-97b2-11fd0d232ad6"), 0, "553c8710-f755-4808-bc53-302bebd2c8d3", "promoter1@gmail.com", true, false, null, "promoter1@gmail.com", "promoter1@gmail.com", "AQAAAAEAACcQAAAAEIx2g5cR+lyQDwNw3qUst8LLPaEBewUCIB/kdYqEFgL00q3Txm6vPWZcFVQaaqvwfw==", null, false, "", false, "promoter1@gmail.com" },
-                    { new Guid("e2d7b9f1-9e76-4910-b1b5-16e16a8a8383"), 0, "1059373d-2949-4e1e-ada4-2c74f8b8f03b", "student3@gmail.com", true, false, null, "student3@gmail.com", "student3@gmail.com", "AQAAAAEAACcQAAAAEGHQE3CjfqmjTo26jfpxU45TpCIoflXbeymMNUK2RkJNs2AKUlBRC3e+5TSyhNoPIg==", null, false, "", false, "student3@gmail.com" },
-                    { new Guid("5cc5d319-2d46-44ed-95eb-aae8a0d85bf5"), 0, "e8a67764-da82-41ea-a53e-521eb2e48c12", "promoter2@gmail.com", true, false, null, "promoter2@gmail.com", "promoter2@gmail.com", "AQAAAAEAACcQAAAAEDdTdDrG3v/nr9QpNH/a7fsYM6URMZ96uda+QZJnwvbFnMvc5K8DdawGj79szIqXXg==", null, false, "", false, "promoter2@gmail.com" }
+                    { new Guid("6a5041d4-61e5-4853-93c8-087e04a37eab"), 0, "9d7561be-5055-461b-96dd-e557d5eacec7", "student8@gmail.com", true, false, null, "student8@gmail.com", "student8@gmail.com", "AQAAAAEAACcQAAAAEIanSbymb8Qq83HRSmEMzMjvpYxmVRrK46f240Z2hGSuvm9n3vqBEzLpF+yI60aZpg==", null, false, "", false, "student8@gmail.com" },
+                    { new Guid("1d98d2f9-fc2b-445e-9240-2b52f855fdff"), 0, "29d482e1-83f9-4bea-ae46-5a20ef7d1e48", "student7@gmail.com", true, false, null, "student7@gmail.com", "student7@gmail.com", "AQAAAAEAACcQAAAAEMXoEg1s+vzDdUuxN/VrRiu/PHP/r+cY6O8R5dAhjC79h+2/07Ztl9drT7GrOhPU+g==", null, false, "", false, "student7@gmail.com" },
+                    { new Guid("85744990-e124-44b1-9551-667f2d2b18f8"), 0, "1a839031-e885-4611-a0a7-f3cca286a566", "student6@gmail.com", true, false, null, "student6@gmail.com", "student6@gmail.com", "AQAAAAEAACcQAAAAEFJ25qCuWA4PGFK8gNa6pI1eU6WzI9mPXYcJYq2J3oggvX2xznjind4MUHeiymOvmw==", null, false, "", false, "student6@gmail.com" },
+                    { new Guid("42611b34-024e-44e6-b9e2-9e899348226e"), 0, "16037304-858b-4a59-a9a6-40228dde0cea", "student5@gmail.com", true, false, null, "student5@gmail.com", "student5@gmail.com", "AQAAAAEAACcQAAAAEPLvdLtlMgC3i8CO+689P8c/DPr2uWx3R51DZ27X7aDqJMtTcMDnGa8jxM5yoREpSQ==", null, false, "", false, "student5@gmail.com" },
+                    { new Guid("0612bfba-673a-412a-8066-c4e8edf80ae0"), 0, "841e50b2-17c2-473a-adf4-7231ffc4d4e4", "student4@gmail.com", true, false, null, "student4@gmail.com", "student4@gmail.com", "AQAAAAEAACcQAAAAEJyOm+XFTxVJ14ViF1vKdAbVpKCWM6TyB7StnbFO1eBmUlu9B8pSuYvcd8Qh550OMg==", null, false, "", false, "student4@gmail.com" },
+                    { new Guid("5b2ddf01-17ef-43e5-afcc-e56999a223d2"), 0, "eb8c928f-b4e5-4883-a72c-3dd664df3cc9", "student1@gmail.com", true, false, null, "student1@gmail.com", "student1@gmail.com", "AQAAAAEAACcQAAAAEH1wNGtRAriaCwFL8dpq5Ia1QALAdU5XJSpLVDgcL01VTjlZvEenkkGsJsixoIrKZg==", null, false, "", false, "student1@gmail.com" },
+                    { new Guid("193ee547-0487-4be6-8484-98bb490f1d28"), 0, "7791d7e4-24ca-4982-bec9-006d10955ce9", "student2@gmail.com", true, false, null, "student2@gmail.com", "student2@gmail.com", "AQAAAAEAACcQAAAAEFzJBl8VTAknQuzF4Bc5NWpME04ksN+yp7sBTXIBiNjgHAKtK9nOjuz1iQpATBMcYg==", null, false, "", false, "student2@gmail.com" },
+                    { new Guid("155efa13-0af5-42ee-82de-a933dacfbf72"), 0, "eb4aaeb4-8e6c-4267-aea7-251d0cb98886", "dean2@gmail.com", true, false, null, "dean2@gmail.com", "dean2@gmail.com", "AQAAAAEAACcQAAAAEG2pRwrFERd6d/LZxlmvCnkZ0rwIDmwrzHiShj7LFU4WNmIkVVTVpsm7QsHiZliiUg==", null, false, "", false, "dean2@gmail.com" },
+                    { new Guid("38dd8e9c-5b77-4de1-a93b-d6aad9b4b2e9"), 0, "7605842c-2a74-4787-8d0c-f3fec546d901", "dean1@gmail.com", true, false, null, "dean1@gmail.com", "dean1@gmail.com", "AQAAAAEAACcQAAAAEO/s9wLk8YG6C0tvzuF6W+4Tpi133OY6m3pr4QTBGFCYs0SpS8pX1+18g4hlDspeRA==", null, false, "", false, "dean1@gmail.com" },
+                    { new Guid("0366953a-71e8-4f6c-b3d8-2196c36f63c0"), 0, "becdc44f-eaab-4c22-b6ad-c6dfcb496b2d", "admin1@gmail.com", true, false, null, "admin1@gmail.com", "admin1@gmail.com", "AQAAAAEAACcQAAAAEGQ4cpCCAiXWe2D3z7ZeWkLQ8aDXZJ/LygFM2JsUmZDT3MB7H3L0FkD7ki7mRJm+ZQ==", null, false, "", false, "admin1@gmail.com" },
+                    { new Guid("902c3696-477f-4a76-8010-f43bea1fc1ce"), 0, "9fbe29ad-acc1-4f8a-971f-646b6c5638b8", "promoter1@gmail.com", true, false, null, "promoter1@gmail.com", "promoter1@gmail.com", "AQAAAAEAACcQAAAAEHtNC0QbWBbf4W0zODmc8l+sdGZTvAmwdWwq8wE76ssLtt+7eYfOaztshVaJFYVSwA==", null, false, "", false, "promoter1@gmail.com" },
+                    { new Guid("147c9928-3d2d-440e-bd2c-783b9ae625a4"), 0, "c32a7c72-66fd-4461-a866-f8c69296aa9b", "student3@gmail.com", true, false, null, "student3@gmail.com", "student3@gmail.com", "AQAAAAEAACcQAAAAEKUDKQ4BoLIXvpaQR+iG2qLpdVdhO7ukiGT8/Q85Ay+S/AlcNkI6pvuPH3Ytsl8Zpw==", null, false, "", false, "student3@gmail.com" },
+                    { new Guid("1d6a3813-eedd-4ad8-8e85-acbd5742519a"), 0, "4be4cabb-3ffb-4291-bab7-b34cc778deda", "promoter2@gmail.com", true, false, null, "promoter2@gmail.com", "promoter2@gmail.com", "AQAAAAEAACcQAAAAEFPgMwJFrA/cHssXDggW6bf5QT8e+ForN0FoNOxzvBtHRoj+5utOv6MmtHUGO5hYOw==", null, false, "", false, "promoter2@gmail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -243,8 +243,8 @@ namespace Capri.Database.Migrations
                 columns: new[] { "Id", "CanSubmitBachelorProposals", "CanSubmitMasterProposals", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("3ecad404-b35d-4160-8d7b-afbc4b9b473b"), true, true, new Guid("90426b18-c881-424d-97b2-11fd0d232ad6") },
-                    { new Guid("46788cfe-7558-4bd0-8d90-90b124fecdb0"), true, true, new Guid("5cc5d319-2d46-44ed-95eb-aae8a0d85bf5") }
+                    { new Guid("fbe254eb-c9ec-48d2-bb3e-b459d7b8180b"), true, true, new Guid("902c3696-477f-4a76-8010-f43bea1fc1ce") },
+                    { new Guid("49df02bc-9520-4bc8-8ce8-7fd16403c03e"), true, true, new Guid("1d6a3813-eedd-4ad8-8e85-acbd5742519a") }
                 });
 
             migrationBuilder.InsertData(
@@ -252,14 +252,14 @@ namespace Capri.Database.Migrations
                 columns: new[] { "Id", "ProposalId", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("cf171f9e-9144-4555-a480-974a38d93d64"), null, new Guid("5382ad90-7ee3-421c-af3b-22a5ae4f1303") },
-                    { new Guid("32e3abad-f107-4785-8f81-59a13d64440e"), null, new Guid("3a373b54-007f-482b-a147-37d692e63c8c") },
-                    { new Guid("184f7e51-16e0-4662-abd0-b8be24ba7a9b"), null, new Guid("e2d7b9f1-9e76-4910-b1b5-16e16a8a8383") },
-                    { new Guid("07126f80-a1e7-4217-ad3f-c341fa95ca0a"), null, new Guid("767eb583-513d-455e-b586-6910127c49c5") },
-                    { new Guid("e6b41e22-a91e-463f-809b-5544e603cb24"), null, new Guid("8e1fc3de-e849-42fe-8c4e-918f8942263c") },
-                    { new Guid("99b9215c-09bb-4cbe-bb13-13bac0a148a8"), null, new Guid("f9f25735-14c0-4e64-92c0-c2763d77b99e") },
-                    { new Guid("6e15357d-8e42-4bce-a569-d41ee954111f"), null, new Guid("11315ff8-6bc5-4eba-b95a-00420e822330") },
-                    { new Guid("5c15c981-b479-4231-bb61-7238b63d48c2"), null, new Guid("ba730cd3-13eb-42a0-bcd5-23c321cfe300") }
+                    { new Guid("0c9af1d6-5889-4c40-89f0-8a6b8625d586"), null, new Guid("5b2ddf01-17ef-43e5-afcc-e56999a223d2") },
+                    { new Guid("3facc1cc-7930-4a37-816f-a9150079c228"), null, new Guid("193ee547-0487-4be6-8484-98bb490f1d28") },
+                    { new Guid("f194ba25-9f1c-4ae3-a2e3-7594be36dd69"), null, new Guid("147c9928-3d2d-440e-bd2c-783b9ae625a4") },
+                    { new Guid("01d20285-719e-4f54-9be5-d45a9919f542"), null, new Guid("0612bfba-673a-412a-8066-c4e8edf80ae0") },
+                    { new Guid("c476a1eb-db63-4105-9781-781bbcb764e2"), null, new Guid("42611b34-024e-44e6-b9e2-9e899348226e") },
+                    { new Guid("e9e95e41-aadc-4885-8780-479a663be362"), null, new Guid("85744990-e124-44b1-9551-667f2d2b18f8") },
+                    { new Guid("2be6f969-3ffc-4a35-8ddf-a69bd02b0b70"), null, new Guid("1d98d2f9-fc2b-445e-9240-2b52f855fdff") },
+                    { new Guid("54451773-6312-43ec-9570-4bcd4b3084ba"), null, new Guid("6a5041d4-61e5-4853-93c8-087e04a37eab") }
                 });
 
             migrationBuilder.CreateIndex(

@@ -30,14 +30,13 @@ namespace Capri.Web.Controllers
             var result = 
                 await _loginService.Login(credentials.Email, credentials.Password);
 
-            switch(result.Type)
+            if(result.IsSucceded)
             {
-                case ResultType.Success:
-                    return Ok(result);
-                case ResultType.NotFound:
-                    return NotFound(result);
-                default:
-                    return BadRequest(result);
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
             }
         }
     }

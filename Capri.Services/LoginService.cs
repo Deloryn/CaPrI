@@ -38,7 +38,7 @@ namespace Capri.Services
 
             if (user == null)
             {
-                return ServiceResult<UserSecurityStamp>.NotFound("User not found");
+                return ServiceResult<UserSecurityStamp>.Error("User not found");
             }
 
             var canSignIn = await _signInManager.CanSignInAsync(user);
@@ -57,7 +57,7 @@ namespace Capri.Services
                     });
                 }
             }
-            return ServiceResult<UserSecurityStamp>.Failure("User can't sign in. Are you sure you provided the correct password?");
+            return ServiceResult<UserSecurityStamp>.Error("User cannot sign in");
         }
 
         private string GenerateTokenFor(User user)
