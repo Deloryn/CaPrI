@@ -1,10 +1,10 @@
 import App from '@src/app.vue';
 import { Vue } from 'vue-property-decorator';
-import store from '@src/store.ts';
+import {store} from '@src/store/store.ts';
 
-if (module['hot']) {  
-  module['hot'].accept();  
-}  
+if (module['hot']) {
+  module['hot'].accept();
+}
 
 new Vue({
     el: '#app',
