@@ -1,26 +1,9 @@
 <template>
   <div id="app">
-    <h1 class="test">Vue works!</h1>
-    <Test></Test>
+    <div id="nav">
+      <router-link to="/">Test1</router-link> |
+      <router-link to="/test">Test2</router-link>
+    </div>
+    <router-view/>
   </div>
 </template>
-<script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-import Test from '@src/test.vue';
-
-
-@Component({
-  components: {
-    Test
-  }
-})
-export default class App extends Vue {
-    readonly imagePath: string = '/assets/testImage.jpg';
-}
-</script>
-<style lang="scss" scoped>
-.test {
-  color: #555555;
-}
-</style>
-
