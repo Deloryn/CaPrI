@@ -17,7 +17,7 @@ namespace Capri.Web.Controllers
         }
         public IActionResult Index()
         {
-            _logger.LogInformation("HomeController View works!");
+            _logger.LogInformation("HomeController Index");
             return View();
         }
     }
