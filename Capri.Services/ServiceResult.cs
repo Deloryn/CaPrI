@@ -26,7 +26,7 @@ namespace Capri.Services
             ServiceResult<T> serviceResult = new ServiceResult<T>(false);
             foreach (var errorMessage in errors)
             {
-                serviceResult.AddError("error", errorMessage);
+                serviceResult.AddError(string.Empty, errorMessage);
             }
             return serviceResult;
         }
