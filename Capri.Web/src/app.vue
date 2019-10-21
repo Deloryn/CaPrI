@@ -8,7 +8,6 @@
 import { Vue, Component } from 'vue-property-decorator';
 import Test from '@src/test.vue';
 
-
 @Component({
   components: {
     Test
