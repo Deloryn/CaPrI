@@ -32,7 +32,7 @@ namespace Capri.Services
             _jwtAuthDetails = jwtSettingsOptions.Value;
         }
 
-        public async Task<ServiceResult<UserSecurityStamp>> Login(string email, string password)
+        public async Task<IServiceResult<UserSecurityStamp>> Login(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
 

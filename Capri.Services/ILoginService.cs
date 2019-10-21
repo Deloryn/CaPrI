@@ -8,6 +8,6 @@ namespace Capri.Services
 {
     public interface ILoginService
     {
-        Task<ServiceResult<UserSecurityStamp>> Login(string username, string password);
+        Task<IServiceResult<UserSecurityStamp>> Login(string username, string password);
     }
 }

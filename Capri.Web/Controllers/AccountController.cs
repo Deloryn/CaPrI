@@ -30,7 +30,7 @@ namespace Capri.Web.Controllers
             var result = 
                 await _loginService.Login(credentials.Email, credentials.Password);
 
-            if(result.IsSucceded)
+            if(result.Successful())
             {
                 return Ok(result);
             }
