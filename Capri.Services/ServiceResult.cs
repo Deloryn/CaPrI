@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using Capri.Web.ViewModels;
 
 namespace Capri.Services
@@ -43,7 +44,7 @@ namespace Capri.Services
 
         public bool IsValid()
         {
-            return !(this.Count > 0);
+            return !this.Any();
         }
 
         public T Body()
