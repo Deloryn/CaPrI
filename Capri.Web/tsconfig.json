@@ -9,7 +9,7 @@
         "experimentalDecorators": true,
         "types": [
             "vue-typescript-import-dts",
-            "node"
+            "webpack-env"
         ],
         "typeRoots": [
             "node_modules/@types",
