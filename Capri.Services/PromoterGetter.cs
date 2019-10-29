@@ -18,7 +18,7 @@ namespace Capri.Services
 
         public IServiceResult<Promoter> Get(Guid id)
         {
-            Promoter promoter = _context.Promoters.Find(id);
+            var promoter = _context.Promoters.Find(id);
             if (promoter == null)
             {
                 return ServiceResult<Promoter>.Error(

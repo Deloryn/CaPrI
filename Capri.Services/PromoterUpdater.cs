@@ -20,14 +20,14 @@ namespace Capri.Services
 
         public IServiceResult<Promoter> Update(PromoterUpdate newData)
         {
-            Promoter existingPromoter = _context.Promoters.Find(newData.Id);
+            var existingPromoter = _context.Promoters.Find(newData.Id);
             if (existingPromoter == null)
             {
                 return ServiceResult<Promoter>.Error(
                     "Promoter with the given does not exist");
             }
 
-            User existingUser = _context.Users.Find(newData.UserId);
+            var existingUser = _context.Users.Find(newData.UserId);
             if (existingUser == null)
             {
                 return ServiceResult<Promoter>.Error(

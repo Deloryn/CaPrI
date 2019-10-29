@@ -26,7 +26,7 @@ namespace Capri.Services
                 return ServiceResult<Promoter>.Error("Email already taken");
             }
 
-            User user = CreateUser(registration.Email, registration.Password);
+            var user = CreateUser(registration.Email, registration.Password);
             _context.Users.Add(user);
 
             Promoter promoter = new Promoter
