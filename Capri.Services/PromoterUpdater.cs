@@ -45,7 +45,9 @@ namespace Capri.Services
             }
 
             existingPromoter.UserId = newData.UserId;
-            existingPromoter.Proposals = GetProposalsWithIds(newData.ProposalsIds);
+            existingPromoter.Proposals = 
+                GetProposalsWithIds(newData.ProposalsIds)
+                .ToList();
             existingPromoter.CanSubmitBachelorProposals =
                 newData.CanSubmitBachelorProposals;
             existingPromoter.CanSubmitMasterProposals =
@@ -57,12 +59,11 @@ namespace Capri.Services
             return ServiceResult<Promoter>.Success(existingPromoter);
         }
 
-        private List<Proposal> GetProposalsWithIds(List<Guid> ids)
+        private IEnumerable<Proposal> GetProposalsWithIds(IEnumerable<Guid> ids)
         {
             return _context
                 .Proposals
-                .Where(proposal => ids.Any(_ => _ == proposal.Id))
-                .ToList();
+                .Where(proposal => ids.Any(_ => _ == proposal.Id));
         }
     }
 }
