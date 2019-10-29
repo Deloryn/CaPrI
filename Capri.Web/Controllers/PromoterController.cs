@@ -11,17 +11,27 @@ namespace Capri.Web.Controllers
 {
     public class PromoterController : Controller
     {
-        private readonly IPromoterService _promoterService;
+        private readonly IPromoterCreator _promoterCreator;
+        private readonly IPromoterUpdater _promoterUpdater;
+        private readonly IPromoterGetter _promoterGetter;
+        private readonly IPromoterDeleter _promoterDeleter;
 
-        public PromoterController(IPromoterService promoterService)
+        public PromoterController(
+            IPromoterCreator promoterCreator,
+            IPromoterUpdater promoterUpdater,
+            IPromoterGetter promoterGetter,
+            IPromoterDeleter promoterDeleter)
         {
-            _promoterService = promoterService;
+            _promoterCreator = promoterCreator;
+            _promoterUpdater = promoterUpdater;
+            _promoterGetter = promoterGetter;
+            _promoterDeleter = promoterDeleter;
         }
 
         [HttpGet]
         public IActionResult Get(Guid id)
         {
-            var result = _promoterService.Get(id);
+            var result = _promoterGetter.Get(id);
             if(result.Successful())
             {
                 return Ok(result);
@@ -35,7 +45,7 @@ namespace Capri.Web.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var result = _promoterService.GetAll();
+            var result = _promoterGetter.GetAll();
             if(result.Successful())
             {
                 return Ok(result);
@@ -50,7 +60,7 @@ namespace Capri.Web.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] PromoterRegistration registration)
         {
-            var result = _promoterService.Create(registration);
+            var result = _promoterCreator.Create(registration);
             if(result.Successful())
             {
                 return Ok(result);
@@ -65,7 +75,7 @@ namespace Capri.Web.Controllers
         [HttpPut]
         public IActionResult Update([FromBody] PromoterUpdate newData)
         {
-            var result = _promoterService.Update(newData);
+            var result = _promoterUpdater.Update(newData);
             if(result.Successful())
             {
                 return Ok(result);
@@ -80,7 +90,7 @@ namespace Capri.Web.Controllers
         [HttpDelete]
         public IActionResult Delete(Guid id)
         {
-            var result = _promoterService.Delete(id);
+            var result = _promoterDeleter.Delete(id);
             if(result.Successful())
             {
                 return Ok(result);
