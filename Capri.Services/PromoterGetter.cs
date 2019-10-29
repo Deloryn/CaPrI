@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 using Capri.Database;
 using Capri.Database.Entities;
 
@@ -16,9 +18,10 @@ namespace Capri.Services
             _context = context;
         }
 
-        public IServiceResult<Promoter> Get(Guid id)
+        public async Task<IServiceResult<Promoter>> Get(Guid id)
         {
-            var promoter = _context.Promoters.Find(id);
+            var promoter = await _context.Promoters.FirstOrDefaultAsync(_ => _.Id == id);
+
             if (promoter == null)
             {
                 return ServiceResult<Promoter>.Error(

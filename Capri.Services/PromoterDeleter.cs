@@ -4,6 +4,7 @@ using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Capri.Database;
 using Capri.Database.Entities;
 using Capri.Database.Entities.Identity;
@@ -20,9 +21,13 @@ namespace Capri.Services
             _context = context;
         }
 
-        public IServiceResult<Promoter> Delete(Guid id)
+        public async Task<IServiceResult<Promoter>> Delete(Guid id)
         {
-            var promoter = _context.Promoters.Find(id);
+            var promoter = 
+                await _context
+                .Promoters
+                .FirstOrDefaultAsync(_ => _.Id == id);
+
             if(promoter == null)
             {
                 return ServiceResult<Promoter>.Error(

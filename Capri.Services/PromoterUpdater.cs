@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 using Capri.Database;
 using Capri.Database.Entities;
 using Capri.Database.Entities.Identity;
@@ -18,16 +20,24 @@ namespace Capri.Services
             _context = context;
         }
 
-        public IServiceResult<Promoter> Update(PromoterUpdate newData)
+        public async Task<IServiceResult<Promoter>> Update(PromoterUpdate newData)
         {
-            var existingPromoter = _context.Promoters.Find(newData.Id);
+            var existingPromoter = 
+                await _context
+                .Promoters
+                .FirstOrDefaultAsync(_ => _.Id == newData.Id);
+
             if (existingPromoter == null)
             {
                 return ServiceResult<Promoter>.Error(
                     "Promoter with the given does not exist");
             }
 
-            var existingUser = _context.Users.Find(newData.UserId);
+            var existingUser = 
+                await _context
+                .Users
+                .FirstOrDefaultAsync(_ => _.Id == newData.UserId);
+
             if (existingUser == null)
             {
                 return ServiceResult<Promoter>.Error(
@@ -40,8 +50,10 @@ namespace Capri.Services
                 newData.CanSubmitBachelorProposals;
             existingPromoter.CanSubmitMasterProposals =
                 newData.CanSubmitMasterProposals;
+
             _context.Promoters.Update(existingPromoter);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+
             return ServiceResult<Promoter>.Success(existingPromoter);
         }
 
