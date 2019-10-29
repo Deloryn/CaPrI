@@ -49,10 +49,7 @@ namespace Capri.Services
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         private User CreateUser(string email, string password)

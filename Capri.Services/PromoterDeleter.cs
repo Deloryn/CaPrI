@@ -28,11 +28,9 @@ namespace Capri.Services
                 return ServiceResult<Promoter>.Error(
                     "Promoter with the given id does not exist");
             }
-            else
-            {
-                _context.Promoters.Remove(promoter);
-                return ServiceResult<Promoter>.Success(promoter);
-            }
+
+            _context.Promoters.Remove(promoter);
+            return ServiceResult<Promoter>.Success(promoter);
         }
     }
 }
