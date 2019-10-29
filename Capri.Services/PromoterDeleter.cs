@@ -35,6 +35,8 @@ namespace Capri.Services
             }
 
             _context.Promoters.Remove(promoter);
+            await _context.SaveChangesAsync();
+
             return ServiceResult<Promoter>.Success(promoter);
         }
     }
