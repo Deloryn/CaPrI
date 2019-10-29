@@ -28,10 +28,10 @@ namespace Capri.Services
             return ServiceResult<Promoter>.Success(promoter);
         }
 
-        public IServiceResult<List<Promoter>> GetAll()
+        public IServiceResult<IEnumerable<Promoter>> GetAll()
         {
-            var promoters = _context.Promoters.ToList();
-            return ServiceResult<List<Promoter>>.Success(promoters);
+            var promoters = _context.Promoters;
+            return ServiceResult<IEnumerable<Promoter>>.Success(promoters);
         }
     }
 }

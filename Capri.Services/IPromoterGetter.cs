@@ -8,6 +8,6 @@ namespace Capri.Services
     public interface IPromoterGetter
     {
         IServiceResult<Promoter> Get(Guid id);
-        IServiceResult<List<Promoter>> GetAll();
+        IServiceResult<IEnumerable<Promoter>> GetAll();
     }
 }
