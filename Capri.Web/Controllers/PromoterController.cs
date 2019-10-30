@@ -28,7 +28,7 @@ namespace Capri.Web.Controllers
             _promoterDeleter = promoterDeleter;
         }
 
-        [HttpGet]
+        [HttpGet("/promoters/{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
             var result = await _promoterGetter.Get(id);
@@ -42,7 +42,7 @@ namespace Capri.Web.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("/promoters")]
         public IActionResult GetAll()
         {
             var result = _promoterGetter.GetAll();
@@ -57,10 +57,11 @@ namespace Capri.Web.Controllers
         }
 
         [Authorize(Roles = "dean")]
-        [HttpPost]
-        public IActionResult Create([FromBody] PromoterRegistration registration)
+        [HttpPost("/promoters")]
+        public async Task<IActionResult> Create(
+            [FromBody] PromoterRegistration registration)
         {
-            var result = _promoterCreator.Create(registration);
+            var result = await _promoterCreator.Create(registration);
             if(result.Successful())
             {
                 return Ok(result);
@@ -72,10 +73,12 @@ namespace Capri.Web.Controllers
         }
 
         [Authorize(Roles = "dean")]
-        [HttpPut]
-        public async Task<IActionResult> Update([FromBody] PromoterUpdate newData)
+        [HttpPut("/promoters/{id:Guid}")]
+        public async Task<IActionResult> Update(
+            Guid id,
+            [FromBody] PromoterUpdate newData)
         {
-            var result = await _promoterUpdater.Update(newData);
+            var result = await _promoterUpdater.Update(id, newData);
             if(result.Successful())
             {
                 return Ok(result);
@@ -87,7 +90,7 @@ namespace Capri.Web.Controllers
         }
 
         [Authorize(Roles = "dean")]
-        [HttpDelete]
+        [HttpDelete("/promoters/{id:Guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _promoterDeleter.Delete(id);

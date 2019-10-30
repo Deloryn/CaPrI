@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using Capri.Database;
 using Capri.Database.Entities;
 using Capri.Database.Entities.Identity;
@@ -14,18 +15,24 @@ namespace Capri.Services
     public class PromoterUpdater : IPromoterUpdater
     {
         private readonly ISqlDbContext _context;
+        private readonly IMapper _mapper;
 
-        public PromoterUpdater(ISqlDbContext context)
+        public PromoterUpdater(
+            ISqlDbContext context,
+            IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public async Task<IServiceResult<Promoter>> Update(PromoterUpdate newData)
+        public async Task<IServiceResult<Promoter>> Update(
+            Guid id,
+            PromoterUpdate newData)
         {
             var existingPromoter = 
                 await _context
                 .Promoters
-                .FirstOrDefaultAsync(_ => _.Id == newData.Id);
+                .FirstOrDefaultAsync(_ => _.Id == id);
 
             if (existingPromoter == null)
             {
@@ -44,26 +51,13 @@ namespace Capri.Services
                     "User with the given id does not exist");
             }
 
-            existingPromoter.UserId = newData.UserId;
-            existingPromoter.Proposals = 
-                GetProposalsWithIds(newData.ProposalsIds)
-                .ToList();
-            existingPromoter.CanSubmitBachelorProposals =
-                newData.CanSubmitBachelorProposals;
-            existingPromoter.CanSubmitMasterProposals =
-                newData.CanSubmitMasterProposals;
+            existingPromoter = _mapper.Map<Promoter>(newData);
+            existingPromoter.Id = id;
 
             _context.Promoters.Update(existingPromoter);
             await _context.SaveChangesAsync();
 
             return ServiceResult<Promoter>.Success(existingPromoter);
-        }
-
-        private IEnumerable<Proposal> GetProposalsWithIds(IEnumerable<Guid> ids)
-        {
-            return _context
-                .Proposals
-                .Where(proposal => ids.Any(_ => _ == proposal.Id));
         }
     }
 }

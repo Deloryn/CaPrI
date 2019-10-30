@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 using System.Text;
-using Microsoft.AspNetCore.Identity;
 using Capri.Database;
 using Capri.Database.Entities;
-using Capri.Database.Entities.Identity;
 using Capri.Web.ViewModels.Promoter;
 
 namespace Capri.Services
@@ -13,23 +12,33 @@ namespace Capri.Services
     public class PromoterCreator : IPromoterCreator
     {
         private readonly ISqlDbContext _context;
+        private readonly IUserCreator _userCreator;
 
-        public PromoterCreator(ISqlDbContext context)
+        public PromoterCreator(
+            ISqlDbContext context,
+            IUserCreator userCreator)
         {
             _context = context;
+            _userCreator = userCreator;
         }
 
-        public IServiceResult<Promoter> Create(PromoterRegistration registration)
+        public async Task<IServiceResult<Promoter>> Create(
+            PromoterRegistration registration)
         {
-            if (EmailExists(registration.Email))
+
+            var result = 
+                await _userCreator
+                .CreateUser(registration.Email, registration.Password);
+
+            if(!result.Successful())
             {
-                return ServiceResult<Promoter>.Error("Email already taken");
+                var errors = result.Errors();
+                return ServiceResult<Promoter>.Error(errors);
             }
 
-            var user = CreateUser(registration.Email, registration.Password);
-            _context.Users.Add(user);
+            var user = result.Body();
 
-            Promoter promoter = new Promoter
+            var promoter = new Promoter
             {
                 Id = Guid.NewGuid(),
                 UserId = user.Id,
@@ -37,34 +46,10 @@ namespace Capri.Services
                 CanSubmitMasterProposals = registration.CanSubmitMasterProposals
             };
 
-            _context.Promoters.Add(promoter);
+            await _context.Promoters.AddAsync(promoter);
+            await _context.SaveChangesAsync();
 
-            _context.SaveChangesAsync();
             return ServiceResult<Promoter>.Success(promoter);
-        }
-
-        private bool EmailExists(string email)
-        {
-            if (_context.Users.Any(_ => _.Email == email))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        private User CreateUser(string email, string password)
-        {
-            return new User
-            {
-                Id = Guid.NewGuid(),
-                UserName = email,
-                NormalizedUserName = email,
-                Email = email,
-                NormalizedEmail = email,
-                EmailConfirmed = true,
-                PasswordHash = new PasswordHasher<User>().HashPassword(null, password),
-                SecurityStamp = string.Empty
-            };
         }
     }
 }

@@ -8,6 +8,7 @@ namespace Capri.Services
     {
         bool Successful();
         bool IsValid();
+        IEnumerable<string> Errors();
         T Body();
     }
 }

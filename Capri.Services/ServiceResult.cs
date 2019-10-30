@@ -32,6 +32,16 @@ namespace Capri.Services
             return serviceResult;
         }
 
+        public static ServiceResult<T> Error(IEnumerable<string> errors)
+        {
+            ServiceResult<T> serviceResult = new ServiceResult<T>(false);
+            foreach (var errorMessage in errors)
+            {
+                serviceResult.AddError(string.Empty, errorMessage);
+            }
+            return serviceResult;
+        }
+
         public ServiceResult(bool successful)
         {
             _successful = successful;
@@ -45,6 +55,11 @@ namespace Capri.Services
         public bool IsValid()
         {
             return !this.Any();
+        }
+
+        public IEnumerable<string> Errors()
+        {
+            return this.Values.ToList();
         }
 
         public T Body()
