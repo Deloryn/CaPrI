@@ -57,7 +57,7 @@ namespace Capri.Services
             return !this.Any();
         }
 
-        public IEnumerable<string> Errors()
+        public IEnumerable<string> GetErrors()
         {
             return this.Values.ToList();
         }
