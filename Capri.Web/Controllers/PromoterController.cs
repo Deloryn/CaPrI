@@ -9,6 +9,7 @@ using Capri.Web.ViewModels.Promoter;
 
 namespace Capri.Web.Controllers
 {
+    [Route("promoters")]
     public class PromoterController : Controller
     {
         private readonly IPromoterCreator _promoterCreator;
@@ -28,7 +29,7 @@ namespace Capri.Web.Controllers
             _promoterDeleter = promoterDeleter;
         }
 
-        [HttpGet("/promoters/{id:Guid}")]
+        [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
             var result = await _promoterGetter.Get(id);
@@ -42,7 +43,7 @@ namespace Capri.Web.Controllers
             }
         }
 
-        [HttpGet("/promoters")]
+        [HttpGet]
         public IActionResult GetAll()
         {
             var result = _promoterGetter.GetAll();
@@ -57,7 +58,7 @@ namespace Capri.Web.Controllers
         }
 
         [Authorize(Roles = "dean")]
-        [HttpPost("/promoters")]
+        [HttpPost]
         public async Task<IActionResult> Create(
             [FromBody] PromoterRegistration registration)
         {
@@ -73,7 +74,7 @@ namespace Capri.Web.Controllers
         }
 
         [Authorize(Roles = "dean")]
-        [HttpPut("/promoters/{id:Guid}")]
+        [HttpPut("{id:Guid}")]
         public async Task<IActionResult> Update(
             Guid id,
             [FromBody] PromoterUpdate newData)
@@ -90,7 +91,7 @@ namespace Capri.Web.Controllers
         }
 
         [Authorize(Roles = "dean")]
-        [HttpDelete("/promoters/{id:Guid}")]
+        [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _promoterDeleter.Delete(id);
