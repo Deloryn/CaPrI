@@ -20,7 +20,7 @@ namespace Capri.Services
 
         public async Task<IServiceResult<Promoter>> Get(Guid id)
         {
-            var promoter = await _context.Promoters.FirstOrDefaultAsync(_ => _.Id == id);
+            var promoter = await _context.Promoters.FirstOrDefaultAsync(p => p.Id == id);
 
             if (promoter == null)
             {

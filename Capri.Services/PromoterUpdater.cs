@@ -32,7 +32,7 @@ namespace Capri.Services
             var existingPromoter = 
                 await _context
                 .Promoters
-                .FirstOrDefaultAsync(_ => _.Id == id);
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (existingPromoter == null)
             {
@@ -43,7 +43,7 @@ namespace Capri.Services
             var existingUser = 
                 await _context
                 .Users
-                .FirstOrDefaultAsync(_ => _.Id == newData.UserId);
+                .FirstOrDefaultAsync(u => u.Id == newData.UserId);
 
             if (existingUser == null)
             {

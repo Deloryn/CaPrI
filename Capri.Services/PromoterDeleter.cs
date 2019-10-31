@@ -26,7 +26,7 @@ namespace Capri.Services
             var promoter = 
                 await _context
                 .Promoters
-                .FirstOrDefaultAsync(_ => _.Id == id);
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if(promoter == null)
             {

@@ -59,7 +59,7 @@ namespace Capri.Services
 
         private async Task<bool> EmailExists(string email)
         {
-            return await _context.Users.AnyAsync(_ => _.Email == email);
+            return await _context.Users.AnyAsync(u => u.Email == email);
         }
     }
 }
