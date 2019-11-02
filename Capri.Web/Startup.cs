@@ -37,6 +37,7 @@ namespace Capri.Web
             services.AddScoped<IPromoterDeleter, PromoterDeleter>();
             services.AddScoped<ITokenGenerator, TokenGenerator>();
             services.AddScoped<IUserCreator, UserCreator>();
+            services.AddScoped<IUserUpdater, UserUpdater>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
