@@ -37,6 +37,10 @@ namespace Capri.Web
             services.AddJwtConfiguration(Configuration.GetSection("JwtAuthorizationDetails"));
             services.AddSystemConfiguration(Configuration.GetSection("SystemSettings"));
             services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IProposalCreator, ProposalCreator>();
+            services.AddScoped<IProposalDeleter, ProposalDeleter>();
+            services.AddScoped<IProposalGetter, ProposalGetter>();
+            services.AddScoped<IProposalUpdater, ProposalUpdater>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
