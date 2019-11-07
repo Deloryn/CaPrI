@@ -2,14 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.Options;
-using Capri.Database;
 using Capri.Database.Entities.Identity;
-using Capri.Services.Settings;
 using Capri.Web.ViewModels.User;
 
 namespace Capri.Services
@@ -17,19 +11,17 @@ namespace Capri.Services
     public class LoginService : ILoginService
     {
         private readonly SignInManager<User> _signInManager;
-
         private readonly UserManager<User> _userManager;
-
-        private readonly JwtAuthorizationDetails _jwtAuthDetails;
+        private readonly ITokenGenerator _tokenGenerator;
 
         public LoginService(
             SignInManager<User> signInManager, 
-            UserManager<User> userManager, 
-            IOptions<JwtAuthorizationDetails> jwtSettingsOptions)
+            UserManager<User> userManager,
+            ITokenGenerator tokenGenerator)
         {
             _signInManager = signInManager;
             _userManager = userManager;
-            _jwtAuthDetails = jwtSettingsOptions.Value;
+            _tokenGenerator = tokenGenerator;
         }
 
         public async Task<IServiceResult<UserSecurityStamp>> Login(string email, string password)
@@ -48,7 +40,7 @@ namespace Capri.Services
                     await _signInManager.PasswordSignInAsync(email, password, true, false);
                 if(result.Succeeded)
                 {
-                    string token = GenerateTokenFor(user);
+                    string token = _tokenGenerator.GenerateTokenFor(user);
                     user.SecurityStamp = token;
                     return ServiceResult<UserSecurityStamp>.Success(new UserSecurityStamp
                     {
@@ -58,28 +50,6 @@ namespace Capri.Services
                 }
             }
             return ServiceResult<UserSecurityStamp>.Error("User cannot sign in");
-        }
-
-        private string GenerateTokenFor(User user)
-        {
-            var key = System.Text.Encoding.ASCII.GetBytes(_jwtAuthDetails.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
-                }),
-                Issuer = _jwtAuthDetails.Issuer,
-                Expires = DateTime.UtcNow.AddDays(_jwtAuthDetails.ExpireDays),
-                SigningCredentials = 
-                    new SigningCredentials(
-                        new SymmetricSecurityKey(key),
-                        SecurityAlgorithms.HmacSha256Signature
-                        )
-            };
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
         }
     }
 }

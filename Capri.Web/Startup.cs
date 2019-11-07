@@ -26,11 +26,19 @@ namespace Capri.Web
             services.AddDatabaseConfiguration(Configuration["DbConnectionString"]);
             services.AddJwtConfiguration(Configuration.GetSection("JwtAuthorizationDetails"));
             services.AddSystemConfiguration(Configuration.GetSection("SystemSettings"));
+            services.AddMapperConfiguration();
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IProposalCreator, ProposalCreator>();
             services.AddScoped<IProposalDeleter, ProposalDeleter>();
             services.AddScoped<IProposalGetter, ProposalGetter>();
             services.AddScoped<IProposalUpdater, ProposalUpdater>();
+            services.AddScoped<IPromoterCreator, PromoterCreator>();
+            services.AddScoped<IPromoterUpdater, PromoterUpdater>();
+            services.AddScoped<IPromoterGetter, PromoterGetter>();
+            services.AddScoped<IPromoterDeleter, PromoterDeleter>();
+            services.AddScoped<ITokenGenerator, TokenGenerator>();
+            services.AddScoped<IUserCreator, UserCreator>();
+            services.AddScoped<IUserUpdater, UserUpdater>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,11 +60,7 @@ namespace Capri.Web
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "Users", action = "Login" });
-
-                /*routes.MapSpaFallbackRoute(
-                    name: "spa-fallback",
-                    defaults: new { controller = "Home", action = "Index" });*/
+                    defaults: new { controller = "Account", action = "Login" });
             });
         }
     }
