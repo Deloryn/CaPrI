@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Capri.Services
 {
-    public class UserGetter : IUserGetter
+    public class ApplicationUserGetter : IApplicationUserGetter
     {
         private readonly UserManager<User> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserGetter(UserManager<User> userManager, IHttpContextAccessor httpContextAccessor)
+        public ApplicationUserGetter(UserManager<User> userManager, IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;

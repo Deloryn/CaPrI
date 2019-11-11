@@ -15,9 +15,9 @@ namespace Capri.Services
     {
         private readonly ISqlDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IUserGetter _userGetter;
+        private readonly IApplicationUserGetter _userGetter;
 
-        public ProposalUpdater(ISqlDbContext context, IMapper mapper, IUserGetter userGetter)
+        public ProposalUpdater(ISqlDbContext context, IMapper mapper, IApplicationUserGetter userGetter)
         {
             _context = context;
             _mapper = mapper;

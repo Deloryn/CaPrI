@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Capri.Services
 {
-    public interface IUserGetter
+    public interface IApplicationUserGetter
     {
         Task<User> GetCurrentUser();
     }
