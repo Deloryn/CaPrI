@@ -8,8 +8,8 @@ using Capri.Web.ViewModels.Proposal;
 
 namespace Capri.Services
 {
-    public interface IProposalCreator
+    public interface IProposalUpdater
     {
-        Task<IServiceResult<Proposal>> Create(ProposalRegistration proposalRegistration, User user);
+        Task<IServiceResult<Proposal>> Update(Guid id, ProposalUpdate proposalUpdate);
     }
 }

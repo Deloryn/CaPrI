@@ -21,11 +21,6 @@ namespace Capri.Services
         {
             var proposal = await _context.Proposals.FirstOrDefaultAsync(p => p.Id == id);
 
-            if (proposal == null)
-            {
-                return ServiceResult<Proposal>.Error("Proposal with given id does not exist.");
-            }
-
             return ServiceResult<Proposal>.Success(proposal);
         }
 

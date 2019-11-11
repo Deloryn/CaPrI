@@ -15,11 +15,6 @@ namespace Capri.Web.Configuration
 
             var secret = jwtSection.Get<JwtAuthorizationDetails>().Secret;
             var key = System.Text.Encoding.ASCII.GetBytes(secret);
-            //services.AddAuthentication(x =>
-            //{
-            //    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //})
             services.AddAuthentication("Bearer")
             .AddJwtBearer(x =>
             {

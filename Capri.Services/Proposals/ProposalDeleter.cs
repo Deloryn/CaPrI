@@ -11,10 +11,12 @@ namespace Capri.Services
     public class ProposalDeleter : IProposalDeleter
     {
         private readonly ISqlDbContext _context;
+        private readonly IPromoterGetter _promoterGetter;
 
-        public ProposalDeleter(ISqlDbContext context)
+        public ProposalDeleter(ISqlDbContext context, IPromoterGetter promoterGetter)
         {
             _context = context;
+            _promoterGetter = promoterGetter;
         }
         public async Task<IServiceResult<Proposal>> Delete(Guid id)
         {

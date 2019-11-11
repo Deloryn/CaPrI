@@ -12,30 +12,27 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Capri.Web.Controllers
 {
-    [Route("proposals")]
+    [Route("proposal")]
     public class ProposalController : Controller
     {
         private readonly IProposalCreator _proposalCreator;
         private readonly IProposalDeleter _proposalDeleter;
         private readonly IProposalGetter _proposalGetter;
         private readonly IProposalUpdater _proposalUpdater;
-        private readonly UserManager<User> _userManager;
 
         public ProposalController(
-            UserManager<User> userManager,
             IProposalCreator proposalCreator,
             IProposalDeleter proposalDeleter,
             IProposalGetter proposalGetter,
             IProposalUpdater proposalUpdater)
         {
-            _userManager = userManager;
             _proposalCreator = proposalCreator;
             _proposalDeleter = proposalDeleter;
             _proposalGetter = proposalGetter;
             _proposalUpdater = proposalUpdater; 
         }
 
-        [HttpGet("{id:Guid}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
             var result = await _proposalGetter.Get(id);
@@ -43,10 +40,7 @@ namespace Capri.Web.Controllers
             {
                 return Ok(result);
             }
-            else
-            {
-                return BadRequest(result);
-            }
+            return BadRequest(result);
         }
 
         [HttpGet]
@@ -57,48 +51,35 @@ namespace Capri.Web.Controllers
             {
                 return Ok(results);
             }
-            else
-            {
-                return BadRequest(results);
-            }
+            return BadRequest(results);
         }
 
         [Authorize(Roles = "promoter")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ProposalRegistration registration)
         {
-            var user = getCurrentUser();
-
-            var result = await _proposalCreator.Create(registration, user.Result);
+            var result = await _proposalCreator.Create(registration);
             if (result.Successful())
             {
                 return Ok(result);
             }
-            else
-            {
-                return BadRequest(result);
-            }
+            return BadRequest(result);
         }
 
         [Authorize(Roles = "promoter")]
-        [HttpPut("{id:Guid}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] ProposalUpdate update)
         {
-            var user = getCurrentUser();
-
-            var result = await _proposalUpdater.Update(id, update, user.Result);
+            var result = await _proposalUpdater.Update(id, update);
             if (result.Successful())
             {
                 return Ok(result);
             }
-            else
-            {
-                return BadRequest(result);
-            }
+            return BadRequest(result);
         }
 
         [Authorize(Roles = "promoter")]
-        [HttpDelete("{id:Guid}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _proposalDeleter.Delete(id);
@@ -106,17 +87,8 @@ namespace Capri.Web.Controllers
             {
                 return Ok(result);
             }
-            else
-            {
-                return BadRequest(result);
-            }
+            return BadRequest(result);
         }
 
-        private Task<User> getCurrentUser()
-        {
-            //var sub = HttpContext?.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value;
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            return _userManager.FindByIdAsync(userId);
-        }
     }
 }
