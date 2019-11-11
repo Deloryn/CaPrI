@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -18,11 +15,7 @@ namespace Capri.Web.Configuration
 
             var secret = jwtSection.Get<JwtAuthorizationDetails>().Secret;
             var key = System.Text.Encoding.ASCII.GetBytes(secret);
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
+            services.AddAuthentication("Bearer")
             .AddJwtBearer(x =>
             {
                 x.RequireHttpsMetadata = false;
