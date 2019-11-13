@@ -30,6 +30,7 @@ namespace Capri.Web
             services.AddJwtConfiguration(Configuration.GetSection("JwtAuthorizationDetails"));
             services.AddSystemConfiguration(Configuration.GetSection("SystemSettings"));
             services.AddMapperConfiguration();
+            services.AddSingleton<ISettingsService, SettingsService>();
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IPromoterCreator, PromoterCreator>();
             services.AddScoped<IPromoterUpdater, PromoterUpdater>();
