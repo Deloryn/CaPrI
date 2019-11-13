@@ -7,6 +7,6 @@ Vue.use(Vuex);
 
 export const store =  new Vuex.Store({
     modules: {
-        example: ExampleModule, //here you can add modules to the store
+        example: ExampleModule, // here you can add modules to the store
     },
 });
