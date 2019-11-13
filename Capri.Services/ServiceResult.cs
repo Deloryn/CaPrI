@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Newtonsoft.Json;
 using Capri.Web.ViewModels;
 
 namespace Capri.Services
@@ -19,6 +20,8 @@ namespace Capri.Services
         {
             ServiceResult<T> serviceResult = new ServiceResult<T>(true);
             serviceResult._tBody = body;
+            var json = JsonConvert.SerializeObject(body);
+            serviceResult.Add("body", json);
             return serviceResult;
         }
 
