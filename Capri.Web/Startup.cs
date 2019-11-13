@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -9,6 +6,7 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.DependencyInjection;
 using Capri.Web.Configuration;
 using Capri.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace Capri.Web
 {
@@ -30,8 +28,13 @@ namespace Capri.Web
             services.AddJwtConfiguration(Configuration.GetSection("JwtAuthorizationDetails"));
             services.AddSystemConfiguration(Configuration.GetSection("SystemSettings"));
             services.AddMapperConfiguration();
+            services.AddHttpContextAccessor();
             services.AddSingleton<ISettingsService, SettingsService>();
             services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IProposalCreator, ProposalCreator>();
+            services.AddScoped<IProposalDeleter, ProposalDeleter>();
+            services.AddScoped<IProposalGetter, ProposalGetter>();
+            services.AddScoped<IProposalUpdater, ProposalUpdater>();
             services.AddScoped<IPromoterCreator, PromoterCreator>();
             services.AddScoped<IPromoterUpdater, PromoterUpdater>();
             services.AddScoped<IPromoterGetter, PromoterGetter>();
@@ -39,6 +42,7 @@ namespace Capri.Web
             services.AddScoped<ITokenGenerator, TokenGenerator>();
             services.AddScoped<IUserCreator, UserCreator>();
             services.AddScoped<IUserUpdater, UserUpdater>();
+            services.AddScoped<IApplicationUserGetter, ApplicationUserGetter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
