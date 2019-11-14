@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.DependencyInjection;
 using Capri.Web.Configuration;
 using Capri.Services;
+using Capri.Services.SystemSettings;
 using Microsoft.AspNetCore.Http;
 
 namespace Capri.Web
@@ -29,7 +30,8 @@ namespace Capri.Web
             services.AddSystemConfiguration(Configuration.GetSection("SystemSettings"));
             services.AddMapperConfiguration();
             services.AddHttpContextAccessor();
-            services.AddSingleton<ISettingsService, SettingsService>();
+            services.AddSingleton<ISystemSettingsGetter, SystemSettingsGetter>();
+            services.AddSingleton<ISystemSettingsSetter, SystemSettingsSetter>();
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IProposalCreator, ProposalCreator>();
             services.AddScoped<IProposalDeleter, ProposalDeleter>();
