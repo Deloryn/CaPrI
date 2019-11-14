@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using Newtonsoft.Json;
 using Capri.Web.ViewModels;
 
 namespace Capri.Services
 {
     public class ServiceResult<T> : Dictionary<string, string>, IServiceResult<T>
     {
-        private T _tBody;
+        public T Body { get; private set; }
         private bool? _successful;
 
         public ServiceResult()
@@ -19,9 +18,7 @@ namespace Capri.Services
         public static ServiceResult<T> Success(T body)
         {
             ServiceResult<T> serviceResult = new ServiceResult<T>(true);
-            serviceResult._tBody = body;
-            var json = JsonConvert.SerializeObject(body);
-            serviceResult.Add("body", json);
+            serviceResult.Body = body;
             return serviceResult;
         }
 
@@ -65,9 +62,9 @@ namespace Capri.Services
             return this.Values.ToList();
         }
 
-        public T Body()
+        public T GetBody()
         {
-            return _tBody;
+            return this.Body;
         }
 
         private void AddError(string key, Exception exception)

@@ -36,7 +36,7 @@ namespace Capri.Services
                 return ServiceResult<Promoter>.Error(errors);
             }
 
-            var user = result.Body();
+            var user = result.GetBody();
 
             var promoter = new Promoter
             {
