@@ -8,9 +8,14 @@ namespace Capri.Services.SystemSettings
         private int _maxNumOfBachelorProposalsPerPromoter;
 
         public SystemSettingsGetter(
-            IOptions<Capri.Services.Settings.SystemSettings> systemSettingsOptions)
+            IOptionsMonitor<SystemSettings> settingsMonitor)
         {
-            var settings = systemSettingsOptions.Value;
+            settingsMonitor.OnChange(vals => {
+                _maxNumOfBachelorProposalsPerPromoter = vals.MaxNumOfBachelorProposalsPerPromoter;
+                _maxNumOfMasterProposalsPerPromoter = vals.MaxNumOfMasterProposalsPerPromoter;
+            });
+            
+            var settings = settingsMonitor.CurrentValue;
             _maxNumOfBachelorProposalsPerPromoter = settings.MaxNumOfBachelorProposalsPerPromoter;
             _maxNumOfMasterProposalsPerPromoter = settings.MaxNumOfMasterProposalsPerPromoter;
         }

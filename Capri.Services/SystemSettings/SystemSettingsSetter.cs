@@ -1,29 +1,43 @@
-using Microsoft.Extensions.Options;
+using System.IO;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Capri.Services.SystemSettings
 {
     public class SystemSettingsSetter : ISystemSettingsSetter
     {
-        private int _maxNumOfMasterProposalsPerPromoter;
-        private int _maxNumOfBachelorProposalsPerPromoter;
-
-        public SystemSettingsSetter(
-            IOptions<Capri.Services.Settings.SystemSettings> systemSettingsOptions)
+        private readonly string _appSettingsFilePath;
+        public SystemSettingsSetter(IHostingEnvironment env)
         {
-            var settings = systemSettingsOptions.Value;
-            _maxNumOfBachelorProposalsPerPromoter = settings.MaxNumOfBachelorProposalsPerPromoter;
-            _maxNumOfMasterProposalsPerPromoter = settings.MaxNumOfMasterProposalsPerPromoter;
+            var fileProvider = env.ContentRootFileProvider;
+            var appSettingsFileInfo = fileProvider.GetFileInfo("appsettings.json");
+            _appSettingsFilePath = appSettingsFileInfo.PhysicalPath;
+
         }
 
         public IServiceResult<int> SetMaxNumOfMasterProposalsPerPromoter(int number)
         {
-            _maxNumOfMasterProposalsPerPromoter = number;
-            return ServiceResult<int>.Success(_maxNumOfMasterProposalsPerPromoter);
+            var inputJsonString = File.ReadAllText(_appSettingsFilePath);
+
+            dynamic jsonObj = JsonConvert.DeserializeObject(inputJsonString);
+            jsonObj["SystemSettings"]["MaxNumOfMasterProposalsPerPromoter"] = number;
+
+            var outputJsonString = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
+            File.WriteAllText(_appSettingsFilePath, outputJsonString);   
+
+            return ServiceResult<int>.Success(number);
         }
 
         public IServiceResult<int> SetMaxNumOfBachelorProposalsPerPromoter(int number) {
-            _maxNumOfBachelorProposalsPerPromoter = number;
-            return ServiceResult<int>.Success(_maxNumOfBachelorProposalsPerPromoter);
+            var inputJsonString = File.ReadAllText(_appSettingsFilePath);
+
+            dynamic jsonObj = JsonConvert.DeserializeObject(inputJsonString);
+            jsonObj["SystemSettings"]["MaxNumOfBachelorProposalsPerPromoter"] = number;
+
+            var outputJsonString = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
+            File.WriteAllText(_appSettingsFilePath, outputJsonString);
+            
+            return ServiceResult<int>.Success(number);
         }   
     }
 }
