@@ -13,7 +13,6 @@ namespace Capri.Services.SystemSettings
             var fileProvider = env.ContentRootFileProvider;
             var appSettingsFileInfo = fileProvider.GetFileInfo("appsettings.json");
             _appSettingsFilePath = appSettingsFileInfo.PhysicalPath;
-
         }
 
         public IServiceResult<int> SetMaxNumOfMasterProposalsPerPromoter(int number)
