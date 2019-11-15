@@ -1,5 +1,6 @@
 using System.IO;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Hosting;
 
 namespace Capri.Services.SystemSettings
@@ -17,27 +18,30 @@ namespace Capri.Services.SystemSettings
 
         public IServiceResult<int> SetMaxNumOfMasterProposalsPerPromoter(int number)
         {
-            var inputJsonString = File.ReadAllText(_appSettingsFilePath);
-
-            dynamic jsonObj = JsonConvert.DeserializeObject(inputJsonString);
+            var jsonObj = JsonObjFromPath(_appSettingsFilePath);
             jsonObj["SystemSettings"]["MaxNumOfMasterProposalsPerPromoter"] = number;
-
-            var outputJsonString = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
-            File.WriteAllText(_appSettingsFilePath, outputJsonString);   
-
+            SaveJobjectToFile(jsonObj, _appSettingsFilePath);
             return ServiceResult<int>.Success(number);
         }
 
         public IServiceResult<int> SetMaxNumOfBachelorProposalsPerPromoter(int number) {
-            var inputJsonString = File.ReadAllText(_appSettingsFilePath);
-
-            dynamic jsonObj = JsonConvert.DeserializeObject(inputJsonString);
+            var jsonObj = JsonObjFromPath(_appSettingsFilePath);
             jsonObj["SystemSettings"]["MaxNumOfBachelorProposalsPerPromoter"] = number;
+            SaveJobjectToFile(jsonObj, _appSettingsFilePath);
+            return ServiceResult<int>.Success(number);
+        }
 
+        private JObject JsonObjFromPath(string path) 
+        {
+            var inputJsonString = File.ReadAllText(path);
+            dynamic jsonObj = JsonConvert.DeserializeObject(inputJsonString);
+            return jsonObj;
+        }
+
+        private void SaveJobjectToFile(JObject jsonObj, string path)
+        {
             var outputJsonString = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
             File.WriteAllText(_appSettingsFilePath, outputJsonString);
-            
-            return ServiceResult<int>.Success(number);
-        }   
+        }
     }
 }
