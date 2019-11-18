@@ -33,7 +33,7 @@ namespace Capri.Services.SystemSettings
         private JObject JsonObjFromPath(string path) 
         {
             var inputJsonString = File.ReadAllText(path);
-            dynamic jsonObj = JsonConvert.DeserializeObject(inputJsonString);
+            JObject jsonObj = (JObject) JsonConvert.DeserializeObject(inputJsonString);
             return jsonObj;
         }
 
