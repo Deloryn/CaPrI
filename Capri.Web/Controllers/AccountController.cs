@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 using Capri.Web.ViewModels.User;
 using Capri.Services;
 
@@ -30,14 +31,14 @@ namespace Capri.Web.Controllers
             var result = 
                 await _loginService.Login(credentials.Email, credentials.Password);
 
+            var serializedResult = JsonConvert.SerializeObject(result);
+
             if(result.Successful())
             {
-                return Ok(result);
+                return Ok(serializedResult);
             }
-            else
-            {
-                return BadRequest(result);
-            }
+
+            return BadRequest(serializedResult);
         }
     }
 }

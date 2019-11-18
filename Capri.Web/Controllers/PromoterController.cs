@@ -37,10 +37,8 @@ namespace Capri.Web.Controllers
             {
                 return Ok(result);
             }
-            else
-            {
-                return BadRequest(result);
-            }
+
+            return BadRequest(result);
         }
 
         [HttpGet]
@@ -51,10 +49,8 @@ namespace Capri.Web.Controllers
             {
                 return Ok(result);
             }
-            else
-            {
-                return BadRequest(result);
-            }
+
+            return BadRequest(result);
         }
 
         [Authorize(Roles = "dean")]
@@ -67,10 +63,8 @@ namespace Capri.Web.Controllers
             {
                 return Ok(result);
             }
-            else
-            {
-                return BadRequest(result);
-            }
+
+            return BadRequest(result);
         }
 
         [Authorize(Roles = "dean")]
@@ -84,10 +78,8 @@ namespace Capri.Web.Controllers
             {
                 return Ok(result);
             }
-            else
-            {
-                return BadRequest(result);
-            }
+            
+            return BadRequest(result);
         }
 
         [Authorize(Roles = "dean")]
@@ -99,10 +91,8 @@ namespace Capri.Web.Controllers
             {
                 return Ok(result);
             }
-            else
-            {
-                return BadRequest(result);
-            }
+
+            return BadRequest(result);
         }
     }
 }
