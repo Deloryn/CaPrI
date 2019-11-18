@@ -43,7 +43,7 @@ namespace Capri.Web.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPut("bachelor/max-per-promoter/{number:int}")]
+        [HttpPut("bachelor/max-per-promoter/{number}")]
         public IActionResult SetMaxNumOfBachelorProposalsPerPromoter(int number)
         {
             var result = _systemSettingsSetter.SetMaxNumOfBachelorProposalsPerPromoter(number);
@@ -55,7 +55,7 @@ namespace Capri.Web.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPut("master/max-per-promoter/{number:int}")]
+        [HttpPut("master/max-per-promoter/{number}")]
         public IActionResult SetMaxNumOfMasterProposalsPerPromoter(int number)
         {
             var result = _systemSettingsSetter.SetMaxNumOfMasterProposalsPerPromoter(number);
