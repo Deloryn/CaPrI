@@ -31,14 +31,11 @@ namespace Capri.Web.Controllers
             var result = 
                 await _loginService.Login(credentials.Email, credentials.Password);
 
-            var serializedResult = JsonConvert.SerializeObject(result);
-
             if(result.Successful())
             {
-                return Ok(serializedResult);
+                return Ok(result.Body());
             }
-
-            return BadRequest(serializedResult);
+            return BadRequest(result.GetAggregatedErrors());
         }
     }
 }

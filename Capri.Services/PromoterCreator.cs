@@ -32,11 +32,11 @@ namespace Capri.Services
 
             if(!result.Successful())
             {
-                var errors = result.GetErrors();
+                var errors = result.GetAggregatedErrors();
                 return ServiceResult<Promoter>.Error(errors);
             }
 
-            var user = result.GetBody();
+            var user = result.Body();
 
             var promoter = new Promoter
             {
