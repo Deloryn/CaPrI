@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 using Capri.Web.ViewModels.User;
 using Capri.Services;
 
@@ -32,12 +33,9 @@ namespace Capri.Web.Controllers
 
             if(result.Successful())
             {
-                return Ok(result);
+                return Ok(result.Body());
             }
-            else
-            {
-                return BadRequest(result);
-            }
+            return BadRequest(result.GetAggregatedErrors());
         }
     }
 }
