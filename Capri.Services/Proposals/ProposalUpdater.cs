@@ -9,7 +9,7 @@ using Capri.Web.ViewModels.Proposal;
 using Capri.Database.Entities.Identity;
 using AutoMapper;
 
-namespace Capri.Services
+namespace Capri.Services.Proposals
 {
     public class ProposalUpdater : IProposalUpdater
     {

@@ -9,7 +9,7 @@ using Capri.Database.Entities.Identity;
 using Capri.Web.ViewModels.Proposal;
 using Microsoft.EntityFrameworkCore;
 
-namespace Capri.Services
+namespace Capri.Services.Proposals
 {
     public class ProposalCreator : IProposalCreator
     {
