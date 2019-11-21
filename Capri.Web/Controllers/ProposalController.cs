@@ -21,17 +21,20 @@ namespace Capri.Web.Controllers
         private readonly IProposalDeleter _proposalDeleter;
         private readonly IProposalGetter _proposalGetter;
         private readonly IProposalUpdater _proposalUpdater;
+        private readonly ISubmittedProposalGetter _submittedProposalGetter;
 
         public ProposalController(
             IProposalCreator proposalCreator,
             IProposalDeleter proposalDeleter,
             IProposalGetter proposalGetter,
-            IProposalUpdater proposalUpdater)
+            IProposalUpdater proposalUpdater,
+            ISubmittedProposalGetter submittedProposalGetter)
         {
             _proposalCreator = proposalCreator;
             _proposalDeleter = proposalDeleter;
             _proposalGetter = proposalGetter;
             _proposalUpdater = proposalUpdater;
+            _submittedProposalGetter = submittedProposalGetter;
         }
 
         [HttpGet("{id}")]
@@ -65,6 +68,19 @@ namespace Capri.Web.Controllers
                 return Ok(result.Body());
             }
             return BadRequest(result.GetAggregatedErrors());
+        }
+
+        [Authorize(Roles = "admin,dean")]
+        [HttpGet("submitted-proposals/{id}")]
+        public async Task<IActionResult> GetSubmittedProposals(Guid id)
+        {
+            var result = await _submittedProposalGetter.Get(id);
+
+            if (result.Successful())
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [Authorize(Roles = "promoter")]

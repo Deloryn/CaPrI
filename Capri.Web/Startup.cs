@@ -41,6 +41,7 @@ namespace Capri.Web
             services.AddScoped<IProposalDeleter, ProposalDeleter>();
             services.AddScoped<IProposalGetter, ProposalGetter>();
             services.AddScoped<IProposalUpdater, ProposalUpdater>();
+            services.AddScoped<ISubmittedProposalGetter, SubmittedProposalGetter>();
             services.AddScoped<IPromoterCreator, PromoterCreator>();
             services.AddScoped<IPromoterUpdater, PromoterUpdater>();
             services.AddScoped<IPromoterGetter, PromoterGetter>();
