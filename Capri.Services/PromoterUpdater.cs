@@ -52,7 +52,7 @@ namespace Capri.Services
             var result = await _userUpdater.Update(newData.UserId, credentials);
             if (!result.Successful())
             {
-                var errors = result.GetErrors();
+                var errors = result.GetAggregatedErrors();
                 return ServiceResult<Promoter>.Error(errors);
             }
 

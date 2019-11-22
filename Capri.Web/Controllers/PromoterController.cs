@@ -35,12 +35,9 @@ namespace Capri.Web.Controllers
             var result = await _promoterGetter.Get(id);
             if(result.Successful())
             {
-                return Ok(result);
+                return Ok(result.Body());
             }
-            else
-            {
-                return BadRequest(result);
-            }
+            return BadRequest(result.GetAggregatedErrors());
         }
 
         [HttpGet]
@@ -49,12 +46,9 @@ namespace Capri.Web.Controllers
             var result = _promoterGetter.GetAll();
             if(result.Successful())
             {
-                return Ok(result);
+                return Ok(result.Body());
             }
-            else
-            {
-                return BadRequest(result);
-            }
+            return BadRequest(result.GetAggregatedErrors());
         }
 
         [Authorize(Roles = "dean")]
@@ -65,12 +59,9 @@ namespace Capri.Web.Controllers
             var result = await _promoterCreator.Create(registration);
             if(result.Successful())
             {
-                return Ok(result);
+                return Ok(result.Body());
             }
-            else
-            {
-                return BadRequest(result);
-            }
+            return BadRequest(result.GetAggregatedErrors());
         }
 
         [Authorize(Roles = "dean")]
@@ -82,12 +73,9 @@ namespace Capri.Web.Controllers
             var result = await _promoterUpdater.Update(id, newData);
             if(result.Successful())
             {
-                return Ok(result);
+                return Ok(result.Body());
             }
-            else
-            {
-                return BadRequest(result);
-            }
+            return BadRequest(result.GetAggregatedErrors());
         }
 
         [Authorize(Roles = "dean")]
@@ -97,12 +85,9 @@ namespace Capri.Web.Controllers
             var result = await _promoterDeleter.Delete(id);
             if(result.Successful())
             {
-                return Ok(result);
+                return Ok(result.Body());
             }
-            else
-            {
-                return BadRequest(result);
-            }
+            return BadRequest(result.GetAggregatedErrors());
         }
     }
 }
