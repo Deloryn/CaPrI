@@ -17,6 +17,9 @@ namespace Capri.Database.Entities.Configuration
                 builder.HasData(new Promoter
                 {
                     Id = Guid.NewGuid(),
+                    FirstName = "Jan",
+                    LastName = "Kowalski",
+                    Title = "Phd.",
                     UserId = userId,
                     CanSubmitBachelorProposals = true,
                     CanSubmitMasterProposals = true

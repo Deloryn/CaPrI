@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Capri.Services
+namespace Capri.Services.Proposals
 {
     public interface IProposalDeleter
     {

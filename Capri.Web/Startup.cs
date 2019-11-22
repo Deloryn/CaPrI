@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.DependencyInjection;
 using Capri.Web.Configuration;
 using Capri.Services;
+using Capri.Services.Proposals;
 using Microsoft.AspNetCore.Http;
 
 namespace Capri.Web
@@ -34,6 +35,7 @@ namespace Capri.Web
             services.AddScoped<IProposalDeleter, ProposalDeleter>();
             services.AddScoped<IProposalGetter, ProposalGetter>();
             services.AddScoped<IProposalUpdater, ProposalUpdater>();
+            services.AddScoped<IProposalFilter, ProposalFilter>();
             services.AddScoped<IPromoterCreator, PromoterCreator>();
             services.AddScoped<IPromoterUpdater, PromoterUpdater>();
             services.AddScoped<IPromoterGetter, PromoterGetter>();

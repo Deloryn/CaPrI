@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Capri.Database.Entities.Identity;
 using Capri.Services;
+using Capri.Services.Proposals;
 using Capri.Web.ViewModels.Proposal;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,24 +13,27 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Capri.Web.Controllers
 {
-    [Route("proposal")]
+    [Route("proposals")]
     public class ProposalController : Controller
     {
         private readonly IProposalCreator _proposalCreator;
         private readonly IProposalDeleter _proposalDeleter;
         private readonly IProposalGetter _proposalGetter;
         private readonly IProposalUpdater _proposalUpdater;
+        private readonly IProposalFilter _proposalFilter;
 
         public ProposalController(
             IProposalCreator proposalCreator,
             IProposalDeleter proposalDeleter,
             IProposalGetter proposalGetter,
-            IProposalUpdater proposalUpdater)
+            IProposalUpdater proposalUpdater,
+            IProposalFilter proposalFilter)
         {
             _proposalCreator = proposalCreator;
             _proposalDeleter = proposalDeleter;
             _proposalGetter = proposalGetter;
-            _proposalUpdater = proposalUpdater; 
+            _proposalUpdater = proposalUpdater;
+            _proposalFilter = proposalFilter;
         }
 
         [HttpGet("{id}")]
@@ -52,6 +56,22 @@ namespace Capri.Web.Controllers
                 return Ok(results);
             }
             return BadRequest(results);
+        }
+
+        [HttpGet]
+        public IActionResult GetFiltered([FromQuery] ProposalFilterModel filterModel)
+        {
+            var result = _proposalGetter.GetAll();
+            if(result.Successful())
+            {
+                var filteredResult = _proposalFilter.Filter(result.Body());
+                if(filteredResult.Successful())
+                {
+                    return Ok(filteredResult.Body());
+                }
+                return BadRequest(filteredResult.GetAggregatedErrors());
+            }
+            return BadRequest(result.GetAggregatedErrors());
         }
 
         [Authorize(Roles = "promoter")]
