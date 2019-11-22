@@ -42,20 +42,20 @@ namespace Capri.Web.Controllers
             var result = await _proposalGetter.Get(id);
             if (result.Successful())
             {
-                return Ok(result);
+                return Ok(result.Body());
             }
-            return BadRequest(result);
+            return BadRequest(result.GetAggregatedErrors());
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            var results = _proposalGetter.GetAll();
-            if (results.Successful())
+            var result = _proposalGetter.GetAll();
+            if (result.Successful())
             {
-                return Ok(results);
+                return Ok(result.Body());
             }
-            return BadRequest(results);
+            return BadRequest(result.GetAggregatedErrors());
         }
 
         [HttpGet]
@@ -64,7 +64,7 @@ namespace Capri.Web.Controllers
             var result = _proposalGetter.GetAll();
             if(result.Successful())
             {
-                var filteredResult = _proposalFilter.Filter(result.Body());
+                var filteredResult = _proposalFilter.Filter(filterModel, result.Body());
                 if(filteredResult.Successful())
                 {
                     return Ok(filteredResult.Body());
@@ -81,9 +81,9 @@ namespace Capri.Web.Controllers
             var result = await _proposalCreator.Create(registration);
             if (result.Successful())
             {
-                return Ok(result);
+                return Ok(result.Body());
             }
-            return BadRequest(result);
+            return BadRequest(result.GetAggregatedErrors());
         }
 
         [Authorize(Roles = "promoter")]
@@ -93,9 +93,9 @@ namespace Capri.Web.Controllers
             var result = await _proposalUpdater.Update(id, update);
             if (result.Successful())
             {
-                return Ok(result);
+                return Ok(result.Successful());
             }
-            return BadRequest(result);
+            return BadRequest(result.GetAggregatedErrors());
         }
 
         [Authorize(Roles = "promoter")]
@@ -105,9 +105,9 @@ namespace Capri.Web.Controllers
             var result = await _proposalDeleter.Delete(id);
             if (result.Successful())
             {
-                return Ok(result);
+                return Ok(result.Body());
             }
-            return BadRequest(result);
+            return BadRequest(result.GetAggregatedErrors());
         }
 
     }
