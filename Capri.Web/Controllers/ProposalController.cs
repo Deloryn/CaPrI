@@ -10,6 +10,7 @@ using Capri.Web.ViewModels.Proposal;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Sieve.Models;
 
 namespace Capri.Web.Controllers
 {
@@ -59,12 +60,13 @@ namespace Capri.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetFiltered([FromQuery] ProposalFilterModel filterModel)
+        public IActionResult GetFiltered(SieveModel sieveModel)
         {
             var result = _proposalGetter.GetAll();
             if(result.Successful())
             {
-                var filteredResult = _proposalFilter.Filter(filterModel, result.Body());
+                var proposals = result.Body();
+                var filteredResult = _proposalFilter.Apply(sieveModel, proposals.AsQueryable());
                 if(filteredResult.Successful())
                 {
                     return Ok(filteredResult.Body());

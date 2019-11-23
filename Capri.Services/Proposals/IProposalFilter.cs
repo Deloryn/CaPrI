@@ -1,13 +1,13 @@
-using System.Collections.Generic;
+using System.Linq;
 using Capri.Database.Entities;
-using Capri.Web.ViewModels.Proposal;
+using Sieve.Models;
 
 namespace Capri.Services.Proposals
 {
     public interface IProposalFilter
     {
-        IServiceResult<IEnumerable<Proposal>> Filter(
-            ProposalFilterModel filter, 
-            IEnumerable<Proposal> proposals);
+        IServiceResult<IQueryable<Proposal>> Apply(
+            SieveModel sieveModel, 
+            IQueryable<Proposal> proposals);
     }
 }
