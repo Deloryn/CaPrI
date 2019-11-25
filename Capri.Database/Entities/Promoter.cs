@@ -17,7 +17,7 @@ namespace Capri.Database.Entities
         [Required]
         public string LastName { get; set; }
         [Required]
-        public string Title { get; set; }
+        public PromoterTitle Title { get; set; }
         public virtual ICollection<Proposal> Proposals { get; set; }
         [Required]
         public bool CanSubmitBachelorProposals { get; set; }
