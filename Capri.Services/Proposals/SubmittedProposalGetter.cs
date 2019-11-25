@@ -17,12 +17,18 @@ namespace Capri.Services.Proposals
             _context = context;
         }
 
-        public async Task<IServiceResult<int>> Get(Guid id)
+        public async Task<IServiceResult<int>> GetProposalNumber(Guid id)
         {
             var promoter = await _context.Promoters
                 .Include(p => p.Proposals)
                 .FirstOrDefaultAsync(p => p.UserId == id);
-                
+
+            if (promoter == null)
+            {
+                promoter = await _context.Promoters
+                    .Include(p => p.Proposals)
+                    .FirstOrDefaultAsync(p => p.Id == id);
+            }
             if (promoter != null) {
                 if (promoter.Proposals == null)
                 {
@@ -43,5 +49,40 @@ namespace Capri.Services.Proposals
 
             return ServiceResult<int>.Success(0);
         }
+
+        public async Task<IServiceResult<int>> GetBachelorProposalNumber(Guid promoterId)
+        {
+            var promoter = await _context.Promoters
+                .Include(p => p.Proposals)
+                .FirstOrDefaultAsync(p => p.Id == promoterId);
+
+            if (promoter == null)
+            {
+                return ServiceResult<int>.Success(0);
+            }
+
+            var count = promoter.Proposals
+                .Where(p => p.Type == Database.Entities.ProposalType.Bachelor)
+                .Count();
+            return ServiceResult<int>.Success(count);
+        }
+
+        public async Task<IServiceResult<int>> GetMasterProposalNumber(Guid promoterId)
+        {
+            var promoter = await _context.Promoters
+                .Include(p => p.Proposals)
+                .FirstOrDefaultAsync(p => p.Id == promoterId);
+
+            if (promoter == null)
+            {
+                return ServiceResult<int>.Success(0);
+            }
+
+            var count = promoter.Proposals
+                .Where(p => p.Type == Database.Entities.ProposalType.Master)
+                .Count();
+            return ServiceResult<int>.Success(count);
+        }
+
     }
 }

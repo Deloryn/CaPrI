@@ -7,6 +7,8 @@ namespace Capri.Services.Proposals
 {
     public interface ISubmittedProposalGetter
     {
-        Task<IServiceResult<int>> Get(Guid id);
+        Task<IServiceResult<int>> GetProposalNumber(Guid id);
+        Task<IServiceResult<int>> GetBachelorProposalNumber(Guid promoterId);
+        Task<IServiceResult<int>> GetMasterProposalNumber(Guid promoterId);
     }
 }
