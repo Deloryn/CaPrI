@@ -71,10 +71,36 @@ namespace Capri.Web.Controllers
         }
 
         [Authorize(Roles = "admin,dean")]
-        [HttpGet("submitted-proposals/{id}")]
+        [HttpGet("submitted/{id}")]
         public async Task<IActionResult> GetSubmittedProposals(Guid id)
         {
-            var result = await _submittedProposalGetter.Get(id);
+            var result = await _submittedProposalGetter.GetProposalNumber(id);
+
+            if (result.Successful())
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [Authorize(Roles = "admin,dean")]
+        [HttpGet("submitted/bachelor/{promoterId}")]
+        public async Task<IActionResult> GetSubmittedBachelorProposals(Guid promoterId)
+        {
+            var result = await _submittedProposalGetter.GetBachelorProposalNumber(promoterId);
+
+            if (result.Successful())
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [Authorize(Roles = "admin,dean")]
+        [HttpGet("submitted/master/{promoterId}")]
+        public async Task<IActionResult> GetSubmittedMasterProposals(Guid promoterId)
+        {
+            var result = await _submittedProposalGetter.GetMasterProposalNumber(promoterId);
 
             if (result.Successful())
             {
