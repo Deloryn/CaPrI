@@ -19,25 +19,25 @@ namespace Capri.Services.SystemSettings
         {
             var jsonObj = JsonObjFromPath(_appSettingsFilePath);
             jsonObj["SystemSettings"]["MaxNumOfMasterProposalsPerPromoter"] = number;
-            SaveJobjectToFile(jsonObj, _appSettingsFilePath);
+            SaveJObjectToFile(jsonObj, _appSettingsFilePath);
             return ServiceResult<int>.Success(number);
         }
 
         public IServiceResult<int> SetMaxNumOfBachelorProposalsPerPromoter(int number) {
             var jsonObj = JsonObjFromPath(_appSettingsFilePath);
             jsonObj["SystemSettings"]["MaxNumOfBachelorProposalsPerPromoter"] = number;
-            SaveJobjectToFile(jsonObj, _appSettingsFilePath);
+            SaveJObjectToFile(jsonObj, _appSettingsFilePath);
             return ServiceResult<int>.Success(number);
         }
 
         private JObject JsonObjFromPath(string path) 
         {
             var inputJsonString = File.ReadAllText(path);
-            JObject jsonObj = (JObject) JsonConvert.DeserializeObject(inputJsonString);
+            var jsonObj = JsonConvert.DeserializeObject<JObject>(inputJsonString);
             return jsonObj;
         }
 
-        private void SaveJobjectToFile(JObject jsonObj, string path)
+        private void SaveJObjectToFile(JObject jsonObj, string path)
         {
             var outputJsonString = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
             File.WriteAllText(_appSettingsFilePath, outputJsonString);
