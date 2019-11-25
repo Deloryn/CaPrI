@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.DependencyInjection;
 using Capri.Web.Configuration;
 using Capri.Services;
+using Capri.Services.SystemSettings;
 using Microsoft.AspNetCore.Http;
 
 namespace Capri.Web
@@ -14,9 +15,14 @@ namespace Capri.Web
     {
         public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -29,6 +35,8 @@ namespace Capri.Web
             services.AddSystemConfiguration(Configuration.GetSection("SystemSettings"));
             services.AddMapperConfiguration();
             services.AddHttpContextAccessor();
+            services.AddSingleton<ISystemSettingsGetter, SystemSettingsGetter>();
+            services.AddSingleton<ISystemSettingsSetter, SystemSettingsSetter>();
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IProposalCreator, ProposalCreator>();
             services.AddScoped<IProposalDeleter, ProposalDeleter>();
