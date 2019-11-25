@@ -2,6 +2,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Hosting;
+using Capri.Services.Settings;
 
 namespace Capri.Services.SystemSettings
 {
@@ -17,29 +18,29 @@ namespace Capri.Services.SystemSettings
 
         public IServiceResult<int> SetMaxNumOfMasterProposalsPerPromoter(int number)
         {
-            var jsonObj = JsonObjFromPath(_appSettingsFilePath);
-            jsonObj["SystemSettings"]["MaxNumOfMasterProposalsPerPromoter"] = number;
-            SaveJObjectToFile(jsonObj, _appSettingsFilePath);
+            var appSettings = GetAppSettingsFrom(_appSettingsFilePath);
+            appSettings.SystemSettings.MaxNumOfMasterProposalsPerPromoter = number;
+            SaveAppSettingsToFile(appSettings, _appSettingsFilePath);
             return ServiceResult<int>.Success(number);
         }
 
         public IServiceResult<int> SetMaxNumOfBachelorProposalsPerPromoter(int number) {
-            var jsonObj = JsonObjFromPath(_appSettingsFilePath);
-            jsonObj["SystemSettings"]["MaxNumOfBachelorProposalsPerPromoter"] = number;
-            SaveJObjectToFile(jsonObj, _appSettingsFilePath);
+            var appSettings = GetAppSettingsFrom(_appSettingsFilePath);
+            appSettings.SystemSettings.MaxNumOfBachelorProposalsPerPromoter = number;
+            SaveAppSettingsToFile(appSettings, _appSettingsFilePath);
             return ServiceResult<int>.Success(number);
         }
 
-        private JObject JsonObjFromPath(string path) 
+        private AppSettings GetAppSettingsFrom(string path) 
         {
             var inputJsonString = File.ReadAllText(path);
-            var jsonObj = JsonConvert.DeserializeObject<JObject>(inputJsonString);
-            return jsonObj;
+            var appSettings = JsonConvert.DeserializeObject<AppSettings>(inputJsonString);
+            return appSettings;
         }
 
-        private void SaveJObjectToFile(JObject jsonObj, string path)
+        private void SaveAppSettingsToFile(AppSettings appSettings, string path)
         {
-            var outputJsonString = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
+            var outputJsonString = JsonConvert.SerializeObject(appSettings, Formatting.Indented);
             File.WriteAllText(_appSettingsFilePath, outputJsonString);
         }
     }
