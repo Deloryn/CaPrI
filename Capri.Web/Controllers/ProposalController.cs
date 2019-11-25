@@ -21,20 +21,17 @@ namespace Capri.Web.Controllers
         private readonly IProposalDeleter _proposalDeleter;
         private readonly IProposalGetter _proposalGetter;
         private readonly IProposalUpdater _proposalUpdater;
-        private readonly IProposalFilter _proposalFilter;
 
         public ProposalController(
             IProposalCreator proposalCreator,
             IProposalDeleter proposalDeleter,
             IProposalGetter proposalGetter,
-            IProposalUpdater proposalUpdater,
-            IProposalFilter proposalFilter)
+            IProposalUpdater proposalUpdater)
         {
             _proposalCreator = proposalCreator;
             _proposalDeleter = proposalDeleter;
             _proposalGetter = proposalGetter;
             _proposalUpdater = proposalUpdater;
-            _proposalFilter = proposalFilter;
         }
 
         [HttpGet("{id}")]
@@ -62,16 +59,10 @@ namespace Capri.Web.Controllers
         [HttpGet]
         public IActionResult GetFiltered(SieveModel sieveModel)
         {
-            var result = _proposalGetter.GetAll();
+            var result = _proposalGetter.GetFiltered(sieveModel);
             if(result.Successful())
             {
-                var proposals = result.Body();
-                var filteredResult = _proposalFilter.Apply(sieveModel, proposals.AsQueryable());
-                if(filteredResult.Successful())
-                {
-                    return Ok(filteredResult.Body());
-                }
-                return BadRequest(filteredResult.GetAggregatedErrors());
+                return Ok(result.Body());
             }
             return BadRequest(result.GetAggregatedErrors());
         }
