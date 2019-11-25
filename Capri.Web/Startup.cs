@@ -9,7 +9,7 @@ using Capri.Web.Configuration;
 using Capri.Web.Configuration.Sieve;
 using Capri.Services;
 using Capri.Services.Proposals;
-
+using Capri.Services.SystemSettings;
 
 namespace Capri.Web
 {
@@ -17,9 +17,14 @@ namespace Capri.Web
     {
         public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -33,6 +38,8 @@ namespace Capri.Web
             services.AddSieveConfiguration(Configuration.GetSection("SieveSettings"));
             services.AddMapperConfiguration();
             services.AddHttpContextAccessor();
+            services.AddSingleton<ISystemSettingsGetter, SystemSettingsGetter>();
+            services.AddSingleton<ISystemSettingsSetter, SystemSettingsSetter>();
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IProposalCreator, ProposalCreator>();
             services.AddScoped<IProposalDeleter, ProposalDeleter>();
