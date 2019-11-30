@@ -8,10 +8,8 @@ namespace Capri.Web.Configuration.Sieve
     public class CapriSieveProcessor : SieveProcessor
     {
         public CapriSieveProcessor(
-            IOptions<SieveOptions> options, 
-            ISieveCustomSortMethods customSortMethods, 
-            ISieveCustomFilterMethods customFilterMethods) 
-            : base(options, customSortMethods, customFilterMethods)
+            IOptions<SieveOptions> options) 
+            : base(options)
         {
         }
 
