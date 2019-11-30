@@ -9,7 +9,6 @@ using Capri.Web.Configuration;
 using Capri.Web.Configuration.Sieve;
 using Capri.Services;
 using Capri.Services.Proposals;
-using Capri.Services.SystemSettings;
 
 namespace Capri.Web
 {
