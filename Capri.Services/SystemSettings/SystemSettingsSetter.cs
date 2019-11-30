@@ -1,7 +1,6 @@
 using System.IO;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Hosting;
+using Newtonsoft.Json;
 using Capri.Services.Settings;
 
 namespace Capri.Services.SystemSettings

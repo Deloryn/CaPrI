@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Capri.Database;
 using Capri.Database.Entities;
-using Capri.Database.Entities.Identity;
+using Capri.Services.Users;
 using Capri.Web.ViewModels.Proposal;
-using Microsoft.EntityFrameworkCore;
 
 namespace Capri.Services.Proposals
 {
@@ -15,9 +13,9 @@ namespace Capri.Services.Proposals
     {
         private readonly ISqlDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IApplicationUserGetter _userGetter;
+        private readonly IUserGetter _userGetter;
 
-        public ProposalCreator(ISqlDbContext context, IMapper mapper, IApplicationUserGetter userGetter)
+        public ProposalCreator(ISqlDbContext context, IMapper mapper, IUserGetter userGetter)
         {
             _context = context;
             _mapper = mapper;

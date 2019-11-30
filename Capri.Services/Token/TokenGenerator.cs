@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Capri.Services.Settings;
 using Capri.Database.Entities.Identity;
+using Capri.Services.Settings;
 
-namespace Capri.Services
+namespace Capri.Services.Token
 {
     public class TokenGenerator : ITokenGenerator
     {

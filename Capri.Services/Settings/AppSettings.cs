@@ -1,5 +1,3 @@
-using Sieve.Attributes;
-
 namespace Capri.Services.Settings
 {
     public class AppSettings

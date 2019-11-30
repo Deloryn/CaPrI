@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Capri.Database;
 using Capri.Database.Entities;
-using Microsoft.EntityFrameworkCore;
+using Capri.Services.Promoters;
 
 namespace Capri.Services.Proposals
 {
