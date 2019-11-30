@@ -9,7 +9,6 @@ using Capri.Web.Configuration;
 using Capri.Web.Configuration.Sieve;
 using Capri.Services;
 using Capri.Services.Proposals;
-using Capri.Services.SystemSettings;
 
 namespace Capri.Web
 {
@@ -34,12 +33,9 @@ namespace Capri.Web
             services.AddMvc();
             services.AddDatabaseConfiguration(Configuration["DbConnectionString"]);
             services.AddJwtConfiguration(Configuration.GetSection("JwtAuthorizationDetails"));
-            services.AddSystemConfiguration(Configuration.GetSection("SystemSettings"));
             services.AddSieveConfiguration(Configuration.GetSection("SieveSettings"));
             services.AddMapperConfiguration();
             services.AddHttpContextAccessor();
-            services.AddSingleton<ISystemSettingsGetter, SystemSettingsGetter>();
-            services.AddSingleton<ISystemSettingsSetter, SystemSettingsSetter>();
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IProposalCreator, ProposalCreator>();
             services.AddScoped<IProposalDeleter, ProposalDeleter>();
