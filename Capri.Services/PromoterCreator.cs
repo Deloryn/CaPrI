@@ -41,9 +41,7 @@ namespace Capri.Services
             var promoter = new Promoter
             {
                 Id = Guid.NewGuid(),
-                UserId = user.Id,
-                CanSubmitBachelorProposals = registration.CanSubmitBachelorProposals,
-                CanSubmitMasterProposals = registration.CanSubmitMasterProposals
+                UserId = user.Id
             };
 
             await _context.Promoters.AddAsync(promoter);
