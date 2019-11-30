@@ -18,7 +18,11 @@ namespace Capri.Database.Entities
         [Required]
         public ProposalStatus Status { get; set; }
         [Required]
-        public ProposalType Type { get; set; }
+        public StudyLevel Level { get; set; }
+        public StudyMode Mode { get; set; }
+        [ForeignKey("PromoterId")]
+        public virtual Promoter Promoter { get; set; }
+        public Guid PromoterId { get; set; }
         public virtual ICollection<Student> Students { get; set; }
     }
 }

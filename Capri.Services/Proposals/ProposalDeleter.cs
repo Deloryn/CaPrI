@@ -6,7 +6,7 @@ using Capri.Database;
 using Capri.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Capri.Services
+namespace Capri.Services.Proposals
 {
     public class ProposalDeleter : IProposalDeleter
     {

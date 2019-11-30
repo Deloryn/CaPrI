@@ -9,7 +9,7 @@ using Capri.Web.ViewModels.Proposal;
 using Capri.Database.Entities.Identity;
 using AutoMapper;
 
-namespace Capri.Services
+namespace Capri.Services.Proposals
 {
     public class ProposalUpdater : IProposalUpdater
     {
@@ -28,7 +28,7 @@ namespace Capri.Services
             var currentUser = await _userGetter.GetCurrentUser();
             var currentPromoter = await _context.Promoters.FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
 
-            if (proposalUpdate.Type == ProposalType.Master)
+            if (proposalUpdate.Level == StudyLevel.Master)
             {
                 if (currentPromoter.CanSubmitMasterProposals == false)
                     return ServiceResult<Proposal>.Error("You do not have permissions to create master proposal.");

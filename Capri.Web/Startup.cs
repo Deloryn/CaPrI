@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.DependencyInjection;
-using Capri.Web.Configuration;
-using Capri.Services;
-using Capri.Services.SystemSettings;
 using Microsoft.AspNetCore.Http;
+using Capri.Web.Configuration;
+using Capri.Web.Configuration.Sieve;
+using Capri.Services;
+using Capri.Services.Proposals;
+using Capri.Services.SystemSettings;
 
 namespace Capri.Web
 {
@@ -33,6 +35,7 @@ namespace Capri.Web
             services.AddDatabaseConfiguration(Configuration["DbConnectionString"]);
             services.AddJwtConfiguration(Configuration.GetSection("JwtAuthorizationDetails"));
             services.AddSystemConfiguration(Configuration.GetSection("SystemSettings"));
+            services.AddSieveConfiguration(Configuration.GetSection("SieveSettings"));
             services.AddMapperConfiguration();
             services.AddHttpContextAccessor();
             services.AddSingleton<ISystemSettingsGetter, SystemSettingsGetter>();

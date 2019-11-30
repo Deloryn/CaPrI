@@ -6,7 +6,7 @@ using Capri.Database.Entities;
 using Capri.Database.Entities.Identity;
 using Capri.Web.ViewModels.Proposal;
 
-namespace Capri.Services
+namespace Capri.Services.Proposals
 {
     public interface IProposalUpdater
     {
