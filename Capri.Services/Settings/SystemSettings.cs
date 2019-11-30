@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Capri.Services.Settings
+﻿namespace Capri.Services.Settings
 {
     public class SystemSettings
     {

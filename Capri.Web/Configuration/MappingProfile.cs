@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using Capri.Database.Entities;
 using Capri.Web.ViewModels.Promoter;
 using Capri.Web.ViewModels.Proposal;

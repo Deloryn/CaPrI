@@ -1,19 +1,16 @@
-﻿using Capri.Database.Entities.Identity;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+using Capri.Database.Entities.Identity;
 
-namespace Capri.Services
+namespace Capri.Services.Users
 {
-    public class ApplicationUserGetter : IApplicationUserGetter
+    public class UserGetter : IUserGetter
     {
         private readonly UserManager<User> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ApplicationUserGetter(UserManager<User> userManager, IHttpContextAccessor httpContextAccessor)
+        public UserGetter(UserManager<User> userManager, IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Capri.Services;
+using Capri.Services.Promoters;
 using Capri.Web.ViewModels.Promoter;
 
 namespace Capri.Web.Controllers
