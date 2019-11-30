@@ -19,7 +19,9 @@ namespace Capri.Database.Entities.Configuration
                     Id = Guid.NewGuid(),
                     FirstName = "Jan",
                     LastName = "Kowalski",
-                    UserId = userId
+                    UserId = userId,
+                    ExpectedNumberOfBachelorProposals = 3,
+                    ExpectedNumberOfMasterProposals = 4
                 });
             }
         }
