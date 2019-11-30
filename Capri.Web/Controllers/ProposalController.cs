@@ -56,7 +56,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [HttpGet]
+        [HttpGet("filtered")]
         public IActionResult GetFiltered(SieveModel sieveModel)
         {
             var result = _proposalGetter.GetFiltered(sieveModel);
