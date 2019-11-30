@@ -19,7 +19,6 @@ namespace Capri.Database.Entities.Configuration
                     Id = Guid.NewGuid(),
                     FirstName = "Jan",
                     LastName = "Kowalski",
-                    Title = PromoterTitle.Phd,
                     UserId = userId,
                     CanSubmitBachelorProposals = true,
                     CanSubmitMasterProposals = true
