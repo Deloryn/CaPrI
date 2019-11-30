@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Text;
+using AutoMapper;
 using Capri.Database;
 using Capri.Database.Entities;
 using Capri.Web.ViewModels.Promoter;
@@ -12,6 +13,7 @@ namespace Capri.Services
     public class PromoterCreator : IPromoterCreator
     {
         private readonly ISqlDbContext _context;
+        private readonly IMapper _mapper;
         private readonly IUserCreator _userCreator;
 
         public PromoterCreator(
@@ -38,11 +40,9 @@ namespace Capri.Services
 
             var user = result.Body();
 
-            var promoter = new Promoter
-            {
-                Id = Guid.NewGuid(),
-                UserId = user.Id
-            };
+            var promoter = _mapper.Map<Promoter>(registration);
+            promoter.Id = Guid.NewGuid();
+            promoter.UserId = user.Id;
 
             await _context.Promoters.AddAsync(promoter);
             await _context.SaveChangesAsync();
