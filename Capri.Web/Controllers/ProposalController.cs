@@ -71,19 +71,6 @@ namespace Capri.Web.Controllers
         }
 
         [Authorize(Roles = "admin,dean")]
-        [HttpGet("submitted/{id}")]
-        public async Task<IActionResult> GetSubmittedProposals(Guid id)
-        {
-            var result = await _submittedProposalGetter.GetProposalNumber(id);
-
-            if (result.Successful())
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
-
-        [Authorize(Roles = "admin,dean")]
         [HttpGet("submitted/bachelor/{promoterId}")]
         public async Task<IActionResult> GetSubmittedBachelorProposals(Guid promoterId)
         {
@@ -91,9 +78,9 @@ namespace Capri.Web.Controllers
 
             if (result.Successful())
             {
-                return Ok(result);
+                return Ok(result.Body());
             }
-            return BadRequest(result);
+            return BadRequest(result.GetAggregatedErrors());
         }
 
         [Authorize(Roles = "admin,dean")]
@@ -104,9 +91,9 @@ namespace Capri.Web.Controllers
 
             if (result.Successful())
             {
-                return Ok(result);
+                return Ok(result.Body());
             }
-            return BadRequest(result);
+            return BadRequest(result.GetAggregatedErrors());
         }
 
         [Authorize(Roles = "promoter")]
