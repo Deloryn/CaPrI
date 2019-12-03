@@ -46,6 +46,10 @@ namespace Capri.Services.Proposals
 
             var proposal = _mapper.Map<Proposal>(proposalRegistration);
             proposal.Id = Guid.NewGuid();
+            proposal.Promoter = currentPromoter;
+            currentPromoter.Proposals.Add(proposal);
+            _context.Promoters.Update(currentPromoter);
+
 
             await _context.Proposals.AddAsync(proposal);
             await _context.SaveChangesAsync();

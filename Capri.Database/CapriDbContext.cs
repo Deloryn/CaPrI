@@ -25,13 +25,14 @@ namespace Capri.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Promoter>()
-                .HasMany(p => p.Proposals)
-                .WithOne();
-
             modelBuilder.Entity<Proposal>()
                 .HasMany(p => p.Students)
                 .WithOne();
+
+            modelBuilder.Entity<Proposal>()
+                .HasOne(pl => pl.Promoter)
+                .WithMany(pr => pr.Proposals)
+                .HasForeignKey(p => p.PromoterId);
 
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new StudentConfiguration());
