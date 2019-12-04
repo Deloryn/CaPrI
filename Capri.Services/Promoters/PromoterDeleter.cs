@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Capri.Database;
 using Capri.Database.Entities;
-using Capri.Database.Entities.Identity;
-using Capri.Web.ViewModels.Promoter;
 
-namespace Capri.Services
+namespace Capri.Services.Promoters
 {
     public class PromoterDeleter : IPromoterDeleter
     {

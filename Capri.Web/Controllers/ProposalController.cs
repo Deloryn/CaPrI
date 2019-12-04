@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Capri.Database.Entities.Identity;
-using Capri.Services;
-using Capri.Services.Proposals;
-using Capri.Web.ViewModels.Proposal;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
+using Capri.Services.Proposals;
+using Capri.Web.ViewModels.Proposal;
 
 namespace Capri.Web.Controllers
 {

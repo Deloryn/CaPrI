@@ -1,14 +1,16 @@
-﻿using System;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Http;
 using Capri.Web.Configuration;
 using Capri.Web.Configuration.Sieve;
-using Capri.Services;
+using Capri.Services.Account;
+using Capri.Services.Token;
+using Capri.Services.Users;
 using Capri.Services.Proposals;
+using Capri.Services.Promoters;
+using Capri.Services.SystemSettings;
 
 namespace Capri.Web
 {
@@ -49,7 +51,7 @@ namespace Capri.Web
             services.AddScoped<ITokenGenerator, TokenGenerator>();
             services.AddScoped<IUserCreator, UserCreator>();
             services.AddScoped<IUserUpdater, UserUpdater>();
-            services.AddScoped<IApplicationUserGetter, ApplicationUserGetter>();
+            services.AddScoped<IUserGetter, UserGetter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

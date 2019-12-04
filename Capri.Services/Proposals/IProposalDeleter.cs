@@ -1,8 +1,6 @@
-﻿using Capri.Database.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
+using Capri.Database.Entities;
 
 namespace Capri.Services.Proposals
 {

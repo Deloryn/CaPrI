@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Newtonsoft.Json;
 using Capri.Web.ViewModels.User;
-using Capri.Services;
+using Capri.Services.Account;
 
 namespace Capri.Web.Controllers
 {

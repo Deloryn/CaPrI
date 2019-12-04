@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Capri.Database;
 using Capri.Database.Entities.Identity;
+using Capri.Services.Token;
 
-namespace Capri.Services
+namespace Capri.Services.Users
 {
     public class UserCreator : IUserCreator
     {

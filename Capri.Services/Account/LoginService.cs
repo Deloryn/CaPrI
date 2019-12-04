@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Capri.Database.Entities.Identity;
+using Capri.Services.Token;
 using Capri.Web.ViewModels.User;
 
-namespace Capri.Services
+namespace Capri.Services.Account
 {
     public class LoginService : ILoginService
     {
