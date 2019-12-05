@@ -11,5 +11,6 @@ namespace Capri.Web.ViewModels.Proposal
         public string Description { get; set; }
         public ProposalStatus Status { get; set; }
         public StudyLevel Level { get; set; }
+        public StudyMode Mode { get; set; }
     }
 }

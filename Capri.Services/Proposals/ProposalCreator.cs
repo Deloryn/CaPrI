@@ -13,13 +13,15 @@ namespace Capri.Services.Proposals
     {
         private readonly ISqlDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IUserGetter _userGetter;
+        private readonly IApplicationUserGetter _userGetter;
+        private readonly ISubmittedProposalGetter _submittedProposalGetter;
 
-        public ProposalCreator(ISqlDbContext context, IMapper mapper, IUserGetter userGetter)
+        public ProposalCreator(ISqlDbContext context, IMapper mapper, IApplicationUserGetter userGetter, ISubmittedProposalGetter submittedProposalGetter)
         {
             _context = context;
             _mapper = mapper;
             _userGetter = userGetter;
+            _submittedProposalGetter = submittedProposalGetter;
         }
 
         public async Task<IServiceResult<Proposal>> Create(ProposalRegistration proposalRegistration)
@@ -29,17 +31,23 @@ namespace Capri.Services.Proposals
 
             if (proposalRegistration.Level == StudyLevel.Master)
             {
-                if (currentPromoter.CanSubmitMasterProposals == false)
+                if (_submittedProposalGetter.GetMasterProposalNumber(currentPromoter.Id).Result.Body() >= 
+                    currentPromoter.ExpectedNumberOfMasterProposals)
                     return ServiceResult<Proposal>.Error("You do not have permissions to create master proposal.");
             }
             else
             {
-                if (currentPromoter.CanSubmitBachelorProposals == false)
+                if (_submittedProposalGetter.GetBachelorProposalNumber(currentPromoter.Id).Result.Body() >= 
+                    currentPromoter.ExpectedNumberOfBachelorProposals)
                     return ServiceResult<Proposal>.Error("You do not have permissions to create bachelor proposal.");
             }
 
             var proposal = _mapper.Map<Proposal>(proposalRegistration);
             proposal.Id = Guid.NewGuid();
+            proposal.Promoter = currentPromoter;
+            currentPromoter.Proposals.Add(proposal);
+            _context.Promoters.Update(currentPromoter);
+
 
             await _context.Proposals.AddAsync(proposal);
             await _context.SaveChangesAsync();

@@ -13,13 +13,15 @@ namespace Capri.Services.Proposals
     {
         private readonly ISqlDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IUserGetter _userGetter;
+        private readonly IApplicationUserGetter _userGetter;
+        private readonly ISubmittedProposalGetter _submittedProposalGetter;
 
-        public ProposalUpdater(ISqlDbContext context, IMapper mapper, IUserGetter userGetter)
+        public ProposalUpdater(ISqlDbContext context, IMapper mapper, IApplicationUserGetter userGetter, ISubmittedProposalGetter submittedProposalGetter)
         {
             _context = context;
             _mapper = mapper;
             _userGetter = userGetter;
+            _submittedProposalGetter = submittedProposalGetter;
         }
         public async Task<IServiceResult<Proposal>> Update(Guid id, ProposalUpdate proposalUpdate)
         {
@@ -28,12 +30,14 @@ namespace Capri.Services.Proposals
 
             if (proposalUpdate.Level == StudyLevel.Master)
             {
-                if (currentPromoter.CanSubmitMasterProposals == false)
+                if (_submittedProposalGetter.GetMasterProposalNumber(currentPromoter.Id).Result.Body() >=
+                    currentPromoter.ExpectedNumberOfMasterProposals)
                     return ServiceResult<Proposal>.Error("You do not have permissions to create master proposal.");
             }
             else
             {
-                if (currentPromoter.CanSubmitBachelorProposals == false)
+                if (_submittedProposalGetter.GetBachelorProposalNumber(currentPromoter.Id).Result.Body() >=
+                    currentPromoter.ExpectedNumberOfBachelorProposals)
                     return ServiceResult<Proposal>.Error("You do not have permissions to create bachelor proposal.");
             }
 

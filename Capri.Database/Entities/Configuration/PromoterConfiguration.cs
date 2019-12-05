@@ -20,8 +20,8 @@ namespace Capri.Database.Entities.Configuration
                     FirstName = "Jan",
                     LastName = "Kowalski",
                     UserId = userId,
-                    CanSubmitBachelorProposals = true,
-                    CanSubmitMasterProposals = true
+                    ExpectedNumberOfBachelorProposals = 3,
+                    ExpectedNumberOfMasterProposals = 4
                 });
             }
         }

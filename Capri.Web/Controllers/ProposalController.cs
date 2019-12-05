@@ -15,17 +15,20 @@ namespace Capri.Web.Controllers
         private readonly IProposalDeleter _proposalDeleter;
         private readonly IProposalGetter _proposalGetter;
         private readonly IProposalUpdater _proposalUpdater;
+        private readonly ISubmittedProposalGetter _submittedProposalGetter;
 
         public ProposalController(
             IProposalCreator proposalCreator,
             IProposalDeleter proposalDeleter,
             IProposalGetter proposalGetter,
-            IProposalUpdater proposalUpdater)
+            IProposalUpdater proposalUpdater,
+            ISubmittedProposalGetter submittedProposalGetter)
         {
             _proposalCreator = proposalCreator;
             _proposalDeleter = proposalDeleter;
             _proposalGetter = proposalGetter;
             _proposalUpdater = proposalUpdater;
+            _submittedProposalGetter = submittedProposalGetter;
         }
 
         [HttpGet("{id}")]
@@ -55,6 +58,32 @@ namespace Capri.Web.Controllers
         {
             var result = _proposalGetter.GetFiltered(sieveModel);
             if(result.Successful())
+            {
+                return Ok(result.Body());
+            }
+            return BadRequest(result.GetAggregatedErrors());
+        }
+
+        [Authorize(Roles = "admin,dean")]
+        [HttpGet("submitted/bachelor/{promoterId}")]
+        public async Task<IActionResult> GetSubmittedBachelorProposals(Guid promoterId)
+        {
+            var result = await _submittedProposalGetter.GetBachelorProposalNumber(promoterId);
+
+            if (result.Successful())
+            {
+                return Ok(result.Body());
+            }
+            return BadRequest(result.GetAggregatedErrors());
+        }
+
+        [Authorize(Roles = "admin,dean")]
+        [HttpGet("submitted/master/{promoterId}")]
+        public async Task<IActionResult> GetSubmittedMasterProposals(Guid promoterId)
+        {
+            var result = await _submittedProposalGetter.GetMasterProposalNumber(promoterId);
+
+            if (result.Successful())
             {
                 return Ok(result.Body());
             }
