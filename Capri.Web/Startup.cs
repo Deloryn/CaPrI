@@ -10,7 +10,6 @@ using Capri.Services.Token;
 using Capri.Services.Users;
 using Capri.Services.Proposals;
 using Capri.Services.Promoters;
-using Capri.Services.SystemSettings;
 
 namespace Capri.Web
 {

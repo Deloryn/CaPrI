@@ -13,10 +13,10 @@ namespace Capri.Services.Proposals
     {
         private readonly ISqlDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IApplicationUserGetter _userGetter;
+        private readonly IUserGetter _userGetter;
         private readonly ISubmittedProposalGetter _submittedProposalGetter;
 
-        public ProposalUpdater(ISqlDbContext context, IMapper mapper, IApplicationUserGetter userGetter, ISubmittedProposalGetter submittedProposalGetter)
+        public ProposalUpdater(ISqlDbContext context, IMapper mapper, IUserGetter userGetter, ISubmittedProposalGetter submittedProposalGetter)
         {
             _context = context;
             _mapper = mapper;
