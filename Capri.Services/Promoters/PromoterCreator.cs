@@ -16,10 +16,12 @@ namespace Capri.Services.Promoters
 
         public PromoterCreator(
             ISqlDbContext context,
-            IUserCreator userCreator)
+            IUserCreator userCreator,
+            IMapper mapper)
         {
             _context = context;
             _userCreator = userCreator;
+            _mapper = mapper;
         }
 
         public async Task<IServiceResult<Promoter>> Create(
@@ -37,7 +39,6 @@ namespace Capri.Services.Promoters
             }
 
             var user = result.Body();
-
             var promoter = _mapper.Map<Promoter>(registration);
             promoter.Id = Guid.NewGuid();
             promoter.UserId = user.Id;
