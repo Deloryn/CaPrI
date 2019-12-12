@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using AutoMapper;
 
 namespace Capri.Web.Configuration
 {
@@ -12,7 +13,7 @@ namespace Capri.Web.Configuration
                 mc.AddProfile(new MappingProfile());
             });
 
-            AutoMapper.IMapper mapper = mappingConfig.CreateMapper();
+            IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
         }
     }
