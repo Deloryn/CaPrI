@@ -2,7 +2,10 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Sieve.Models;
+using Capri.Database.Entities;
+using Capri.Database.Entities.Identity;
 using Capri.Services.Proposals;
 using Capri.Web.ViewModels.Proposal;
 
@@ -16,19 +19,22 @@ namespace Capri.Web.Controllers
         private readonly IProposalGetter _proposalGetter;
         private readonly IProposalUpdater _proposalUpdater;
         private readonly ISubmittedProposalGetter _submittedProposalGetter;
+        private readonly UserManager<User> _userManager;
 
         public ProposalController(
             IProposalCreator proposalCreator,
             IProposalDeleter proposalDeleter,
             IProposalGetter proposalGetter,
             IProposalUpdater proposalUpdater,
-            ISubmittedProposalGetter submittedProposalGetter)
+            ISubmittedProposalGetter submittedProposalGetter,
+            UserManager<User> userManager)
         {
             _proposalCreator = proposalCreator;
             _proposalDeleter = proposalDeleter;
             _proposalGetter = proposalGetter;
             _proposalUpdater = proposalUpdater;
             _submittedProposalGetter = submittedProposalGetter;
+            _userManager = userManager;
         }
 
         [HttpGet("{id}")]
@@ -68,7 +74,9 @@ namespace Capri.Web.Controllers
         [HttpGet("submitted/bachelor/{promoterId}")]
         public async Task<IActionResult> GetSubmittedBachelorProposals(Guid promoterId)
         {
-            var result = await _submittedProposalGetter.GetBachelorProposalNumber(promoterId);
+            var result = 
+                await _submittedProposalGetter
+                .CountSubmittedProposals(promoterId, StudyLevel.Bachelor);
 
             if (result.Successful())
             {
@@ -81,7 +89,9 @@ namespace Capri.Web.Controllers
         [HttpGet("submitted/master/{promoterId}")]
         public async Task<IActionResult> GetSubmittedMasterProposals(Guid promoterId)
         {
-            var result = await _submittedProposalGetter.GetMasterProposalNumber(promoterId);
+            var result = 
+                await _submittedProposalGetter
+                .CountSubmittedProposals(promoterId, StudyLevel.Master);
 
             if (result.Successful())
             {

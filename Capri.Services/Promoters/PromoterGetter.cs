@@ -22,8 +22,7 @@ namespace Capri.Services.Promoters
 
             if (promoter == null)
             {
-                return ServiceResult<Promoter>.Error(
-                    "Promoter with given id does not exist");
+                return ServiceResult<Promoter>.Error("Promoter with given id does not exist");
             }
 
             return ServiceResult<Promoter>.Success(promoter);

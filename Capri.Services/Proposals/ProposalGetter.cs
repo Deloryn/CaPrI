@@ -27,17 +27,20 @@ namespace Capri.Services.Proposals
         {
             var proposal = await _context.Proposals.FirstOrDefaultAsync(p => p.Id == id);
 
+            if(proposal == null)
+            {
+                return ServiceResult<Proposal>.Error("Proposal with the given id does not exist");
+            }
             return ServiceResult<Proposal>.Success(proposal);
         }
 
         public IServiceResult<IEnumerable<Proposal>> GetAll()
         {
             var proposals = _context.Proposals;
-
             return ServiceResult<IEnumerable<Proposal>>.Success(proposals);
         }
 
-        public IServiceResult<IQueryable<Proposal>> GetFiltered (SieveModel sieveModel)
+        public IServiceResult<IQueryable<Proposal>> GetFiltered(SieveModel sieveModel)
         {
             var proposals = _context.Proposals.AsQueryable();
             var filtered = _sieveProcessor.Apply(sieveModel, proposals);

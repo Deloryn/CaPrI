@@ -6,6 +6,7 @@ namespace Capri.Services.Proposals
 {
     public interface IProposalCreator
     {
-        Task<IServiceResult<Proposal>> Create(ProposalRegistration proposalRegistration);
+        Task<IServiceResult<Proposal>> Create(
+            ProposalRegistration inputData);
     }
 }

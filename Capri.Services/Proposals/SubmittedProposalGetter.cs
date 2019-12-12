@@ -1,10 +1,9 @@
-﻿using Capri.Database;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Capri.Database;
+using Capri.Database.Entities;
 
 namespace Capri.Services.Proposals
 {
@@ -17,7 +16,9 @@ namespace Capri.Services.Proposals
             _context = context;
         }
 
-        public async Task<IServiceResult<int>> GetBachelorProposalNumber(Guid promoterId)
+        public async Task<IServiceResult<int>> CountSubmittedProposals(
+            Guid promoterId, 
+            StudyLevel level)
         {
             var promoter = await _context.Promoters
                 .Include(p => p.Proposals)
@@ -25,31 +26,14 @@ namespace Capri.Services.Proposals
 
             if (promoter == null)
             {
-                return ServiceResult<int>.Success(0);
+                return ServiceResult<int>.Error("The promoter's reference is null");
             }
 
             var count = promoter.Proposals
-                .Where(p => p.Level == Database.Entities.StudyLevel.Bachelor)
+                .Where(p => p.Level == level)
                 .Count();
+
             return ServiceResult<int>.Success(count);
         }
-
-        public async Task<IServiceResult<int>> GetMasterProposalNumber(Guid promoterId)
-        {
-            var promoter = await _context.Promoters
-                .Include(p => p.Proposals)
-                .FirstOrDefaultAsync(p => p.Id == promoterId);
-
-            if (promoter == null)
-            {
-                return ServiceResult<int>.Success(0);
-            }
-
-            var count = promoter.Proposals
-                .Where(p => p.Level == Database.Entities.StudyLevel.Master)
-                .Count();
-            return ServiceResult<int>.Success(count);
-        }
-
     }
 }
