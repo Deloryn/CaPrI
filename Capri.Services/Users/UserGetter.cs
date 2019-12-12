@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -19,7 +20,9 @@ namespace Capri.Services.Users
 
         public async Task<IServiceResult<User>> GetCurrentUser()
         {
-            var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+            var user = 
+                await _userManager
+                .FindByIdAsync(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name));
             if(user == null)
             {
                 return ServiceResult<User>.Error("No current user found");

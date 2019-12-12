@@ -38,6 +38,7 @@ namespace Capri.Services.Proposals
             var promoter = 
                 await _context
                 .Promoters
+                .Include(p => p.Proposals)
                 .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
 
             if(promoter == null)
@@ -90,7 +91,8 @@ namespace Capri.Services.Proposals
             {
                 return 0;
             }
-            return promoter.Proposals
+            return promoter
+                .Proposals
                 .Where(p => p.Level == level)
                 .Count();
         }
