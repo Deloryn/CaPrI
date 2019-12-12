@@ -25,13 +25,13 @@ namespace Capri.Services.Token
             return CreateTokenFromClaims(claims);
         }
 
-        public string GenerateTokenFor(User user, IList<string> roles)
+        public string GenerateTokenFor(User user, ICollection<string> roles)
         {
             var claims = GenerateClaims(user, roles);
             return CreateTokenFromClaims(claims);
         }
 
-        private Claim[] GenerateClaims(User user, IList<string> roles)
+        private ICollection<Claim> GenerateClaims(User user, ICollection<string> roles)
         {
             var claims = new List<Claim>();
             foreach(var claim in GenerateClaims(user))
@@ -42,10 +42,10 @@ namespace Capri.Services.Token
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
-            return claims.ToArray();
+            return claims;
         }
 
-        private Claim[] GenerateClaims(User user)
+        private ICollection<Claim> GenerateClaims(User user)
         {
             return new Claim[] 
             {
@@ -53,7 +53,7 @@ namespace Capri.Services.Token
             };
         }
 
-        private string CreateTokenFromClaims(Claim[] claims)
+        private string CreateTokenFromClaims(ICollection<Claim> claims)
         {
             var key = System.Text.Encoding.ASCII.GetBytes(_jwtAuthDetails.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor

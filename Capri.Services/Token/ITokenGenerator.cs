@@ -6,6 +6,6 @@ namespace Capri.Services.Token
     public interface ITokenGenerator
     {
         string GenerateTokenFor(User user);
-        string GenerateTokenFor(User user, IList<string> roles);
+        string GenerateTokenFor(User user, ICollection<string> roles);
     }
 }
