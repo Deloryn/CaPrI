@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Linq;
-using System.Text;
 using AutoMapper;
 using Capri.Database;
 using Capri.Database.Entities;
