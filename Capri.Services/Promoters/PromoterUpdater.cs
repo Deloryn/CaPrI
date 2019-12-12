@@ -28,7 +28,7 @@ namespace Capri.Services.Promoters
 
         public async Task<IServiceResult<Promoter>> Update(
             Guid id,
-            PromoterUpdate newData)
+            PromoterRegistration newData)
         {
             var existingPromoter = 
                 await _context
@@ -47,15 +47,17 @@ namespace Capri.Services.Promoters
                 Password = newData.Password
             };
 
-            var result = await _userUpdater.Update(newData.UserId, credentials);
+            var result = await _userUpdater.Update(
+                existingPromoter.UserId, 
+                credentials);
+
             if (!result.Successful())
             {
                 var errors = result.GetAggregatedErrors();
                 return ServiceResult<Promoter>.Error(errors);
             }
-
-            existingPromoter = _mapper.Map<Promoter>(newData);
-            existingPromoter.Id = id;
+            
+            existingPromoter = _mapper.Map(newData, existingPromoter);
 
             _context.Promoters.Update(existingPromoter);
             await _context.SaveChangesAsync();

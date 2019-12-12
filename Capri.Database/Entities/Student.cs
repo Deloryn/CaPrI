@@ -16,6 +16,7 @@ namespace Capri.Database.Entities
         public ushort Semester;
         [Required]
         public StudyLevel StudyLevel;
+        [Required]
         [ForeignKey("ApplicationUser")]
         public Guid UserId { get; set; }
         public virtual User ApplicationUser { get; set; }

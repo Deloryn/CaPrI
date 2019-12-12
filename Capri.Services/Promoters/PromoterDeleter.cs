@@ -28,7 +28,14 @@ namespace Capri.Services.Promoters
                     "Promoter with the given id does not exist");
             }
 
+            var applicationUser = 
+                await _context
+                .Users
+                .FirstOrDefaultAsync(u => u.Id == promoter.UserId);
+
             _context.Promoters.Remove(promoter);
+            _context.Users.Remove(applicationUser);
+
             await _context.SaveChangesAsync();
 
             return ServiceResult<Promoter>.Success(promoter);

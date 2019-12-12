@@ -66,7 +66,7 @@ namespace Capri.Web.Controllers
         [HttpPut("{id:Guid}")]
         public async Task<IActionResult> Update(
             Guid id,
-            [FromBody] PromoterUpdate newData)
+            [FromBody] PromoterRegistration newData)
         {
             var result = await _promoterUpdater.Update(id, newData);
             if(result.Successful())

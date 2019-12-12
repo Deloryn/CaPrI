@@ -20,6 +20,7 @@ namespace Capri.Database.Entities
         [Required]
         public StudyLevel Level { get; set; }
         public StudyMode Mode { get; set; }
+        [Required]
         public Guid PromoterId { get; set; }
         [ForeignKey("PromoterId")]
         public virtual Promoter Promoter { get; set; }
