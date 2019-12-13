@@ -11,30 +11,25 @@ namespace Capri.Database.Entities.Configuration
     {
         public void Configure(EntityTypeBuilder<GuidRole> builder)
         {
-            builder.HasData(new GuidRole
-            {
-                Id = SeedParams.AdminRoleId,
-                Name = "admin",
-                NormalizedName = "admin"
-            },
-            new GuidRole
-            {
-                Id = SeedParams.DeanRoleId,
-                Name = "dean",
-                NormalizedName = "dean"
-            },
-            new GuidRole
-            {
-                Id = SeedParams.StudentRoleId,
-                Name = "student",
-                NormalizedName = "student"
-            },
-            new GuidRole
-            {
-                Id = SeedParams.PromoterRoleId,
-                Name = "promoter",
-                NormalizedName = "promoter"
-            });
+            builder.HasData(
+                new GuidRole
+                {
+                    Id = SeedParams.DeanRoleId,
+                    Name = "dean",
+                    NormalizedName = "dean"
+                },
+                new GuidRole
+                {
+                    Id = SeedParams.StudentRoleId,
+                    Name = "student",
+                    NormalizedName = "student"
+                },
+                new GuidRole
+                {
+                    Id = SeedParams.PromoterRoleId,
+                    Name = "promoter",
+                    NormalizedName = "promoter"
+                });
         }
     }
 }

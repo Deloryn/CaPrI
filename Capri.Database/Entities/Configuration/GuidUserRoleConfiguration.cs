@@ -11,15 +11,6 @@ namespace Capri.Database.Entities.Configuration
     {
         public void Configure(EntityTypeBuilder<GuidUserRole> builder)
         {
-            foreach(var adminId in SeedParams.AdminIds)
-            {
-                builder.HasData(new GuidUserRole
-                {
-                    Id = Guid.NewGuid(),
-                    RoleId = SeedParams.AdminRoleId,
-                    UserId = adminId
-                });
-            }
             foreach (var deanId in SeedParams.DeanIds)
             {
                 builder.HasData(new GuidUserRole
