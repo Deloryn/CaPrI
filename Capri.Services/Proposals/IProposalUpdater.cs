@@ -7,6 +7,6 @@ namespace Capri.Services.Proposals
 {
     public interface IProposalUpdater
     {
-        Task<IServiceResult<Proposal>> Update(Guid id, ProposalUpdate inputData);
+        Task<IServiceResult<Proposal>> Update(Guid id, ProposalRegistration inputData);
     }
 }

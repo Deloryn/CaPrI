@@ -10,7 +10,6 @@ namespace Capri.Web.Configuration
         public MappingProfile()
         {
             CreateMap<PromoterRegistration, Promoter>();
-            CreateMap<ProposalUpdate, Proposal>();
             CreateMap<ProposalRegistration, Proposal>();
         }
     }

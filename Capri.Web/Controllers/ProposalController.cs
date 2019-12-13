@@ -114,9 +114,9 @@ namespace Capri.Web.Controllers
 
         [Authorize(Roles = "promoter")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] ProposalUpdate update)
+        public async Task<IActionResult> Update(Guid id, [FromBody] ProposalRegistration newData)
         {
-            var result = await _proposalUpdater.Update(id, update);
+            var result = await _proposalUpdater.Update(id, newData);
             if (result.Successful())
             {
                 return Ok(result.Successful());

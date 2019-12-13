@@ -24,7 +24,9 @@ namespace Capri.Services.Proposals
             _userGetter = userGetter;
             _submittedProposalGetter = submittedProposalGetter;
         }
-        public async Task<IServiceResult<Proposal>> Update(Guid id, ProposalUpdate inputData)
+        public async Task<IServiceResult<Proposal>> Update(
+            Guid id, 
+            ProposalRegistration inputData)
         {
             var result = await _userGetter.GetCurrentUser();
             if(!result.Successful())
@@ -37,6 +39,7 @@ namespace Capri.Services.Proposals
             var promoter = 
                 await _context
                 .Promoters
+                .Include(p => p.Proposals)
                 .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
 
             if(promoter == null)
@@ -51,7 +54,7 @@ namespace Capri.Services.Proposals
                 return ServiceResult<Proposal>.Error("This promoter has no proposal with the given id.");
             }
 
-            proposal = _mapper.Map<Proposal>(inputData);
+            proposal = _mapper.Map(inputData, proposal);
 
             _context.Proposals.Update(proposal);
             await _context.SaveChangesAsync();
