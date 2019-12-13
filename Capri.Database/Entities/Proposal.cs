@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -23,6 +22,7 @@ namespace Capri.Database.Entities
         [Required]
         public Guid PromoterId { get; set; }
         [ForeignKey("PromoterId")]
+        [JsonIgnore]
         public virtual Promoter Promoter { get; set; }
         public virtual ICollection<Student> Students { get; set; }
     }
