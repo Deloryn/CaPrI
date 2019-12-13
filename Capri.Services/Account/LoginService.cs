@@ -38,8 +38,10 @@ namespace Capri.Services.Account
                     await _signInManager.PasswordSignInAsync(email, password, true, false);
                 if(result.Succeeded)
                 {
-                    string token = _tokenGenerator.GenerateTokenFor(user);
+                    var roles = await _userManager.GetRolesAsync(user);
+                    string token = _tokenGenerator.GenerateTokenFor(user, roles);
                     user.SecurityStamp = token;
+                    
                     return ServiceResult<UserSecurityStamp>.Success(new UserSecurityStamp
                     {
                         Email = user.Email,

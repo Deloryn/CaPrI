@@ -28,7 +28,7 @@ namespace Capri.Services.Promoters
 
         public async Task<IServiceResult<Promoter>> Update(
             Guid id,
-            PromoterUpdate newData)
+            PromoterRegistration newData)
         {
             var existingPromoter = 
                 await _context
@@ -38,7 +38,7 @@ namespace Capri.Services.Promoters
             if (existingPromoter == null)
             {
                 return ServiceResult<Promoter>.Error(
-                    "Promoter with the given does not exist");
+                    "Promoter with given id does not exist");
             }
 
             var credentials = new UserCredentials
@@ -47,7 +47,7 @@ namespace Capri.Services.Promoters
                 Password = newData.Password
             };
 
-            var result = await _userUpdater.Update(newData.UserId, credentials);
+            var result = await _userUpdater.Update(existingPromoter.UserId, credentials);
             if (!result.Successful())
             {
                 var errors = result.GetAggregatedErrors();

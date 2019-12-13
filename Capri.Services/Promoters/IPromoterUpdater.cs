@@ -7,6 +7,6 @@ namespace Capri.Services.Promoters
 {
     public interface IPromoterUpdater
     {
-        Task<IServiceResult<Promoter>> Update(Guid id, PromoterUpdate newData);
+        Task<IServiceResult<Promoter>> Update(Guid id, PromoterRegistration newData);
     }
 }
