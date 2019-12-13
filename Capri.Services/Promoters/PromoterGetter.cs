@@ -18,7 +18,11 @@ namespace Capri.Services.Promoters
 
         public async Task<IServiceResult<Promoter>> Get(Guid id)
         {
-            var promoter = await _context.Promoters.FirstOrDefaultAsync(p => p.Id == id);
+            var promoter = 
+                await _context
+                .Promoters
+                .Include(p => p.Proposals)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (promoter == null)
             {
@@ -31,6 +35,7 @@ namespace Capri.Services.Promoters
         public IServiceResult<IEnumerable<Promoter>> GetAll()
         {
             var promoters = _context.Promoters;
+
             return ServiceResult<IEnumerable<Promoter>>.Success(promoters);
         }
     }
