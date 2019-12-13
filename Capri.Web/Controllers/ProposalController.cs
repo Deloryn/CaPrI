@@ -119,7 +119,7 @@ namespace Capri.Web.Controllers
             var result = await _proposalUpdater.Update(id, newData);
             if (result.Successful())
             {
-                return Ok(result.Successful());
+                return Ok(result.Body());
             }
             return BadRequest(result.GetAggregatedErrors());
         }
