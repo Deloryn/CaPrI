@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Capri.Database;
-using Capri.Database.Entities;
 using Capri.Services.Users;
 using Capri.Web.ViewModels.Proposal;
 
@@ -24,7 +23,7 @@ namespace Capri.Services.Proposals
             _userGetter = userGetter;
             _submittedProposalGetter = submittedProposalGetter;
         }
-        public async Task<IServiceResult<Proposal>> Update(
+        public async Task<IServiceResult<ProposalView>> Update(
             Guid id, 
             ProposalRegistration inputData)
         {
@@ -32,7 +31,7 @@ namespace Capri.Services.Proposals
             if(!result.Successful())
             {
                 var errors = result.GetAggregatedErrors();
-                return ServiceResult<Proposal>.Error(errors);
+                return ServiceResult<ProposalView>.Error(errors);
             }
             
             var currentUser = result.Body();
@@ -44,14 +43,14 @@ namespace Capri.Services.Proposals
 
             if(promoter == null)
             {
-                return ServiceResult<Proposal>.Error("The current user has no associated promoter");
+                return ServiceResult<ProposalView>.Error("The current user has no associated promoter");
             }
             
             var proposal = promoter.Proposals.FirstOrDefault(p => p.Id == id);
 
             if (proposal == null)
             {
-                return ServiceResult<Proposal>.Error("This promoter has no proposal with the given id.");
+                return ServiceResult<ProposalView>.Error("This promoter has no proposal with the given id.");
             }
 
             proposal = _mapper.Map(inputData, proposal);
@@ -59,7 +58,8 @@ namespace Capri.Services.Proposals
             _context.Proposals.Update(proposal);
             await _context.SaveChangesAsync();
 
-            return ServiceResult<Proposal>.Success(proposal);
+            var proposalView = _mapper.Map<ProposalView>(proposal);
+            return ServiceResult<ProposalView>.Success(proposalView);
         }
     }
 }
