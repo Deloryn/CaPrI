@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Capri.Database.Entities;
@@ -18,6 +16,9 @@ namespace Capri.Database
         public DbSet<Student> Students { get; set; }
         public DbSet<Promoter> Promoters { get; set; }
         public DbSet<Proposal> Proposals { get; set; }
+        public DbSet<Faculty> Faculties { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Institute> Institutes { get; set; }
 
         public CapriDbContext(
             DbContextOptions<CapriDbContext> dbContextOptions
@@ -33,6 +34,14 @@ namespace Capri.Database
                 .HasOne(pl => pl.Promoter)
                 .WithMany(pr => pr.Proposals)
                 .HasForeignKey(p => p.PromoterId);
+
+            modelBuilder.Entity<Faculty>()
+                .HasMany(f => f.Courses)
+                .WithOne();
+
+            modelBuilder.Entity<Institute>()
+                .HasMany(i => i.Promoters)
+                .WithOne();
 
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new StudentConfiguration());
