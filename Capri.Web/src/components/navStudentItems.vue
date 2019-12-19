@@ -26,39 +26,39 @@
     export default class NavStudentItems extends Vue {
         public data() {
             return {
-                isAllSelected: "nie",
+                isAllSelected: 'nie',
                 filters: [
                     {
-                        name: "Faculty",
-                        values: ["Computer Science"],
+                        name: 'Faculty',
+                        values: ['Computer Science'],
                         chosen: false,
                     },
                     {
-                        name: "Field of study",
-                        values: ["IT", "Robotics","Bioinformatics"],
+                        name: 'Field of study',
+                        values: ['IT', 'Robotics','Bioinformatics'],
                         chosen: false,
                     },
                     {
-                        name: "Degree",
-                        values: ["Bacheloer", "Master"],
+                        name: 'Degree',
+                        values: ['Bacheloer', 'Master'],
                         chosen: false,
                     },
                     {
-                        name: "Type",
-                        values: ["Full time", "Part time"],
+                        name: 'Type',
+                        values: ['Full time', 'Part time'],
                         chosen: false,
                     }
                 ],
             }
         }
         public changeRoute(number) {
-            (<any>this).filters[number] = true;
-            for (let i = 0; i < (<any>this).filters.length; i += 1) {
-                if ((<any>this).filters[i].chosen === false) {
-                    return
+            (this as any).filters[number] = true;
+            for (let i = 0; i < (this as any).filters.length; i += 1) {
+                if ((this as any).filters[i].chosen === false) {
+                    return;
                 }
             }
-            this.$router.push({path: '/cards' })
+            this.$router.push({path: '/cards' });
         }
     }
 </script>

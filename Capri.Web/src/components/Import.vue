@@ -1,8 +1,9 @@
 ﻿<template>
     <v-container fluid
                  grid-list-xl
-                 class="mainView">
-        <v-file-input label="File input" v-model="file" style="width: 60%;"></v-file-input>
+                 class="mainView" style="margin-bottom: 140px;">
+        <v-file-input label="File input" v-model="file" style="width: 60%;" @change="previewFiles"></v-file-input>
+        <div v-if="f!==''">
         <v-row justify="center">
             <v-col cols="12">
                 <v-data-table :headers="headers"
@@ -35,11 +36,16 @@
                     <template v-slot:item.freeSlots="{ item }">
                         <span style="float: left; font-size: 24px; font-weight: bold;">{{ item.taken }}</span>
                     </template>
-
                 </v-data-table>
             </v-col>
-
         </v-row>
+        <div style="font-size: 24px; font-weight: bold;">
+            <div>Set default value of expected number of topics</div>
+            <div class="ml-3"><v-text-field style="width: 120px; float: left;" label="Bachelor"></v-text-field><v-btn style="margin-top: 10px;">Set</v-btn></div>
+            <div class="ml-3" style="clear: left;"><v-text-field style="width: 120px; float: left;" label="Master"></v-text-field><v-btn style="margin-top: 10px;">Set</v-btn></div>
+        </div>
+        </div>
+
     </v-container>
 </template>
 <script lang="ts">
@@ -50,6 +56,7 @@
         public data() {
             return {
                 search: '',
+                f: '',
                 headers: [
                     {
                         sortable: false,
@@ -212,6 +219,10 @@
                     },
                 ],
             };
+        }
+        public previewFiles(event) {
+            this.f = event.name;
+            console.log(event.name);
         }
     }
 </script>

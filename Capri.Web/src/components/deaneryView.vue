@@ -154,10 +154,9 @@ export default class DeaneryView extends Vue {
         let state = 'Free';
         if (taken === available) {
             state = 'Taken';
-            }
-        else if (taken > 0) {
+        } else if (taken > 0) {
             state = 'Partially taken';
-            }
+        }
 
         return state;
     }
