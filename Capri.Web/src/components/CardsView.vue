@@ -389,15 +389,13 @@ export default class CardsView extends Vue {
         return 'available';
     }
     public handleClick(value) {
-        (<any>this.popup.title = value.title;
+        (<any>this).popup.title = value.title;
         (<any>this).popup.promoter = value.promoter;
         (<any>this).popup.studyType = value.studyType;
         (<any>this).popup.thesisType = value.thesisType;
         (<any>this).popup.freeSlots = value.freeSlots;
         (<any>this).popup.description = value.description;
         (<any>this).dialog = true;
-
-        (<any>this).ile += myJSON;
     }
 }
 </script>
