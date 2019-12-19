@@ -16,7 +16,11 @@ namespace Capri.Services.Proposals
         private readonly IUserGetter _userGetter;
         private readonly ISubmittedProposalGetter _submittedProposalGetter;
 
-        public ProposalUpdater(ISqlDbContext context, IMapper mapper, IUserGetter userGetter, ISubmittedProposalGetter submittedProposalGetter)
+        public ProposalUpdater(
+            ISqlDbContext context, 
+            IMapper mapper, 
+            IUserGetter userGetter, 
+            ISubmittedProposalGetter submittedProposalGetter)
         {
             _context = context;
             _mapper = mapper;
@@ -50,7 +54,8 @@ namespace Capri.Services.Proposals
 
             if (proposal == null)
             {
-                return ServiceResult<ProposalView>.Error("This promoter has no proposal with the given id.");
+                return ServiceResult<ProposalView>.Error(
+                    "Promoter with id " + promoter.Id + " has no proposal with id " + id);
             }
 
             proposal = _mapper.Map(inputData, proposal);

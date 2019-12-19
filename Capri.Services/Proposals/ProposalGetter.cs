@@ -33,7 +33,7 @@ namespace Capri.Services.Proposals
 
             if(proposal == null)
             {
-                return ServiceResult<ProposalView>.Error("Proposal with the given id does not exist");
+                return ServiceResult<ProposalView>.Error("Proposal with id " + id + " does not exist");
             }
 
             var proposalView = _mapper.Map<ProposalView>(proposal);

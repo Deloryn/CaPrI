@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Capri.Database;
-using Capri.Database.Entities;
 using Capri.Services.Users;
 using Capri.Web.ViewModels.Promoter;
 using Capri.Web.ViewModels.User;
@@ -26,7 +25,7 @@ namespace Capri.Services.Promoters
             _userUpdater = userUpdater;
         }
 
-        public async Task<IServiceResult<Promoter>> Update(
+        public async Task<IServiceResult<PromoterView>> Update(
             Guid id,
             PromoterRegistration newData)
         {
@@ -37,8 +36,8 @@ namespace Capri.Services.Promoters
 
             if (existingPromoter == null)
             {
-                return ServiceResult<Promoter>.Error(
-                    "Promoter with given id does not exist");
+                return ServiceResult<PromoterView>.Error(
+                    "Promoter with id " + id + " does not exist");
             }
 
             var credentials = new UserCredentials
@@ -54,7 +53,7 @@ namespace Capri.Services.Promoters
             if (!result.Successful())
             {
                 var errors = result.GetAggregatedErrors();
-                return ServiceResult<Promoter>.Error(errors);
+                return ServiceResult<PromoterView>.Error(errors);
             }
             
             existingPromoter = _mapper.Map(newData, existingPromoter);
@@ -62,7 +61,8 @@ namespace Capri.Services.Promoters
             _context.Promoters.Update(existingPromoter);
             await _context.SaveChangesAsync();
 
-            return ServiceResult<Promoter>.Success(existingPromoter);
+            var promoterView = _mapper.Map<PromoterView>(existingPromoter);
+            return ServiceResult<PromoterView>.Success(promoterView);
         }
     }
 }

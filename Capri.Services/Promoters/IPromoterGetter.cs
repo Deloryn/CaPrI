@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Capri.Database.Entities;
+using Capri.Web.ViewModels.Promoter;
 
 namespace Capri.Services.Promoters
 {
     public interface IPromoterGetter
     {
-        Task<IServiceResult<Promoter>> Get(Guid id);
-        IServiceResult<IEnumerable<Promoter>> GetAll();
+        Task<IServiceResult<PromoterView>> Get(Guid id);
+        IServiceResult<IEnumerable<PromoterView>> GetAll();
     }
 }

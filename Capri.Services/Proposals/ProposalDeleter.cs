@@ -55,7 +55,7 @@ namespace Capri.Services.Proposals
             if (proposal == null)
             {
                 return ServiceResult<ProposalView>.Error(
-                    "Promoter with id " + promoter.Id + " has no proposal with the given id.");
+                    "Promoter with id " + promoter.Id + " has no proposal with id " + id);
             }
 
             _context.Proposals.Remove(proposal);
