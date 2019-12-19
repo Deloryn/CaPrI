@@ -37,7 +37,7 @@ import navDeanItems from './components/navDeanItems.vue';
 export default class App extends Vue {
         public data() {
             return {
-                userType: 'dean',
+                userType: 'student',
             }
     }
 }
