@@ -52,7 +52,7 @@
         </v-dialog>
 
         <v-btn @click="dialog=true;" style="position: absolute; margin-right: 10px; right: 0px; width: 200px; height: 60px; color: white; background-color: darkblue;">ADD PROMOTER</v-btn>
-        <v-btn @click="dialog=true;" style="position: absolute; margin-left: 10px; margin-bottom: 10px; left: 0px; bottom: 0px; width: 200px; height: 60px; color: white; background-color: darkblue;">EXPORT TO EXCEL</v-btn>
+        <v-btn style="position: absolute; margin-left: 10px; margin-bottom: 10px; left: 0px; bottom: 0px; width: 200px; height: 60px; color: white; background-color: darkblue;">EXPORT TO EXCEL</v-btn>
         <v-row justify="center" style="margin-top: 60px;">
             <v-col cols="12">
 
