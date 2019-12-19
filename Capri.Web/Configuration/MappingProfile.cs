@@ -11,6 +11,7 @@ namespace Capri.Web.Configuration
         {
             CreateMap<PromoterRegistration, Promoter>();
             CreateMap<ProposalRegistration, Proposal>();
+            CreateMap<Proposal, ProposalView>();
         }
     }
 }

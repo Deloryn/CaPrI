@@ -16,7 +16,11 @@ namespace Capri.Services.Proposals
         private readonly IUserGetter _userGetter;
         private readonly ISubmittedProposalGetter _submittedProposalGetter;
 
-        public ProposalCreator(ISqlDbContext context, IMapper mapper, IUserGetter userGetter, ISubmittedProposalGetter submittedProposalGetter)
+        public ProposalCreator(
+            ISqlDbContext context, 
+            IMapper mapper, 
+            IUserGetter userGetter, 
+            ISubmittedProposalGetter submittedProposalGetter)
         {
             _context = context;
             _mapper = mapper;
@@ -24,14 +28,14 @@ namespace Capri.Services.Proposals
             _submittedProposalGetter = submittedProposalGetter;
         }
 
-        public async Task<IServiceResult<Proposal>> Create(
+        public async Task<IServiceResult<ProposalView>> Create(
             ProposalRegistration inputData)
         {
             var result = await _userGetter.GetCurrentUser();
             if(!result.Successful())
             {
                 var errors = result.GetAggregatedErrors();
-                return ServiceResult<Proposal>.Error(errors);
+                return ServiceResult<ProposalView>.Error(errors);
             }
 
             var currentUser = result.Body();
@@ -43,12 +47,12 @@ namespace Capri.Services.Proposals
 
             if(promoter == null)
             {
-                return ServiceResult<Proposal>.Error("The current user has no associated promoter");
+                return ServiceResult<ProposalView>.Error("The current user has no associated promoter");
             }
 
             if(!HasPermissionToCreateProposal(promoter, inputData.Level))
             {
-                return ServiceResult<Proposal>.Error("You are not allowed to create this type of proposal");
+                return ServiceResult<ProposalView>.Error("You are not allowed to create this type of proposal");
             }
 
             var proposal = _mapper.Map<Proposal>(inputData);
@@ -60,7 +64,9 @@ namespace Capri.Services.Proposals
             await _context.Proposals.AddAsync(proposal);
             await _context.SaveChangesAsync();
 
-            return ServiceResult<Proposal>.Success(proposal);
+            var proposalView = _mapper.Map<ProposalView>(proposal);
+
+            return ServiceResult<ProposalView>.Success(proposalView);
         }
 
         private bool HasPermissionToCreateProposal(Promoter promoter, StudyLevel level)

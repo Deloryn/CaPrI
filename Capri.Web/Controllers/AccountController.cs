@@ -15,6 +15,7 @@ namespace Capri.Web.Controllers
             _loginService = loginService;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login([FromBody]UserCredentials credentials)
         {

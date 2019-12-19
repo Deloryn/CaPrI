@@ -70,7 +70,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = "dean")]
+        [Authorize(Roles = "dean,promoter")]
         [HttpGet("submitted/bachelor/{promoterId}")]
         public async Task<IActionResult> GetSubmittedBachelorProposals(Guid promoterId)
         {
@@ -85,7 +85,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = "dean")]
+        [Authorize(Roles = "dean,promoter")]
         [HttpGet("submitted/master/{promoterId}")]
         public async Task<IActionResult> GetSubmittedMasterProposals(Guid promoterId)
         {
