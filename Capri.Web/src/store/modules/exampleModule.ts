@@ -5,7 +5,7 @@ import Vuex from 'vuex';
 // remove it or replace with your own data
 export const ExampleModule = {
     state: {
-
+        fontSize: 12,
     },
     // tslint:disable-next-line: object-literal-sort-keys
     mutations: {    // synchronous change

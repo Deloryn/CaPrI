@@ -39,7 +39,6 @@ export default class DeaneryView extends Vue {
     public data() {
         return {
             search: '',
-            // tslint:disable-next-line:object-literal-sort-keys
             headers: [
                 {
                     sortable: false,
@@ -65,91 +64,76 @@ export default class DeaneryView extends Vue {
             items: [
                 {
                     name: 'Dakota Rice',
-                    // tslint:disable-next-line:object-literal-sort-keys
                     institute: 'Insitute of computer science',
                     can: 'yes',
                 },
                 {
                     name: 'Dakota Rice',
-                    // tslint:disable-next-line:object-literal-sort-keys
                     institute: 'Insitute of computer science',
                     can: 'yes',
                 },
                 {
                     name: 'Dakota Rice',
-                    // tslint:disable-next-line:object-literal-sort-keys
                     institute: 'Insitute of computer science',
                     can: 'yes',
                 },
                 {
                     name: 'Dakota Rice',
-                    // tslint:disable-next-line:object-literal-sort-keys
                     institute: 'Insitute of computer science',
                     can: 'yes',
                 },
                 {
                     name: 'Dakota Rice',
-                    // tslint:disable-next-line:object-literal-sort-keys
                     institute: 'Insitute of computer science',
                     can: 'no',
                 },
                 {
                     name: 'Dakota Rice',
-                    // tslint:disable-next-line:object-literal-sort-keys
                     institute: 'Insitute of computer science',
                     can: 'yes',
                 },
                 {
                     name: 'Dakota Rice',
-                    // tslint:disable-next-line:object-literal-sort-keys
                     institute: 'Insitute of computer science',
                     can: 'yes',
                 },
                 {
                     name: 'Jan Szczuka',
-                    // tslint:disable-next-line:object-literal-sort-keys
                     institute: 'Insitute of computer science',
                     can: 'yes',
                 },
                 {
                     name: 'Dakota Rice',
-                    // tslint:disable-next-line:object-literal-sort-keys
                     institute: 'Insitute of computer science',
                     can: 'yes',
                 },
                 {
                     name: 'Dakota Rice',
-                    // tslint:disable-next-line:object-literal-sort-keys
                     institute: 'Insitute of computer science',
                     can: 'yes',
                 },
                 {
                     name: 'Minerva Hooper',
-                    // tslint:disable-next-line:object-literal-sort-keys
                     institute: 'Insitute of computer science',
                     can: 'yes',
                 },
                 {
                     name: 'Sage Rodriguez',
-                    // tslint:disable-next-line:object-literal-sort-keys
                     institute: 'Insitute of computer science',
                     can: 'yes',
                 },
                 {
                     name: 'Philip Chanley',
-                    // tslint:disable-next-line:object-literal-sort-keys
                     institute: 'Insitute of computer science',
                     can: 'yes',
                 },
                 {
                     name: 'Doris Greene',
-                    // tslint:disable-next-line:object-literal-sort-keys
                     institute: 'Insitute of computer science',
                     can: 'no',
                 },
                 {
                     name: 'Mason Porter',
-                    // tslint:disable-next-line:object-literal-sort-keys
                     institute: 'Insitute of computer science',
                     can: 'yes',
                 },
@@ -181,7 +165,7 @@ export default class DeaneryView extends Vue {
 </script>
 <style scoped>
 .mainView {
-	width: calc(100% - 280px);
+	width: calc(100% - 340px);
 	margin-left: 270px;
 	margin-right: 10px;
 	margin-top: 0px;

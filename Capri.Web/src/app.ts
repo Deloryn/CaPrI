@@ -9,6 +9,10 @@ import router from './router';
 
 Vue.use(Vuetify);
 
+if (module['hot']) {
+    module['hot'].accept();
+}
+
 // tslint:disable-next-line:no-unused-expression
 new Vue({
   router,

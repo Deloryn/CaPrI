@@ -2,36 +2,38 @@
     <v-container fluid
                  grid-list-xl
                  class="mainView">
+        <v-file-input label="File input" v-model="file" style="width: 60%;"></v-file-input>
         <v-row justify="center">
-
-            <v-col cols="6" class="px-12">
-                <v-text-field v-model="search"
-                              append-icon="search"
-                              label="Type text to filter"
-                              single-line
-                              hide-details></v-text-field>
-            </v-col>
-            <v-col cols="5" class="px-12">
-            </v-col>
-            <v-col cols="1">
-                <v-btn color="primary">ADD THESIS</v-btn>
-            </v-col>
-
             <v-col cols="12">
                 <v-data-table :headers="headers"
                               :items="items"
                               :search="search"
                               style="background-color: #FFFFFF;">
 
-                    <template v-slot:item.status="{ item }">
-                        <v-chip :color="setColor(item.available,item.taken)" class="paintData">{{ setState(item.available,item.taken) }}</v-chip>
+                    <template v-slot:header.name="{ header }">
+                        <span style="font-size: 30px; color: rgb(18,98,141)">{{ header.text }}</span>
                     </template>
-                    <template v-slot:item.available="{ item }">
-                        {{ item.taken }}/{{ item.available }}
+
+                    <template v-slot:header.laboratory="{ header }">
+                        <span style="font-size: 30px; color: rgb(18,98,141)">{{ header.text }}</span>
                     </template>
-                    <template v-slot:item.action="{ item }">
-                        <v-icon>mdi-pen</v-icon>
-                        <v-icon>mdi-delete</v-icon>
+
+                    <template v-slot:header.bachelorTopics="{ header }">
+                        <span style="font-size: 30px; color: rgb(18,98,141)">{{ header.text }}</span>
+                    </template>
+
+                    <template v-slot:header.masterTopics="{ header }">
+                        <span style="font-size: 30px; color: rgb(18,98,141)">{{ header.text }}</span>
+                    </template>
+
+                    <template v-slot:item.name="{ item }">
+                        <span style="float: left; font-size: 24px; font-weight: bold;">{{ item.title }}</span>
+                    </template>
+                    <template v-slot:item.promoter="{ item }">
+                        <span style="float: left; font-size: 24px; font-weight: bold;">{{ item.thesis }}</span>
+                    </template>
+                    <template v-slot:item.freeSlots="{ item }">
+                        <span style="float: left; font-size: 24px; font-weight: bold;">{{ item.taken }}</span>
                     </template>
 
                 </v-data-table>
@@ -44,48 +46,44 @@
     import { Vue, Component, Prop } from 'vue-property-decorator';
 
     @Component
-    export default class PromoterView extends Vue {
+    export default class CardsView extends Vue {
         public data() {
             return {
                 search: '',
-                // tslint:disable-next-line:object-literal-sort-keys
                 headers: [
                     {
                         sortable: false,
-                        text: 'Title',
-                        value: 'title',
-                        width: '40%',
+                        text: 'Name',
+                        value: 'name',
+                        width: '30%',
+                        align: 'center',
                     },
                     {
                         sortable: false,
-                        text: 'Thesis type',
-                        value: 'thesis',
+                        text: 'Laboratory',
+                        value: 'laboratory',
+                        width: '20%',
+                        align: 'center',
                     },
                     {
                         sortable: false,
-                        text: 'State',
-                        value: 'status',
+                        text: 'Bachelor topics',
+                        value: 'bachelorTopics',
+                        width: '20%',
+                        align: 'center',
                     },
                     {
                         sortable: false,
-                        text: 'Number of students',
-                        value: 'available',
+                        text: 'Master Topics',
+                        value: 'masterTopics',
+                        width: '20%',
+                        align: 'center',
                     },
-                    {
-                        sortable: false,
-                        text: 'Study type',
-                        value: 'type',
-                    },
-                    {
-                        sortable: false,
-                        text: 'Actions',
-                        value: 'action',
-                    },
+                    {}
                 ],
                 items: [
                     {
                         title: 'Dakota Rice',
-                        // tslint:disable-next-line:object-literal-sort-keys
                         thesis: 'Master',
                         taken: 0,
                         available: 3,
@@ -93,7 +91,6 @@
                     },
                     {
                         title: 'Dakota Rice',
-                        // tslint:disable-next-line:object-literal-sort-keys
                         thesis: 'Master',
                         taken: 0,
                         available: 3,
@@ -101,7 +98,6 @@
                     },
                     {
                         title: 'Dakota Rice',
-                        // tslint:disable-next-line:object-literal-sort-keys
                         thesis: 'Bachelor',
                         taken: 0,
                         available: 3,
@@ -109,7 +105,6 @@
                     },
                     {
                         title: 'Dakota Rice',
-                        // tslint:disable-next-line:object-literal-sort-keys
                         thesis: 'Bachelor',
                         taken: 0,
                         available: 3,
@@ -117,7 +112,6 @@
                     },
                     {
                         title: 'Dakota Rice',
-                        // tslint:disable-next-line:object-literal-sort-keys
                         thesis: 'Bachelor',
                         taken: 1,
                         available: 3,
@@ -125,7 +119,6 @@
                     },
                     {
                         title: 'Dakota Rice',
-                        // tslint:disable-next-line:object-literal-sort-keys
                         thesis: 'Bachelor',
                         taken: 0,
                         available: 3,
@@ -133,7 +126,6 @@
                     },
                     {
                         title: 'Dakota Rice',
-                        // tslint:disable-next-line:object-literal-sort-keys
                         thesis: 'Bachelor',
                         taken: 0,
                         available: 3,
@@ -141,7 +133,6 @@
                     },
                     {
                         title: 'Dakota Rice',
-                        // tslint:disable-next-line:object-literal-sort-keys
                         thesis: 'Master',
                         taken: 0,
                         available: 3,
@@ -149,7 +140,6 @@
                     },
                     {
                         title: 'Dakota Rice',
-                        // tslint:disable-next-line:object-literal-sort-keys
                         thesis: 'Master',
                         taken: 0,
                         available: 3,
@@ -157,7 +147,6 @@
                     },
                     {
                         title: 'Dakota Rice',
-                        // tslint:disable-next-line:object-literal-sort-keys
                         thesis: 'Master',
                         taken: 0,
                         available: 3,
@@ -165,7 +154,6 @@
                     },
                     {
                         title: 'Jan Szczuka',
-                        // tslint:disable-next-line:object-literal-sort-keys
                         thesis: 'Master',
                         taken: 0,
                         available: 3,
@@ -173,7 +161,6 @@
                     },
                     {
                         title: 'Dakota Rice',
-                        // tslint:disable-next-line:object-literal-sort-keys
                         thesis: 'Master',
                         taken: 0,
                         available: 3,
@@ -181,7 +168,6 @@
                     },
                     {
                         title: 'Dakota Rice',
-                        // tslint:disable-next-line:object-literal-sort-keys
                         thesis: 'Master',
                         taken: 0,
                         available: 3,
@@ -189,7 +175,6 @@
                     },
                     {
                         title: 'Minerva Hooper',
-                        // tslint:disable-next-line:object-literal-sort-keys
                         thesis: 'Bachelor',
                         taken: 3,
                         available: 3,
@@ -197,7 +182,6 @@
                     },
                     {
                         title: 'Sage Rodriguez',
-                        // tslint:disable-next-line:object-literal-sort-keys
                         thesis: 'Master',
                         taken: 0,
                         available: 3,
@@ -205,7 +189,6 @@
                     },
                     {
                         title: 'Philip Chanley',
-                        // tslint:disable-next-line:object-literal-sort-keys
                         thesis: 'Bachelor',
                         taken: 2,
                         available: 3,
@@ -230,24 +213,12 @@
                 ],
             };
         }
-        public setColor(available, taken): string {
-            let color = 'green';
-            if (taken > 0) { color = 'yellow'; }
-            if (taken === available) { color = 'red'; }
-            return color;
-        }
-        public setState(available, taken): string {
-            let state = 'Free';
-            if (taken > 0) { state = 'Partially taken'; }
-            if (taken === available) { state = 'Taken'; }
-            return state;
-        }
     }
 </script>
 <style scoped>
     .mainView {
-        width: calc(100% - 340px);
-        margin-left: 340px;
+        width: calc(100% - 370px);
+        margin-left: 350px;
         margin-right: 10px;
         margin-top: 0px;
         margin-bottom: 0px;

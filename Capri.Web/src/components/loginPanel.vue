@@ -31,7 +31,7 @@
                             </v-card-text>
                             <v-card-actions>
                                 <div class="flex-grow-1"></div>
-                                <v-btn color="primary" to="/list/masters">Login</v-btn>
+                                <v-btn color="primary" to="/cards">Login</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-col>
