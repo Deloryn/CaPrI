@@ -11,6 +11,9 @@ namespace Capri.Database.Entities
         [Key]
         public Guid Id { get; set; }
         [Required]
+        public string TitlePrefix { get; set; }
+        public string TitlePostfix { get; set; }
+        [Required]
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
