@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 
-namespace Capri.Web.Configuration
+namespace Capri.Web.Configuration.Mapper
 {
     public static class MapperConfiguration
     {
@@ -10,7 +10,11 @@ namespace Capri.Web.Configuration
         {
             var mappingConfig = new AutoMapper.MapperConfiguration(mc =>
             {
-                mc.AddProfile(new MappingProfile());
+                mc.AddProfile(new PromoterMappingProfile());
+                mc.AddProfile(new ProposalMappingProfile());
+                mc.AddProfile(new FacultyMappingProfile());
+                mc.AddProfile(new CourseMappingProfile());
+                mc.AddProfile(new InstituteMappingProfile());
             });
 
             IMapper mapper = mappingConfig.CreateMapper();

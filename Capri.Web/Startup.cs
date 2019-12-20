@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Capri.Web.Configuration;
 using Capri.Web.Configuration.Sieve;
+using Capri.Web.Configuration.Mapper;
 using Capri.Services.Account;
 using Capri.Services.Token;
 using Capri.Services.Users;
