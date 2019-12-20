@@ -7,14 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Capri.Web.Configuration;
 using Capri.Web.Configuration.Sieve;
 using Capri.Web.Configuration.Mapper;
-using Capri.Services.Account;
-using Capri.Services.Token;
-using Capri.Services.Users;
-using Capri.Services.Proposals;
-using Capri.Services.Promoters;
-using Capri.Services.Courses;
-using Capri.Services.Faculties;
-using Capri.Services.Institutes;
+using Capri.Web.Configuration.Service;
 
 namespace Capri.Web
 {
@@ -42,40 +35,7 @@ namespace Capri.Web
             services.AddSieveConfiguration(Configuration.GetSection("SieveSettings"));
             services.AddMapperConfiguration();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            services.AddScoped<ILoginService, LoginService>();
-
-            services.AddScoped<IProposalCreator, ProposalCreator>();
-            services.AddScoped<IProposalDeleter, ProposalDeleter>();
-            services.AddScoped<IProposalGetter, ProposalGetter>();
-            services.AddScoped<IProposalUpdater, ProposalUpdater>();
-            services.AddScoped<ISubmittedProposalGetter, SubmittedProposalGetter>();
-
-            services.AddScoped<IPromoterCreator, PromoterCreator>();
-            services.AddScoped<IPromoterUpdater, PromoterUpdater>();
-            services.AddScoped<IPromoterGetter, PromoterGetter>();
-            services.AddScoped<IPromoterDeleter, PromoterDeleter>();
-
-            services.AddScoped<ITokenGenerator, TokenGenerator>();
-
-            services.AddScoped<IUserCreator, UserCreator>();
-            services.AddScoped<IUserUpdater, UserUpdater>();
-            services.AddScoped<IUserGetter, UserGetter>();
-
-            services.AddScoped<ICourseCreator, CourseCreator>();
-            services.AddScoped<ICourseUpdater, CourseUpdater>();
-            services.AddScoped<ICourseGetter, CourseGetter>();
-            services.AddScoped<ICourseDeleter, CourseDeleter>();
-
-            services.AddScoped<IInstituteCreator, InstituteCreator>();
-            services.AddScoped<IInstituteUpdater, InstituteUpdater>();
-            services.AddScoped<IInstituteGetter, InstituteGetter>();
-            services.AddScoped<IInstituteDeleter, InstituteDeleter>();
-
-            services.AddScoped<IFacultyCreator, FacultyCreator>();
-            services.AddScoped<IFacultyUpdater, FacultyUpdater>();
-            services.AddScoped<IFacultyGetter, FacultyGetter>();
-            services.AddScoped<IFacultyDeleter, FacultyDeleter>();
+            services.AddServiceConfiguration();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
