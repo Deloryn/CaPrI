@@ -11,7 +11,7 @@
 			style="width: 60%;"
 			@change="previewFiles"
 		></v-file-input>
-		<div v-if="f !== ''">
+		<div v-if="chosenFile !== ''">
 			<v-row justify="center">
 				<v-col cols="12">
 					<v-data-table
@@ -94,10 +94,11 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
 export default class CardsView extends Vue {
+    public chosenFile: string;
     public data() {
         return {
             search: '',
-            f: '',
+            chosenFile: '',
             headers: [
                 {
                     sortable: false,
@@ -259,10 +260,9 @@ export default class CardsView extends Vue {
             ],
         };
     }
-    // public previewFiles(event) {
-    //     this.f = event.name;
-    //     console.log(event.name);
-    // }
+    public previewFiles(event) {
+        this.chosenFile = event.name;
+    }
 }
 </script>
 <style scoped>

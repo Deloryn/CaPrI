@@ -160,21 +160,21 @@ export default class CardsView extends Vue {
             searchFreeSlots: '',
             headers: [
                 {
-                    sortable: false,
+                    sortable: true,
                     text: 'Title',
                     value: 'title',
                     width: '60%',
                     align: 'center',
                 },
                 {
-                    sortable: false,
+                    sortable: true,
                     text: 'Promoter',
                     value: 'promoter',
                     width: '20%',
                     align: 'center',
                 },
                 {
-                    sortable: false,
+                    sortable: true,
                     text: 'Free slots',
                     value: 'freeSlots',
                     align: 'center',
