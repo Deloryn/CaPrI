@@ -17,7 +17,7 @@
 		</template>
 
 		<v-img
-			src="http://pp-rai.cs.put.poznan.pl/user/themes/mlg/img/putLogoColor.png"
+			:src="require('../assets/putLogoColor.png')"
 			height="140"
 			contain
 			style="margin: 10px;"
@@ -36,7 +36,6 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
-export default class NavBar extends Vue {
-}
+export default class NavBar extends Vue {}
 </script>
 <style lang="scss" scoped></style>

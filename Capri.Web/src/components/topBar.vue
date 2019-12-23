@@ -4,18 +4,18 @@
 			<strong>{{ listType }}</strong>
 		</div>
 		<v-spacer></v-spacer>
-		<div class="headerElement" style="width: 100px;">
+		<div class="headerElement">
 			<div style="width: 100px; text-align: center;">
-				<span style="font-size: 18px; color: rgb(18,98,141);"
-					><strong>Font size</strong></span
-				>
+				<span style="font-size: 18px; color: rgb(18,98,141);">
+					<strong>Font size</strong>
+				</span>
 				<v-select
 					v-model="fontSize"
 					:items="items"
 					item-text="font"
 					item-value="font"
 					return-object
-					style="background-color: white; padding: 0px; width: 56px; height: 32px; text-decoration-style: none; display: inline-block;"
+					class="selectStyle"
 				></v-select>
 			</div>
 		</div>
@@ -87,5 +87,14 @@ export default class TopBar extends Vue {
 	margin: 10px;
 	height: 25px;
 	width: 50px;
+}
+
+.selectStyle {
+	background-color: #ffffff;
+	padding: 0px;
+	width: 56px;
+	height: 32px;
+	text-decoration-style: none;
+	display: inline-block;
 }
 </style>

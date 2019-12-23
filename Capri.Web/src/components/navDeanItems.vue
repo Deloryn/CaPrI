@@ -1,18 +1,16 @@
 <template>
+    <div id="deanBar">
+        <v-list-item v-for="(link, i) in links"
+                        :key="i"
+                        :to="link.to"
+                        active-class="primary white--text" style="margin: 0; padding: 0; border-radius: 0; height: 80px;  font-size: 50px;">
+            <v-list-item-action style="margin: 0; padding: 0;" class="px-3">
+                <v-icon>{{ link.icon }}</v-icon>
+            </v-list-item-action>
 
-                    <div id="deanBar">
-                        <v-list-item v-for="(link, i) in links"
-                                     :key="i"
-                                     :to="link.to"
-                                     active-class="primary white--text" style="margin: 0; padding: 0; border-radius: 0; height: 80px;  font-size: 50px;">
-                            <v-list-item-action style="margin: 0; padding: 0;" class="px-3">
-                                <v-icon>{{ link.icon }}</v-icon>
-                            </v-list-item-action>
-
-                            <v-list-item-title v-text="link.text" />
-                        </v-list-item>
-                    </div>
-
+            <v-list-item-title v-text="link.text" />
+        </v-list-item>
+    </div>
 </template>
 <script lang="ts">
     import { Vue, Component, Prop } from 'vue-property-decorator';
@@ -21,7 +19,6 @@
     export default class NavDeanItems extends Vue {
         public data() {
             return {
-                who: 'promoter', // promoter, student or deanery
                 links: [
                     {
                         to: '/promoterList',

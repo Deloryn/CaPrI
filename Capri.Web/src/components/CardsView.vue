@@ -3,7 +3,7 @@
 		<v-row justify="center">
 			<v-dialog v-model="dialog" max-width="1000">
 				<v-form>
-					<v-container style="background-color: #FFFFFF;">
+					<v-container class="table">
 						<v-row>
 							<v-col cols="12">
 								<v-text-field
@@ -22,6 +22,7 @@
 								></v-text-field>
 							</v-col>
 						</v-row>
+
 						<v-row>
 							<v-col cols="4">
 								<v-text-field
@@ -30,7 +31,6 @@
 									readonly
 								></v-text-field>
 							</v-col>
-
 							<v-col cols="4">
 								<v-text-field
 									:value="popup.studyType"
@@ -38,10 +38,9 @@
 									readonly
 								></v-text-field>
 							</v-col>
-
 							<v-col cols="4">
 								<v-text-field
-									:value="popup.freeSlots"
+									:value="popup.freeSlots + '/' + ile"
 									label="State"
 									readonly
 								></v-text-field>
@@ -61,10 +60,9 @@
 						<v-row>
 							<v-col cols="12" class="text-center">
 								<v-btn
-									style="background-color: rgb(18,98,141);"
 									text
-									color="#FFFFFF"
 									@click="dialog = false"
+									class="closeButton"
 								>
 									Close
 								</v-btn>
@@ -80,68 +78,50 @@
 					:items="items"
 					:search="searchTitle"
 					v-model="selected"
-					@click:row="handleClick"
-					style="background-color: #FFFFFF;"
+					@click:row="showDialog"
+					class="table"
 				>
 					<template v-slot:header.title="{ header }">
-						<span style="font-size: 30px; color: rgb(18,98,141)">{{
-							header.text
-						}}</span>
+						<span class="headerText">{{ header.text }}</span>
 						<v-text-field
 							v-model="searchTitle"
 							label="Filter"
 							single-line
 							hide-details
-							outlined="true"
-							style="border-radius: 0;"
+							outlined
 						></v-text-field>
 					</template>
 
 					<template v-slot:header.promoter="{ header }">
-						<span style="font-size: 30px; color: rgb(18,98,141)">{{
-							header.text
-						}}</span>
+						<span class="headerText">{{ header.text }}</span>
 						<v-text-field
 							v-model="searchPromoter"
 							label="Filter"
 							single-line
 							hide-details
-							outlined="true"
-							style="border-radius: 0;"
+							outlined
 						></v-text-field>
 					</template>
 
 					<template v-slot:header.freeSlots="{ header }">
-						<span style="font-size: 30px; color: rgb(18,98,141)">{{
-							header.text
-						}}</span>
+						<span class="headerText">{{ header.text }}</span>
 						<v-text-field
 							v-model="searchFreeSlots"
 							label="Filter"
 							single-line
 							hide-details
-							outlined="true"
-							style="border-radius: 0;"
+							outlined
 						></v-text-field>
 					</template>
 
 					<template v-slot:item.title="{ item }">
-						<span
-							style="float: left; font-size: 24px; font-weight: bold;"
-							>{{ item.title }}</span
-						>
+						<span class="itemText">{{ item.title }}</span>
 					</template>
 					<template v-slot:item.promoter="{ item }">
-						<span
-							style="float: left; font-size: 24px; font-weight: bold;"
-							>{{ item.promoter }}</span
-						>
+						<span class="itemText">{{ item.promoter }}</span>
 					</template>
 					<template v-slot:item.freeSlots="{ item }">
-						<span
-							style="float: left; font-size: 24px; font-weight: bold;"
-							>{{ item.freeSlots }}</span
-						>
+						<span class="itemTextSlot">{{ item.freeSlots }}</span>
 					</template>
 				</v-data-table>
 			</v-col>
@@ -153,6 +133,15 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
 export default class CardsView extends Vue {
+    public popup: {
+        title: string;
+        promoter: string;
+        thesisType: string;
+        studyType: string;
+        freeSlots: string;
+        description: string;
+    };
+    public dialog: boolean;
     public data() {
         return {
             dialog: false,
@@ -165,7 +154,7 @@ export default class CardsView extends Vue {
                 description: '',
             },
             ile: 3,
-            selected: 2,
+            selected: [],
             searchTitle: '',
             searchPromoter: '',
             searchFreeSlots: '',
@@ -384,18 +373,14 @@ export default class CardsView extends Vue {
             ],
         };
     }
-    public chechAvailability(freeSlots): string {
-        if (freeSlots === 0) { return 'unavailable'; }
-        return 'available';
-    }
-    public handleClick(value) {
-        (<any>this).popup.title = value.title;
-        (<any>this).popup.promoter = value.promoter;
-        (<any>this).popup.studyType = value.studyType;
-        (<any>this).popup.thesisType = value.thesisType;
-        (<any>this).popup.freeSlots = value.freeSlots;
-        (<any>this).popup.description = value.description;
-        (<any>this).dialog = true;
+    public showDialog(value) {
+        this.popup.title = value.title;
+        this.popup.promoter = value.promoter;
+        this.popup.studyType = value.studyType;
+        this.popup.thesisType = value.thesisType;
+        this.popup.freeSlots = value.freeSlots;
+        this.popup.description = value.description;
+        this.dialog = true;
     }
 }
 </script>
@@ -405,13 +390,33 @@ export default class CardsView extends Vue {
 	margin-left: 350px;
 	margin-right: 10px;
 	margin-top: 0px;
-	margin-bottom: 0px;
+	margin-bottom: 140px;
 	background-color: #ffffff;
 }
+.table {
+	background-color: #ffffff;
+}
+.closeButton {
+	width: 25%;
+	height: 64px;
+	font-size: 24px;
+	color: #ffffff;
+	background-color: #12628d;
+}
 
-.paintData {
-	width: 100%;
-	height: 100%;
-	border-radius: 0;
+.headerText {
+	color: #12628d;
+	font-size: 30px;
+}
+
+.itemText {
+	float: left;
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.itemTextSlot {
+	font-size: 24px;
+	font-weight: bold;
 }
 </style>

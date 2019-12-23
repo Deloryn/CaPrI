@@ -14,24 +14,39 @@
 						</v-row>
 						<v-row>
 							<v-col cols="6">
-								<v-text-field
-									:value="popup.thesisType"
-									label="Thesis degree"
-								></v-text-field>
+								<v-select
+									:items="thesisTypes"
+									label="Thesis type"
+									v-model="popup.thesisType"
+								>
+								</v-select>
 							</v-col>
 							<v-col cols="6">
-								<v-text-field
-									:value="popup.studyType"
+								<v-select
+									:items="studyTypes"
 									label="Study type"
-								></v-text-field>
+									v-model="popup.studyType"
+								>
+								</v-select>
 							</v-col>
 						</v-row>
 						<v-row>
-							<v-col cols="6" v-for="student in popup.students" v-bind:key='student.name'>
+							<v-col
+								cols="6"
+								v-for="student in popup.students"
+								v-bind:key="student.name"
+							>
 								<v-text-field
 									:value="student"
 									label="Student"
 								></v-text-field>
+							</v-col>
+							<v-col>
+								<span @click="addStudent()">
+									<v-icon style="margin-bottom: 6px;"
+										>mdi-plus-box</v-icon
+									>Add a new student
+								</span>
 							</v-col>
 						</v-row>
 
@@ -129,7 +144,7 @@
 					</template>
 
 					<template v-slot:body.append>
-						<td :key="index" @click="dialog = true">
+						<td @click="handleClick">
 							<span style="font-size: 24px; font-weight: bold;"
 								><v-icon style="margin-bottom: 6px;"
 									>mdi-plus-box</v-icon
@@ -148,8 +163,20 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
 export default class MyProporsals extends Vue {
+    public popup: {
+        title: string;
+        promoter: string;
+        thesisType: string;
+        studyType: string;
+        freeSlots: string;
+        description: string;
+        students: string[];
+    };
+    public dialog: boolean;
     public data() {
         return {
+            studyTypes: ['Full-time', 'Part-time'],
+            thesisTypes: ['Bachelor', 'Master'],
             search: '',
             numberOfThesis: 6,
             dialog: false,
@@ -163,28 +190,28 @@ export default class MyProporsals extends Vue {
             },
             headers: [
                 {
-                    sortable: false,
+                    sortable: true,
                     text: 'Title',
                     value: 'title',
                     width: '55%',
                     align: 'center',
                 },
                 {
-                    sortable: false,
+                    sortable: true,
                     text: 'Degree',
                     value: 'thesisType',
                     width: '15%',
                     align: 'center',
                 },
                 {
-                    sortable: false,
+                    sortable: true,
                     text: 'Type',
                     value: 'studyType',
                     width: '15%',
                     algin: 'center',
                 },
                 {
-                    sortable: false,
+                    sortable: true,
                     text: 'State',
                     value: 'freeSlots',
                     width: '15%',
@@ -204,13 +231,15 @@ export default class MyProporsals extends Vue {
                     maxStudents: 4,
                 },
                 {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
+                    title: 'CaPri2 System',
+                    promoter: 'Nawrocki Jerzy',
                     description:
                         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 0,
+                    thesisType: 'Bachelor',
+                    studyType: 'Part time',
+                    freeSlots: 2,
+                    students: ['Jan 2', 'Jan 23'],
+                    maxStudents: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -234,15 +263,20 @@ export default class MyProporsals extends Vue {
         };
     }
     public handleClick(value) {
-        var myJSON = JSON.stringify(value.freeSlots);
-        (<any>this).popup.title = value.title;
-        (<any>this).popup.promoter = value.promoter;
-        (<any>this).popup.studyType = value.studyType;
-        (<any>this).popup.thesisType = value.thesisType;
-        (<any>this).popup.freeSlots = value.freeSlots;
-        (<any>this).popup.description = value.description;
-        (<any>this).popup.students = value.students;
-        (<any>this).dialog = true;
+        this.popup.title = value.title;
+        this.popup.promoter = value.promoter;
+        this.popup.studyType = value.studyType;
+        this.popup.thesisType = value.thesisType;
+        this.popup.freeSlots = value.freeSlots;
+        this.popup.description = value.description;
+        this.popup.students = value.students;
+        this.dialog = true;
+    }
+    public addStudent() {
+        if (this.popup.students === undefined) {
+            this.popup.students = [];
+        }
+        this.popup.students.push('');
     }
 }
 </script>
