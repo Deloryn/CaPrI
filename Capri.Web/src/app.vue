@@ -46,7 +46,7 @@ enum UserTypes {
 export default class App extends Vue {
     public data() {
         return {
-            userType: UserTypes.student,
+            userType: UserTypes.dean,
         };
     }
 }

@@ -70,7 +70,7 @@
 				</v-col>
 			</v-row>
 			<div style="font-size: 24px; font-weight: bold;">
-				<div>Set default value of expected number of topics</div>
+				<span>Set default value of expected number of topics</span>
 				<div class="ml-3">
 					<v-text-field
 						style="width: 120px; float: left;"
