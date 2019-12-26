@@ -27,7 +27,7 @@ import navStudentItems from './components/navStudentItems.vue';
 import navPromoterItems from './components/navPromoterItems.vue';
 import navDeanItems from './components/navDeanItems.vue';
 
-enum userTypes {
+enum UserTypes {
     student = 'student',
     promoter = 'promoter',
     dean = 'dean',
@@ -46,7 +46,7 @@ enum userTypes {
 export default class App extends Vue {
     public data() {
         return {
-            userType: userTypes.student,
+            userType: UserTypes.student,
         };
     }
 }
