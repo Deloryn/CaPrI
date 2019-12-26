@@ -261,10 +261,7 @@ export default class MyProporsals extends Vue {
         this.dialog = true;
     }
     public addStudent(): void {
-        if (this.popup.students === undefined) {
-            this.popup.students = [];
-        }
-        this.popup.students.push('');
+        if(!this.popup.students) { this.popup.students = []; } this.popup.students.push('');
     }
 }
 </script>
