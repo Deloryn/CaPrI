@@ -17,7 +17,6 @@
 					<v-data-table
 						:headers="headers"
 						:items="items"
-						:search="search"
 						style="background-color: #FFFFFF;"
 					>
 						<template v-slot:header.name="{ header }">
@@ -97,8 +96,7 @@ export default class CardsView extends Vue {
     public chosenFile: string;
     public data() {
         return {
-            search: '',
-            chosenFile: '',
+            chosenFileWithPromoterList: '',
             headers: [
                 {
                     sortable: false,
@@ -261,7 +259,7 @@ export default class CardsView extends Vue {
         };
     }
     public previewFiles(event) {
-        this.chosenFile = event.name;
+        this.chosenFileWithPromoterList = event.name;
     }
 }
 </script>
