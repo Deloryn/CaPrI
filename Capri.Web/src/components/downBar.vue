@@ -1,5 +1,5 @@
 <template>
-	<v-footer fixed height="128" style="" class="footerContainer">
+	<v-footer fixed height="128" style="left: 320px; background-color: rgb(149, 149, 149)">
 		<v-spacer></v-spacer>
 		<div class="footer">&copy; {{ new Date().getFullYear() }}</div>
 	</v-footer>
@@ -12,10 +12,6 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 export default class DownBar extends Vue {}
 </script>
 <style lang="scss" scoped>
-.footerContainer {
-	left: 320px !important;
-	background-color: rgb(149, 149, 149) !important;
-}
 .footer {
 	font-size: 80px;
 	color: rgb(0, 100, 139);
