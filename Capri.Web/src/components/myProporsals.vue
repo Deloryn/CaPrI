@@ -62,8 +62,7 @@
 						<v-row>
 							<v-col cols="12" class="text-center">
 								<v-btn
-									style="background-color: green;"
-									class="buttonStyle mx-12"
+									class="buttonStyle green mx-12"
 									text
 									color="#FFFFFF"
 									@click="dialog = false"
@@ -71,8 +70,7 @@
 									Save
 								</v-btn>
 								<v-btn
-									style="background-color: red;"
-									class="buttonStyle mx-12"
+									class="buttonStyle red mx-12"
 									text
 									color="#FFFFFF"
 									@click="dialog = false"
@@ -285,9 +283,18 @@ export default class MyProporsals extends Vue {
 	height: 100%;
 	border-radius: 0;
 }
+
 .buttonStyle {
      width: 200px;
      height: 50px;
      font-size: 24px;
+}
+
+.green {
+    background-color: rgb(40,167,69);
+}
+
+.red {
+    background-color: rgb(220,53,69);
 }
 </style>
