@@ -73,15 +73,15 @@
 				<span>Set default value of expected number of topics</span>
 				<div class="ml-3">
 					<v-text-field
-						style="width: 120px; float: left;"
 						label="Bachelor"
+                        class="inputMaxNumber"
 					></v-text-field
 					><v-btn style="margin-top: 10px;">Set</v-btn>
 				</div>
 				<div class="ml-3" style="clear: left;">
 					<v-text-field
-						style="width: 120px; float: left;"
 						label="Master"
+                        class="inputMaxNumber"
 					></v-text-field
 					><v-btn style="margin-top: 10px;">Set</v-btn>
 				</div>
@@ -279,5 +279,9 @@ export default class CardsView extends Vue {
 	width: 100%;
 	height: 100%;
 	border-radius: 0;
+}
+.inputMaxNumber {
+    width: 120px;
+    float: left;
 }
 </style>
