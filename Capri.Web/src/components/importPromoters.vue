@@ -93,7 +93,6 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
 export default class CardsView extends Vue {
-    public chosenFile: string;
     public data() {
         return {
             chosenFileWithPromoterList: '',
@@ -258,7 +257,7 @@ export default class CardsView extends Vue {
             ],
         };
     }
-    public previewFiles(event) {
+    public previewFiles(event): void {
         this.chosenFileWithPromoterList = event.name;
     }
 }

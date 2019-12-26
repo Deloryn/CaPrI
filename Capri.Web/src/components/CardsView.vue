@@ -395,7 +395,7 @@ export default class CardsView extends Vue {
             ],
         };
     }
-    public showDialog(value) {
+    public showDialog(value): void {
         this.popup.title = value.title;
         this.popup.promoter = value.promoter;
         this.popup.studyType = value.studyType;
