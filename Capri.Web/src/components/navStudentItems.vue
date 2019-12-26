@@ -3,13 +3,12 @@
 		<v-list-item
 			v-for="(filter, i) in filters"
 			:key="i"
-			style="padding: 0; margin: 0;"
-			class="px-3"
+			class="paddingAndMarginZero px-3"
 		>
 			<v-list-item-action
 				color="blue"
-				style="padding: 0; margin: 0; width: 310px;"
-				class="my-4"
+				class="paddingAndMarginZero my-4"
+                style="width: 310px;"
 			>
 				<v-select
 					:items="filter.values"
@@ -17,7 +16,7 @@
 					:model="filter.chosen"
 					v-on:change="changeRoute(i)"
 					color="blue"
-					style="padding: 0; margin: 0;"
+					class="paddingAndMarginZero"
 				>
 				</v-select>
 			</v-list-item-action>
@@ -29,7 +28,6 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
 export default class NavStudentItems extends Vue {
-    public filters: boolean[];
     public data() {
         return {
             isAllSelected: 'nie',
@@ -57,10 +55,10 @@ export default class NavStudentItems extends Vue {
             ],
         };
     }
-    public changeRoute(num) {
-        this.filters[num] = true;
+    public changeRoute(which) {
+        this.filters[which] = true;
         for (let i = 0; i < this.filters.length; i += 1) {
-            if ((this as any).filters[i].chosen === false) {
+            if (this.filters[i].chosen === false) {
                 return;
             }
         }
@@ -68,4 +66,9 @@ export default class NavStudentItems extends Vue {
     }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.paddingAndMarginZero {
+    padding: 0px;
+    margin: 0px;
+}
+</style>

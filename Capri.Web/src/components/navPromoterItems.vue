@@ -5,9 +5,9 @@
 			:key="i"
 			:to="link.to"
 			active-class="primary white--text"
-			style="margin: 0; padding: 0; border-radius: 0; height: 80px;"
+            class="promoterItems"
 		>
-			<v-list-item-action style="margin: 0; padding: 0;" class="px-3">
+			<v-list-item-action class="promoterItem px-3">
 				<v-icon>{{ link.icon }}</v-icon>
 			</v-list-item-action>
 
@@ -42,5 +42,15 @@ export default class NavPromoterItems extends Vue {
 div .v-list-item__title {
 	font-size: 24px;
 	font-weight: bold;
+}
+.promoterItems {
+   margin: 0;
+   padding: 0;
+   border-radius: 0;
+   height: 80px;
+}
+.promoterItem {
+     margin: 0;
+     padding: 0;
 }
 </style>
