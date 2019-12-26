@@ -62,8 +62,8 @@
 						<v-row>
 							<v-col cols="12" class="text-center">
 								<v-btn
-									style="background-color: green; width: 200px; height: 50px; font-size: 24px;"
-									class="mx-12"
+									style="background-color: green;"
+									class="buttonStyle mx-12"
 									text
 									color="#FFFFFF"
 									@click="dialog = false"
@@ -71,8 +71,8 @@
 									Save
 								</v-btn>
 								<v-btn
-									style="background-color: red; width: 200px; height: 50px; font-size: 24px;"
-									class="mx-12"
+									style="background-color: red;"
+									class="buttonStyle mx-12"
 									text
 									color="#FFFFFF"
 									@click="dialog = false"
@@ -163,16 +163,6 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
 export default class MyProporsals extends Vue {
-    public popup: {
-        title: string;
-        promoter: string;
-        thesisType: string;
-        studyType: string;
-        freeSlots: string;
-        description: string;
-        students: string[];
-    };
-    public dialog: boolean;
     public data() {
         return {
             studyTypes: ['Full-time', 'Part-time'],
@@ -262,7 +252,7 @@ export default class MyProporsals extends Vue {
             ],
         };
     }
-    public handleClick(value) {
+    public handleClick(value): void {
         this.popup.title = value.title;
         this.popup.promoter = value.promoter;
         this.popup.studyType = value.studyType;
@@ -272,7 +262,7 @@ export default class MyProporsals extends Vue {
         this.popup.students = value.students;
         this.dialog = true;
     }
-    public addStudent() {
+    public addStudent(): void {
         if (this.popup.students === undefined) {
             this.popup.students = [];
         }
@@ -294,5 +284,10 @@ export default class MyProporsals extends Vue {
 	width: 100%;
 	height: 100%;
 	border-radius: 0;
+}
+.buttonStyle {
+     width: 200px;
+     height: 50px;
+     font-size: 24px;
 }
 </style>
