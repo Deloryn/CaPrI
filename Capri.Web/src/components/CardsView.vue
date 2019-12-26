@@ -40,7 +40,7 @@
 							</v-col>
 							<v-col cols="4">
 								<v-text-field
-									:value="popup.freeSlots + '/' + ile"
+									:value="popup.freeSlots + '/' + popup.maxSlots"
 									label="State"
 									readonly
 								></v-text-field>
@@ -139,6 +139,7 @@ export default class CardsView extends Vue {
         thesisType: string;
         studyType: string;
         freeSlots: string;
+        maxSlots: string;
         description: string;
     };
     public dialog: boolean;
@@ -151,9 +152,9 @@ export default class CardsView extends Vue {
                 thesisType: '',
                 studyType: '',
                 freeSlots: -1,
+                maxSlots: -1,
                 description: '',
             },
-            ile: 3,
             selected: [],
             searchTitle: '',
             searchPromoter: '',
@@ -189,6 +190,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    maxSlots: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -198,6 +200,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 0,
+                    maxSlots: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -207,6 +210,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 1,
+                    maxSlots: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -216,6 +220,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 2,
+                    maxSlots: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -225,6 +230,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    maxSlots: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -234,6 +240,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    maxSlots: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -243,6 +250,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    maxSlots: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -252,6 +260,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    maxSlots: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -261,6 +270,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    maxSlots: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -270,6 +280,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    maxSlots: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -279,6 +290,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    maxSlots: 5,
                 },
                 {
                     title: 'CaPri System',
@@ -288,6 +300,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    maxSlots: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -297,6 +310,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    maxSlots: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -306,6 +320,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    maxSlots: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -315,6 +330,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    maxSlots: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -324,6 +340,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    maxSlots: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -333,6 +350,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    maxSlots: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -342,6 +360,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    maxSlots: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -351,6 +370,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    maxSlots: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -360,6 +380,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    maxSlots: 3,
                 },
                 {
                     title: 'CaPri System',
@@ -369,6 +390,7 @@ export default class CardsView extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    maxSlots: 4,
                 },
             ],
         };
@@ -379,6 +401,7 @@ export default class CardsView extends Vue {
         this.popup.studyType = value.studyType;
         this.popup.thesisType = value.thesisType;
         this.popup.freeSlots = value.freeSlots;
+        this.popup.maxSlots = value.maxSlots;
         this.popup.description = value.description;
         this.dialog = true;
     }
