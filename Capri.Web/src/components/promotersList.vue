@@ -169,7 +169,7 @@ export default class MyProporsals extends Vue {
 	margin-right: 10px;
 	margin-top: 0px;
 	margin-bottom: 0px;
-	background-color: #ffffff;
+	background-color: rgb(255,255,255);
 }
 .whiteBackground {
     background-color: rgb(255,255,255);

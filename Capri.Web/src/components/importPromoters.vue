@@ -7,11 +7,10 @@
 	>
 		<v-file-input
 			label="File input"
-			v-model="file"
 			style="width: 60%;"
 			@change="previewFiles"
 		></v-file-input>
-		<div v-if="chosenFile !== ''">
+		<div v-if="chosenFileWithPromoterList !== ''">
 			<v-row justify="center">
 				<v-col cols="12">
 					<v-data-table
@@ -20,50 +19,30 @@
 						style="background-color: #FFFFFF;"
 					>
 						<template v-slot:header.name="{ header }">
-							<span
-								style="font-size: 30px; color: rgb(18,98,141)"
-								>{{ header.text }}</span
-							>
+							<span>{{ header.text }}</span>
 						</template>
 
-						<template v-slot:header.laboratory="{ header }">
-							<span
-								style="font-size: 30px; color: rgb(18,98,141)"
-								>{{ header.text }}</span
-							>
-						</template>
+                        <template v-slot:header.laboratory="{ header }">
+                            <span>{{ header.text }}</span>
+                        </template>
 
-						<template v-slot:header.bachelorTopics="{ header }">
-							<span
-								style="font-size: 30px; color: rgb(18,98,141)"
-								>{{ header.text }}</span
-							>
-						</template>
+                        <template v-slot:header.bachelorTopics="{ header }">
+                            <span>{{ header.text }}</span>
+                        </template>
 
-						<template v-slot:header.masterTopics="{ header }">
-							<span
-								style="font-size: 30px; color: rgb(18,98,141)"
-								>{{ header.text }}</span
-							>
-						</template>
+                        <template v-slot:header.masterTopics="{ header }">
+                            <span>{{ header.text }}</span>
+                        </template>
 
 						<template v-slot:item.name="{ item }">
-							<span
-								style="float: left; font-size: 24px; font-weight: bold;"
-								>{{ item.title }}</span
+							<span>{{ item.title }}</span
 							>
 						</template>
 						<template v-slot:item.promoter="{ item }">
-							<span
-								style="float: left; font-size: 24px; font-weight: bold;"
-								>{{ item.thesis }}</span
-							>
+							<span>{{ item.thesis }}</span>
 						</template>
 						<template v-slot:item.freeSlots="{ item }">
-							<span
-								style="float: left; font-size: 24px; font-weight: bold;"
-								>{{ item.taken }}</span
-							>
+							<span>{{ item.taken }}</span>
 						</template>
 					</v-data-table>
 				</v-col>
@@ -280,5 +259,13 @@ export default class CardsView extends Vue {
 .inputMaxNumber {
     width: 120px;
     float: left;
+}
+th span {
+    font-size: 30px;
+    color: rgb(18,98,141)
+}
+td span {
+     font-size: 24px;
+     font-weight: bold;
 }
 </style>
