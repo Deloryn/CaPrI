@@ -22,11 +22,12 @@ namespace Capri.Database.Entities.Configuration
         public static List<Faculty> Faculties { get; private set; } = new List<Faculty>();
         public static List<Course> Courses { get; private set; } = new List<Course>();
         public static List<Proposal> Proposals { get; private set; } = new List<Proposal>();
-        private static DataSeed Seed = LoadDataSeed().Result;
 
-        private async static Task<DataSeed> LoadDataSeed()
+        static SeedGetter()
         {
-            var jsonString = await File.ReadAllTextAsync("../Capri.Database/Entities/Configuration/dataseed.json");
+            var fileName = "dataseed.json";
+            var path = Path.Combine(Environment.CurrentDirectory, fileName);
+            var jsonString = File.ReadAllTextAsync(path).Result;
             var seed = JsonConvert.DeserializeObject<DataSeed>(jsonString);
             
             foreach(var user in seed.DeanEmployees)
@@ -100,8 +101,6 @@ namespace Capri.Database.Entities.Configuration
                 faculty.Courses = null;
                 Faculties.Add(faculty);
             }
-
-            return seed;
         }
 
         private static User PrepareUser(User user)
