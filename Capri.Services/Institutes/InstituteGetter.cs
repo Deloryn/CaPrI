@@ -26,7 +26,7 @@ namespace Capri.Services.Institutes
         {
             var institute = await _context.Institutes
                 .Include(i => i.Promoters)
-                .FirstOrDefaultAsync(i => i.Id.Equals(id));
+                .FirstOrDefaultAsync(i => i.Id == id);
 
             if(institute == null)
             {

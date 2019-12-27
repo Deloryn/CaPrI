@@ -26,7 +26,7 @@ namespace Capri.Services.Institutes
 
         public async Task<IServiceResult<InstituteViewModel>> Delete(Guid id)
         {
-            var institute = await _context.Institutes.FirstOrDefaultAsync(i => i.Id.Equals(id));
+            var institute = await _context.Institutes.FirstOrDefaultAsync(i => i.Id == id);
             
             if(institute == null)
             {

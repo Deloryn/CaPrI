@@ -24,7 +24,7 @@ namespace Capri.Services.Institutes
             Guid id, 
             InstituteRegistration newData)
         {
-            var institute = _context.Institutes.FirstOrDefault(i => i.Id.Equals(id));
+            var institute = _context.Institutes.FirstOrDefault(i => i.Id == id);
 
             if (institute == null)
             {

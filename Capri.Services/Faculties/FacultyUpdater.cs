@@ -24,7 +24,7 @@ namespace Capri.Services.Faculties
             Guid id, 
             FacultyRegistration newData)
         {
-            var faculty = _context.Faculties.FirstOrDefault(f => f.Id.Equals(id));
+            var faculty = _context.Faculties.FirstOrDefault(f => f.Id == id);
 
             if (faculty == null)
             {

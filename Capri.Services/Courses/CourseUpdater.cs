@@ -24,7 +24,7 @@ namespace Capri.Services.Courses
             Guid id, 
             CourseRegistration newData)
         {
-            var course = _context.Courses.FirstOrDefault(c => c.Id.Equals(id));
+            var course = _context.Courses.FirstOrDefault(c => c.Id == id);
 
             if (course == null)
             {

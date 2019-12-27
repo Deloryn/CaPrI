@@ -26,7 +26,7 @@ namespace Capri.Services.Courses
         {
             var course = await _context.Courses
                 .Include(c => c.Proposals)
-                .FirstOrDefaultAsync(c => c.Id.Equals(id));
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if(course == null)
             {
