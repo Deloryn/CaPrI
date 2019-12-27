@@ -156,7 +156,34 @@
     },
     {
       "Name": "Instytut Technologii i Inżynierii Chemicznej",
-      "Promoters": []
+      "Promoters": [
+        {
+          "Id": "fb23704f-cec8-48fb-aa79-f3bd0e7e293b",
+          "FirstName": "Katarzyna",
+          "LastName": "Adamska",
+          "TitlePrefix": "dr inż.",
+          "TitlePostfix": "",
+          "ExpectedNumberOfBachelorProposals": 1,
+          "ExpectedNumberOfMasterProposals": 1,
+          "ApplicationUser": {
+            "Email": "katarzyna.adamska@put.poznan.pl",
+            "PasswordHash": "qwerty1"
+          }
+        },
+        {
+          "Id": "7345a41b-36aa-4ae2-b0fe-b7bb4279603b",
+          "FirstName": "Krzysztof",
+          "LastName": "Alejski",
+          "TitlePrefix": "dr hab. inż.",
+          "TitlePostfix": "prof. PP",
+          "ExpectedNumberOfBachelorProposals": 3,
+          "ExpectedNumberOfMasterProposals": 2,
+          "ApplicationUser": {
+            "Email": "krzysztof.alejski@put.poznan.pl",
+            "PasswordHash": "qwerty1"
+          }
+        }
+      ]
     },
     {
       "Name": "Instytut Architektury i Planowania Przestrzennego",
@@ -374,7 +401,30 @@
       "Courses": [
         {
           "Name": "Inżynieria Chemiczna i Procesowa",
-          "Proposals": []
+          "Proposals": [
+            {
+              "TopicPolish": "Wyznaczenie parametrów kolumny chromatograficznej za pomocą odwróconej chromatografii cieczowej",
+              "TopicEnglish": "No title",
+              "Description": "Praca będzie polegać na własnoręcznym upakowaniu kolumny chromatograficznej, doborze odpowiednich warunków pomiaru w celu wyznaczenia podstawowych parametrów dla niestandardowych kolumn do HPLC.",
+              "Specialization": "Brak opisu",
+              "Status": 0,
+              "Level": 0,
+              "Mode": 0,
+              "StudyProfile": 0,
+              "PromoterId": "fb23704f-cec8-48fb-aa79-f3bd0e7e293b"
+            },
+            {
+              "TopicPolish": "Analiza i projektowanie procesów wydzielania produktów otrzymywanych w procesie biokonwersji surowców odnawialnych",
+              "TopicEnglish": "No title",
+              "Description": "Brak opisu",
+              "Specialization": "Brak opisu",
+              "Status": 0,
+              "Level": 1,
+              "Mode": 0,
+              "StudyProfile": 0,
+              "PromoterId": "7345a41b-36aa-4ae2-b0fe-b7bb4279603b"
+            }
+          ]
         },
         {
           "Name": "Technologia Chemiczna / Chemical Technology",

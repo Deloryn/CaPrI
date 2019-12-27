@@ -90,7 +90,7 @@ namespace Capri.Database.Entities.Configuration
                             proposal.Id = Guid.NewGuid();
                         }
                         proposal.CourseId = course.Id;
-                        proposal.StartingDate = new DateTime(2020, 3, 1);
+                        proposal.StartingDate = new DateTime(2019, 10, 1);
                         Proposals.Add(proposal);
                     }
                     course.Proposals = null;
