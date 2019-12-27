@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using Capri.Database.Entities.Identity;
@@ -21,11 +22,11 @@ namespace Capri.Database.Entities.Configuration
         public static List<Faculty> Faculties { get; private set; } = new List<Faculty>();
         public static List<Course> Courses { get; private set; } = new List<Course>();
         public static List<Proposal> Proposals { get; private set; } = new List<Proposal>();
-        private static DataSeed Seed = LoadDataSeed();
+        private static DataSeed Seed = LoadDataSeed().Result;
 
-        private static DataSeed LoadDataSeed()
+        private async static Task<DataSeed> LoadDataSeed()
         {
-            var jsonString = File.ReadAllText("../Capri.Database/Entities/Configuration/dataseed.json");
+            var jsonString = await File.ReadAllTextAsync("../Capri.Database/Entities/Configuration/dataseed.json");
             var seed = JsonConvert.DeserializeObject<DataSeed>(jsonString);
             
             foreach(var user in seed.DeanEmployees)
