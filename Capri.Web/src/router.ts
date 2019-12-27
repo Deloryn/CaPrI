@@ -10,8 +10,6 @@ Vue.use(Router);
 
 export default new Router({
     mode: 'history',
-    // tslint:disable-next-line: object-literal-sort-keys
-    base: process.env.BASE_URL,
     routes: [
         { path: '/', component: LoginPanel },
         { path: '/cards', component: CardsView },
