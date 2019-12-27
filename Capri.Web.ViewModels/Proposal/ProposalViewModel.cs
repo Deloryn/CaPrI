@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Capri.Database.Entities;
 
 namespace Capri.Web.ViewModels.Proposal
 {
-    public class ProposalView
+    public class ProposalViewModel
     {
         public Guid Id { get; set; }
         public string Topic { get; set; }

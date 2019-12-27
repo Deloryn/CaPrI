@@ -23,7 +23,7 @@ namespace Capri.Services.Proposals
             _userGetter = userGetter;
             _submittedProposalGetter = submittedProposalGetter;
         }
-        public async Task<IServiceResult<ProposalView>> Update(
+        public async Task<IServiceResult<ProposalViewModel>> Update(
             Guid id, 
             ProposalRegistration inputData)
         {
@@ -31,7 +31,7 @@ namespace Capri.Services.Proposals
             if(!result.Successful())
             {
                 var errors = result.GetAggregatedErrors();
-                return ServiceResult<ProposalView>.Error(errors);
+                return ServiceResult<ProposalViewModel>.Error(errors);
             }
             
             var currentUser = result.Body();
@@ -39,18 +39,19 @@ namespace Capri.Services.Proposals
                 await _context
                 .Promoters
                 .Include(p => p.Proposals)
-                .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
+                .FirstOrDefaultAsync(p => p.Id == id && p.UserId == currentUser.Id);
 
             if(promoter == null)
             {
-                return ServiceResult<ProposalView>.Error("The current user has no associated promoter");
+                return ServiceResult<ProposalViewModel>.Error("The current user has no associated promoter");
             }
             
             var proposal = promoter.Proposals.FirstOrDefault(p => p.Id == id);
 
             if (proposal == null)
             {
-                return ServiceResult<ProposalView>.Error("This promoter has no proposal with the given id.");
+                return ServiceResult<ProposalViewModel>.Error(
+                    $"This promoter has no proposal with id {id}");
             }
 
             proposal = _mapper.Map(inputData, proposal);
@@ -58,8 +59,8 @@ namespace Capri.Services.Proposals
             _context.Proposals.Update(proposal);
             await _context.SaveChangesAsync();
 
-            var proposalView = _mapper.Map<ProposalView>(proposal);
-            return ServiceResult<ProposalView>.Success(proposalView);
+            var proposalViewModels = _mapper.Map<ProposalViewModel>(proposal);
+            return ServiceResult<ProposalViewModel>.Success(proposalViewModels);
         }
     }
 }
