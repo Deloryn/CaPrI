@@ -55,7 +55,6 @@ namespace Capri.Services.Users
             user.SecurityStamp = _tokenGenerator.GenerateTokenFor(user);
 
             await _userManager.CreateAsync(user);
-            await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
             return ServiceResult<User>.Success(user);

@@ -39,11 +39,7 @@ namespace Capri.Services.Promoters
                 .Users
                 .FirstOrDefaultAsync(u => u.Id == promoter.UserId);
 
-            _context.Promoters.Remove(promoter);
-
             await _userManager.DeleteAsync(applicationUser);
-            _context.Users.Remove(applicationUser);
-
             await _context.SaveChangesAsync();
 
             return ServiceResult<Promoter>.Success(promoter);

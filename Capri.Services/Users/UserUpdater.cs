@@ -39,7 +39,6 @@ namespace Capri.Services.Users
             UpdateCredentialsOf(existingUser, credentials);
 
             await _userManager.UpdateAsync(existingUser);
-            _context.Users.Update(existingUser);
             await _context.SaveChangesAsync();
 
             return ServiceResult<User>.Success(existingUser);
