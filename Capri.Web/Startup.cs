@@ -35,7 +35,7 @@ namespace Capri.Web
             services.AddSieveConfiguration(Configuration.GetSection("SieveSettings"));
             services.AddMapperConfiguration();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddServiceConfiguration();
+            services.AddServicesConfiguration();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

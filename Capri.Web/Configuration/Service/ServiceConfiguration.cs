@@ -12,7 +12,7 @@ namespace Capri.Web.Configuration.Service
 {
     public static class ServiceConfiguration
     {
-        public static void AddServiceConfiguration(this IServiceCollection services)
+        public static void AddServicesConfiguration(this IServiceCollection services)
         {
             services.AddPromoterServiceConfiguration();
             services.AddProposalServiceConfiguration();
