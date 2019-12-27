@@ -15,7 +15,7 @@
 			<topBar> </topBar>
 		</div>
 		<router-view></router-view>
-		<downBar />
+		<downBar v-if="$route.path !== '/'" />
 	</v-app>
 </template>
 <script lang="ts">
@@ -46,7 +46,7 @@ enum UserTypes {
 export default class App extends Vue {
     public data() {
         return {
-            userType: UserTypes.student,
+            userType: UserTypes.dean,
         };
     }
 }

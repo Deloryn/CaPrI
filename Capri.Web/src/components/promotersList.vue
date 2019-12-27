@@ -7,7 +7,7 @@
 	>
 		<v-dialog v-model="dialog" max-width="600">
 			<v-form>
-				<v-container style="background-color: #FFFFFF;">
+				<v-container class="whiteBackground">
 					<v-row>
 						<v-col cols="12">
 							<v-text-field
@@ -22,8 +22,7 @@
 								:items="institutes"
 								label="Insitute name"
 								:model="popup.institute"
-								color="blue"
-								style="padding: 0; margin: 0;"
+                                class="addInstitute"
 							>
 							</v-select>
 						</v-col>
@@ -32,8 +31,7 @@
 								:items="degrees"
 								label="Degree"
 								:model="popup.degree"
-								color="blue"
-								style="padding: 0; margin: 0;"
+                                class="addInstitute"
 							>
 							</v-select>
 						</v-col>
@@ -42,19 +40,18 @@
 					<v-row>
 						<v-col cols="12" class="text-center">
 							<v-btn
-								style="background-color: green; width: 150px; height: 50px; font-size: 24px;"
-								class="mx-12"
+                                id="saveButton"
+								style="background-color: green;"
+								class="formDiv mx-12"
 								text
-								color="#FFFFFF"
 								@click="dialog = false"
 							>
 								Save
 							</v-btn>
 							<v-btn
-								style="background-color: red; width: 150px; height: 50px; font-size: 24px;"
-								class="mx-12"
+                                id="cancelButton"
+								class="formDiv mx-12"
 								text
-								color="#FFFFFF"
 								@click="dialog = false"
 							>
 								Cancel
@@ -67,11 +64,11 @@
 
 		<v-btn
 			@click="dialog = true"
-			style="position: absolute; margin-right: 10px; right: 0px; width: 200px; height: 60px; color: white; background-color: darkblue;"
+			id="addPromoterButton"
 			>ADD PROMOTER</v-btn
 		>
 		<v-btn
-			style="position: absolute; margin-left: 10px; margin-bottom: 10px; left: 0px; bottom: 0px; width: 200px; height: 60px; color: white; background-color: darkblue;"
+            id="exportDataButton"
 			>EXPORT TO EXCEL</v-btn
 		>
 		<v-row justify="center" style="margin-top: 60px;">
@@ -80,40 +77,34 @@
 					:headers="headers"
 					:items="items"
 					:search="search"
-					style="background-color: #FFFFFF;"
+					class="whiteBackground"
 				>
-					<template v-slot:header.title="{ header }">
-						<span style="font-size: 30px; color: rgb(18,98,141)">{{
-							header.text
-						}}</span>
-					</template>
+                    <template v-slot:header.title="{ header }">
+                        <span>{{header.text}}</span>
+                    </template>
 
-					<template v-slot:header.bachelorsTopics="{ header }">
-						<span style="font-size: 30px; color: rgb(18,98,141)">{{
-							header.text
-						}}</span>
-					</template>
+                    <template v-slot:header.bachelorsTopics="{ header }">
+                        <span>{{header.text}}</span>
+                    </template>
 
 					<template v-slot:header.masterTopics="{ header }">
-						<span style="font-size: 30px; color: rgb(18,98,141)">{{
-							header.text
-						}}</span>
+						<span>{{header.text}}</span>
 					</template>
 
 					<template v-slot:item.title="{ item }">
-						<span style="font-size: 24px; font-weight: bold;">{{
-							item.promoter
-						}}</span>
+						<span>
+                            {{ item.promoter }}
+                        </span>
 					</template>
 					<template v-slot:item.bachelorsTopics="{ item }">
-						<span style="font-size: 24px; font-weight: bold;">{{
-							item.bachelorThesis
-						}}</span>
+						<span>
+                            {{ item.bachelorThesis }}
+                        </span>
 					</template>
 					<template v-slot:item.masterTopics="{ item }">
-						<span style="font-size: 24px; font-weight: bold;">{{
-							item.masterThesis
-						}}</span>
+						<span>
+                            {{ item.masterThesis }}
+                        </span>
 					</template>
 				</v-data-table>
 			</v-col>
@@ -199,10 +190,53 @@ export default class MyProporsals extends Vue {
 	margin-bottom: 0px;
 	background-color: #ffffff;
 }
+.whiteBackground {
+    background-color: rgb(255,255,255);
+}
+.addInstitute {
+    padding: 0;
+    margin: 0;
+    color: rgb(0,97,142);
+}
+.formDiv {
+    color: rgb(255,255,255);
+    width: 150px;
+    height: 50px;
+    font-size: 24px;
+}
+#addPromoterButton {
+    position: absolute;
+    margin-right: 10px;
+    right: 0px;
+    width: 200px;
+    height: 60px;
+    color: rgb(255,255,255);
+    background-color: rgb(0,0,139);
+}
+#exportDataButton {
+    position: absolute;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    left: 0px;
+    bottom: 0px;
+    width: 200px;
+    height: 60px;
+    color: rgb(255,255,255);
+    background-color: rgb(0,0,139);
+}
+#saveButton {
+    background-color: rgb(0,255,0);
+}
+#cancelButton {
+    background-color: rgb(255,0,0);
+}
+th span {
+    font-size: 30px;
+    color: rgb(18,98,141)
+}
 
-.paintData {
-	width: 100%;
-	height: 100%;
-	border-radius: 0;
+td span {
+     font-size: 24px;
+     font-weight: bold;
 }
 </style>
