@@ -35,11 +35,12 @@ namespace Capri.Services.Proposals
 
             if(proposal == null)
             {
-                return ServiceResult<ProposalViewModel>.Error("Proposal with id " + id + " does not exist");
+                return ServiceResult<ProposalViewModel>.Error(
+                    $"Proposal with id {id} does not exist");
             }
 
-            var proposalView = _mapper.Map<ProposalViewModel>(proposal);
-            return ServiceResult<ProposalViewModel>.Success(proposalView);
+            var proposalViewModel = _mapper.Map<ProposalViewModel>(proposal);
+            return ServiceResult<ProposalViewModel>.Success(proposalViewModel);
         }
 
         public IServiceResult<IEnumerable<ProposalViewModel>> GetAll()
@@ -47,8 +48,8 @@ namespace Capri.Services.Proposals
             var proposals = _context.Proposals
                 .Include(p => p.Students);
 
-            var proposalViews = proposals.Select(p => _mapper.Map<ProposalViewModel>(p));
-            return ServiceResult<IEnumerable<ProposalViewModel>>.Success(proposalViews);
+            var proposalViewModels = proposals.Select(p => _mapper.Map<ProposalViewModel>(p));
+            return ServiceResult<IEnumerable<ProposalViewModel>>.Success(proposalViewModels);
         }
 
         public IServiceResult<IQueryable<ProposalViewModel>> GetFiltered(SieveModel sieveModel)
@@ -58,8 +59,9 @@ namespace Capri.Services.Proposals
                 .AsQueryable();
 
             var filtered = _sieveProcessor.Apply(sieveModel, proposals);
-            var proposalViews = filtered.Select(p => _mapper.Map<ProposalViewModel>(p));
-            return ServiceResult<IQueryable<ProposalViewModel>>.Success(proposalViews);
+            
+            var proposalViewModels = filtered.Select(p => _mapper.Map<ProposalViewModel>(p));
+            return ServiceResult<IQueryable<ProposalViewModel>>.Success(proposalViewModels);
         }
     }
 }

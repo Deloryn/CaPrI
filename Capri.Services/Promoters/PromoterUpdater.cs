@@ -37,7 +37,7 @@ namespace Capri.Services.Promoters
             if (existingPromoter == null)
             {
                 return ServiceResult<PromoterView>.Error(
-                    "Promoter with id " + id + " does not exist");
+                    $"Promoter with id {id} does not exist");
             }
 
             var credentials = new UserCredentials

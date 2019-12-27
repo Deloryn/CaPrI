@@ -28,7 +28,8 @@ namespace Capri.Services.Users
             var emailExists = await EmailExists(email);
             if(emailExists)
             {
-                return ServiceResult<User>.Error("Email already taken");
+                return ServiceResult<User>.Error(
+                    $"Email {email} is already taken");
             }
 
             var user = new User

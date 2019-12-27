@@ -29,7 +29,7 @@ namespace Capri.Services.Users
             if (existingUser == null)
             {
                 return ServiceResult<User>.Error(
-                    "User with the given does not exist");
+                    $"User with id {id} does not exist");
             }
 
             UpdateCredentialsOf(existingUser, credentials);

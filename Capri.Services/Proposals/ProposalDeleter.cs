@@ -43,7 +43,7 @@ namespace Capri.Services.Proposals
                 await _context
                 .Promoters
                 .Include(p => p.Proposals)
-                .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
+                .FirstOrDefaultAsync(p => p.Id == id && p.UserId == currentUser.Id);
 
             if(promoter == null)
             {
@@ -55,15 +55,14 @@ namespace Capri.Services.Proposals
             if (proposal == null)
             {
                 return ServiceResult<ProposalViewModel>.Error(
-                    "Promoter with id " + promoter.Id + " has no proposal with id " + id);
+                    $"Promoter with id {promoter.Id} has no proposal with id {id}");
             }
 
             _context.Proposals.Remove(proposal);
             await _context.SaveChangesAsync();
 
-            var proposalView = _mapper.Map<ProposalViewModel>(proposal);
-
-            return ServiceResult<ProposalViewModel>.Success(proposalView);
+            var proposalViewModel = _mapper.Map<ProposalViewModel>(proposal);
+            return ServiceResult<ProposalViewModel>.Success(proposalViewModel);
         }
     }
 }

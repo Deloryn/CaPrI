@@ -64,9 +64,9 @@ namespace Capri.Services.Proposals
             await _context.Proposals.AddAsync(proposal);
             await _context.SaveChangesAsync();
 
-            var proposalView = _mapper.Map<ProposalViewModel>(proposal);
+            var proposalViewModel = _mapper.Map<ProposalViewModel>(proposal);
 
-            return ServiceResult<ProposalViewModel>.Success(proposalView);
+            return ServiceResult<ProposalViewModel>.Success(proposalViewModel);
         }
 
         private bool HasPermissionToCreateProposal(Promoter promoter, StudyLevel level)

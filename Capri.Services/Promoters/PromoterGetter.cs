@@ -32,7 +32,8 @@ namespace Capri.Services.Promoters
 
             if (promoter == null)
             {
-                return ServiceResult<PromoterView>.Error("Promoter with id " + id + " does not exist");
+                return ServiceResult<PromoterView>.Error(
+                    $"Promoter with id {id} does not exist");
             }
 
             var promoterView = _mapper.Map<PromoterView>(promoter);

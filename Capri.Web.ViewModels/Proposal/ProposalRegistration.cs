@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Capri.Database.Entities;
+﻿using Capri.Database.Entities;
 
 namespace Capri.Web.ViewModels.Proposal
 {
