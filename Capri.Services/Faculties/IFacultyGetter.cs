@@ -7,7 +7,7 @@ namespace Capri.Services.Faculties
 {
     public interface IFacultyGetter
     {
-        Task<IServiceResult<FacultyView>> Get(Guid id);
-        IServiceResult<IEnumerable<FacultyView>> GetAll();
+        Task<IServiceResult<FacultyViewModel>> Get(Guid id);
+        IServiceResult<IEnumerable<FacultyViewModel>> GetAll();
     }
 }

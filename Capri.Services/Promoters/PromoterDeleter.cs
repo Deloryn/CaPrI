@@ -20,7 +20,7 @@ namespace Capri.Services.Promoters
             _mapper = mapper;
         }
 
-        public async Task<IServiceResult<PromoterView>> Delete(Guid id)
+        public async Task<IServiceResult<PromoterViewModel>> Delete(Guid id)
         {
             var promoter = 
                 await _context
@@ -29,7 +29,7 @@ namespace Capri.Services.Promoters
 
             if(promoter == null)
             {
-                return ServiceResult<PromoterView>.Error(
+                return ServiceResult<PromoterViewModel>.Error(
                     $"Promoter with id {id} does not exist");
             }
 
@@ -43,8 +43,8 @@ namespace Capri.Services.Promoters
 
             await _context.SaveChangesAsync();
 
-            var promoterView = _mapper.Map<PromoterView>(promoter);
-            return ServiceResult<PromoterView>.Success(promoterView);
+            var promoterViewModel = _mapper.Map<PromoterViewModel>(promoter);
+            return ServiceResult<PromoterViewModel>.Success(promoterViewModel);
         }
     }
 }

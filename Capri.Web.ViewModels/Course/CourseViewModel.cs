@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Capri.Web.ViewModels.Course
 {
-    public class CourseView
+    public class CourseViewModel
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

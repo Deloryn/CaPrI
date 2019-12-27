@@ -22,7 +22,7 @@ namespace Capri.Services.Institutes
             _mapper = mapper;
         }
 
-        public async Task<IServiceResult<InstituteView>> Get(Guid id)
+        public async Task<IServiceResult<InstituteViewModel>> Get(Guid id)
         {
             var institute = await _context.Institutes
                 .Include(i => i.Promoters)
@@ -30,20 +30,20 @@ namespace Capri.Services.Institutes
 
             if(institute == null)
             {
-                return ServiceResult<InstituteView>.Error(
+                return ServiceResult<InstituteViewModel>.Error(
                     $"Institute with id {id} does not exist");
             }
 
-            var instituteView = _mapper.Map<InstituteView>(institute);
-            return ServiceResult<InstituteView>.Success(instituteView);
+            var instituteViewModel = _mapper.Map<InstituteViewModel>(institute);
+            return ServiceResult<InstituteViewModel>.Success(instituteViewModel);
         }
-        public IServiceResult<IEnumerable<InstituteView>> GetAll()
+        public IServiceResult<IEnumerable<InstituteViewModel>> GetAll()
         {
             var institutes = _context.Institutes
                 .Include(i => i.Promoters);
                 
-            var instituteViews = institutes.Select(i => _mapper.Map<InstituteView>(i));
-            return ServiceResult<IEnumerable<InstituteView>>.Success(instituteViews);
+            var instituteViewModels = institutes.Select(i => _mapper.Map<InstituteViewModel>(i));
+            return ServiceResult<IEnumerable<InstituteViewModel>>.Success(instituteViewModels);
         }
     }
 }

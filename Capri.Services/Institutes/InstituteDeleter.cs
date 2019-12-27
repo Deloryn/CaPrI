@@ -24,21 +24,21 @@ namespace Capri.Services.Institutes
             _instituteGetter = instituteGetter;
         }
 
-        public async Task<IServiceResult<InstituteView>> Delete(Guid id)
+        public async Task<IServiceResult<InstituteViewModel>> Delete(Guid id)
         {
             var institute = await _context.Institutes.FirstOrDefaultAsync(i => i.Id.Equals(id));
             
             if(institute == null)
             {
-                return ServiceResult<InstituteView>.Error(
+                return ServiceResult<InstituteViewModel>.Error(
                     $"Institute with id {id} does not exist");
             }
 
             _context.Institutes.Remove(institute);
             await _context.SaveChangesAsync();
 
-            var instituteView = _mapper.Map<InstituteView>(institute);
-            return ServiceResult<InstituteView>.Success(instituteView);
+            var instituteViewModel = _mapper.Map<InstituteViewModel>(institute);
+            return ServiceResult<InstituteViewModel>.Success(instituteViewModel);
         }
     }
 }

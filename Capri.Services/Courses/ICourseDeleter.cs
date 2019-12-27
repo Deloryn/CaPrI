@@ -6,6 +6,6 @@ namespace Capri.Services.Courses
 {
     public interface ICourseDeleter
     {
-        Task<IServiceResult<CourseView>> Delete(Guid id);
+        Task<IServiceResult<CourseViewModel>> Delete(Guid id);
     }
 }

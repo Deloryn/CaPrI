@@ -20,7 +20,7 @@ namespace Capri.Services.Faculties
             _mapper = mapper;
         }
 
-        public async Task<IServiceResult<FacultyView>> Update(
+        public async Task<IServiceResult<FacultyViewModel>> Update(
             Guid id, 
             FacultyRegistration newData)
         {
@@ -28,7 +28,7 @@ namespace Capri.Services.Faculties
 
             if (faculty == null)
             {
-                return ServiceResult<FacultyView>.Error(
+                return ServiceResult<FacultyViewModel>.Error(
                     $"Faculty with id {id} does not exist");
             }
 
@@ -37,8 +37,8 @@ namespace Capri.Services.Faculties
             _context.Faculties.Update(faculty);
             await _context.SaveChangesAsync();
 
-            var facultyView = _mapper.Map<FacultyView>(faculty);
-            return ServiceResult<FacultyView>.Success(facultyView);
+            var facultyViewModel = _mapper.Map<FacultyViewModel>(faculty);
+            return ServiceResult<FacultyViewModel>.Success(facultyViewModel);
         }
     }
 }

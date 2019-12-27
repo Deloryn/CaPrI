@@ -6,6 +6,6 @@ namespace Capri.Services.Courses
 {
     public interface ICourseUpdater
     {
-        Task<IServiceResult<CourseView>> Update(Guid id, CourseRegistration newData);
+        Task<IServiceResult<CourseViewModel>> Update(Guid id, CourseRegistration newData);
     }
 }

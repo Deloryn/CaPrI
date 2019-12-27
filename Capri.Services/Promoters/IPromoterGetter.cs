@@ -7,7 +7,7 @@ namespace Capri.Services.Promoters
 {
     public interface IPromoterGetter
     {
-        Task<IServiceResult<PromoterView>> Get(Guid id);
-        IServiceResult<IEnumerable<PromoterView>> GetAll();
+        Task<IServiceResult<PromoterViewModel>> Get(Guid id);
+        IServiceResult<IEnumerable<PromoterViewModel>> GetAll();
     }
 }

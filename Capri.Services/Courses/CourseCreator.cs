@@ -24,12 +24,12 @@ namespace Capri.Services.Courses
             _facultyGetter = facultyGetter;
         }
 
-        public async Task<IServiceResult<CourseView>> Create(CourseRegistration registration)
+        public async Task<IServiceResult<CourseViewModel>> Create(CourseRegistration registration)
         {
             var facultyResult = await _facultyGetter.Get(registration.FacultyId);
             if(!facultyResult.Successful())
             {
-                return ServiceResult<CourseView>.Error(facultyResult.GetAggregatedErrors());
+                return ServiceResult<CourseViewModel>.Error(facultyResult.GetAggregatedErrors());
             }
 
             var course = _mapper.Map<Course>(registration);
@@ -41,12 +41,12 @@ namespace Capri.Services.Courses
             }
             catch
             {
-                return ServiceResult<CourseView>.Error(
+                return ServiceResult<CourseViewModel>.Error(
                     "Failed to create a course from the given data");
             }
 
-            var courseView = _mapper.Map<CourseView>(course);
-            return ServiceResult<CourseView>.Success(courseView);
+            var courseViewModel = _mapper.Map<CourseViewModel>(course);
+            return ServiceResult<CourseViewModel>.Success(courseViewModel);
         }
     }
 }

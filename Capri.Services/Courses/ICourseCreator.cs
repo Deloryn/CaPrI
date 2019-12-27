@@ -5,6 +5,6 @@ namespace Capri.Services.Courses
 {
     public interface ICourseCreator
     {
-         Task<IServiceResult<CourseView>> Create(CourseRegistration courseRegistration);
+         Task<IServiceResult<CourseViewModel>> Create(CourseRegistration courseRegistration);
     }
 }

@@ -20,7 +20,7 @@ namespace Capri.Services.Faculties
             _mapper = mapper;
         }
 
-        public async Task<IServiceResult<FacultyView>> Create(FacultyRegistration registration)
+        public async Task<IServiceResult<FacultyViewModel>> Create(FacultyRegistration registration)
         {
             var faculty = _mapper.Map<Faculty>(registration);
 
@@ -31,11 +31,11 @@ namespace Capri.Services.Faculties
             }
             catch
             {
-                return ServiceResult<FacultyView>.Error("Failed to create a faculty from the given data");
+                return ServiceResult<FacultyViewModel>.Error("Failed to create a faculty from the given data");
             }
 
-            var facultyView = _mapper.Map<FacultyView>(faculty);
-            return ServiceResult<FacultyView>.Success(facultyView);
+            var facultyViewModel = _mapper.Map<FacultyViewModel>(faculty);
+            return ServiceResult<FacultyViewModel>.Success(facultyViewModel);
         }
     }
 }

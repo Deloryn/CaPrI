@@ -6,6 +6,6 @@ namespace Capri.Services.Faculties
 {
     public interface IFacultyUpdater
     {
-        Task<IServiceResult<FacultyView>> Update(Guid id, FacultyRegistration newData);
+        Task<IServiceResult<FacultyViewModel>> Update(Guid id, FacultyRegistration newData);
     }
 }

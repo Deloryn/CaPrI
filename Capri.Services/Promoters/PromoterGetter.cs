@@ -22,7 +22,7 @@ namespace Capri.Services.Promoters
             _mapper = mapper;
         }
 
-        public async Task<IServiceResult<PromoterView>> Get(Guid id)
+        public async Task<IServiceResult<PromoterViewModel>> Get(Guid id)
         {
             var promoter = 
                 await _context
@@ -32,21 +32,21 @@ namespace Capri.Services.Promoters
 
             if (promoter == null)
             {
-                return ServiceResult<PromoterView>.Error(
+                return ServiceResult<PromoterViewModel>.Error(
                     $"Promoter with id {id} does not exist");
             }
 
-            var promoterView = _mapper.Map<PromoterView>(promoter);
-            return ServiceResult<PromoterView>.Success(promoterView);
+            var promoterViewModel = _mapper.Map<PromoterViewModel>(promoter);
+            return ServiceResult<PromoterViewModel>.Success(promoterViewModel);
         }
 
-        public IServiceResult<IEnumerable<PromoterView>> GetAll()
+        public IServiceResult<IEnumerable<PromoterViewModel>> GetAll()
         {
             var promoters = _context.Promoters
                 .Include(p => p.Proposals);
                 
-            var promoterViews = promoters.Select(p => _mapper.Map<PromoterView>(p));
-            return ServiceResult<IEnumerable<PromoterView>>.Success(promoterViews);
+            var promoterViewModels = promoters.Select(p => _mapper.Map<PromoterViewModel>(p));
+            return ServiceResult<IEnumerable<PromoterViewModel>>.Success(promoterViewModels);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Capri.Services.Promoters
             _userUpdater = userUpdater;
         }
 
-        public async Task<IServiceResult<PromoterView>> Update(
+        public async Task<IServiceResult<PromoterViewModel>> Update(
             Guid id,
             PromoterRegistration newData)
         {
@@ -36,7 +36,7 @@ namespace Capri.Services.Promoters
 
             if (existingPromoter == null)
             {
-                return ServiceResult<PromoterView>.Error(
+                return ServiceResult<PromoterViewModel>.Error(
                     $"Promoter with id {id} does not exist");
             }
 
@@ -53,7 +53,7 @@ namespace Capri.Services.Promoters
             if (!result.Successful())
             {
                 var errors = result.GetAggregatedErrors();
-                return ServiceResult<PromoterView>.Error(errors);
+                return ServiceResult<PromoterViewModel>.Error(errors);
             }
             
             existingPromoter = _mapper.Map(newData, existingPromoter);
@@ -61,8 +61,8 @@ namespace Capri.Services.Promoters
             _context.Promoters.Update(existingPromoter);
             await _context.SaveChangesAsync();
 
-            var promoterView = _mapper.Map<PromoterView>(existingPromoter);
-            return ServiceResult<PromoterView>.Success(promoterView);
+            var promoterViewModel = _mapper.Map<PromoterViewModel>(existingPromoter);
+            return ServiceResult<PromoterViewModel>.Success(promoterViewModel);
         }
     }
 }

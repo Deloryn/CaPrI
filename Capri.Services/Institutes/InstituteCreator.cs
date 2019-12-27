@@ -20,7 +20,7 @@ namespace Capri.Services.Institutes
             _mapper = mapper;
         }
 
-        public async Task<IServiceResult<InstituteView>> Create(InstituteRegistration registration)
+        public async Task<IServiceResult<InstituteViewModel>> Create(InstituteRegistration registration)
         {
             var institute = _mapper.Map<Institute>(registration);
 
@@ -31,12 +31,12 @@ namespace Capri.Services.Institutes
             }
             catch
             {
-                return ServiceResult<InstituteView>.Error(
+                return ServiceResult<InstituteViewModel>.Error(
                     "Failed to create an institute from the given data");
             }
 
-            var instituteView = _mapper.Map<InstituteView>(institute);
-            return ServiceResult<InstituteView>.Success(instituteView);
+            var instituteViewModel = _mapper.Map<InstituteViewModel>(institute);
+            return ServiceResult<InstituteViewModel>.Success(instituteViewModel);
         }
     }
 }

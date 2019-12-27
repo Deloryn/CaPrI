@@ -11,7 +11,7 @@ namespace Capri.Web.Configuration.Mapper
         {
             CreateMap<InstituteRegistration, Institute>();
             
-            CreateMap<Institute, InstituteView>()
+            CreateMap<Institute, InstituteViewModel>()
             .ForMember(
                 view=>view.Promoters, 
                 o=>o.MapFrom(institute=>institute.Promoters.Select(p=>p.Id)));

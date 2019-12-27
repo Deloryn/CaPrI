@@ -24,21 +24,21 @@ namespace Capri.Services.Courses
             _courseGetter = courseGetter;
         }
 
-        public async Task<IServiceResult<CourseView>> Delete(Guid id)
+        public async Task<IServiceResult<CourseViewModel>> Delete(Guid id)
         {
             var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id.Equals(id));
             
             if(course == null)
             {
-                return ServiceResult<CourseView>.Error(
+                return ServiceResult<CourseViewModel>.Error(
                     $"Course with id {id} does not exist");
             }
 
             _context.Courses.Remove(course);
             await _context.SaveChangesAsync();
 
-            var courseView = _mapper.Map<CourseView>(course);
-            return ServiceResult<CourseView>.Success(courseView);
+            var courseViewModel = _mapper.Map<CourseViewModel>(course);
+            return ServiceResult<CourseViewModel>.Success(courseViewModel);
         }
     }
 }

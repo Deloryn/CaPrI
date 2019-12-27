@@ -20,7 +20,7 @@ namespace Capri.Services.Courses
             _mapper = mapper;
         }
 
-        public async Task<IServiceResult<CourseView>> Update(
+        public async Task<IServiceResult<CourseViewModel>> Update(
             Guid id, 
             CourseRegistration newData)
         {
@@ -28,7 +28,7 @@ namespace Capri.Services.Courses
 
             if (course == null)
             {
-                return ServiceResult<CourseView>.Error(
+                return ServiceResult<CourseViewModel>.Error(
                     $"Course with id {id} does not exist");
             }
 
@@ -37,8 +37,8 @@ namespace Capri.Services.Courses
             _context.Courses.Update(course);
             await _context.SaveChangesAsync();
 
-            var courseView = _mapper.Map<CourseView>(course);
-            return ServiceResult<CourseView>.Success(courseView);
+            var courseViewModel = _mapper.Map<CourseViewModel>(course);
+            return ServiceResult<CourseViewModel>.Success(courseViewModel);
         }
     }
 }

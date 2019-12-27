@@ -5,6 +5,6 @@ namespace Capri.Services.Promoters
 {
     public interface IPromoterCreator
     {
-        Task<IServiceResult<PromoterView>> Create(PromoterRegistration promoterRegistration);
+        Task<IServiceResult<PromoterViewModel>> Create(PromoterRegistration promoterRegistration);
     }
 }

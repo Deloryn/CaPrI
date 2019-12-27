@@ -6,6 +6,6 @@ namespace Capri.Services.Institutes
 {
     public interface IInstituteDeleter
     {
-        Task<IServiceResult<InstituteView>> Delete(Guid id);
+        Task<IServiceResult<InstituteViewModel>> Delete(Guid id);
     }
 }

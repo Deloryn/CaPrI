@@ -22,7 +22,7 @@ namespace Capri.Services.Faculties
             _mapper = mapper;
         }
 
-        public async Task<IServiceResult<FacultyView>> Get(Guid id)
+        public async Task<IServiceResult<FacultyViewModel>> Get(Guid id)
         {
             var faculty = await _context.Faculties
                 .Include(f => f.Courses)
@@ -30,19 +30,20 @@ namespace Capri.Services.Faculties
 
             if(faculty == null)
             {
-                return ServiceResult<FacultyView>.Error(
+                return ServiceResult<FacultyViewModel>.Error(
                     $"Faculty with id {id} does not exist");
             }
 
-            var facultyView = _mapper.Map<FacultyView>(faculty);
-            return ServiceResult<FacultyView>.Success(facultyView);
+            var facultyViewModel = _mapper.Map<FacultyViewModel>(faculty);
+            return ServiceResult<FacultyViewModel>.Success(facultyViewModel);
         }
-        public IServiceResult<IEnumerable<FacultyView>> GetAll()
+        public IServiceResult<IEnumerable<FacultyViewModel>> GetAll()
         {
             var faculties = _context.Faculties
                 .Include(f => f.Courses);
-            var facultyViews = faculties.Select(f => _mapper.Map<FacultyView>(f));
-            return ServiceResult<IEnumerable<FacultyView>>.Success(facultyViews);
+
+            var facultyViewModels = faculties.Select(f => _mapper.Map<FacultyViewModel>(f));
+            return ServiceResult<IEnumerable<FacultyViewModel>>.Success(facultyViewModels);
         }
     }
 }

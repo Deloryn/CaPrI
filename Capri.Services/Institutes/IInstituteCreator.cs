@@ -5,6 +5,6 @@ namespace Capri.Services.Institutes
 {
     public interface IInstituteCreator
     {
-         Task<IServiceResult<InstituteView>> Create(InstituteRegistration instituteRegistration);
+         Task<IServiceResult<InstituteViewModel>> Create(InstituteRegistration instituteRegistration);
     }
 }

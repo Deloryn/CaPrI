@@ -22,7 +22,7 @@ namespace Capri.Services.Courses
             _mapper = mapper;
         }
 
-        public async Task<IServiceResult<CourseView>> Get(Guid id)
+        public async Task<IServiceResult<CourseViewModel>> Get(Guid id)
         {
             var course = await _context.Courses
                 .Include(c => c.Proposals)
@@ -30,20 +30,20 @@ namespace Capri.Services.Courses
 
             if(course == null)
             {
-                return ServiceResult<CourseView>.Error(
+                return ServiceResult<CourseViewModel>.Error(
                     $"Course with id {id} does not exist");
             }
 
-            var courseView = _mapper.Map<CourseView>(course);
-            return ServiceResult<CourseView>.Success(courseView);
+            var courseViewModel = _mapper.Map<CourseViewModel>(course);
+            return ServiceResult<CourseViewModel>.Success(courseViewModel);
         }
-        public IServiceResult<IEnumerable<CourseView>> GetAll()
+        public IServiceResult<IEnumerable<CourseViewModel>> GetAll()
         {
             var courses = _context.Courses
                 .Include(c => c.Proposals);
             
-            var courseViews = courses.Select(c => _mapper.Map<CourseView>(c));
-            return ServiceResult<IEnumerable<CourseView>>.Success(courseViews);
+            var courseViewModels = courses.Select(c => _mapper.Map<CourseViewModel>(c));
+            return ServiceResult<IEnumerable<CourseViewModel>>.Success(courseViewModels);
         }
     }
 }

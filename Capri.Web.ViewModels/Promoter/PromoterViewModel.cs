@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Capri.Web.ViewModels.Promoter
 {
-    public class PromoterView
+    public class PromoterViewModel
     {
         public Guid Id { get; set; }
         public string TitlePrefix { get; set; }

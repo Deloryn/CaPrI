@@ -5,6 +5,6 @@ namespace Capri.Services.Faculties
 {
     public interface IFacultyCreator
     {
-         Task<IServiceResult<FacultyView>> Create(FacultyRegistration facultyRegistration);
+         Task<IServiceResult<FacultyViewModel>> Create(FacultyRegistration facultyRegistration);
     }
 }

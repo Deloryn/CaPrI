@@ -24,7 +24,7 @@ namespace Capri.Services.Promoters
             _mapper = mapper;
         }
 
-        public async Task<IServiceResult<PromoterView>> Create(
+        public async Task<IServiceResult<PromoterViewModel>> Create(
             PromoterRegistration registration)
         {
 
@@ -35,7 +35,7 @@ namespace Capri.Services.Promoters
             if(!result.Successful())
             {
                 var errors = result.GetAggregatedErrors();
-                return ServiceResult<PromoterView>.Error(errors);
+                return ServiceResult<PromoterViewModel>.Error(errors);
             }
 
             var user = result.Body();
@@ -46,8 +46,8 @@ namespace Capri.Services.Promoters
             await _context.Promoters.AddAsync(promoter);
             await _context.SaveChangesAsync();
 
-            var promoterView = _mapper.Map<PromoterView>(promoter);
-            return ServiceResult<PromoterView>.Success(promoterView);
+            var promoterViewModel = _mapper.Map<PromoterViewModel>(promoter);
+            return ServiceResult<PromoterViewModel>.Success(promoterViewModel);
         }
     }
 }

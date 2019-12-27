@@ -6,6 +6,6 @@ namespace Capri.Services.Promoters
 {
     public interface IPromoterDeleter
     {
-        Task<IServiceResult<PromoterView>> Delete(Guid id);
+        Task<IServiceResult<PromoterViewModel>> Delete(Guid id);
     }
 }
