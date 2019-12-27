@@ -12,16 +12,7 @@ namespace Capri.Database.Entities.Configuration
     {
         public void Configure(EntityTypeBuilder<Student> builder)
         {
-            foreach(var userId in SeedParams.StudentIds)
-            {
-                builder.HasData(new Student
-                {
-                    Id = Guid.NewGuid(),
-                    UserId = userId,
-                    Semester = 6,
-                    StudyLevel = StudyLevel.Bachelor
-                });
-            }
+            builder.HasData(SeedGetter.Students.ToArray());
         }
     }
 }

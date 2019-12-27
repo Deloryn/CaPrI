@@ -28,14 +28,14 @@ namespace Capri.Services.Proposals
             _submittedProposalGetter = submittedProposalGetter;
         }
 
-        public async Task<IServiceResult<ProposalView>> Create(
+        public async Task<IServiceResult<ProposalViewModel>> Create(
             ProposalRegistration inputData)
         {
             var result = await _userGetter.GetCurrentUser();
             if(!result.Successful())
             {
                 var errors = result.GetAggregatedErrors();
-                return ServiceResult<ProposalView>.Error(errors);
+                return ServiceResult<ProposalViewModel>.Error(errors);
             }
 
             var currentUser = result.Body();
@@ -47,12 +47,12 @@ namespace Capri.Services.Proposals
 
             if(promoter == null)
             {
-                return ServiceResult<ProposalView>.Error("The current user has no associated promoter");
+                return ServiceResult<ProposalViewModel>.Error("The current user has no associated promoter");
             }
 
             if(!HasPermissionToCreateProposal(promoter, inputData.Level))
             {
-                return ServiceResult<ProposalView>.Error("You are not allowed to create this type of proposal");
+                return ServiceResult<ProposalViewModel>.Error("You are not allowed to create this type of proposal");
             }
 
             var proposal = _mapper.Map<Proposal>(inputData);
@@ -64,9 +64,9 @@ namespace Capri.Services.Proposals
             await _context.Proposals.AddAsync(proposal);
             await _context.SaveChangesAsync();
 
-            var proposalView = _mapper.Map<ProposalView>(proposal);
+            var proposalView = _mapper.Map<ProposalViewModel>(proposal);
 
-            return ServiceResult<ProposalView>.Success(proposalView);
+            return ServiceResult<ProposalViewModel>.Success(proposalView);
         }
 
         private bool HasPermissionToCreateProposal(Promoter promoter, StudyLevel level)

@@ -24,7 +24,9 @@ namespace Capri.Services.Faculties
 
         public async Task<IServiceResult<FacultyView>> Get(Guid id)
         {
-            var faculty = await _context.Faculties.FirstOrDefaultAsync(f => f.Id == id);
+            var faculty = await _context.Faculties
+                .Include(f => f.Courses)
+                .FirstOrDefaultAsync(f => f.Id == id);
 
             if(faculty == null)
             {
@@ -36,7 +38,8 @@ namespace Capri.Services.Faculties
         }
         public IServiceResult<IEnumerable<FacultyView>> GetAll()
         {
-            var faculties = _context.Faculties;
+            var faculties = _context.Faculties
+                .Include(f => f.Courses);
             var facultyViews = faculties.Select(f => _mapper.Map<FacultyView>(f));
             return ServiceResult<IEnumerable<FacultyView>>.Success(facultyViews);
         }

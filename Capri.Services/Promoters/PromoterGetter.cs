@@ -41,7 +41,9 @@ namespace Capri.Services.Promoters
 
         public IServiceResult<IEnumerable<PromoterView>> GetAll()
         {
-            var promoters = _context.Promoters;
+            var promoters = _context.Promoters
+                .Include(p => p.Proposals);
+                
             var promoterViews = promoters.Select(p => _mapper.Map<PromoterView>(p));
             return ServiceResult<IEnumerable<PromoterView>>.Success(promoterViews);
         }

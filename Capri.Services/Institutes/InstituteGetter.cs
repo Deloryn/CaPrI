@@ -24,7 +24,9 @@ namespace Capri.Services.Institutes
 
         public async Task<IServiceResult<InstituteView>> Get(Guid id)
         {
-            var institute = await _context.Institutes.FirstOrDefaultAsync(i => i.Id.Equals(id));
+            var institute = await _context.Institutes
+                .Include(i => i.Promoters)
+                .FirstOrDefaultAsync(i => i.Id.Equals(id));
 
             if(institute == null)
             {
@@ -36,7 +38,9 @@ namespace Capri.Services.Institutes
         }
         public IServiceResult<IEnumerable<InstituteView>> GetAll()
         {
-            var institutes = _context.Institutes;
+            var institutes = _context.Institutes
+                .Include(i => i.Promoters);
+                
             var instituteViews = institutes.Select(i => _mapper.Map<InstituteView>(i));
             return ServiceResult<IEnumerable<InstituteView>>.Success(instituteViews);
         }

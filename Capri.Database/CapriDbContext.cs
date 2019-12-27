@@ -26,6 +26,11 @@ namespace Capri.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Promoter>()
+                .HasOne(p => p.Institute)
+                .WithMany(i => i.Promoters)
+                .HasForeignKey(p => p.InstituteId);
+
             modelBuilder.Entity<Proposal>()
                 .HasMany(p => p.Students)
                 .WithOne();
@@ -35,19 +40,28 @@ namespace Capri.Database
                 .WithMany(pr => pr.Proposals)
                 .HasForeignKey(p => p.PromoterId);
 
-            modelBuilder.Entity<Faculty>()
-                .HasMany(f => f.Courses)
-                .WithOne();
+            modelBuilder.Entity<Proposal>()
+                .HasOne(p => p.Course)
+                .WithMany(c => c.Proposals)
+                .HasForeignKey(p => p.CourseId);
 
-            modelBuilder.Entity<Institute>()
-                .HasMany(i => i.Promoters)
-                .WithOne();
+            modelBuilder.Entity<Course>()
+                .HasOne(c => c.Faculty)
+                .WithMany(f => f.Courses)
+                .HasForeignKey(c => c.FacultyId);
 
             modelBuilder.ApplyConfiguration(new UserConfiguration());
-            modelBuilder.ApplyConfiguration(new StudentConfiguration());
-            modelBuilder.ApplyConfiguration(new PromoterConfiguration());
             modelBuilder.ApplyConfiguration(new GuidRoleConfiguration());
             modelBuilder.ApplyConfiguration(new GuidUserRoleConfiguration());
+
+            modelBuilder.ApplyConfiguration(new StudentConfiguration());
+            modelBuilder.ApplyConfiguration(new PromoterConfiguration());
+
+            modelBuilder.ApplyConfiguration(new ProposalConfiguration());
+
+            modelBuilder.ApplyConfiguration(new InstituteConfiguration());
+            modelBuilder.ApplyConfiguration(new FacultyConfiguration());
+            modelBuilder.ApplyConfiguration(new CourseConfiguration());
         }
     }
 }

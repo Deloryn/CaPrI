@@ -9,10 +9,10 @@ namespace Capri.Services.Proposals
 {
     public interface IProposalGetter
     {
-        Task<IServiceResult<ProposalView>> Get(Guid id);
+        Task<IServiceResult<ProposalViewModel>> Get(Guid id);
 
-        IServiceResult<IEnumerable<ProposalView>> GetAll();
+        IServiceResult<IEnumerable<ProposalViewModel>> GetAll();
 
-        IServiceResult<IQueryable<ProposalView>> GetFiltered(SieveModel sieveModel);
+        IServiceResult<IQueryable<ProposalViewModel>> GetFiltered(SieveModel sieveModel);
     }
 }

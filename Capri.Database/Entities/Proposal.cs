@@ -14,7 +14,7 @@ namespace Capri.Database.Entities
         [Required]
         public string TopicEnglish { get; set; }
         [Required]
-        public string StartingData { get; set; }
+        public DateTime StartingDate { get; set; }
         [Required]
         public string Description { get; set; }
         public string Specialization { get; set; }

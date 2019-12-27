@@ -29,13 +29,13 @@ namespace Capri.Services.Proposals
             _userGetter = userGetter;
         }
 
-        public async Task<IServiceResult<ProposalView>> Delete(Guid id)
+        public async Task<IServiceResult<ProposalViewModel>> Delete(Guid id)
         {
             var result = await _userGetter.GetCurrentUser();
             if(!result.Successful())
             {
                 var errors = result.GetAggregatedErrors();
-                return ServiceResult<ProposalView>.Error(errors);
+                return ServiceResult<ProposalViewModel>.Error(errors);
             }
             
             var currentUser = result.Body();
@@ -47,23 +47,23 @@ namespace Capri.Services.Proposals
 
             if(promoter == null)
             {
-                return ServiceResult<ProposalView>.Error("The current user has no associated promoter");
+                return ServiceResult<ProposalViewModel>.Error("The current user has no associated promoter");
             }
             
             var proposal = promoter.Proposals.FirstOrDefault(p => p.Id == id);
 
             if (proposal == null)
             {
-                return ServiceResult<ProposalView>.Error(
+                return ServiceResult<ProposalViewModel>.Error(
                     "Promoter with id " + promoter.Id + " has no proposal with id " + id);
             }
 
             _context.Proposals.Remove(proposal);
             await _context.SaveChangesAsync();
 
-            var proposalView = _mapper.Map<ProposalView>(proposal);
+            var proposalView = _mapper.Map<ProposalViewModel>(proposal);
 
-            return ServiceResult<ProposalView>.Success(proposalView);
+            return ServiceResult<ProposalViewModel>.Success(proposalView);
         }
     }
 }

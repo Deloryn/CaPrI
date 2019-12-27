@@ -1,4 +1,6 @@
-﻿namespace Capri.Web.ViewModels.Promoter
+﻿using System;
+
+namespace Capri.Web.ViewModels.Promoter
 {
     public class PromoterRegistration
     {
@@ -10,5 +12,6 @@
         public string LastName { get; set; }
         public int ExpectedNumberOfBachelorProposals { get; set; }
         public int ExpectedNumberOfMasterProposals { get; set; }
+        public Guid InstituteId { get; set; }
     }
 }

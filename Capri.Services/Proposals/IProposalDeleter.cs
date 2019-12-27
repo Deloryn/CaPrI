@@ -6,6 +6,6 @@ namespace Capri.Services.Proposals
 {
     public interface IProposalDeleter
     {
-        Task<IServiceResult<ProposalView>> Delete(Guid id);
+        Task<IServiceResult<ProposalViewModel>> Delete(Guid id);
     }
 }

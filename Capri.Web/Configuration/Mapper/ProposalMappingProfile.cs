@@ -11,7 +11,7 @@ namespace Capri.Web.Configuration.Mapper
         {
             CreateMap<ProposalRegistration, Proposal>();
 
-            CreateMap<Proposal, ProposalView>()
+            CreateMap<Proposal, ProposalViewModel>()
             .ForMember(
                 view=>view.Students, 
                 o=>o.MapFrom(proposal=>proposal.Students.Select(s=>s.Id)));
