@@ -30,7 +30,8 @@ namespace Capri.Services.Courses
             
             if(course == null)
             {
-                return ServiceResult<CourseView>.Error("There is no course with id " + id);
+                return ServiceResult<CourseView>.Error(
+                    $"Course with id {id} does not exist");
             }
 
             _context.Courses.Remove(course);

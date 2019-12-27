@@ -30,7 +30,8 @@ namespace Capri.Services.Institutes
 
             if(institute == null)
             {
-                return ServiceResult<InstituteView>.Error("Institute with id " + id + " does not exist");
+                return ServiceResult<InstituteView>.Error(
+                    $"Institute with id {id} does not exist");
             }
 
             var instituteView = _mapper.Map<InstituteView>(institute);

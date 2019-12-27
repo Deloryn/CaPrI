@@ -30,7 +30,8 @@ namespace Capri.Services.Faculties
 
             if(faculty == null)
             {
-                return ServiceResult<FacultyView>.Error("Faculty with id " + id + " does not exist");
+                return ServiceResult<FacultyView>.Error(
+                    $"Faculty with id {id} does not exist");
             }
 
             var facultyView = _mapper.Map<FacultyView>(faculty);

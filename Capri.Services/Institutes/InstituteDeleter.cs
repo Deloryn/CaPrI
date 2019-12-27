@@ -30,7 +30,8 @@ namespace Capri.Services.Institutes
             
             if(institute == null)
             {
-                return ServiceResult<InstituteView>.Error("There is no institute with id " + id);
+                return ServiceResult<InstituteView>.Error(
+                    $"Institute with id {id} does not exist");
             }
 
             _context.Institutes.Remove(institute);

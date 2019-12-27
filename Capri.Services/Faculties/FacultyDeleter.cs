@@ -30,7 +30,8 @@ namespace Capri.Services.Faculties
             
             if(faculty == null)
             {
-                return ServiceResult<FacultyView>.Error("There is no faculty with id " + id);
+                return ServiceResult<FacultyView>.Error(
+                    $"Faculty with id {id} does not exist");
             }
 
             _context.Faculties.Remove(faculty);

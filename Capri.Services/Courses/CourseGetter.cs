@@ -30,7 +30,8 @@ namespace Capri.Services.Courses
 
             if(course == null)
             {
-                return ServiceResult<CourseView>.Error("Course with id " + id + " does not exist");
+                return ServiceResult<CourseView>.Error(
+                    $"Course with id {id} does not exist");
             }
 
             var courseView = _mapper.Map<CourseView>(course);
