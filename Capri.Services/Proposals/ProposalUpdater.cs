@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Capri.Database;
-using Capri.Database.Entities;
 using Capri.Services.Users;
 using Capri.Web.ViewModels.Proposal;
 
@@ -23,37 +23,44 @@ namespace Capri.Services.Proposals
             _userGetter = userGetter;
             _submittedProposalGetter = submittedProposalGetter;
         }
-        public async Task<IServiceResult<Proposal>> Update(Guid id, ProposalUpdate proposalUpdate)
+        public async Task<IServiceResult<ProposalViewModel>> Update(
+            Guid id, 
+            ProposalRegistration inputData)
         {
-            var currentUser = await _userGetter.GetCurrentUser();
-            var currentPromoter = await _context.Promoters.FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
-
-            if (proposalUpdate.Level == StudyLevel.Master)
+            var result = await _userGetter.GetCurrentUser();
+            if(!result.Successful())
             {
-                if (_submittedProposalGetter.GetMasterProposalNumber(currentPromoter.Id).Result.Body() >=
-                    currentPromoter.ExpectedNumberOfMasterProposals)
-                    return ServiceResult<Proposal>.Error("You do not have permissions to create master proposal.");
+                var errors = result.GetAggregatedErrors();
+                return ServiceResult<ProposalViewModel>.Error(errors);
             }
-            else
-            {
-                if (_submittedProposalGetter.GetBachelorProposalNumber(currentPromoter.Id).Result.Body() >=
-                    currentPromoter.ExpectedNumberOfBachelorProposals)
-                    return ServiceResult<Proposal>.Error("You do not have permissions to create bachelor proposal.");
-            }
+            
+            var currentUser = result.Body();
+            var promoter = 
+                await _context
+                .Promoters
+                .Include(p => p.Proposals)
+                .FirstOrDefaultAsync(p => p.Id == id && p.UserId == currentUser.Id);
 
-            var proposal = await _context.Proposals.FirstOrDefaultAsync(p => p.Id == id);
+            if(promoter == null)
+            {
+                return ServiceResult<ProposalViewModel>.Error("The current user has no associated promoter");
+            }
+            
+            var proposal = promoter.Proposals.FirstOrDefault(p => p.Id == id);
 
             if (proposal == null)
             {
-                return ServiceResult<Proposal>.Error("Proposal with given id does not exist.");
+                return ServiceResult<ProposalViewModel>.Error(
+                    $"This promoter has no proposal with id {id}");
             }
 
-            proposal = _mapper.Map<Proposal>(proposalUpdate);
+            proposal = _mapper.Map(inputData, proposal);
 
             _context.Proposals.Update(proposal);
             await _context.SaveChangesAsync();
 
-            return ServiceResult<Proposal>.Success(proposal);
+            var proposalViewModels = _mapper.Map<ProposalViewModel>(proposal);
+            return ServiceResult<ProposalViewModel>.Success(proposalViewModels);
         }
     }
 }

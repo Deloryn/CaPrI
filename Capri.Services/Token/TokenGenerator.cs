@@ -58,7 +58,7 @@ namespace Capri.Services.Token
             var key = System.Text.Encoding.ASCII.GetBytes(_jwtAuthDetails.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(claims),
+                Subject = new ClaimsIdentity(claims, "jwt"),
                 Issuer = _jwtAuthDetails.Issuer,
                 Expires = DateTime.UtcNow.AddDays(_jwtAuthDetails.ExpireDays),
                 SigningCredentials =

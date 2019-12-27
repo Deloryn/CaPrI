@@ -38,7 +38,7 @@ namespace Capri.Services.Promoters
             if (existingPromoter == null)
             {
                 return ServiceResult<Promoter>.Error(
-                    "Promoter with given id does not exist");
+                    $"Promoter with id {id} does not exist");
             }
 
             var credentials = new UserCredentials
@@ -47,15 +47,17 @@ namespace Capri.Services.Promoters
                 Password = newData.Password
             };
 
-            var result = await _userUpdater.Update(existingPromoter.UserId, credentials);
+            var result = await _userUpdater.Update(
+                existingPromoter.UserId, 
+                credentials);
+
             if (!result.Successful())
             {
                 var errors = result.GetAggregatedErrors();
                 return ServiceResult<Promoter>.Error(errors);
             }
-
-            existingPromoter = _mapper.Map<Promoter>(newData);
-            existingPromoter.Id = id;
+            
+            existingPromoter = _mapper.Map(newData, existingPromoter);
 
             _context.Promoters.Update(existingPromoter);
             await _context.SaveChangesAsync();

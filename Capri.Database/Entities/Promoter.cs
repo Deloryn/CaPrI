@@ -20,8 +20,8 @@ namespace Capri.Database.Entities
         public int ExpectedNumberOfBachelorProposals { get; set; }
         [Required]
         public int ExpectedNumberOfMasterProposals { get; set; }
-        [Required]
         public virtual ICollection<Proposal> Proposals { get; set; }
+        [Required]
         [ForeignKey("ApplicationUser")]
         public Guid UserId { get; set; }
         public virtual User ApplicationUser { get; set; }

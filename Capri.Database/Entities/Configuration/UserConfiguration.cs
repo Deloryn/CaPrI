@@ -13,23 +13,6 @@ namespace Capri.Database.Entities.Configuration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            for(int i = 1; i<=SeedParams.AdminIds.Length; i++)
-            {
-                string email = "admin" + i.ToString() + "@gmail.com";
-                string password = "qwerty" + i.ToString();
-                builder.HasData(new User
-                {
-                    Id = SeedParams.AdminIds[i-1],
-                    UserName = email,
-                    NormalizedUserName = email,
-                    Email = email,
-                    NormalizedEmail = email,
-                    EmailConfirmed = true,
-                    PasswordHash = new PasswordHasher<User>().HashPassword(null, password),
-                    SecurityStamp = string.Empty
-                });
-            }
-
             for (int i = 1; i <= SeedParams.DeanIds.Length; i++)
             {
                 string email = "dean" + i.ToString() + "@gmail.com";

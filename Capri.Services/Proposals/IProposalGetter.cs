@@ -2,17 +2,17 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Capri.Database.Entities;
 using Sieve.Models;
+using Capri.Web.ViewModels.Proposal;
 
 namespace Capri.Services.Proposals
 {
     public interface IProposalGetter
     {
-        Task<IServiceResult<Proposal>> Get(Guid id);
+        Task<IServiceResult<ProposalViewModel>> Get(Guid id);
 
-        IServiceResult<IEnumerable<Proposal>> GetAll();
+        IServiceResult<IEnumerable<ProposalViewModel>> GetAll();
 
-        IServiceResult<IQueryable<Proposal>> GetFiltered(SieveModel sieveModel);
+        IServiceResult<IQueryable<ProposalViewModel>> GetFiltered(SieveModel sieveModel);
     }
 }

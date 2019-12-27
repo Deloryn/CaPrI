@@ -12,13 +12,16 @@ namespace Capri.Services.Users
     {
         private readonly ISqlDbContext _context;
         private readonly ITokenGenerator _tokenGenerator;
+        private readonly UserManager<User> _userManager;
 
         public UserCreator(
             ISqlDbContext context,
-            ITokenGenerator tokenGenerator)
+            ITokenGenerator tokenGenerator,
+            UserManager<User> userManager)
         {
             _context = context;
             _tokenGenerator = tokenGenerator;
+            _userManager = userManager;
         }
 
         public async Task<IServiceResult<User>> CreateUser(
@@ -28,7 +31,8 @@ namespace Capri.Services.Users
             var emailExists = await EmailExists(email);
             if(emailExists)
             {
-                return ServiceResult<User>.Error("Email already taken");
+                return ServiceResult<User>.Error(
+                    $"Email {email} is already taken");
             }
 
             var user = new User
@@ -50,7 +54,7 @@ namespace Capri.Services.Users
 
             user.SecurityStamp = _tokenGenerator.GenerateTokenFor(user);
 
-            await _context.Users.AddAsync(user);
+            await _userManager.CreateAsync(user);
             await _context.SaveChangesAsync();
 
             return ServiceResult<User>.Success(user);

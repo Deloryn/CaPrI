@@ -5,6 +5,6 @@ namespace Capri.Services.Users
 {
     public interface IUserGetter
     {
-        Task<User> GetCurrentUser();
+        Task<IServiceResult<User>> GetCurrentUser();
     }
 }

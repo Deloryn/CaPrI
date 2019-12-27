@@ -1,18 +1,24 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Capri.Database;
 using Capri.Database.Entities;
+using Capri.Database.Entities.Identity;
 
 namespace Capri.Services.Promoters
 {
     public class PromoterDeleter : IPromoterDeleter
     {
         private readonly ISqlDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public PromoterDeleter(ISqlDbContext context)
+        public PromoterDeleter(
+            ISqlDbContext context,
+            UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IServiceResult<Promoter>> Delete(Guid id)
@@ -25,10 +31,15 @@ namespace Capri.Services.Promoters
             if(promoter == null)
             {
                 return ServiceResult<Promoter>.Error(
-                    "Promoter with the given id does not exist");
+                    $"Promoter with id {id} does not exist");
             }
 
-            _context.Promoters.Remove(promoter);
+            var applicationUser = 
+                await _context
+                .Users
+                .FirstOrDefaultAsync(u => u.Id == promoter.UserId);
+
+            await _userManager.DeleteAsync(applicationUser);
             await _context.SaveChangesAsync();
 
             return ServiceResult<Promoter>.Success(promoter);
