@@ -27,7 +27,7 @@ namespace Capri.Web.Controllers
             _courseDeleter = courseDeleter;
         }
 
-        [HttpGet("{id:Guid}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
             var result = await _courseGetter.Get(id);
@@ -63,7 +63,7 @@ namespace Capri.Web.Controllers
         }
 
         [Authorize(Roles = "dean")]
-        [HttpPut("{id:Guid}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(
             Guid id,
             [FromBody] CourseRegistration newData)
@@ -77,7 +77,7 @@ namespace Capri.Web.Controllers
         }
 
         [Authorize(Roles = "dean")]
-        [HttpDelete("{id:Guid}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _courseDeleter.Delete(id);
