@@ -71,24 +71,35 @@ namespace Capri.Services.Proposals
 
         private bool HasPermissionToCreateProposal(Promoter promoter, StudyLevel level)
         {
-            var numOfSubmittedProposals = CountSubmittedProposals(promoter, level);
             switch(level)
             {
                 case StudyLevel.Bachelor:
-                    if (numOfSubmittedProposals < promoter.ExpectedNumberOfBachelorProposals) 
-                    {
-                        return true;
-                    }
-                    return false;
+                    return HasPermissionToCreateBachelorProposal(promoter);
                 case StudyLevel.Master:
-                    if(numOfSubmittedProposals < promoter.ExpectedNumberOfMasterProposals)
-                    {
-                        return true;
-                    }
-                    return false;
+                    return HasPermissionToCreateMasterProposal(promoter);
                 default:
                     return false;
             }
+        }
+
+        private bool HasPermissionToCreateBachelorProposal(Promoter promoter)
+        {
+            var numOfSubmittedProposals = CountSubmittedProposals(promoter, StudyLevel.Bachelor);
+            if (numOfSubmittedProposals < promoter.ExpectedNumberOfBachelorProposals) 
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool HasPermissionToCreateMasterProposal(Promoter promoter)
+        {
+            var numOfSubmittedProposals = CountSubmittedProposals(promoter, StudyLevel.Master);
+            if (numOfSubmittedProposals < promoter.ExpectedNumberOfMasterProposals) 
+            {
+                return true;
+            }
+            return false;
         }
 
         private int CountSubmittedProposals(Promoter promoter, StudyLevel level)
@@ -99,8 +110,7 @@ namespace Capri.Services.Proposals
             }
             return promoter
                 .Proposals
-                .Where(p => p.Level == level)
-                .Count();
+                .Count(p => p.Level == level);
         }
     }
 }
