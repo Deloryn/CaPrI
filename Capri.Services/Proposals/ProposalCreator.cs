@@ -5,6 +5,7 @@ using AutoMapper;
 using Capri.Database;
 using Capri.Database.Entities;
 using Capri.Services.Users;
+using Capri.Services.Settings;
 using Capri.Web.ViewModels.Proposal;
 
 namespace Capri.Services.Proposals
@@ -15,17 +16,20 @@ namespace Capri.Services.Proposals
         private readonly IMapper _mapper;
         private readonly IUserGetter _userGetter;
         private readonly ISubmittedProposalGetter _submittedProposalGetter;
+        private readonly ISystemSettingsGetter _systemSettingsGetter;
 
         public ProposalCreator(
             ISqlDbContext context, 
             IMapper mapper, 
             IUserGetter userGetter, 
-            ISubmittedProposalGetter submittedProposalGetter)
+            ISubmittedProposalGetter submittedProposalGetter,
+            ISystemSettingsGetter systemSettingsGetter)
         {
             _context = context;
             _mapper = mapper;
             _userGetter = userGetter;
             _submittedProposalGetter = submittedProposalGetter;
+            _systemSettingsGetter = systemSettingsGetter;
         }
 
         public async Task<IServiceResult<ProposalViewModel>> Create(
@@ -57,6 +61,7 @@ namespace Capri.Services.Proposals
 
             var proposal = _mapper.Map<Proposal>(inputData);
             proposal.Promoter = promoter;
+            SetStartDate(proposal, inputData.Level);
 
             promoter.Proposals.Add(proposal);
             _context.Promoters.Update(promoter);
@@ -111,6 +116,20 @@ namespace Capri.Services.Proposals
             return promoter
                 .Proposals
                 .Count(p => p.Level == level);
+        }
+
+        private void SetStartDate(Proposal proposal, StudyLevel level)
+        {
+            if(level == StudyLevel.Bachelor)
+            {
+                var startingDate = _systemSettingsGetter.GetSystemSettings().BachelorThesisStartDate;
+                proposal.StartingDate = startingDate;
+            }
+            else
+            {
+                var startingDate = _systemSettingsGetter.GetSystemSettings().MasterThesisStartDate;
+                proposal.StartingDate = startingDate;
+            }
         }
     }
 }

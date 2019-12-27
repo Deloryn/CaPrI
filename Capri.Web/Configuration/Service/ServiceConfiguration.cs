@@ -7,6 +7,7 @@ using Capri.Services.Promoters;
 using Capri.Services.Courses;
 using Capri.Services.Faculties;
 using Capri.Services.Institutes;
+using Capri.Services.Settings;
 
 namespace Capri.Web.Configuration.Service
 {
@@ -14,17 +15,18 @@ namespace Capri.Web.Configuration.Service
     {
         public static void AddServicesConfiguration(this IServiceCollection services)
         {
-            services.AddPromoterServiceConfiguration();
-            services.AddProposalServiceConfiguration();
-            services.AddTokenServiceConfiguration();
-            services.AddAccountServiceConfiguration();
-            services.AddUserServiceConfiguration();
-            services.AddCourseServiceConfiguration();
-            services.AddFacultyServiceConfiguration();
-            services.AddInstituteServiceConfiguration();
+            services.AddPromoterServicesConfiguration();
+            services.AddProposalServicesConfiguration();
+            services.AddTokenServicesConfiguration();
+            services.AddAccountServicesConfiguration();
+            services.AddUserServicesConfiguration();
+            services.AddCourseServicesConfiguration();
+            services.AddFacultyServicesConfiguration();
+            services.AddInstituteServicesConfiguration();
+            services.AddSettingsServicesConfiguration();
         }
 
-        private static void AddPromoterServiceConfiguration(this IServiceCollection services)
+        private static void AddPromoterServicesConfiguration(this IServiceCollection services)
         {
             services.AddScoped<IPromoterCreator, PromoterCreator>();
             services.AddScoped<IPromoterUpdater, PromoterUpdater>();
@@ -32,7 +34,7 @@ namespace Capri.Web.Configuration.Service
             services.AddScoped<IPromoterDeleter, PromoterDeleter>();
         }
 
-        private static void AddProposalServiceConfiguration(this IServiceCollection services)
+        private static void AddProposalServicesConfiguration(this IServiceCollection services)
         {
             services.AddScoped<IProposalCreator, ProposalCreator>();
             services.AddScoped<IProposalDeleter, ProposalDeleter>();
@@ -41,24 +43,24 @@ namespace Capri.Web.Configuration.Service
             services.AddScoped<ISubmittedProposalGetter, SubmittedProposalGetter>();
         }
 
-        private static void AddTokenServiceConfiguration(this IServiceCollection services)
+        private static void AddTokenServicesConfiguration(this IServiceCollection services)
         {
             services.AddScoped<ITokenGenerator, TokenGenerator>();
         }
 
-        private static void AddAccountServiceConfiguration(this IServiceCollection services)
+        private static void AddAccountServicesConfiguration(this IServiceCollection services)
         {
             services.AddScoped<ILoginService, LoginService>();
         }
 
-        private static void AddUserServiceConfiguration(this IServiceCollection services)
+        private static void AddUserServicesConfiguration(this IServiceCollection services)
         {
             services.AddScoped<IUserCreator, UserCreator>();
             services.AddScoped<IUserUpdater, UserUpdater>();
             services.AddScoped<IUserGetter, UserGetter>();
         }
 
-        private static void AddCourseServiceConfiguration(this IServiceCollection services)
+        private static void AddCourseServicesConfiguration(this IServiceCollection services)
         {
             services.AddScoped<ICourseCreator, CourseCreator>();
             services.AddScoped<ICourseUpdater, CourseUpdater>();
@@ -66,7 +68,7 @@ namespace Capri.Web.Configuration.Service
             services.AddScoped<ICourseDeleter, CourseDeleter>();
         }
 
-        private static void AddInstituteServiceConfiguration(this IServiceCollection services)
+        private static void AddInstituteServicesConfiguration(this IServiceCollection services)
         {
             services.AddScoped<IInstituteCreator, InstituteCreator>();
             services.AddScoped<IInstituteUpdater, InstituteUpdater>();
@@ -74,12 +76,17 @@ namespace Capri.Web.Configuration.Service
             services.AddScoped<IInstituteDeleter, InstituteDeleter>();
         }
 
-        private static void AddFacultyServiceConfiguration(this IServiceCollection services)
+        private static void AddFacultyServicesConfiguration(this IServiceCollection services)
         {
             services.AddScoped<IFacultyCreator, FacultyCreator>();
             services.AddScoped<IFacultyUpdater, FacultyUpdater>();
             services.AddScoped<IFacultyGetter, FacultyGetter>();
             services.AddScoped<IFacultyDeleter, FacultyDeleter>();
+        }
+
+        private static void AddSettingsServicesConfiguration(this IServiceCollection services)
+        {
+            services.AddScoped<ISystemSettingsGetter, SystemSettingsGetter>();
         }
     }
 }

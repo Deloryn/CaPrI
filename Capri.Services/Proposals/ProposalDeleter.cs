@@ -43,7 +43,7 @@ namespace Capri.Services.Proposals
                 await _context
                 .Promoters
                 .Include(p => p.Proposals)
-                .FirstOrDefaultAsync(p => p.Id == id && p.UserId == currentUser.Id);
+                .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
 
             if(promoter == null)
             {
