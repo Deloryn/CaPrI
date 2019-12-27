@@ -11,10 +11,14 @@ namespace Capri.Services.Users
     public class UserUpdater : IUserUpdater
     {
         private readonly ISqlDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public UserUpdater(ISqlDbContext context)
+        public UserUpdater(
+            ISqlDbContext context,
+            UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IServiceResult<User>> Update(
@@ -34,7 +38,7 @@ namespace Capri.Services.Users
 
             UpdateCredentialsOf(existingUser, credentials);
 
-            _context.Users.Update(existingUser);
+            await _userManager.UpdateAsync(existingUser);
             await _context.SaveChangesAsync();
 
             return ServiceResult<User>.Success(existingUser);

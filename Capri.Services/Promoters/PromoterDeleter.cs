@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Capri.Database;
+using Capri.Database.Entities.Identity;
 using Capri.Web.ViewModels.Promoter;
 
 namespace Capri.Services.Promoters
@@ -11,13 +13,16 @@ namespace Capri.Services.Promoters
     {
         private readonly ISqlDbContext _context;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
 
         public PromoterDeleter(
             ISqlDbContext context,
-            IMapper mapper)
+            IMapper mapper,
+            UserManager<User> userManager)
         {
             _context = context;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         public async Task<IServiceResult<PromoterViewModel>> Delete(Guid id)
@@ -38,9 +43,7 @@ namespace Capri.Services.Promoters
                 .Users
                 .FirstOrDefaultAsync(u => u.Id == promoter.UserId);
 
-            _context.Promoters.Remove(promoter);
-            _context.Users.Remove(applicationUser);
-
+            await _userManager.DeleteAsync(applicationUser);
             await _context.SaveChangesAsync();
 
             var promoterViewModel = _mapper.Map<PromoterViewModel>(promoter);
