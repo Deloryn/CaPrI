@@ -55,7 +55,7 @@ export default class NavStudentItems extends Vue {
             ],
         };
     }
-    public changeRoute(which) {
+    public changeRoute(which): void {
         this.filters[which] = true;
         for (let i = 0; i < this.filters.length; i += 1) {
             if (this.filters[i].chosen === false) {
