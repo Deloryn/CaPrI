@@ -1,22 +1,28 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using Capri.Database;
-using Capri.Database.Entities;
+using Capri.Web.ViewModels.Promoter;
 
 namespace Capri.Services.Promoters
 {
     public class PromoterGetter : IPromoterGetter
     {
         private readonly ISqlDbContext _context;
+        private readonly IMapper _mapper;
 
-        public PromoterGetter(ISqlDbContext context)
+        public PromoterGetter(
+            ISqlDbContext context,
+            IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public async Task<IServiceResult<Promoter>> Get(Guid id)
+        public async Task<IServiceResult<PromoterViewModel>> Get(Guid id)
         {
             var promoter = 
                 await _context
@@ -26,18 +32,21 @@ namespace Capri.Services.Promoters
 
             if (promoter == null)
             {
-                return ServiceResult<Promoter>.Error(
+                return ServiceResult<PromoterViewModel>.Error(
                     $"Promoter with id {id} does not exist");
             }
 
-            return ServiceResult<Promoter>.Success(promoter);
+            var promoterViewModel = _mapper.Map<PromoterViewModel>(promoter);
+            return ServiceResult<PromoterViewModel>.Success(promoterViewModel);
         }
 
-        public IServiceResult<IEnumerable<Promoter>> GetAll()
+        public IServiceResult<IEnumerable<PromoterViewModel>> GetAll()
         {
-            var promoters = _context.Promoters;
-
-            return ServiceResult<IEnumerable<Promoter>>.Success(promoters);
+            var promoters = _context.Promoters
+                .Include(p => p.Proposals);
+                
+            var promoterViewModels = promoters.Select(p => _mapper.Map<PromoterViewModel>(p));
+            return ServiceResult<IEnumerable<PromoterViewModel>>.Success(promoterViewModels);
         }
     }
 }

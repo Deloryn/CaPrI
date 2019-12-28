@@ -29,7 +29,9 @@ namespace Capri.Services.Proposals
 
         public async Task<IServiceResult<ProposalViewModel>> Get(Guid id)
         {
-            var proposal = await _context.Proposals.FirstOrDefaultAsync(p => p.Id == id);
+            var proposal = await _context.Proposals
+                .Include(p => p.Students)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if(proposal == null)
             {
@@ -43,15 +45,21 @@ namespace Capri.Services.Proposals
 
         public IServiceResult<IEnumerable<ProposalViewModel>> GetAll()
         {
-            var proposals = _context.Proposals;
+            var proposals = _context.Proposals
+                .Include(p => p.Students);
+
             var proposalViewModels = proposals.Select(p => _mapper.Map<ProposalViewModel>(p));
             return ServiceResult<IEnumerable<ProposalViewModel>>.Success(proposalViewModels);
         }
 
         public IServiceResult<IQueryable<ProposalViewModel>> GetFiltered(SieveModel sieveModel)
         {
-            var proposals = _context.Proposals.AsQueryable();
+            var proposals = _context.Proposals
+                .Include(p => p.Students)
+                .AsQueryable();
+
             var filtered = _sieveProcessor.Apply(sieveModel, proposals);
+            
             var proposalViewModels = filtered.Select(p => _mapper.Map<ProposalViewModel>(p));
             return ServiceResult<IQueryable<ProposalViewModel>>.Success(proposalViewModels);
         }

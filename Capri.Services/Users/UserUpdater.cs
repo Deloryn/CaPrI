@@ -25,11 +25,7 @@ namespace Capri.Services.Users
             Guid id,
             UserCredentials credentials)
         {
-            var existingUser =
-                await _context
-                .Users
-                .FirstOrDefaultAsync(p => p.Id == id);
-
+            var existingUser = await _userManager.FindByIdAsync(id.ToString());
             if (existingUser == null)
             {
                 return ServiceResult<User>.Error(
@@ -37,7 +33,7 @@ namespace Capri.Services.Users
             }
 
             UpdateCredentialsOf(existingUser, credentials);
-
+            
             await _userManager.UpdateAsync(existingUser);
             await _context.SaveChangesAsync();
 

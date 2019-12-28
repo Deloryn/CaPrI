@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Capri.Database.Entities.Identity;
 
@@ -14,19 +11,19 @@ namespace Capri.Database.Entities.Configuration
             builder.HasData(
                 new GuidRole
                 {
-                    Id = SeedParams.DeanRoleId,
+                    Id = SeedGetter.DeanRoleId,
                     Name = "dean",
                     NormalizedName = "dean"
                 },
                 new GuidRole
                 {
-                    Id = SeedParams.StudentRoleId,
+                    Id = SeedGetter.StudentRoleId,
                     Name = "student",
                     NormalizedName = "student"
                 },
                 new GuidRole
                 {
-                    Id = SeedParams.PromoterRoleId,
+                    Id = SeedGetter.PromoterRoleId,
                     Name = "promoter",
                     NormalizedName = "promoter"
                 });

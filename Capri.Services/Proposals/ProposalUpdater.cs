@@ -16,7 +16,11 @@ namespace Capri.Services.Proposals
         private readonly IUserGetter _userGetter;
         private readonly ISubmittedProposalGetter _submittedProposalGetter;
 
-        public ProposalUpdater(ISqlDbContext context, IMapper mapper, IUserGetter userGetter, ISubmittedProposalGetter submittedProposalGetter)
+        public ProposalUpdater(
+            ISqlDbContext context, 
+            IMapper mapper, 
+            IUserGetter userGetter, 
+            ISubmittedProposalGetter submittedProposalGetter)
         {
             _context = context;
             _mapper = mapper;
@@ -39,7 +43,7 @@ namespace Capri.Services.Proposals
                 await _context
                 .Promoters
                 .Include(p => p.Proposals)
-                .FirstOrDefaultAsync(p => p.Id == id && p.UserId == currentUser.Id);
+                .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
 
             if(promoter == null)
             {

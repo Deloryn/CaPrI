@@ -15,7 +15,11 @@ namespace Capri.Web.Configuration.Sieve
 
         protected override SievePropertyMapper MapProperties(SievePropertyMapper mapper)
         {
-            mapper.Property<Proposal>(p => p.Topic)
+            mapper.Property<Proposal>(p => p.TopicPolish)
+                .CanFilter()
+                .CanSort();
+
+            mapper.Property<Proposal>(p => p.TopicEnglish)
                 .CanFilter()
                 .CanSort();
 

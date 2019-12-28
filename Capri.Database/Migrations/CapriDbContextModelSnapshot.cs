@@ -15,9 +15,85 @@ namespace Capri.Database.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Capri.Database.Entities.Course", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("FacultyId");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FacultyId");
+
+                    b.ToTable("Courses");
+
+                    b.HasData(
+                        new { Id = new Guid("7dc16766-8b33-4956-9c8a-5b2f91a5ebaa"), FacultyId = new Guid("03caae51-44f9-4817-88fc-d275b996907c"), Name = "Architektura" },
+                        new { Id = new Guid("28397793-509a-45fc-a03c-c446b6b62058"), FacultyId = new Guid("03caae51-44f9-4817-88fc-d275b996907c"), Name = "Architektura Wnętrz" },
+                        new { Id = new Guid("54c1d86f-b089-4014-a57e-7b9e07f56fc0"), FacultyId = new Guid("38697f53-c417-41eb-80d7-4ab2cfbe2e5d"), Name = "Budownictwo" },
+                        new { Id = new Guid("8d0abcb1-f141-4c7d-9052-e9101424ba55"), FacultyId = new Guid("38697f53-c417-41eb-80d7-4ab2cfbe2e5d"), Name = "Inżynieria Środowiska" },
+                        new { Id = new Guid("61f0b1ba-7a37-491b-9c31-e9ec33f46ba4"), FacultyId = new Guid("27042c1b-c6fc-4cfe-800b-42c11a8440de"), Name = "Inżynieria Biomedyczna" },
+                        new { Id = new Guid("d2f1a18e-7837-401c-ab8f-a82d0a797ec1"), FacultyId = new Guid("27042c1b-c6fc-4cfe-800b-42c11a8440de"), Name = "Inżynieria Materiałowa" },
+                        new { Id = new Guid("34c9bec7-ce98-471d-8550-8fcbaa866eb8"), FacultyId = new Guid("27042c1b-c6fc-4cfe-800b-42c11a8440de"), Name = "Mechanika i Budowa Maszyn" },
+                        new { Id = new Guid("0380fc92-efcc-4807-9873-b0b14955eee6"), FacultyId = new Guid("27042c1b-c6fc-4cfe-800b-42c11a8440de"), Name = "Mechatronika" },
+                        new { Id = new Guid("d719e23d-056e-4646-b520-2cd8ec4db640"), FacultyId = new Guid("27042c1b-c6fc-4cfe-800b-42c11a8440de"), Name = "Zarządzanie i Inżynieria Produkcji" },
+                        new { Id = new Guid("ee2625a5-2131-4583-ba70-689b5777f872"), FacultyId = new Guid("7d09ff81-de85-46eb-b365-bdf45d8ac67a"), Name = "Elektronika i Telekomunikacja" },
+                        new { Id = new Guid("2de88dc9-a670-4598-8a56-7da4cc157e3d"), FacultyId = new Guid("7d09ff81-de85-46eb-b365-bdf45d8ac67a"), Name = "Teleinformatyka" },
+                        new { Id = new Guid("b08225df-4b31-4e61-8f22-2b27c21658d4"), FacultyId = new Guid("cc8b2de0-d321-4b63-b2b3-d7458ddfc352"), Name = "Automatyka i Robotyka" },
+                        new { Id = new Guid("f2342a0b-3a63-40c5-a8db-cba2ac84f619"), FacultyId = new Guid("cc8b2de0-d321-4b63-b2b3-d7458ddfc352"), Name = "Elektrotechnika" },
+                        new { Id = new Guid("e7857e47-181b-4b7e-962a-2fa959d27cd7"), FacultyId = new Guid("cc8b2de0-d321-4b63-b2b3-d7458ddfc352"), Name = "Energetyka" },
+                        new { Id = new Guid("29116232-c8e9-4ad6-9c8f-5ddffc627afc"), FacultyId = new Guid("cc8b2de0-d321-4b63-b2b3-d7458ddfc352"), Name = "Matematyka w Technice" },
+                        new { Id = new Guid("f3632127-034e-4148-9e7a-00029afc3f08"), FacultyId = new Guid("1852bab2-0286-4a58-a27b-18ef7da226b0"), Name = "Edukacja Techniczno-Informatyczna" },
+                        new { Id = new Guid("2251044c-1d1c-4aac-bb6d-08f9ddd6f0c1"), FacultyId = new Guid("1852bab2-0286-4a58-a27b-18ef7da226b0"), Name = "Fizyka Techniczna" },
+                        new { Id = new Guid("ecb2e274-2fd5-4ae3-8b77-b1b079c39e38"), FacultyId = new Guid("e8f510a9-5779-4ad9-acaf-edec5a1850d9"), Name = "Informatyka" },
+                        new { Id = new Guid("d81da25c-2f4f-4f2f-a5eb-dc152c04bf77"), FacultyId = new Guid("e8f510a9-5779-4ad9-acaf-edec5a1850d9"), Name = "Bioinformatyka" },
+                        new { Id = new Guid("638fafe4-6d71-4a7c-81c5-14a2108cf8e2"), FacultyId = new Guid("e8f510a9-5779-4ad9-acaf-edec5a1850d9"), Name = "Sztuczna Inteligencja / Artificial Intelligence" },
+                        new { Id = new Guid("08401f8f-9e69-414c-bb21-765e367bfb69"), FacultyId = new Guid("b78c65c8-6225-42b1-be9c-1eb10595102a"), Name = "Konstrukcja i Eksploatacja Środków Transportu" },
+                        new { Id = new Guid("648f9015-500e-4673-ba72-4b2a12fa7cec"), FacultyId = new Guid("b78c65c8-6225-42b1-be9c-1eb10595102a"), Name = "Transport" },
+                        new { Id = new Guid("bc6b6e7a-febd-43a2-84ce-a07e13fe8ee3"), FacultyId = new Guid("b78c65c8-6225-42b1-be9c-1eb10595102a"), Name = "Lotnictwo i Kosmonautyka" },
+                        new { Id = new Guid("d806e0db-646e-4933-b926-6a5af8b5ce91"), FacultyId = new Guid("6262a945-1e3f-4892-bdda-1d6780f076d3"), Name = "Logistyka" },
+                        new { Id = new Guid("1a4258e3-758f-4368-b631-d11b1f157260"), FacultyId = new Guid("6262a945-1e3f-4892-bdda-1d6780f076d3"), Name = "Inżynieria Zarządzania" },
+                        new { Id = new Guid("35d52bd3-6975-458f-809c-d19a4299b244"), FacultyId = new Guid("6262a945-1e3f-4892-bdda-1d6780f076d3"), Name = "Inżynieria Bezpieczeństwa" },
+                        new { Id = new Guid("1724cdb6-f086-457b-badb-f127cef78fdc"), FacultyId = new Guid("a5ad08cb-4c4d-4111-ad84-7c0f65896fb6"), Name = "Inżynieria Chemiczna i Procesowa" },
+                        new { Id = new Guid("3b0cf983-356d-4c24-bed0-5420b386ab27"), FacultyId = new Guid("a5ad08cb-4c4d-4111-ad84-7c0f65896fb6"), Name = "Technologia Chemiczna / Chemical Technology" },
+                        new { Id = new Guid("fda22ce5-789c-408f-a367-cc49597d013f"), FacultyId = new Guid("a5ad08cb-4c4d-4111-ad84-7c0f65896fb6"), Name = "Technologie Ochrony Środowiska" },
+                        new { Id = new Guid("7ca57359-b914-4f2b-87ba-3478f8dc7452"), FacultyId = new Guid("a5ad08cb-4c4d-4111-ad84-7c0f65896fb6"), Name = "Inżynieria Farmaceutyczna" }
+                    );
+                });
+
+            modelBuilder.Entity("Capri.Database.Entities.Faculty", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Faculties");
+
+                    b.HasData(
+                        new { Id = new Guid("03caae51-44f9-4817-88fc-d275b996907c"), Name = "Wydział Architektury" },
+                        new { Id = new Guid("38697f53-c417-41eb-80d7-4ab2cfbe2e5d"), Name = "Wydział Budownictwa i Inżynierii Środowiska" },
+                        new { Id = new Guid("27042c1b-c6fc-4cfe-800b-42c11a8440de"), Name = "Wydział Budowy Maszyn i Zarządzania" },
+                        new { Id = new Guid("7d09ff81-de85-46eb-b365-bdf45d8ac67a"), Name = "Wydział Elektroniki i Telekomunikacji" },
+                        new { Id = new Guid("cc8b2de0-d321-4b63-b2b3-d7458ddfc352"), Name = "Wydział Elektryczny" },
+                        new { Id = new Guid("1852bab2-0286-4a58-a27b-18ef7da226b0"), Name = "Wydział Fizyki Technicznej" },
+                        new { Id = new Guid("e8f510a9-5779-4ad9-acaf-edec5a1850d9"), Name = "Wydział Informatyki" },
+                        new { Id = new Guid("b78c65c8-6225-42b1-be9c-1eb10595102a"), Name = "Wydział Inżynierii Transportu" },
+                        new { Id = new Guid("6262a945-1e3f-4892-bdda-1d6780f076d3"), Name = "Wydział Inżynierii Zarządzania" },
+                        new { Id = new Guid("a5ad08cb-4c4d-4111-ad84-7c0f65896fb6"), Name = "Wydział Technologii Chemicznej" }
+                    );
+                });
 
             modelBuilder.Entity("Capri.Database.Entities.Identity.GuidRole", b =>
                 {
@@ -35,9 +111,9 @@ namespace Capri.Database.Migrations
                     b.ToTable("Roles");
 
                     b.HasData(
-                        new { Id = new Guid("c02cc218-8b38-482f-9a8f-d0adef177002"), ConcurrencyStamp = "ae3bf9c9-11a6-4685-92e1-eb91dcfb538f", Name = "dean", NormalizedName = "dean" },
-                        new { Id = new Guid("ee0ef896-c347-4205-a71f-9c5acca847ad"), ConcurrencyStamp = "23ea6bb3-c95e-41a6-869d-f9c0aae3c08b", Name = "student", NormalizedName = "student" },
-                        new { Id = new Guid("f690a490-8590-4133-8f69-6a71cc8caaf7"), ConcurrencyStamp = "a406b976-1105-4659-8133-b17756cdb555", Name = "promoter", NormalizedName = "promoter" }
+                        new { Id = new Guid("8327e2eb-55ea-465b-bcac-23d7687d9ebb"), ConcurrencyStamp = "7ebb26de-48ab-4265-b8ac-a6e317937d39", Name = "dean", NormalizedName = "dean" },
+                        new { Id = new Guid("344b55dd-0a46-41b1-a9cf-384a453d6afe"), ConcurrencyStamp = "0ce4bc7d-3847-41dd-970a-7d958818ecb9", Name = "student", NormalizedName = "student" },
+                        new { Id = new Guid("79d4e7b4-ad05-403b-a999-916dcece0bf7"), ConcurrencyStamp = "af2a2706-5151-455d-b0a8-5808e02d8ebf", Name = "promoter", NormalizedName = "promoter" }
                     );
                 });
 
@@ -107,18 +183,21 @@ namespace Capri.Database.Migrations
                     b.ToTable("UserRoles");
 
                     b.HasData(
-                        new { Id = new Guid("6fedbbd9-5805-4fd9-be10-50869a6ff0ce"), RoleId = new Guid("c02cc218-8b38-482f-9a8f-d0adef177002"), UserId = new Guid("8cf1f857-7891-438f-b220-c9badcb834de") },
-                        new { Id = new Guid("b2670c65-edfb-4736-9953-5ff20e1e2841"), RoleId = new Guid("c02cc218-8b38-482f-9a8f-d0adef177002"), UserId = new Guid("68ac2b22-0c92-46da-a800-deae10e9470b") },
-                        new { Id = new Guid("fecb04cb-687e-42c7-82de-4c6a75951d31"), RoleId = new Guid("ee0ef896-c347-4205-a71f-9c5acca847ad"), UserId = new Guid("87b48860-66dc-45d6-bfad-4140f4783e52") },
-                        new { Id = new Guid("502d80fc-6e09-4622-8ad0-a216502eb927"), RoleId = new Guid("ee0ef896-c347-4205-a71f-9c5acca847ad"), UserId = new Guid("948febcd-be78-4bc4-a15f-197cd253faa4") },
-                        new { Id = new Guid("253fe6c3-5974-4f94-a536-ffe73cfbc93f"), RoleId = new Guid("ee0ef896-c347-4205-a71f-9c5acca847ad"), UserId = new Guid("00d328de-5529-4954-9cbd-dd568ffe830a") },
-                        new { Id = new Guid("bc22c227-ee68-4a69-894e-827e33642ee0"), RoleId = new Guid("ee0ef896-c347-4205-a71f-9c5acca847ad"), UserId = new Guid("4a22fdde-cb73-40e7-b25b-fbd712cea748") },
-                        new { Id = new Guid("48aea09b-4be3-4372-88bc-d46d78a1552b"), RoleId = new Guid("ee0ef896-c347-4205-a71f-9c5acca847ad"), UserId = new Guid("1e5b2a68-59e0-400b-b0a8-6204aa556be6") },
-                        new { Id = new Guid("9aabdabd-8d1b-4c38-a2d0-0f88dca17533"), RoleId = new Guid("ee0ef896-c347-4205-a71f-9c5acca847ad"), UserId = new Guid("5614ff52-bfb7-463f-8445-9ae4c929c359") },
-                        new { Id = new Guid("4ae4e691-dcff-4236-94ca-c97c102bc66c"), RoleId = new Guid("ee0ef896-c347-4205-a71f-9c5acca847ad"), UserId = new Guid("f91a69b4-fc27-4390-8734-b13cb48dfad9") },
-                        new { Id = new Guid("d979fc9c-94d3-419a-a4e9-014e5664b73c"), RoleId = new Guid("ee0ef896-c347-4205-a71f-9c5acca847ad"), UserId = new Guid("895246e1-b5fe-4980-afb4-07f9ff4f3a15") },
-                        new { Id = new Guid("486c4119-0425-4802-ba9c-a922afa7ce1b"), RoleId = new Guid("f690a490-8590-4133-8f69-6a71cc8caaf7"), UserId = new Guid("55b1b2f4-9b5a-4cbe-8646-0eba7efe40bd") },
-                        new { Id = new Guid("2a21d8e5-575a-41d9-99ed-fbb5c06a3db9"), RoleId = new Guid("f690a490-8590-4133-8f69-6a71cc8caaf7"), UserId = new Guid("df9882d8-2cc3-48e5-898a-5735df64421f") }
+                        new { Id = new Guid("318ae3fc-d446-4a46-8368-7be693bf832d"), RoleId = new Guid("8327e2eb-55ea-465b-bcac-23d7687d9ebb"), UserId = new Guid("651c0b4a-e4e8-4242-93a6-dedfc8db0355") },
+                        new { Id = new Guid("adf7558a-4611-4a68-b446-459f3fe7e6ac"), RoleId = new Guid("8327e2eb-55ea-465b-bcac-23d7687d9ebb"), UserId = new Guid("cd69fa9f-4dbe-459e-9a0e-46c1dce2f544") },
+                        new { Id = new Guid("bde5d285-a9e4-4016-8db3-21a03ec34768"), RoleId = new Guid("8327e2eb-55ea-465b-bcac-23d7687d9ebb"), UserId = new Guid("141f2ea1-a922-4fa7-8a0d-e6a3cc609cd0") },
+                        new { Id = new Guid("ce293fad-2b1f-4691-92e6-cb2831b2e397"), RoleId = new Guid("8327e2eb-55ea-465b-bcac-23d7687d9ebb"), UserId = new Guid("4d9f5b90-a5f3-4773-8e44-1cf0c2bbb744") },
+                        new { Id = new Guid("e016d875-a123-4a88-9e8d-579c10cf2c97"), RoleId = new Guid("344b55dd-0a46-41b1-a9cf-384a453d6afe"), UserId = new Guid("62fb0785-6255-40ad-8058-d4541cb9e683") },
+                        new { Id = new Guid("41eb5fc4-bfba-4e63-800e-ff96c948138c"), RoleId = new Guid("344b55dd-0a46-41b1-a9cf-384a453d6afe"), UserId = new Guid("6d14d3b4-8a16-4783-a62e-4cec7464a35b") },
+                        new { Id = new Guid("43608668-930f-4381-acc9-b84c6293ae73"), RoleId = new Guid("344b55dd-0a46-41b1-a9cf-384a453d6afe"), UserId = new Guid("cda651d3-e5c4-47fb-b1af-584494540e87") },
+                        new { Id = new Guid("567e7278-b03e-4e8b-a196-fff7a170dfbf"), RoleId = new Guid("344b55dd-0a46-41b1-a9cf-384a453d6afe"), UserId = new Guid("ef0fa462-fb88-4880-b5ef-8e946eb93a6a") },
+                        new { Id = new Guid("e4781837-9d7a-4b7a-9566-9933094e4ac8"), RoleId = new Guid("79d4e7b4-ad05-403b-a999-916dcece0bf7"), UserId = new Guid("ed5681f6-8f86-4a2a-962b-71522a6b13bc") },
+                        new { Id = new Guid("88a1c9a9-8592-4b8a-b257-5684b4f4828a"), RoleId = new Guid("79d4e7b4-ad05-403b-a999-916dcece0bf7"), UserId = new Guid("8897863e-d618-4972-81f4-31a5a585a1c1") },
+                        new { Id = new Guid("c9a57cbc-3854-415e-a78a-3235e9a7d5e2"), RoleId = new Guid("79d4e7b4-ad05-403b-a999-916dcece0bf7"), UserId = new Guid("a66aac57-ee44-483c-a8c7-ca52b39d5ceb") },
+                        new { Id = new Guid("e2a06cd4-c26f-442e-992b-7fb158659517"), RoleId = new Guid("79d4e7b4-ad05-403b-a999-916dcece0bf7"), UserId = new Guid("662c19a1-9ffd-45f3-a5bc-683251a5008d") },
+                        new { Id = new Guid("b57a8802-b643-42bc-a6cb-1adac34f114b"), RoleId = new Guid("79d4e7b4-ad05-403b-a999-916dcece0bf7"), UserId = new Guid("85cfa354-c025-46a0-b0c9-bf97b18bc98d") },
+                        new { Id = new Guid("b43c3a53-b930-4224-8576-09e326b93fef"), RoleId = new Guid("79d4e7b4-ad05-403b-a999-916dcece0bf7"), UserId = new Guid("ecb47443-bc6c-47cb-a15a-ce7c203e7b1b") },
+                        new { Id = new Guid("d168d1b7-f388-4d6b-89ce-62dd2123fb33"), RoleId = new Guid("79d4e7b4-ad05-403b-a999-916dcece0bf7"), UserId = new Guid("f2734ade-c745-40d7-9345-143de39447cd") }
                     );
                 });
 
@@ -178,18 +257,48 @@ namespace Capri.Database.Migrations
                     b.ToTable("Users");
 
                     b.HasData(
-                        new { Id = new Guid("8cf1f857-7891-438f-b220-c9badcb834de"), AccessFailedCount = 0, ConcurrencyStamp = "683642fe-21ed-4785-a9f5-0c07206e8222", Email = "dean1@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "dean1@gmail.com", NormalizedUserName = "dean1@gmail.com", PasswordHash = "AQAAAAEAACcQAAAAEAzoVtW0aXRYCmFYthHbEKigMuaSdMCRj+OPt9E1tThoHrMVnbCG/KtBN+3NMr4W+A==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "dean1@gmail.com" },
-                        new { Id = new Guid("68ac2b22-0c92-46da-a800-deae10e9470b"), AccessFailedCount = 0, ConcurrencyStamp = "0c750628-8bd6-43f3-9657-f77736eb5795", Email = "dean2@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "dean2@gmail.com", NormalizedUserName = "dean2@gmail.com", PasswordHash = "AQAAAAEAACcQAAAAEEqkWBIF9X14VFc60mAyHlBQecI79emU7D/4Trksm+o2fN6iDHuhHBShHPr4LiF0ag==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "dean2@gmail.com" },
-                        new { Id = new Guid("87b48860-66dc-45d6-bfad-4140f4783e52"), AccessFailedCount = 0, ConcurrencyStamp = "b71f69ac-3a8f-41f0-8125-82d06b79f345", Email = "student1@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "student1@gmail.com", NormalizedUserName = "student1@gmail.com", PasswordHash = "AQAAAAEAACcQAAAAEKh3Tg8lMP8l5HZx3eYngaoQ7knyFQ3qXRyR37ky9n48NYeCL+AE6mcneYMUsAGO4g==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "student1@gmail.com" },
-                        new { Id = new Guid("948febcd-be78-4bc4-a15f-197cd253faa4"), AccessFailedCount = 0, ConcurrencyStamp = "f1175169-7c63-4ebd-94a3-8e49c5ffca88", Email = "student2@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "student2@gmail.com", NormalizedUserName = "student2@gmail.com", PasswordHash = "AQAAAAEAACcQAAAAEG+0XnQhrOmTjjZ20/MvH6qP0Dd3rrB6VM+sY9hKVpHfXL84lElouct2pVBNjQyFMg==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "student2@gmail.com" },
-                        new { Id = new Guid("00d328de-5529-4954-9cbd-dd568ffe830a"), AccessFailedCount = 0, ConcurrencyStamp = "494a5b76-c4c2-43a7-abe7-bae617cdd653", Email = "student3@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "student3@gmail.com", NormalizedUserName = "student3@gmail.com", PasswordHash = "AQAAAAEAACcQAAAAEA8n6sYR7k9OCY13qSyFfGW6i93fX8Nuwv9PeT4Kf0tfOHutsqZI/JdBSVRiiWJyHw==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "student3@gmail.com" },
-                        new { Id = new Guid("4a22fdde-cb73-40e7-b25b-fbd712cea748"), AccessFailedCount = 0, ConcurrencyStamp = "7b1c8cba-6e39-45c3-a482-f0b48f074e46", Email = "student4@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "student4@gmail.com", NormalizedUserName = "student4@gmail.com", PasswordHash = "AQAAAAEAACcQAAAAEFNbf3bPtLrRdbV3NEyhrPL1eVT6RZiVKCnZpkCnlHks+jCEXNC0qKPXNREHXims6Q==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "student4@gmail.com" },
-                        new { Id = new Guid("1e5b2a68-59e0-400b-b0a8-6204aa556be6"), AccessFailedCount = 0, ConcurrencyStamp = "f41de217-be71-490d-b66e-df878b5cf404", Email = "student5@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "student5@gmail.com", NormalizedUserName = "student5@gmail.com", PasswordHash = "AQAAAAEAACcQAAAAELQBZCaQYYmE49wR01V2KlQ32hxYr/9HpLLdszQLbGg/292uY4qhjytyWD5MTiWl+w==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "student5@gmail.com" },
-                        new { Id = new Guid("5614ff52-bfb7-463f-8445-9ae4c929c359"), AccessFailedCount = 0, ConcurrencyStamp = "ef26953a-27fe-4da6-a557-f5f0be8a9243", Email = "student6@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "student6@gmail.com", NormalizedUserName = "student6@gmail.com", PasswordHash = "AQAAAAEAACcQAAAAENVdUL7iA0NuoWE3jlePgwzeF1aL/W/sw6WFnk5CYuykMrx5wB2SDrkDJ2xh2zShAg==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "student6@gmail.com" },
-                        new { Id = new Guid("f91a69b4-fc27-4390-8734-b13cb48dfad9"), AccessFailedCount = 0, ConcurrencyStamp = "7a6b324e-6ddc-47c4-b7b0-edb0cad8c820", Email = "student7@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "student7@gmail.com", NormalizedUserName = "student7@gmail.com", PasswordHash = "AQAAAAEAACcQAAAAEO65mRG+Y5k4/iIkpTUlpXQxJRvrORadqWRbuJh+QtobZ/HQXdR/H8BCY0XzXMg1ug==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "student7@gmail.com" },
-                        new { Id = new Guid("895246e1-b5fe-4980-afb4-07f9ff4f3a15"), AccessFailedCount = 0, ConcurrencyStamp = "c531f18e-a6ab-4aad-a352-1f7f1ef8101b", Email = "student8@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "student8@gmail.com", NormalizedUserName = "student8@gmail.com", PasswordHash = "AQAAAAEAACcQAAAAEI30krRFlXqURKwi1J1d/WdE2QU/NqeH+Z4Xz6CCRTDsP83Em1d5//OL8YcEwn3IiQ==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "student8@gmail.com" },
-                        new { Id = new Guid("55b1b2f4-9b5a-4cbe-8646-0eba7efe40bd"), AccessFailedCount = 0, ConcurrencyStamp = "c87b6b74-6cb8-4284-badd-5391158b80e0", Email = "promoter1@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "promoter1@gmail.com", NormalizedUserName = "promoter1@gmail.com", PasswordHash = "AQAAAAEAACcQAAAAELMWDJAzD/6cU2xqO0S6kGqfITFWHNtM9VWEf0dSLzc2nkOUr1f5Uy2N2o2jxk13aQ==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "promoter1@gmail.com" },
-                        new { Id = new Guid("df9882d8-2cc3-48e5-898a-5735df64421f"), AccessFailedCount = 0, ConcurrencyStamp = "7d1bb7f9-a156-407f-9d10-c27c72a4f619", Email = "promoter2@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "promoter2@gmail.com", NormalizedUserName = "promoter2@gmail.com", PasswordHash = "AQAAAAEAACcQAAAAEMl/soD3L5/2Ezp+La8ZGM1KbszGgodIFeS8deZCLS6FnQrX+c4nCaPL/sS38YabOw==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "promoter2@gmail.com" }
+                        new { Id = new Guid("651c0b4a-e4e8-4242-93a6-dedfc8db0355"), AccessFailedCount = 0, ConcurrencyStamp = "fb656414-91f0-4d80-bdb3-662844fd1299", Email = "dean1@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "DEAN1@GMAIL.COM", NormalizedUserName = "DEAN1@GMAIL.COM", PasswordHash = "AQAAAAEAACcQAAAAEKkMhSX1lPcAaMuPJXoKrhl2xVyZWJpW/CfYcdSh0lV3xINzgj0IglgN2py/55rkUw==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "dean1@gmail.com" },
+                        new { Id = new Guid("cd69fa9f-4dbe-459e-9a0e-46c1dce2f544"), AccessFailedCount = 0, ConcurrencyStamp = "12bde8aa-a3ed-43f5-87e2-b2d6da070bd8", Email = "dean2@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "DEAN2@GMAIL.COM", NormalizedUserName = "DEAN2@GMAIL.COM", PasswordHash = "AQAAAAEAACcQAAAAEHqyxedWMDPp2/lqDcXmflulrcMjgHJXrctDZBBgdOvzhcwjKADT+3g3iIHzSTouPg==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "dean2@gmail.com" },
+                        new { Id = new Guid("141f2ea1-a922-4fa7-8a0d-e6a3cc609cd0"), AccessFailedCount = 0, ConcurrencyStamp = "a85433fc-2bf8-47aa-a88e-955a27b8084e", Email = "dean3@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "DEAN3@GMAIL.COM", NormalizedUserName = "DEAN3@GMAIL.COM", PasswordHash = "AQAAAAEAACcQAAAAEHjqrRFWnfFG+kFA8X3mbjM86RpQt/PAZa2iSGAsdi1QrGCs9l1QxKMD2GKJYMKsPw==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "dean3@gmail.com" },
+                        new { Id = new Guid("4d9f5b90-a5f3-4773-8e44-1cf0c2bbb744"), AccessFailedCount = 0, ConcurrencyStamp = "704b1198-e86e-4ba9-8bac-99c05a146514", Email = "dean4@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "DEAN4@GMAIL.COM", NormalizedUserName = "DEAN4@GMAIL.COM", PasswordHash = "AQAAAAEAACcQAAAAEMDaRAuUuky1c52rBWtfpjclBu+AHlU3iCJizEjhEHqnXPmtKovkeOMFsCyqnYdI2Q==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "dean4@gmail.com" },
+                        new { Id = new Guid("62fb0785-6255-40ad-8058-d4541cb9e683"), AccessFailedCount = 0, ConcurrencyStamp = "ec720e87-665e-4778-83ae-a8fc335eba99", Email = "student1@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "STUDENT1@GMAIL.COM", NormalizedUserName = "STUDENT1@GMAIL.COM", PasswordHash = "AQAAAAEAACcQAAAAEH+9Wf5ovGF34ATJUuNYQ9T6Ti3M50bqx6KRJlcHcL0VJ0xzDZLiwzCaMfz+xSJAQg==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "student1@gmail.com" },
+                        new { Id = new Guid("6d14d3b4-8a16-4783-a62e-4cec7464a35b"), AccessFailedCount = 0, ConcurrencyStamp = "e5158d40-6272-42cf-8b82-bbc323fe8724", Email = "student2@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "STUDENT2@GMAIL.COM", NormalizedUserName = "STUDENT2@GMAIL.COM", PasswordHash = "AQAAAAEAACcQAAAAEBQVbci9+LDQKKxpoI670Eei+7D2kfGtc4T+DttBnTMcMMsPQb77uvJn+G2QvP8PwQ==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "student2@gmail.com" },
+                        new { Id = new Guid("cda651d3-e5c4-47fb-b1af-584494540e87"), AccessFailedCount = 0, ConcurrencyStamp = "26104d0b-da68-4fd8-a961-3275983a34b1", Email = "student3@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "STUDENT3@GMAIL.COM", NormalizedUserName = "STUDENT3@GMAIL.COM", PasswordHash = "AQAAAAEAACcQAAAAEKT1ruL0oT+224R8gB6tUPiV91s7LoCAevZ67xifZrh8kmjXvHVIKo5y19NvYAtpsw==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "student3@gmail.com" },
+                        new { Id = new Guid("ef0fa462-fb88-4880-b5ef-8e946eb93a6a"), AccessFailedCount = 0, ConcurrencyStamp = "c84c584d-6d81-4dc9-808a-f6974eac57cf", Email = "student4@gmail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "STUDENT4@GMAIL.COM", NormalizedUserName = "STUDENT4@GMAIL.COM", PasswordHash = "AQAAAAEAACcQAAAAEMmv6Ex3OEvsx5/oFTGdAYh3AkVA54vipx04l5NxQ8SF28Ep9vy/crLKftliwcGRrw==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "student4@gmail.com" },
+                        new { Id = new Guid("ed5681f6-8f86-4a2a-962b-71522a6b13bc"), AccessFailedCount = 0, ConcurrencyStamp = "79c8c31e-4c0d-472c-a6c2-f15550919e58", Email = "irmina.maslowska@put.poznan.pl", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "IRMINA.MASLOWSKA@PUT.POZNAN.PL", NormalizedUserName = "IRMINA.MASLOWSKA@PUT.POZNAN.PL", PasswordHash = "AQAAAAEAACcQAAAAENMyiulGsuDjFrzyV/sYHVFTrlWbe3KOD6YP9BLts+cSNyYmVjn/gSX/d/03GXzIcA==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "irmina.maslowska@put.poznan.pl" },
+                        new { Id = new Guid("8897863e-d618-4972-81f4-31a5a585a1c1"), AccessFailedCount = 0, ConcurrencyStamp = "a67a3fea-9bd0-45ef-9da4-47a74c0c0dc7", Email = "bartlomiej.predki@put.poznan.pl", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "BARTLOMIEJ.PREDKI@PUT.POZNAN.PL", NormalizedUserName = "BARTLOMIEJ.PREDKI@PUT.POZNAN.PL", PasswordHash = "AQAAAAEAACcQAAAAEEzjL97bvao0KIkQj3s+RymDh5G/DoJAkeCZT15AD5hXgf63cfixc8BjG1JnqMgMMQ==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "bartlomiej.predki@put.poznan.pl" },
+                        new { Id = new Guid("a66aac57-ee44-483c-a8c7-ca52b39d5ceb"), AccessFailedCount = 0, ConcurrencyStamp = "360787ab-207c-4edf-a272-5b615c44201a", Email = "milosz.kadzinski@put.poznan.pl", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "MILOSZ.KADZINSKI@PUT.POZNAN.PL", NormalizedUserName = "MILOSZ.KADZINSKI@PUT.POZNAN.PL", PasswordHash = "AQAAAAEAACcQAAAAEJhTPNOlngyUkyFPZA/cSOARbHs8T1zNU+yv0W3wnEp0u+IhtqTZ/3y4BhFNcVsGOg==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "milosz.kadzinski@put.poznan.pl" },
+                        new { Id = new Guid("662c19a1-9ffd-45f3-a5bc-683251a5008d"), AccessFailedCount = 0, ConcurrencyStamp = "6d21cc7b-a08b-480c-a742-f2c5e8286a89", Email = "wojciech.kotlowski@put.poznan.pl", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "WOJCIECH.KOTLOWSKI@PUT.POZNAN.PL", NormalizedUserName = "WOJCIECH.KOTLOWSKI@PUT.POZNAN.PL", PasswordHash = "AQAAAAEAACcQAAAAELh13nx/qJzwRZwJPui7NCgmFve7HNDFbToz71Lb/QS5JTgDlc7HQDYPYrYNLrQdTA==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "wojciech.kotlowski@put.poznan.pl" },
+                        new { Id = new Guid("85cfa354-c025-46a0-b0c9-bf97b18bc98d"), AccessFailedCount = 0, ConcurrencyStamp = "c119e256-be36-48b7-898b-420711b895d3", Email = "jerzy.nawrocki@put.poznan.pl", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "JERZY.NAWROCKI@PUT.POZNAN.PL", NormalizedUserName = "JERZY.NAWROCKI@PUT.POZNAN.PL", PasswordHash = "AQAAAAEAACcQAAAAEGc4HGgVqn4XkABoRmZEhxdSFqa4oQs466CVf4db8v5hu9/6rSVGzY1QFMwaZqCSqA==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "jerzy.nawrocki@put.poznan.pl" },
+                        new { Id = new Guid("ecb47443-bc6c-47cb-a15a-ce7c203e7b1b"), AccessFailedCount = 0, ConcurrencyStamp = "cec03e69-a500-4aaf-b628-a84c195bf4b8", Email = "katarzyna.adamska@put.poznan.pl", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "KATARZYNA.ADAMSKA@PUT.POZNAN.PL", NormalizedUserName = "KATARZYNA.ADAMSKA@PUT.POZNAN.PL", PasswordHash = "AQAAAAEAACcQAAAAEF+zOGkXTU08WpL22RRnrnGjgWhXXX3aQCdrU8Qzwb9mB1fwIX18+oYmLnFtZ9tSTA==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "katarzyna.adamska@put.poznan.pl" },
+                        new { Id = new Guid("f2734ade-c745-40d7-9345-143de39447cd"), AccessFailedCount = 0, ConcurrencyStamp = "8bcafeb4-3944-4d84-95ad-d8b8e500e112", Email = "krzysztof.alejski@put.poznan.pl", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "KRZYSZTOF.ALEJSKI@PUT.POZNAN.PL", NormalizedUserName = "KRZYSZTOF.ALEJSKI@PUT.POZNAN.PL", PasswordHash = "AQAAAAEAACcQAAAAEA8tsKEHPiAleOrK7EQkWHSYHe9XTyPy302ONp/iyfF7+xb294bq8cLevEGZjEcIqw==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "krzysztof.alejski@put.poznan.pl" }
+                    );
+                });
+
+            modelBuilder.Entity("Capri.Database.Entities.Institute", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Institutes");
+
+                    b.HasData(
+                        new { Id = new Guid("58235289-a170-4ec4-8b32-ececd6df3095"), Name = "Instytut Informatyki" },
+                        new { Id = new Guid("1ebb2a74-51b8-475c-863f-c132e0ed494e"), Name = "Instytut Technologii Mechanicznej" },
+                        new { Id = new Guid("3dc7b202-d1aa-4f8b-b45d-783bb5b3747d"), Name = "Instytut Matematyki" },
+                        new { Id = new Guid("0b713ab7-493a-4151-a7bd-d0616c06f58b"), Name = "Instytut Technologii Materiałów" },
+                        new { Id = new Guid("4a25f9e8-0eba-40b0-9f09-3075ef303900"), Name = "Instytut Inżynierii Lądowej" },
+                        new { Id = new Guid("fb2d67da-313a-467b-8676-2f125e857c4c"), Name = "Instytut Inżynierii Środowiska" },
+                        new { Id = new Guid("8a5b2984-8578-44db-9edd-18aabbf7797e"), Name = "Instytut Chemii i Elektrochemii Technicznej" },
+                        new { Id = new Guid("f9839510-63ba-416b-acbf-e0ca4ea53df4"), Name = "Instytut Elektrotechniki i Elektroniki Przemysłowej" },
+                        new { Id = new Guid("64466f1e-14f3-4b3f-a283-1b07554affb6"), Name = "Instytut Mechaniki Stosowanej" },
+                        new { Id = new Guid("0b3b05f9-0bc3-4d4d-a297-0cf2f0e8bfd4"), Name = "Instytut Technologii i Inżynierii Chemicznej" },
+                        new { Id = new Guid("c89e109c-d7ac-4683-8f74-19ee71190c3f"), Name = "Instytut Architektury i Planowania Przestrzennego" }
                     );
                 });
 
@@ -205,20 +314,34 @@ namespace Capri.Database.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired();
 
+                    b.Property<Guid>("InstituteId");
+
                     b.Property<string>("LastName")
+                        .IsRequired();
+
+                    b.Property<string>("TitlePostfix");
+
+                    b.Property<string>("TitlePrefix")
                         .IsRequired();
 
                     b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("InstituteId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Promoters");
 
                     b.HasData(
-                        new { Id = new Guid("a242a7aa-bace-42e0-927f-2decf6c76dfa"), ExpectedNumberOfBachelorProposals = 3, ExpectedNumberOfMasterProposals = 4, FirstName = "Jan", LastName = "Kowalski", UserId = new Guid("55b1b2f4-9b5a-4cbe-8646-0eba7efe40bd") },
-                        new { Id = new Guid("2bdd2074-e743-49b1-aef3-7d17b3690760"), ExpectedNumberOfBachelorProposals = 3, ExpectedNumberOfMasterProposals = 4, FirstName = "Jan", LastName = "Kowalski", UserId = new Guid("df9882d8-2cc3-48e5-898a-5735df64421f") }
+                        new { Id = new Guid("2a21d8e5-575a-41d9-99ed-fbb5c06a3db9"), ExpectedNumberOfBachelorProposals = 2, ExpectedNumberOfMasterProposals = 1, FirstName = "Irmina", InstituteId = new Guid("58235289-a170-4ec4-8b32-ececd6df3095"), LastName = "Masłowska", TitlePostfix = "", TitlePrefix = "dr inż.", UserId = new Guid("ed5681f6-8f86-4a2a-962b-71522a6b13bc") },
+                        new { Id = new Guid("d979fc9c-94d3-419a-a4e9-014e5664b73c"), ExpectedNumberOfBachelorProposals = 2, ExpectedNumberOfMasterProposals = 1, FirstName = "Bartłomiej", InstituteId = new Guid("58235289-a170-4ec4-8b32-ececd6df3095"), LastName = "Prędki", TitlePostfix = "", TitlePrefix = "dr inż.", UserId = new Guid("8897863e-d618-4972-81f4-31a5a585a1c1") },
+                        new { Id = new Guid("4ae4e691-dcff-4236-94ca-c97c102bc66c"), ExpectedNumberOfBachelorProposals = 2, ExpectedNumberOfMasterProposals = 1, FirstName = "Miłosz", InstituteId = new Guid("58235289-a170-4ec4-8b32-ececd6df3095"), LastName = "Kadziński", TitlePostfix = "", TitlePrefix = "dr hab. inż.", UserId = new Guid("a66aac57-ee44-483c-a8c7-ca52b39d5ceb") },
+                        new { Id = new Guid("9aabdabd-8d1b-4c38-a2d0-0f88dca17533"), ExpectedNumberOfBachelorProposals = 2, ExpectedNumberOfMasterProposals = 1, FirstName = "Wojciech", InstituteId = new Guid("58235289-a170-4ec4-8b32-ececd6df3095"), LastName = "Kotłowski", TitlePostfix = "", TitlePrefix = "dr hab. inż.", UserId = new Guid("662c19a1-9ffd-45f3-a5bc-683251a5008d") },
+                        new { Id = new Guid("48aea09b-4be3-4372-88bc-d46d78a1552b"), ExpectedNumberOfBachelorProposals = 2, ExpectedNumberOfMasterProposals = 1, FirstName = "Jerzy", InstituteId = new Guid("58235289-a170-4ec4-8b32-ececd6df3095"), LastName = "Nawrocki", TitlePostfix = "prof. PP", TitlePrefix = "dr hab inż.", UserId = new Guid("85cfa354-c025-46a0-b0c9-bf97b18bc98d") },
+                        new { Id = new Guid("fb23704f-cec8-48fb-aa79-f3bd0e7e293b"), ExpectedNumberOfBachelorProposals = 1, ExpectedNumberOfMasterProposals = 1, FirstName = "Katarzyna", InstituteId = new Guid("0b3b05f9-0bc3-4d4d-a297-0cf2f0e8bfd4"), LastName = "Adamska", TitlePostfix = "", TitlePrefix = "dr inż.", UserId = new Guid("ecb47443-bc6c-47cb-a15a-ce7c203e7b1b") },
+                        new { Id = new Guid("7345a41b-36aa-4ae2-b0fe-b7bb4279603b"), ExpectedNumberOfBachelorProposals = 3, ExpectedNumberOfMasterProposals = 2, FirstName = "Krzysztof", InstituteId = new Guid("0b3b05f9-0bc3-4d4d-a297-0cf2f0e8bfd4"), LastName = "Alejski", TitlePostfix = "prof. PP", TitlePrefix = "dr hab. inż.", UserId = new Guid("f2734ade-c745-40d7-9345-143de39447cd") }
                     );
                 });
 
@@ -226,6 +349,8 @@ namespace Capri.Database.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("CourseId");
 
                     b.Property<string>("Description")
                         .IsRequired();
@@ -236,16 +361,37 @@ namespace Capri.Database.Migrations
 
                     b.Property<Guid>("PromoterId");
 
+                    b.Property<string>("Specialization");
+
+                    b.Property<DateTime>("StartingDate");
+
                     b.Property<int>("Status");
 
-                    b.Property<string>("Topic")
+                    b.Property<int>("StudyProfile");
+
+                    b.Property<string>("TopicEnglish")
+                        .IsRequired();
+
+                    b.Property<string>("TopicPolish")
                         .IsRequired();
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CourseId");
+
                     b.HasIndex("PromoterId");
 
                     b.ToTable("Proposals");
+
+                    b.HasData(
+                        new { Id = new Guid("0e4c4099-4726-45c3-a38f-4c6f13100f3c"), CourseId = new Guid("ecb2e274-2fd5-4ae3-8b77-b1b079c39e38"), Description = "Opis.....", Level = 0, Mode = 0, PromoterId = new Guid("48aea09b-4be3-4372-88bc-d46d78a1552b"), Specialization = "Opis.......", StartingDate = new DateTime(2019, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), Status = 0, StudyProfile = 0, TopicEnglish = "Capri 2 - system for managing diploma topic cards", TopicPolish = "Capri 2 - system do zarządzania kartami tematów prac dyplomowych" },
+                        new { Id = new Guid("f2f1039a-9d17-4a51-860d-0c7dbc8e8824"), CourseId = new Guid("ecb2e274-2fd5-4ae3-8b77-b1b079c39e38"), Description = "Celem pracy jest zaimplementowanie metod Electre 1s i Electre TRI jako aplikacji desktopowych.....", Level = 0, Mode = 0, PromoterId = new Guid("2a21d8e5-575a-41d9-99ed-fbb5c06a3db9"), Specialization = "....................................", StartingDate = new DateTime(2019, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), Status = 0, StudyProfile = 0, TopicEnglish = "Implementation of chosen methods from Electre family", TopicPolish = "Implementacja wybranych metod z rodziny Electre" },
+                        new { Id = new Guid("5cf17a9d-72a9-4508-b3bb-355f981f40ed"), CourseId = new Guid("ecb2e274-2fd5-4ae3-8b77-b1b079c39e38"), Description = "Opis.....", Level = 0, Mode = 0, PromoterId = new Guid("d979fc9c-94d3-419a-a4e9-014e5664b73c"), Specialization = "Opis.......", StartingDate = new DateTime(2019, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), Status = 0, StudyProfile = 0, TopicEnglish = "Implementation of decision support methods based on utility function (UTA, Assess)", TopicPolish = "Implementacja metod wspomagania decyzji opartych na funkcji użyteczności (UTA, Assess)" },
+                        new { Id = new Guid("c4d9dbbd-ba75-40f6-a72d-885a19b30ea1"), CourseId = new Guid("ecb2e274-2fd5-4ae3-8b77-b1b079c39e38"), Description = "Opis.....", Level = 0, Mode = 0, PromoterId = new Guid("4ae4e691-dcff-4236-94ca-c97c102bc66c"), Specialization = "Opis.......", StartingDate = new DateTime(2019, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), Status = 0, StudyProfile = 0, TopicEnglish = "Extension of diviz platform", TopicPolish = "Rozszerzenie platformy diviz o metody wielokryterialnego wspomagania decyzji oparte na różnych modelach preferencji" },
+                        new { Id = new Guid("6b7bf042-1be7-4902-998d-82a9373f76b2"), CourseId = new Guid("ecb2e274-2fd5-4ae3-8b77-b1b079c39e38"), Description = "Opis.....", Level = 0, Mode = 0, PromoterId = new Guid("9aabdabd-8d1b-4c38-a2d0-0f88dca17533"), Specialization = "Opis.......", StartingDate = new DateTime(2019, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), Status = 0, StudyProfile = 0, TopicEnglish = "Style transfering using a neural network", TopicPolish = "Transfer stylu przy użyciu sieci neuronowej" },
+                        new { Id = new Guid("9fbe17ef-904e-4b73-b783-4bf5cb1874c0"), CourseId = new Guid("1724cdb6-f086-457b-badb-f127cef78fdc"), Description = "Praca będzie polegać na własnoręcznym upakowaniu kolumny chromatograficznej, doborze odpowiednich warunków pomiaru w celu wyznaczenia podstawowych parametrów dla niestandardowych kolumn do HPLC.", Level = 0, Mode = 0, PromoterId = new Guid("fb23704f-cec8-48fb-aa79-f3bd0e7e293b"), Specialization = "Brak opisu", StartingDate = new DateTime(2019, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), Status = 0, StudyProfile = 0, TopicEnglish = "No title", TopicPolish = "Wyznaczenie parametrów kolumny chromatograficznej za pomocą odwróconej chromatografii cieczowej" },
+                        new { Id = new Guid("f773dd26-c97d-4b69-a9c3-5aa2cf013c7b"), CourseId = new Guid("1724cdb6-f086-457b-badb-f127cef78fdc"), Description = "Brak opisu", Level = 1, Mode = 0, PromoterId = new Guid("7345a41b-36aa-4ae2-b0fe-b7bb4279603b"), Specialization = "Brak opisu", StartingDate = new DateTime(2019, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), Status = 0, StudyProfile = 0, TopicEnglish = "No title", TopicPolish = "Analiza i projektowanie procesów wydzielania produktów otrzymywanych w procesie biokonwersji surowców odnawialnych" }
+                    );
                 });
 
             modelBuilder.Entity("Capri.Database.Entities.Student", b =>
@@ -266,19 +412,28 @@ namespace Capri.Database.Migrations
                     b.ToTable("Students");
 
                     b.HasData(
-                        new { Id = new Guid("e56264a8-64c0-4bf9-82a4-b13bfbff5dde"), UserId = new Guid("87b48860-66dc-45d6-bfad-4140f4783e52") },
-                        new { Id = new Guid("4b80fdf9-78c5-46c2-ba2f-e903564d794b"), UserId = new Guid("948febcd-be78-4bc4-a15f-197cd253faa4") },
-                        new { Id = new Guid("2c034bf4-a76d-4696-9209-7653b07f7bc4"), UserId = new Guid("00d328de-5529-4954-9cbd-dd568ffe830a") },
-                        new { Id = new Guid("e1ca0726-fbf7-4137-947e-42e8e5d58013"), UserId = new Guid("4a22fdde-cb73-40e7-b25b-fbd712cea748") },
-                        new { Id = new Guid("861c37f0-50fd-4112-9ccd-643b705e41f8"), UserId = new Guid("1e5b2a68-59e0-400b-b0a8-6204aa556be6") },
-                        new { Id = new Guid("b2ba326b-574a-44fc-b7a0-dca578931c80"), UserId = new Guid("5614ff52-bfb7-463f-8445-9ae4c929c359") },
-                        new { Id = new Guid("ac65fbfb-57cc-46bf-9b4e-49ddc5b4172a"), UserId = new Guid("f91a69b4-fc27-4390-8734-b13cb48dfad9") },
-                        new { Id = new Guid("f3917674-4d63-493a-ba0e-f0b3e329d109"), UserId = new Guid("895246e1-b5fe-4980-afb4-07f9ff4f3a15") }
+                        new { Id = new Guid("e5dd8488-cb8e-4716-8dab-5ba6e8bfaa77"), UserId = new Guid("62fb0785-6255-40ad-8058-d4541cb9e683") },
+                        new { Id = new Guid("be28474a-e038-45ea-98e4-8648975eacc4"), UserId = new Guid("6d14d3b4-8a16-4783-a62e-4cec7464a35b") },
+                        new { Id = new Guid("8c80c3c2-03ed-44e8-9c54-f4a3c6188642"), UserId = new Guid("cda651d3-e5c4-47fb-b1af-584494540e87") },
+                        new { Id = new Guid("c502b6f6-a1b5-4825-8072-159b2e6c1de1"), UserId = new Guid("ef0fa462-fb88-4880-b5ef-8e946eb93a6a") }
                     );
+                });
+
+            modelBuilder.Entity("Capri.Database.Entities.Course", b =>
+                {
+                    b.HasOne("Capri.Database.Entities.Faculty", "Faculty")
+                        .WithMany("Courses")
+                        .HasForeignKey("FacultyId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Capri.Database.Entities.Promoter", b =>
                 {
+                    b.HasOne("Capri.Database.Entities.Institute", "Institute")
+                        .WithMany("Promoters")
+                        .HasForeignKey("InstituteId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Capri.Database.Entities.Identity.User", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -287,6 +442,11 @@ namespace Capri.Database.Migrations
 
             modelBuilder.Entity("Capri.Database.Entities.Proposal", b =>
                 {
+                    b.HasOne("Capri.Database.Entities.Course", "Course")
+                        .WithMany("Proposals")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Capri.Database.Entities.Promoter", "Promoter")
                         .WithMany("Proposals")
                         .HasForeignKey("PromoterId")

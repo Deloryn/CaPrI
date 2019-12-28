@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Capri.Database.Entities;
@@ -18,6 +16,9 @@ namespace Capri.Database
         public DbSet<Student> Students { get; set; }
         public DbSet<Promoter> Promoters { get; set; }
         public DbSet<Proposal> Proposals { get; set; }
+        public DbSet<Faculty> Faculties { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Institute> Institutes { get; set; }
 
         public CapriDbContext(
             DbContextOptions<CapriDbContext> dbContextOptions
@@ -25,6 +26,11 @@ namespace Capri.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Promoter>()
+                .HasOne(p => p.Institute)
+                .WithMany(i => i.Promoters)
+                .HasForeignKey(p => p.InstituteId);
+
             modelBuilder.Entity<Proposal>()
                 .HasMany(p => p.Students)
                 .WithOne();
@@ -34,11 +40,28 @@ namespace Capri.Database
                 .WithMany(pr => pr.Proposals)
                 .HasForeignKey(p => p.PromoterId);
 
+            modelBuilder.Entity<Proposal>()
+                .HasOne(p => p.Course)
+                .WithMany(c => c.Proposals)
+                .HasForeignKey(p => p.CourseId);
+
+            modelBuilder.Entity<Course>()
+                .HasOne(c => c.Faculty)
+                .WithMany(f => f.Courses)
+                .HasForeignKey(c => c.FacultyId);
+
             modelBuilder.ApplyConfiguration(new UserConfiguration());
-            modelBuilder.ApplyConfiguration(new StudentConfiguration());
-            modelBuilder.ApplyConfiguration(new PromoterConfiguration());
             modelBuilder.ApplyConfiguration(new GuidRoleConfiguration());
             modelBuilder.ApplyConfiguration(new GuidUserRoleConfiguration());
+
+            modelBuilder.ApplyConfiguration(new StudentConfiguration());
+            modelBuilder.ApplyConfiguration(new PromoterConfiguration());
+
+            modelBuilder.ApplyConfiguration(new ProposalConfiguration());
+
+            modelBuilder.ApplyConfiguration(new InstituteConfiguration());
+            modelBuilder.ApplyConfiguration(new FacultyConfiguration());
+            modelBuilder.ApplyConfiguration(new CourseConfiguration());
         }
     }
 }

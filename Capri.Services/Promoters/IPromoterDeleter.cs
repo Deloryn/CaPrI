@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Capri.Database.Entities;
+using Capri.Web.ViewModels.Promoter;
 
 namespace Capri.Services.Promoters
 {
     public interface IPromoterDeleter
     {
-        Task<IServiceResult<Promoter>> Delete(Guid id);
+        Task<IServiceResult<PromoterViewModel>> Delete(Guid id);
     }
 }
