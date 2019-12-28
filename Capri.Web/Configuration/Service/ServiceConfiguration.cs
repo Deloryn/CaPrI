@@ -8,6 +8,7 @@ using Capri.Services.Courses;
 using Capri.Services.Faculties;
 using Capri.Services.Institutes;
 using Capri.Services.Settings;
+using Capri.Services.Files;
 
 namespace Capri.Web.Configuration.Service
 {
@@ -24,6 +25,7 @@ namespace Capri.Web.Configuration.Service
             services.AddFacultyServicesConfiguration();
             services.AddInstituteServicesConfiguration();
             services.AddSettingsServicesConfiguration();
+            services.AddFileServicesConfiguration();
         }
 
         private static void AddPromoterServicesConfiguration(this IServiceCollection services)
@@ -87,6 +89,11 @@ namespace Capri.Web.Configuration.Service
         private static void AddSettingsServicesConfiguration(this IServiceCollection services)
         {
             services.AddScoped<ISystemSettingsGetter, SystemSettingsGetter>();
+        }
+
+        private static void AddFileServicesConfiguration(this IServiceCollection services)
+        {
+            services.AddScoped<ICsvCreator, CsvCreator>();
         }
     }
 }

@@ -18,6 +18,7 @@ namespace Capri.Database.Entities
         [Required]
         public string Description { get; set; }
         public string Specialization { get; set; }
+        public string OutputData { get; set; }
         [Required]
         public ProposalStatus Status { get; set; }
         [Required]

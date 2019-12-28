@@ -9,6 +9,7 @@ namespace Capri.Web.ViewModels.Proposal
         public string TopicPolish { get; set; }
         public string TopicEnglish { get; set; }
         public string Description { get; set; }
+        public string OutputData { get; set; }
         public string Specialization { get; set; }
         public ProposalStatus Status { get; set; }
         public StudyProfile StudyProfile { get; set; }
