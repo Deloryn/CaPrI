@@ -1,5 +1,9 @@
 <template>
-	<v-footer fixed height="128" style="left: 320px; background-color: rgb(149, 149, 149)">
+	<v-footer
+		fixed
+		height="128"
+		style="left: 320px; background-color: rgb(149, 149, 149)"
+	>
 		<v-spacer></v-spacer>
 		<div class="footer">&copy; {{ new Date().getFullYear() }}</div>
 	</v-footer>

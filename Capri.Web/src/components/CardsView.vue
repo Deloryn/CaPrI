@@ -40,7 +40,9 @@
 							</v-col>
 							<v-col cols="4">
 								<v-text-field
-									:value="popup.freeSlots + '/' + popup.maxSlots"
+									:value="
+										popup.freeSlots + '/' + popup.maxSlots
+									"
 									label="State"
 									readonly
 								></v-text-field>

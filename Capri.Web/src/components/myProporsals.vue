@@ -88,7 +88,7 @@
 					:headers="headers"
 					:items="items"
 					:search="search"
-					@click:row="handleClick"
+					@click:row="showPopup"
 					style="background-color: #FFFFFF;"
 				>
 					<template v-slot:header.title="{ header }">
@@ -142,7 +142,7 @@
 					</template>
 
 					<template v-slot:body.append>
-						<td @click="handleClick">
+						<td @click="showEmptyPopup">
 							<span style="font-size: 24px; font-weight: bold;"
 								><v-icon style="margin-bottom: 6px;"
 									>mdi-plus-box</v-icon
@@ -250,9 +250,8 @@ export default class MyProporsals extends Vue {
             ],
         };
     }
-    public handleClick(value): void {
+    public showPopup(value): void {
         this.popup.title = value.title;
-        this.popup.promoter = value.promoter;
         this.popup.studyType = value.studyType;
         this.popup.thesisType = value.thesisType;
         this.popup.freeSlots = value.freeSlots;
@@ -260,8 +259,20 @@ export default class MyProporsals extends Vue {
         this.popup.students = value.students;
         this.dialog = true;
     }
+    public showEmptyPopup(value): void {
+        this.popup.title = '';
+        this.popup.studyType = '';
+        this.popup.thesisType = '';
+        this.popup.freeSlots = 4;
+        this.popup.description = '';
+        this.popup.students = ['', ''];
+        this.dialog = true;
+    }
     public addStudent(): void {
-        if(!this.popup.students) { this.popup.students = []; } this.popup.students.push('');
+        if (!this.popup.students) {
+            this.popup.students = [];
+        }
+        this.popup.students.push('');
     }
 }
 </script>
@@ -282,16 +293,16 @@ export default class MyProporsals extends Vue {
 }
 
 .buttonStyle {
-     width: 200px;
-     height: 50px;
-     font-size: 24px;
+	width: 200px;
+	height: 50px;
+	font-size: 24px;
 }
 
 .green {
-    background-color: rgb(40,167,69);
+	background-color: rgb(40, 167, 69);
 }
 
 .red {
-    background-color: rgb(220,53,69);
+	background-color: rgb(220, 53, 69);
 }
 </style>

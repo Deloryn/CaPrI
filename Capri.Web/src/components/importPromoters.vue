@@ -21,15 +21,15 @@
 						<template v-slot:header.name="{ header }">
 							<span>{{ header.text }}</span>
 						</template>
-                        <template v-slot:header.laboratory="{ header }">
-                            <span>{{ header.text }}</span>
-                        </template>
-                        <template v-slot:header.bachelorTopics="{ header }">
-                            <span>{{ header.text }}</span>
-                        </template>
-                        <template v-slot:header.masterTopics="{ header }">
-                            <span>{{ header.text }}</span>
-                        </template>
+						<template v-slot:header.laboratory="{ header }">
+							<span>{{ header.text }}</span>
+						</template>
+						<template v-slot:header.bachelorTopics="{ header }">
+							<span>{{ header.text }}</span>
+						</template>
+						<template v-slot:header.masterTopics="{ header }">
+							<span>{{ header.text }}</span>
+						</template>
 
 						<template v-slot:item.name="{ item }">
 							<span>{{ item.title }}</span>
@@ -40,7 +40,6 @@
 						<template v-slot:item.freeSlots="{ item }">
 							<span>{{ item.taken }}</span>
 						</template>
-
 					</v-data-table>
 				</v-col>
 			</v-row>
@@ -49,14 +48,14 @@
 				<div class="ml-3">
 					<v-text-field
 						label="Bachelor"
-                        class="inputMaxNumber"
+						class="inputMaxNumber"
 					></v-text-field
 					><v-btn class="topMargin10">Set</v-btn>
 				</div>
 				<div class="ml-3" style="clear: left;">
 					<v-text-field
 						label="Master"
-                        class="inputMaxNumber"
+						class="inputMaxNumber"
 					></v-text-field
 					><v-btn class="topMargin10">Set</v-btn>
 				</div>
@@ -254,22 +253,22 @@ export default class CardsView extends Vue {
 	border-radius: 0;
 }
 .inputMaxNumber {
-    width: 120px;
-    float: left;
+	width: 120px;
+	float: left;
 }
 th span {
-    font-size: 30px;
-    color: rgb(18,98,141)
+	font-size: 30px;
+	color: rgb(18, 98, 141);
 }
 td span {
-     font-size: 24px;
-     font-weight: bold;
+	font-size: 24px;
+	font-weight: bold;
 }
 .topMargin10 {
-    margin-top: 10px;
+	margin-top: 10px;
 }
 .biggerFont {
-    font-size: 24px;
-    font-weight: bold;
+	font-size: 24px;
+	font-weight: bold;
 }
 </style>

@@ -57,6 +57,7 @@ export default class NavStudentItems extends Vue {
     }
     public changeRoute(which): void {
         this.filters[which] = true;
+        // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < this.filters.length; i += 1) {
             if (this.filters[i].chosen === false) {
                 return;

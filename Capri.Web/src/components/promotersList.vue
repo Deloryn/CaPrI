@@ -1,96 +1,106 @@
 ﻿<template>
-    <v-container fluid
-                 grid-list-xl
-                 class="mainView">
-        <v-dialog v-model="dialog" max-width="600">
-            <v-form>
-                <v-container class="whiteBackground">
-                    <v-row>
-                        <v-col cols="12">
-                            <v-text-field :model="popup.name"
-                                          label="Promoter name"></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col cols="12">
-                            <v-select :items="institutes"
-                                      label="Insitute name"
-                                      :model="popup.institute"
-                                      class="addInstitute">
-                            </v-select>
-                        </v-col>
-                        <v-col cols="12">
-                            <v-select :items="degrees"
-                                      label="Degree"
-                                      :model="popup.degree"
-                                      class="addInstitute">
-                            </v-select>
-                        </v-col>
-                    </v-row>
+	<v-container fluid grid-list-xl class="mainView">
+		<v-dialog v-model="dialog" max-width="600">
+			<v-form>
+				<v-container class="whiteBackground">
+					<v-row>
+						<v-col cols="12">
+							<v-text-field
+								:model="popup.name"
+								label="Promoter name"
+							></v-text-field>
+						</v-col>
+					</v-row>
+					<v-row>
+						<v-col cols="12">
+							<v-select
+								:items="institutes"
+								label="Insitute name"
+								:model="popup.institute"
+								class="addInstitute"
+							>
+							</v-select>
+						</v-col>
+						<v-col cols="12">
+							<v-select
+								:items="degrees"
+								label="Degree"
+								:model="popup.degree"
+								class="addInstitute"
+							>
+							</v-select>
+						</v-col>
+					</v-row>
 
-                    <v-row>
-                        <v-col cols="12" class="text-center">
-                            <v-btn id="saveButton"
-                                   style="background-color: green;"
-                                   class="formDiv mx-12"
-                                   text
-                                   @click="dialog = false">
-                                Save
-                            </v-btn>
-                            <v-btn id="cancelButton"
-                                   class="formDiv mx-12"
-                                   text
-                                   @click="dialog = false">
-                                Cancel
-                            </v-btn>
-                        </v-col>
-                    </v-row>
-                </v-container>
-            </v-form>
-        </v-dialog>
+					<v-row>
+						<v-col cols="12" class="text-center">
+							<v-btn
+								id="saveButton"
+								style="background-color: green;"
+								class="formDiv mx-12"
+								text
+								@click="dialog = false"
+							>
+								Save
+							</v-btn>
+							<v-btn
+								id="cancelButton"
+								class="formDiv mx-12"
+								text
+								@click="dialog = false"
+							>
+								Cancel
+							</v-btn>
+						</v-col>
+					</v-row>
+				</v-container>
+			</v-form>
+		</v-dialog>
 
-        <v-btn @click="dialog = true"
-               id="addPromoterButton">ADD PROMOTER</v-btn>
-        <v-row justify="center" style="margin-top: 60px;">
-            <v-col cols="12">
-                <v-data-table :headers="headers"
-                              :items="items"
-                              :search="search"
-                              class="whiteBackground">
-                    <template v-slot:header.title="{ header }">
-                        <span>{{header.text}}</span>
-                    </template>
+		<v-btn @click="dialog = true" id="addPromoterButton"
+			>ADD PROMOTER</v-btn
+		>
+		<v-row justify="center" style="margin-top: 60px;">
+			<v-col cols="12">
+				<v-data-table
+					:headers="headers"
+					:items="items"
+					:search="search"
+					class="whiteBackground"
+				>
+					<template v-slot:header.title="{ header }">
+						<span>{{ header.text }}</span>
+					</template>
 
-                    <template v-slot:header.bachelorsTopics="{ header }">
-                        <span>{{header.text}}</span>
-                    </template>
+					<template v-slot:header.bachelorsTopics="{ header }">
+						<span>{{ header.text }}</span>
+					</template>
 
-                    <template v-slot:header.masterTopics="{ header }">
-                        <span>{{header.text}}</span>
-                    </template>
+					<template v-slot:header.masterTopics="{ header }">
+						<span>{{ header.text }}</span>
+					</template>
 
-                    <template v-slot:item.title="{ item }">
-                        <span>
-                            {{ item.promoter }}
-                        </span>
-                    </template>
-                    <template v-slot:item.bachelorsTopics="{ item }">
-                        <span>
-                            {{ item.bachelorThesis }}
-                        </span>
-                    </template>
-                    <template v-slot:item.masterTopics="{ item }">
-                        <span>
-                            {{ item.masterThesis }}
-                        </span>
-                    </template>
-                </v-data-table>
-            </v-col>
-        </v-row>
+					<template v-slot:item.title="{ item }">
+						<span>
+							{{ item.promoter }}
+						</span>
+					</template>
+					<template v-slot:item.bachelorsTopics="{ item }">
+						<span>
+							{{ item.bachelorThesis }}
+						</span>
+					</template>
+					<template v-slot:item.masterTopics="{ item }">
+						<span>
+							{{ item.masterThesis }}
+						</span>
+					</template>
+				</v-data-table>
+			</v-col>
+		</v-row>
 
-        <v-btn id="exportDataButton">EXPORT TO EXCEL</v-btn>
-
-    </v-container>
+		<v-btn id="exportDataButton">EXPORT TO EXCEL</v-btn>
+	</v-container>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
@@ -169,51 +179,51 @@ export default class MyProporsals extends Vue {
 	margin-right: 10px;
 	margin-top: 0px;
 	margin-bottom: 0px;
-	background-color: rgb(255,255,255);
+	background-color: rgb(255, 255, 255);
 }
 .whiteBackground {
-    background-color: rgb(255,255,255);
+	background-color: rgb(255, 255, 255);
 }
 .addInstitute {
-    padding: 0;
-    margin: 0;
-    color: rgb(0,97,142);
+	padding: 0;
+	margin: 0;
+	color: rgb(0, 97, 142);
 }
 .formDiv {
-    color: rgb(255,255,255);
-    width: 150px;
-    height: 50px;
-    font-size: 24px;
+	color: rgb(255, 255, 255);
+	width: 150px;
+	height: 50px;
+	font-size: 24px;
 }
 #addPromoterButton {
-    float: right;
-    margin-right: 10px;
-    width: 200px;
-    height: 60px;
-    color: rgb(255,255,255);
-    background-color: rgb(0,0,139);
+	float: right;
+	margin-right: 10px;
+	width: 200px;
+	height: 60px;
+	color: rgb(255, 255, 255);
+	background-color: rgb(0, 0, 139);
 }
 #exportDataButton {
-    margin-left: 10px;
-    margin-bottom: 10px;
-    width: 200px;
-    height: 60px;
-    color: rgb(255,255,255);
-    background-color: rgb(0,0,139);
+	margin-left: 10px;
+	margin-bottom: 10px;
+	width: 200px;
+	height: 60px;
+	color: rgb(255, 255, 255);
+	background-color: rgb(0, 0, 139);
 }
 #saveButton {
-    background-color: rgb(0,255,0);
+	background-color: rgb(0, 255, 0);
 }
 #cancelButton {
-    background-color: rgb(255,0,0);
+	background-color: rgb(255, 0, 0);
 }
 th span {
-    font-size: 30px;
-    color: rgb(18,98,141)
+	font-size: 30px;
+	color: rgb(18, 98, 141);
 }
 
 td span {
-     font-size: 24px;
-     font-weight: bold;
+	font-size: 24px;
+	font-weight: bold;
 }
 </style>

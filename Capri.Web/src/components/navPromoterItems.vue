@@ -5,7 +5,7 @@
 			:key="i"
 			:to="link.to"
 			active-class="primary white--text"
-            class="promoterItems"
+			class="promoterItems"
 		>
 			<v-list-item-action class="promoterItem px-3">
 				<v-icon>{{ link.icon }}</v-icon>
@@ -44,13 +44,13 @@ div .v-list-item__title {
 	font-weight: bold;
 }
 .promoterItems {
-   margin: 0;
-   padding: 0;
-   border-radius: 0;
-   height: 80px;
+	margin: 0;
+	padding: 0;
+	border-radius: 0;
+	height: 80px;
 }
 .promoterItem {
-     margin: 0;
-     padding: 0;
+	margin: 0;
+	padding: 0;
 }
 </style>
