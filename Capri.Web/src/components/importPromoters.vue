@@ -21,22 +21,18 @@
 						<template v-slot:header.name="{ header }">
 							<span>{{ header.text }}</span>
 						</template>
-
                         <template v-slot:header.laboratory="{ header }">
                             <span>{{ header.text }}</span>
                         </template>
-
                         <template v-slot:header.bachelorTopics="{ header }">
                             <span>{{ header.text }}</span>
                         </template>
-
                         <template v-slot:header.masterTopics="{ header }">
                             <span>{{ header.text }}</span>
                         </template>
 
 						<template v-slot:item.name="{ item }">
-							<span>{{ item.title }}</span
-							>
+							<span>{{ item.title }}</span>
 						</template>
 						<template v-slot:item.promoter="{ item }">
 							<span>{{ item.thesis }}</span>
@@ -44,24 +40,25 @@
 						<template v-slot:item.freeSlots="{ item }">
 							<span>{{ item.taken }}</span>
 						</template>
+
 					</v-data-table>
 				</v-col>
 			</v-row>
-			<div style="font-size: 24px; font-weight: bold;">
+			<div class="biggerFont">
 				<span>Set default value of expected number of topics</span>
 				<div class="ml-3">
 					<v-text-field
 						label="Bachelor"
                         class="inputMaxNumber"
 					></v-text-field
-					><v-btn style="margin-top: 10px;">Set</v-btn>
+					><v-btn class="topMargin10">Set</v-btn>
 				</div>
 				<div class="ml-3" style="clear: left;">
 					<v-text-field
 						label="Master"
                         class="inputMaxNumber"
 					></v-text-field
-					><v-btn style="margin-top: 10px;">Set</v-btn>
+					><v-btn class="topMargin10">Set</v-btn>
 				</div>
 			</div>
 		</div>
@@ -267,5 +264,12 @@ th span {
 td span {
      font-size: 24px;
      font-weight: bold;
+}
+.topMargin10 {
+    margin-top: 10px;
+}
+.biggerFont {
+    font-size: 24px;
+    font-weight: bold;
 }
 </style>
