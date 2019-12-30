@@ -48,6 +48,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
+        [Authorize(Roles = "dean")]
         [HttpGet("{id}/csv")]
         public async Task<IActionResult> GetCsvFile(Guid id)
         {
