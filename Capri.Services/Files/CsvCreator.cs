@@ -24,7 +24,7 @@ namespace Capri.Services.Files
         private void WriteHeader(StringBuilder builder, char separator, Type type)
         {
             var properties = type.GetProperties();
-            var propertyDescriptions = properties.Select(p => GetDescriptionOf(p));
+            var propertyDescriptions = properties.Select(p => GetDescriptionOrElseNameOf(p));
             var header = String.Join(separator, propertyDescriptions);
             builder.AppendLine(header);
         }
@@ -45,7 +45,7 @@ namespace Capri.Services.Files
             }
         }
 
-        private string GetDescriptionOf(PropertyInfo propertyInfo)
+        private string GetDescriptionOrElseNameOf(PropertyInfo propertyInfo)
         {
             var descriptionAttributes = propertyInfo
                 .GetCustomAttributes(typeof(DescriptionAttribute), true) as DescriptionAttribute[];

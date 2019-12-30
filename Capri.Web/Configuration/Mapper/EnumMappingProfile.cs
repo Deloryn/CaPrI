@@ -10,19 +10,19 @@ namespace Capri.Web.Configuration.Mapper
         public EnumMappingProfile()
         {
             CreateMap<ProposalStatus, string>()
-            .ConvertUsing(status => GetDescriptionOf(status));
+            .ConvertUsing(status => GetDescriptionOrElseNameOf(status));
 
             CreateMap<StudyLevel, string>()
-            .ConvertUsing(level => GetDescriptionOf(level));
+            .ConvertUsing(level => GetDescriptionOrElseNameOf(level));
 
             CreateMap<StudyMode, string>()
-            .ConvertUsing(mode => GetDescriptionOf(mode));
+            .ConvertUsing(mode => GetDescriptionOrElseNameOf(mode));
 
             CreateMap<StudyProfile, string>()
-            .ConvertUsing(profile => GetDescriptionOf(profile));
+            .ConvertUsing(profile => GetDescriptionOrElseNameOf(profile));
         }
 
-        private string GetDescriptionOf(Enum e)
+        private string GetDescriptionOrElseNameOf(Enum e)
         {
             var type = e.GetType();
             var memberInfos = type.GetMember(e.ToString());
