@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Capri.Services.Settings;
 using Capri.Web.Configuration;
 using Capri.Web.Configuration.Sieve;
 using Capri.Web.Configuration.Mapper;
