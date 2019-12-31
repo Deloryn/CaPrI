@@ -63,10 +63,10 @@ namespace Capri.Services.Proposals
                     $"Proposal with id {id} does not exist");
             }
             
-            var proposalCsv = _mapper.Map<ProposalCsv>(proposal);
-            var data = new ProposalCsv[] { proposalCsv };
+            var proposalCsvRecord = _mapper.Map<ProposalCsvRecord>(proposal);
+            var records = new ProposalCsvRecord[] { proposalCsvRecord };
 
-            var csvStringResult = _csvCreator.CreateCsvString<ProposalCsv>(data, ';');
+            var csvStringResult = _csvCreator.CreateCsvStringFrom<ProposalCsvRecord>(records);
             if(!csvStringResult.Successful())
             {
                 return ServiceResult<FileDescription>.Error(csvStringResult.GetAggregatedErrors());
