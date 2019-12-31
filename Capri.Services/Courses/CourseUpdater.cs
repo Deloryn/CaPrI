@@ -21,6 +21,7 @@ namespace Capri.Services.Courses
         {
             _context = context;
             _mapper = mapper;
+            _facultyGetter = facultyGetter;
         }
 
         public async Task<IServiceResult<CourseViewModel>> Update(
