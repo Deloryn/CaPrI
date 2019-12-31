@@ -8,6 +8,7 @@ using Capri.Database;
 using Capri.Database.Entities;
 using Capri.Services.Users;
 using Capri.Services.Settings;
+using Capri.Services.Courses;
 using Capri.Web.ViewModels.Proposal;
 
 namespace Capri.Services.Proposals
@@ -16,27 +17,36 @@ namespace Capri.Services.Proposals
     {
         private readonly ISqlDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IUserGetter _userGetter;
-        private readonly ISubmittedProposalGetter _submittedProposalGetter;
         private readonly ISystemSettingsGetter _systemSettingsGetter;
+        private readonly IUserGetter _userGetter;
+        private readonly ICourseGetter _courseGetter;
+        private readonly ISubmittedProposalGetter _submittedProposalGetter;
 
         public ProposalCreator(
             ISqlDbContext context, 
-            IMapper mapper, 
-            IUserGetter userGetter, 
-            ISubmittedProposalGetter submittedProposalGetter,
-            ISystemSettingsGetter systemSettingsGetter)
+            IMapper mapper,
+            ISystemSettingsGetter systemSettingsGetter,
+            IUserGetter userGetter,
+            ICourseGetter courseGetter,
+            ISubmittedProposalGetter submittedProposalGetter)
         {
             _context = context;
             _mapper = mapper;
-            _userGetter = userGetter;
-            _submittedProposalGetter = submittedProposalGetter;
             _systemSettingsGetter = systemSettingsGetter;
+            _userGetter = userGetter;
+            _courseGetter = courseGetter;
+            _submittedProposalGetter = submittedProposalGetter;
         }
 
         public async Task<IServiceResult<ProposalViewModel>> Create(
             ProposalRegistration inputData)
         {
+            var courseResult = await _courseGetter.Get(inputData.CourseId);
+            if(!courseResult.Successful())
+            {
+                return ServiceResult<ProposalViewModel>.Error(courseResult.GetAggregatedErrors());
+            }
+
             if(NumOfStudentsExceedsTheMaximum(inputData.Students, inputData.MaxNumberOfStudents))
             {
                 return ServiceResult<ProposalViewModel>.Error("The number of students exceeds the maximal number");

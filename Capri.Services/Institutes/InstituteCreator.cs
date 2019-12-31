@@ -24,16 +24,8 @@ namespace Capri.Services.Institutes
         {
             var institute = _mapper.Map<Institute>(registration);
 
-            try 
-            {
-                await _context.Institutes.AddAsync(institute);
-                await _context.SaveChangesAsync();
-            }
-            catch
-            {
-                return ServiceResult<InstituteViewModel>.Error(
-                    "Failed to create an institute from the given data");
-            }
+            await _context.Institutes.AddAsync(institute);
+            await _context.SaveChangesAsync();
 
             var instituteViewModel = _mapper.Map<InstituteViewModel>(institute);
             return ServiceResult<InstituteViewModel>.Success(instituteViewModel);

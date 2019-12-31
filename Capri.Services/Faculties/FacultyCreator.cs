@@ -24,15 +24,8 @@ namespace Capri.Services.Faculties
         {
             var faculty = _mapper.Map<Faculty>(registration);
 
-            try 
-            {
-                await _context.Faculties.AddAsync(faculty);
-                await _context.SaveChangesAsync();
-            }
-            catch
-            {
-                return ServiceResult<FacultyViewModel>.Error("Failed to create a faculty from the given data");
-            }
+            await _context.Faculties.AddAsync(faculty);
+            await _context.SaveChangesAsync();
 
             var facultyViewModel = _mapper.Map<FacultyViewModel>(faculty);
             return ServiceResult<FacultyViewModel>.Success(facultyViewModel);

@@ -7,6 +7,7 @@ using AutoMapper;
 using Capri.Database;
 using Capri.Database.Entities;
 using Capri.Services.Users;
+using Capri.Services.Courses;
 using Capri.Web.ViewModels.Proposal;
 
 namespace Capri.Services.Proposals
@@ -16,20 +17,29 @@ namespace Capri.Services.Proposals
         private readonly ISqlDbContext _context;
         private readonly IMapper _mapper;
         private readonly IUserGetter _userGetter;
+        private readonly ICourseGetter _courseGetter;
 
         public ProposalUpdater(
             ISqlDbContext context, 
             IMapper mapper, 
-            IUserGetter userGetter)
+            IUserGetter userGetter,
+            ICourseGetter courseGetter)
         {
             _context = context;
             _mapper = mapper;
             _userGetter = userGetter;
+            _courseGetter = courseGetter;
         }
         public async Task<IServiceResult<ProposalViewModel>> Update(
             Guid id, 
             ProposalRegistration inputData)
         {
+            var courseResult = await _courseGetter.Get(inputData.CourseId);
+            if(!courseResult.Successful())
+            {
+                return ServiceResult<ProposalViewModel>.Error(courseResult.GetAggregatedErrors());
+            }
+
             if(NumOfStudentsExceedsTheMaximum(inputData.Students, inputData.MaxNumberOfStudents))
             {
                 return ServiceResult<ProposalViewModel>.Error("The number of students exceeds the maximal number");
