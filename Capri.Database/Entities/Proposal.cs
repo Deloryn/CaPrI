@@ -20,6 +20,8 @@ namespace Capri.Database.Entities
         public string Specialization { get; set; }
         public string OutputData { get; set; }
         [Required]
+        public int MaxNumberOfStudents { get; set; }
+        [Required]
         public ProposalStatus Status { get; set; }
         [Required]
         public StudyProfile StudyProfile { get; set; }

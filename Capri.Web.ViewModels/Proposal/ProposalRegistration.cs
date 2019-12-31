@@ -29,8 +29,9 @@ namespace Capri.Web.ViewModels.Proposal
         [MaxLength(50)]
         public string Specialization { get; set; }
 
-        [EnumDataType(typeof(ProposalStatus))]
-        public ProposalStatus Status { get; set; }
+        [Required]
+        [Range(1, 4)]
+        public int MaxNumberOfStudents { get; set; }
 
         [EnumDataType(typeof(StudyProfile))]
         public StudyProfile StudyProfile { get; set; }

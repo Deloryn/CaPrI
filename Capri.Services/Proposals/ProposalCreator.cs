@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Capri.Database;
@@ -35,6 +37,11 @@ namespace Capri.Services.Proposals
         public async Task<IServiceResult<ProposalViewModel>> Create(
             ProposalRegistration inputData)
         {
+            if(NumOfStudentsExceedsTheMaximum(inputData.Students, inputData.MaxNumberOfStudents))
+            {
+                return ServiceResult<ProposalViewModel>.Error("The number of students exceeds the maximal number");
+            }
+
             var result = await _userGetter.GetCurrentUser();
             if(!result.Successful())
             {
@@ -60,9 +67,11 @@ namespace Capri.Services.Proposals
             }
 
             var proposal = _mapper.Map<Proposal>(inputData);
-            proposal.Promoter = promoter;
-            SetStartDate(proposal, inputData.Level);
 
+            AssignProposalStatus(proposal);
+            SetStartDate(proposal);
+
+            proposal.Promoter = promoter;
             promoter.Proposals.Add(proposal);
             _context.Promoters.Update(promoter);
 
@@ -107,6 +116,35 @@ namespace Capri.Services.Proposals
             return false;
         }
 
+        private bool NumOfStudentsExceedsTheMaximum(ICollection<Guid> students, int maxNumOfStudents)
+        {
+            if(students == null)
+            {
+                return false;
+            }
+            else if(students.Count() <= maxNumOfStudents)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private void AssignProposalStatus(Proposal proposal)
+        {
+            if(proposal.Students == null)
+            {
+                proposal.Status = ProposalStatus.Free;
+            }
+            else if(proposal.Students.Count() < proposal.MaxNumberOfStudents)
+            {
+                proposal.Status = ProposalStatus.PartiallyTaken;
+            }
+            else
+            {
+                proposal.Status = ProposalStatus.Taken;
+            }
+        }
+
         private int CountSubmittedProposals(Promoter promoter, StudyLevel level)
         {
             if (promoter == null)
@@ -118,8 +156,9 @@ namespace Capri.Services.Proposals
                 .Count(p => p.Level == level);
         }
 
-        private void SetStartDate(Proposal proposal, StudyLevel level)
+        private void SetStartDate(Proposal proposal)
         {
+            var level = proposal.Level;
             if(level == StudyLevel.Bachelor)
             {
                 var startingDate = _systemSettingsGetter.GetSystemSettings().BachelorThesisStartDate;
