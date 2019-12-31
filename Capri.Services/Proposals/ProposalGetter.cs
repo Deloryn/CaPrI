@@ -97,6 +97,7 @@ namespace Capri.Services.Proposals
         {
             var proposals = _context.Proposals
                 .Include(p => p.Students)
+                .Include(p => p.Promoter)
                 .AsQueryable();
 
             var filtered = _sieveProcessor.Apply(sieveModel, proposals);
