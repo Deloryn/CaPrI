@@ -2,19 +2,19 @@
   "DeanEmployees": [
     {
       "Email": "dean1@gmail.com",
-      "PasswordHash": "qwerty1"
+      "PasswordHash": "zaq1@WSX"
     },
     {
       "Email": "dean2@gmail.com",
-      "PasswordHash": "qwerty2"
+      "PasswordHash": "zaq1@WSX"
     },
     {
       "Email": "dean3@gmail.com",
-      "PasswordHash": "qwerty3"
+      "PasswordHash": "zaq1@WSX"
     },
     {
       "Email": "dean4@gmail.com",
-      "PasswordHash": "qwerty4"
+      "PasswordHash": "zaq1@WSX"
     }
   ],
   "Students": [
@@ -23,7 +23,7 @@
       "StudyLevel": 0,
       "ApplicationUser": {
         "Email": "student1@gmail.com",
-        "PasswordHash": "qwerty1"
+        "PasswordHash": "zaq1@WSX"
       }
     },
     {
@@ -31,7 +31,7 @@
       "StudyLevel": 0,
       "ApplicationUser": {
         "Email": "student2@gmail.com",
-        "PasswordHash": "qwerty2"
+        "PasswordHash": "zaq1@WSX"
       }
     },
     {
@@ -39,7 +39,7 @@
       "StudyLevel": 0,
       "ApplicationUser": {
         "Email": "student3@gmail.com",
-        "PasswordHash": "qwerty3"
+        "PasswordHash": "zaq1@WSX"
       }
     },
     {
@@ -47,7 +47,7 @@
       "StudyLevel": 0,
       "ApplicationUser": {
         "Email": "student4@gmail.com",
-        "PasswordHash": "qwerty4"
+        "PasswordHash": "zaq1@WSX"
       }
     }
   ],
@@ -65,7 +65,7 @@
           "ExpectedNumberOfMasterProposals": 1,
           "ApplicationUser": {
             "Email": "irmina.maslowska@put.poznan.pl",
-            "PasswordHash": "qwerty1"
+            "PasswordHash": "zaq1@WSX"
           }
         },
         {
@@ -78,7 +78,7 @@
           "ExpectedNumberOfMasterProposals": 1,
           "ApplicationUser": {
             "Email": "bartlomiej.predki@put.poznan.pl",
-            "PasswordHash": "qwerty1"
+            "PasswordHash": "zaq1@WSX"
           }
         },
         {
@@ -91,7 +91,7 @@
           "ExpectedNumberOfMasterProposals": 1,
           "ApplicationUser": {
             "Email": "milosz.kadzinski@put.poznan.pl",
-            "PasswordHash": "qwerty1"
+            "PasswordHash": "zaq1@WSX"
           }
         },
         {
@@ -104,7 +104,7 @@
           "ExpectedNumberOfMasterProposals": 1,
           "ApplicationUser": {
             "Email": "wojciech.kotlowski@put.poznan.pl",
-            "PasswordHash": "qwerty1"
+            "PasswordHash": "zaq1@WSX"
           }
         },
         {
@@ -117,7 +117,7 @@
           "ExpectedNumberOfMasterProposals": 1,
           "ApplicationUser": {
             "Email": "jerzy.nawrocki@put.poznan.pl",
-            "PasswordHash": "qwerty1"
+            "PasswordHash": "zaq1@WSX"
           }
         }
       ]
