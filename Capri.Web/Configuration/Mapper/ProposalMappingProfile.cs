@@ -16,14 +16,14 @@ namespace Capri.Web.Configuration.Mapper
                 view=>view.Students, 
                 o=>o.MapFrom(proposal=>proposal.Students.Select(s=>s.Id)));
 
-            CreateMap<Proposal, ProposalCsv>()
-            .ForMember(csv => csv.Promoter, o => o.MapFrom(p => GetFullNameFor(p.Promoter)))
+            CreateMap<Proposal, ProposalCsvRecord>()
+            .ForMember(csv => csv.Promoter, o => o.MapFrom(p => GetPromoterFullName(p.Promoter)))
             .ForMember(csv => csv.Course, o => o.MapFrom(p => p.Course.Name))
             .ForMember(csv => csv.Faculty, o => o.MapFrom(p => p.Course.Faculty.Name))
             .ForMember(csv => csv.Institute, o => o.MapFrom(p => p.Promoter.Institute.Name));
         }
 
-        private string GetFullNameFor(Promoter promoter)
+        private string GetPromoterFullName(Promoter promoter)
         {
             var fullName = $"{promoter.TitlePrefix} {promoter.FirstName} {promoter.LastName}";
             if(promoter.TitlePostfix == null)

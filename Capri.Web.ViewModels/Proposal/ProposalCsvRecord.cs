@@ -1,53 +1,53 @@
 ﻿using System;
-using System.ComponentModel;
+using CsvHelper.Configuration.Attributes;
 
 namespace Capri.Web.ViewModels.Proposal
 {
-    public class ProposalCsv
+    public class ProposalCsvRecord
     {
-        [Description("Id")]
+        [Name("Id")]
         public Guid Id { get; set; }
 
-        [Description("Tytuł")]
+        [Name("Tytuł")]
         public string TopicPolish { get; set; }
 
-        [Description("Tytuł Ang.")]
+        [Name("Tytuł Ang.")]
         public string TopicEnglish { get; set; }
 
-        [Description("Opis")]
+        [Name("Opis")]
         public string Description { get; set; }
 
-        [Description("Dane wyjściowe")]
+        [Name("Dane wyjściowe")]
         public string OutputData { get; set; }
 
-        [Description("Specjalność")]
+        [Name("Specjalność")]
         public string Specialization { get; set; }
 
-        [Description("Data rozpoczęcia")]
+        [Name("Data rozpoczęcia")]
         public DateTime StartingDate { get; set; }
 
-        [Description("Status")]
+        [Name("Status")]
         public string Status { get; set; }
 
-        [Description("Poziom studiów")]
+        [Name("Poziom studiów")]
         public string Level { get; set; }
 
-        [Description("Tryb studiów")]
+        [Name("Tryb studiów")]
         public string Mode { get; set; }
 
-        [Description("Profil kształcenia")]
+        [Name("Profil kształcenia")]
         public string StudyProfile { get; set; }
 
-        [Description("Promotor")]
+        [Name("Promotor")]
         public string Promoter { get; set; }
 
-        [Description("Kierunek")]
+        [Name("Kierunek")]
         public string Course { get; set; }
 
-        [Description("Wydział")]
+        [Name("Wydział")]
         public string Faculty { get; set; }
 
-        [Description("Instytut")]
+        [Name("Instytut")]
         public string Institute { get; set; }
     }
 }
