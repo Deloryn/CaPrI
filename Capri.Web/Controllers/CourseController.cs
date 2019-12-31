@@ -54,6 +54,11 @@ namespace Capri.Web.Controllers
         public async Task<IActionResult> Create(
             [FromBody] CourseRegistration registration)
         {
+            if(registration == null || !ModelState.IsValid)
+            {
+                return BadRequest("You provided invalid data");
+            }
+
             var result = await _courseCreator.Create(registration);
             if(result.Successful())
             {
@@ -68,6 +73,11 @@ namespace Capri.Web.Controllers
             Guid id,
             [FromBody] CourseRegistration newData)
         {
+            if(newData == null || !ModelState.IsValid)
+            {
+                return BadRequest("You provided invalid data");
+            }
+
             var result = await _courseUpdater.Update(id, newData);
             if(result.Successful())
             {

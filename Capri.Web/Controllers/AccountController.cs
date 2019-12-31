@@ -19,9 +19,9 @@ namespace Capri.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody]UserCredentials credentials)
         {
-            if (credentials == null)
+            if(credentials == null || !ModelState.IsValid)
             {
-                return BadRequest("Credentials not given");
+                return BadRequest("You provided invalid data");
             }
 
             var result = 
