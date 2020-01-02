@@ -10,6 +10,7 @@ namespace Capri.Web.ViewModels.Proposal
         public string TopicPolish { get; set; }
         public string TopicEnglish { get; set; }
         public string Description { get; set; }
+        public string OutputData { get; set; }
         public string Specialization { get; set; }
         public DateTime StartingDate { get; set; }
         public ProposalStatus Status { get; set; }
@@ -18,6 +19,6 @@ namespace Capri.Web.ViewModels.Proposal
         public StudyProfile StudyProfile { get; set; }
         public Guid PromoterId { get; set; }
         public Guid CourseId { get; set; }
-        public virtual ICollection<Guid> Students { get; set; }
+        public ICollection<Guid> Students { get; set; }
     }
 }

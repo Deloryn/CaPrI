@@ -15,6 +15,7 @@ namespace Capri.Web.Configuration.Mapper
                 mc.AddProfile(new FacultyMappingProfile());
                 mc.AddProfile(new CourseMappingProfile());
                 mc.AddProfile(new InstituteMappingProfile());
+                mc.AddProfile(new EnumMappingProfile());
             });
 
             IMapper mapper = mappingConfig.CreateMapper();
