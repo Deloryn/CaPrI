@@ -37,6 +37,9 @@ namespace Capri.Web.ViewModels.Proposal
 
         [Name("Profil kształcenia")]
         public string StudyProfile { get; set; }
+        
+        [Name("Maks. liczba studentów")]
+        public int MaxNumberOfStudents { get; set; }
 
         [Name("Promotor")]
         public string Promoter { get; set; }
