@@ -22,7 +22,6 @@ namespace Capri.Web.ViewModels.Proposal
         [MaxLength(400)]
         public string Description { get; set; }
 
-        [MinLength(5)]
         [MaxLength(400)]
         public string OutputData { get; set; }
 
