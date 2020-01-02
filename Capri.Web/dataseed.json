@@ -305,6 +305,7 @@
               "Level": 0,
               "Mode": 0,
               "StudyProfile": 0,
+              "MaxNumberOfStudents": 4,
               "PromoterId": "48aea09b-4be3-4372-88bc-d46d78a1552b"
             },
             {
@@ -317,6 +318,7 @@
               "Level": 0,
               "Mode": 0,
               "StudyProfile": 0,
+              "MaxNumberOfStudents": 4,
               "PromoterId": "2a21d8e5-575a-41d9-99ed-fbb5c06a3db9"
             },
             {
@@ -329,6 +331,7 @@
               "Level": 0,
               "Mode": 0,
               "StudyProfile": 0,
+              "MaxNumberOfStudents": 4,
               "PromoterId": "d979fc9c-94d3-419a-a4e9-014e5664b73c"
             },
             {
@@ -341,6 +344,7 @@
               "Level": 0,
               "Mode": 0,
               "StudyProfile": 0,
+              "MaxNumberOfStudents": 4,
               "PromoterId": "4ae4e691-dcff-4236-94ca-c97c102bc66c"
             },
             {
@@ -353,6 +357,7 @@
               "Level": 0,
               "Mode": 0,
               "StudyProfile": 0,
+              "MaxNumberOfStudents": 4,
               "PromoterId": "9aabdabd-8d1b-4c38-a2d0-0f88dca17533"
             }
           ]
@@ -417,6 +422,7 @@
               "Level": 0,
               "Mode": 0,
               "StudyProfile": 0,
+              "MaxNumberOfStudents": 4,
               "PromoterId": "fb23704f-cec8-48fb-aa79-f3bd0e7e293b"
             },
             {
@@ -429,6 +435,7 @@
               "Level": 1,
               "Mode": 0,
               "StudyProfile": 0,
+              "MaxNumberOfStudents": 4,
               "PromoterId": "7345a41b-36aa-4ae2-b0fe-b7bb4279603b"
             }
           ]
