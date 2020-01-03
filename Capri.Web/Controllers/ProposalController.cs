@@ -117,9 +117,14 @@ namespace Capri.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ProposalRegistration registration)
         {
-            if(registration == null || !ModelState.IsValid)
+            if(registration == null)
             {
-                return BadRequest("You provided invalid data");
+                return BadRequest("Proposal registration not given");
+            }
+
+            if(!ModelState.IsValid)
+            {
+                return BadRequest("The given proposal registration is invalid");
             }
 
             var result = await _proposalCreator.Create(registration);
@@ -134,14 +139,19 @@ namespace Capri.Web.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(
             Guid id, 
-            [FromBody] ProposalRegistration newData)
+            [FromBody] ProposalRegistration registration)
         {
-            if(newData == null || !ModelState.IsValid)
+            if(registration == null)
             {
-                return BadRequest("You provided invalid data");
+                return BadRequest("Proposal registration not given");
             }
 
-            var result = await _proposalUpdater.Update(id, newData);
+            if(!ModelState.IsValid)
+            {
+                return BadRequest("The given proposal registration is invalid");
+            }
+
+            var result = await _proposalUpdater.Update(id, registration);
             if (result.Successful())
             {
                 return Ok(result.Body());
