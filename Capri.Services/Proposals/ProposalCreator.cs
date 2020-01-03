@@ -20,6 +20,7 @@ namespace Capri.Services.Proposals
         private readonly ICourseGetter _courseGetter;
         private readonly ISubmittedProposalGetter _submittedProposalGetter;
         private readonly IProposalNumberValidator _proposalNumberValidator;
+        private readonly IProposalStatusGetter _proposalStatusGetter;
 
         public ProposalCreator(
             ISqlDbContext context, 
@@ -28,7 +29,8 @@ namespace Capri.Services.Proposals
             IUserGetter userGetter,
             ICourseGetter courseGetter,
             ISubmittedProposalGetter submittedProposalGetter,
-            IProposalNumberValidator proposalNumberValidator)
+            IProposalNumberValidator proposalNumberValidator,
+            IProposalStatusGetter proposalStatusGetter)
         {
             _context = context;
             _mapper = mapper;
@@ -37,6 +39,7 @@ namespace Capri.Services.Proposals
             _courseGetter = courseGetter;
             _submittedProposalGetter = submittedProposalGetter;
             _proposalNumberValidator = proposalNumberValidator;
+            _proposalStatusGetter = proposalStatusGetter;
         }
 
         public async Task<IServiceResult<ProposalViewModel>> Create(
@@ -87,7 +90,7 @@ namespace Capri.Services.Proposals
 
             var proposal = _mapper.Map<Proposal>(inputData);
 
-            var proposalStatusResult = _proposalNumberValidator.CalculateProposalStatus(proposal);
+            var proposalStatusResult = _proposalStatusGetter.CalculateProposalStatus(proposal);
             if(!proposalStatusResult.Successful())
             {
                 return ServiceResult<ProposalViewModel>.Error(proposalStatusResult.GetAggregatedErrors());
