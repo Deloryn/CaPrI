@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Capri.Database;
-using Capri.Database.Entities;
 using Capri.Services.Users;
 using Capri.Services.Courses;
 using Capri.Web.ViewModels.Proposal;
@@ -18,18 +16,22 @@ namespace Capri.Services.Proposals
         private readonly IMapper _mapper;
         private readonly IUserGetter _userGetter;
         private readonly ICourseGetter _courseGetter;
+        private readonly IProposalInformer _proposalInformer;
 
         public ProposalUpdater(
             ISqlDbContext context, 
             IMapper mapper, 
             IUserGetter userGetter,
-            ICourseGetter courseGetter)
+            ICourseGetter courseGetter,
+            IProposalInformer proposalInformer)
         {
             _context = context;
             _mapper = mapper;
             _userGetter = userGetter;
             _courseGetter = courseGetter;
+            _proposalInformer = proposalInformer;
         }
+        
         public async Task<IServiceResult<ProposalViewModel>> Update(
             Guid id, 
             ProposalRegistration inputData)
@@ -40,19 +42,27 @@ namespace Capri.Services.Proposals
                 return ServiceResult<ProposalViewModel>.Error(courseResult.GetAggregatedErrors());
             }
 
-            if(NumOfStudentsExceedsTheMaximum(inputData.Students, inputData.MaxNumberOfStudents))
+            var numOfStudentsExceedsTheMaximumResult = _proposalInformer
+                .NumOfStudentsExceedsTheMaximum(inputData.Students, inputData.MaxNumberOfStudents);
+            if(!numOfStudentsExceedsTheMaximumResult.Successful())
+            {
+                return ServiceResult<ProposalViewModel>.Error(numOfStudentsExceedsTheMaximumResult.GetAggregatedErrors());
+            }
+
+            var numOfStudentsExceedsTheMaximum = numOfStudentsExceedsTheMaximumResult.Body();
+            if(numOfStudentsExceedsTheMaximum)
             {
                 return ServiceResult<ProposalViewModel>.Error("The number of students exceeds the maximal number");
             }
 
-            var result = await _userGetter.GetCurrentUser();
-            if(!result.Successful())
+            var userResult = await _userGetter.GetCurrentUser();
+            if(!userResult.Successful())
             {
-                var errors = result.GetAggregatedErrors();
+                var errors = userResult.GetAggregatedErrors();
                 return ServiceResult<ProposalViewModel>.Error(errors);
             }
             
-            var currentUser = result.Body();
+            var currentUser = userResult.Body();
             var promoter = 
                 await _context
                 .Promoters
@@ -73,42 +83,21 @@ namespace Capri.Services.Proposals
             }
 
             proposal = _mapper.Map(inputData, proposal);
-            AssignProposalStatus(proposal);
+
+            var proposalStatusResult = _proposalInformer.CalculateProposalStatus(proposal);
+            if(!proposalStatusResult.Successful())
+            {
+                return ServiceResult<ProposalViewModel>.Error(proposalStatusResult.GetAggregatedErrors());
+            }
+
+            var proposalStatus = proposalStatusResult.Body();
+            proposal.Status = proposalStatus;
 
             _context.Proposals.Update(proposal);
             await _context.SaveChangesAsync();
 
             var proposalViewModels = _mapper.Map<ProposalViewModel>(proposal);
             return ServiceResult<ProposalViewModel>.Success(proposalViewModels);
-        }
-
-        private bool NumOfStudentsExceedsTheMaximum(ICollection<Guid> students, int maxNumOfStudents)
-        {
-            if(students == null)
-            {
-                return false;
-            }
-            else if(students.Count() <= maxNumOfStudents)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        private void AssignProposalStatus(Proposal proposal)
-        {
-            if(proposal.Students == null)
-            {
-                proposal.Status = ProposalStatus.Free;
-            }
-            else if(proposal.Students.Count() < proposal.MaxNumberOfStudents)
-            {
-                proposal.Status = ProposalStatus.PartiallyTaken;
-            }
-            else
-            {
-                proposal.Status = ProposalStatus.Taken;
-            }
         }
     }
 }

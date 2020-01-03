@@ -43,6 +43,7 @@ namespace Capri.Web.Configuration.Service
             services.AddScoped<IProposalGetter, ProposalGetter>();
             services.AddScoped<IProposalUpdater, ProposalUpdater>();
             services.AddScoped<ISubmittedProposalGetter, SubmittedProposalGetter>();
+            services.AddScoped<IProposalInformer, ProposalInformer>();
         }
 
         private static void AddTokenServicesConfiguration(this IServiceCollection services)
