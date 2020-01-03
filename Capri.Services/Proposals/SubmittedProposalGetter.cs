@@ -26,7 +26,8 @@ namespace Capri.Services.Proposals
 
             if (promoter == null)
             {
-                return ServiceResult<int>.Error("There is no promoter with the given id");
+                return ServiceResult<int>.Error(
+                    $"There is no promoter with id {promoterId}");
             }
 
             var count = promoter.Proposals
