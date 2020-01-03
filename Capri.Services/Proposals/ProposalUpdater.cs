@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Capri.Database;
 using Capri.Services.Users;
+using Capri.Services.Courses;
 using Capri.Web.ViewModels.Proposal;
 
 namespace Capri.Services.Proposals
@@ -14,31 +15,57 @@ namespace Capri.Services.Proposals
         private readonly ISqlDbContext _context;
         private readonly IMapper _mapper;
         private readonly IUserGetter _userGetter;
-        private readonly ISubmittedProposalGetter _submittedProposalGetter;
+        private readonly ICourseGetter _courseGetter;
+        private readonly IProposalNumberValidator _proposalNumberValidator;
+        private readonly IProposalStatusGetter _proposalStatusGetter;
 
         public ProposalUpdater(
             ISqlDbContext context, 
             IMapper mapper, 
-            IUserGetter userGetter, 
-            ISubmittedProposalGetter submittedProposalGetter)
+            IUserGetter userGetter,
+            ICourseGetter courseGetter,
+            IProposalNumberValidator proposalNumberValidator,
+            IProposalStatusGetter proposalStatusGetter)
         {
             _context = context;
             _mapper = mapper;
             _userGetter = userGetter;
-            _submittedProposalGetter = submittedProposalGetter;
+            _courseGetter = courseGetter;
+            _proposalNumberValidator = proposalNumberValidator;
+            _proposalStatusGetter = proposalStatusGetter;
         }
+        
         public async Task<IServiceResult<ProposalViewModel>> Update(
             Guid id, 
             ProposalRegistration inputData)
         {
-            var result = await _userGetter.GetCurrentUser();
-            if(!result.Successful())
+            var courseResult = await _courseGetter.Get(inputData.CourseId);
+            if(!courseResult.Successful())
             {
-                var errors = result.GetAggregatedErrors();
+                return ServiceResult<ProposalViewModel>.Error(courseResult.GetAggregatedErrors());
+            }
+
+            var numOfStudentsExceedsTheMaximumResult = _proposalNumberValidator
+                .NumOfStudentsExceedsTheMaximum(inputData.Students, inputData.MaxNumberOfStudents);
+            if(!numOfStudentsExceedsTheMaximumResult.Successful())
+            {
+                return ServiceResult<ProposalViewModel>.Error(numOfStudentsExceedsTheMaximumResult.GetAggregatedErrors());
+            }
+
+            var numOfStudentsExceedsTheMaximum = numOfStudentsExceedsTheMaximumResult.Body();
+            if(numOfStudentsExceedsTheMaximum)
+            {
+                return ServiceResult<ProposalViewModel>.Error("The number of students exceeds the maximal number");
+            }
+
+            var userResult = await _userGetter.GetCurrentUser();
+            if(!userResult.Successful())
+            {
+                var errors = userResult.GetAggregatedErrors();
                 return ServiceResult<ProposalViewModel>.Error(errors);
             }
             
-            var currentUser = result.Body();
+            var currentUser = userResult.Body();
             var promoter = 
                 await _context
                 .Promoters
@@ -59,6 +86,15 @@ namespace Capri.Services.Proposals
             }
 
             proposal = _mapper.Map(inputData, proposal);
+
+            var proposalStatusResult = _proposalStatusGetter.CalculateProposalStatus(proposal);
+            if(!proposalStatusResult.Successful())
+            {
+                return ServiceResult<ProposalViewModel>.Error(proposalStatusResult.GetAggregatedErrors());
+            }
+
+            var proposalStatus = proposalStatusResult.Body();
+            proposal.Status = proposalStatus;
 
             _context.Proposals.Update(proposal);
             await _context.SaveChangesAsync();

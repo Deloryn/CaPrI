@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using AutoMapper;
 using Capri.Database;
+using Capri.Services.Faculties;
 using Capri.Web.ViewModels.Course;
 
 namespace Capri.Services.Courses
@@ -11,13 +12,16 @@ namespace Capri.Services.Courses
     {
         private readonly ISqlDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IFacultyGetter _facultyGetter;
 
         public CourseUpdater(
             ISqlDbContext context, 
-            IMapper mapper)
+            IMapper mapper,
+            IFacultyGetter facultyGetter)
         {
             _context = context;
             _mapper = mapper;
+            _facultyGetter = facultyGetter;
         }
 
         public async Task<IServiceResult<CourseViewModel>> Update(
@@ -30,6 +34,12 @@ namespace Capri.Services.Courses
             {
                 return ServiceResult<CourseViewModel>.Error(
                     $"Course with id {id} does not exist");
+            }
+
+            var facultyResult = await _facultyGetter.Get(newData.FacultyId);
+            if(!facultyResult.Successful())
+            {
+                return ServiceResult<CourseViewModel>.Error(facultyResult.GetAggregatedErrors());
             }
 
             course = _mapper.Map(newData, course);

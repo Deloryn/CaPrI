@@ -95,9 +95,7 @@ namespace Capri.Services.Proposals
 
         public IServiceResult<IQueryable<ProposalViewModel>> GetFiltered(SieveModel sieveModel)
         {
-            var proposals = _context.Proposals
-                .Include(p => p.Students)
-                .AsQueryable();
+            var proposals = _context.Proposals.AsQueryable();
 
             var filtered = _sieveProcessor.Apply(sieveModel, proposals);
             

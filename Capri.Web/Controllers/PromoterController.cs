@@ -54,6 +54,16 @@ namespace Capri.Web.Controllers
         public async Task<IActionResult> Create(
             [FromBody] PromoterRegistration registration)
         {
+            if(registration == null)
+            {
+                return BadRequest("Promoter registration not given");
+            }
+
+            if(!ModelState.IsValid)
+            {
+                return BadRequest("The given promoter registration is invalid");
+            }
+
             var result = await _promoterCreator.Create(registration);
             if(result.Successful())
             {
@@ -66,9 +76,19 @@ namespace Capri.Web.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(
             Guid id,
-            [FromBody] PromoterRegistration newData)
+            [FromBody] PromoterRegistration registration)
         {
-            var result = await _promoterUpdater.Update(id, newData);
+            if(registration == null)
+            {
+                return BadRequest("Promoter registration not given");
+            }
+
+            if(!ModelState.IsValid)
+            {
+                return BadRequest("The given promoter registration is invalid");
+            }
+
+            var result = await _promoterUpdater.Update(id, registration);
             if(result.Successful())
             {
                 return Ok(result.Body());

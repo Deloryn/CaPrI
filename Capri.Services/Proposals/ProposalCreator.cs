@@ -6,6 +6,7 @@ using Capri.Database;
 using Capri.Database.Entities;
 using Capri.Services.Users;
 using Capri.Services.Settings;
+using Capri.Services.Courses;
 using Capri.Web.ViewModels.Proposal;
 
 namespace Capri.Services.Proposals
@@ -14,35 +15,63 @@ namespace Capri.Services.Proposals
     {
         private readonly ISqlDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IUserGetter _userGetter;
-        private readonly ISubmittedProposalGetter _submittedProposalGetter;
         private readonly ISystemSettingsGetter _systemSettingsGetter;
+        private readonly IUserGetter _userGetter;
+        private readonly ICourseGetter _courseGetter;
+        private readonly ISubmittedProposalGetter _submittedProposalGetter;
+        private readonly IProposalNumberValidator _proposalNumberValidator;
+        private readonly IProposalStatusGetter _proposalStatusGetter;
 
         public ProposalCreator(
             ISqlDbContext context, 
-            IMapper mapper, 
-            IUserGetter userGetter, 
+            IMapper mapper,
+            ISystemSettingsGetter systemSettingsGetter,
+            IUserGetter userGetter,
+            ICourseGetter courseGetter,
             ISubmittedProposalGetter submittedProposalGetter,
-            ISystemSettingsGetter systemSettingsGetter)
+            IProposalNumberValidator proposalNumberValidator,
+            IProposalStatusGetter proposalStatusGetter)
         {
             _context = context;
             _mapper = mapper;
-            _userGetter = userGetter;
-            _submittedProposalGetter = submittedProposalGetter;
             _systemSettingsGetter = systemSettingsGetter;
+            _userGetter = userGetter;
+            _courseGetter = courseGetter;
+            _submittedProposalGetter = submittedProposalGetter;
+            _proposalNumberValidator = proposalNumberValidator;
+            _proposalStatusGetter = proposalStatusGetter;
         }
 
         public async Task<IServiceResult<ProposalViewModel>> Create(
             ProposalRegistration inputData)
         {
-            var result = await _userGetter.GetCurrentUser();
-            if(!result.Successful())
+            var courseResult = await _courseGetter.Get(inputData.CourseId);
+            if(!courseResult.Successful())
             {
-                var errors = result.GetAggregatedErrors();
+                return ServiceResult<ProposalViewModel>.Error(courseResult.GetAggregatedErrors());
+            }
+
+            var numOfStudentsExceedsTheMaximumResult = _proposalNumberValidator
+                .NumOfStudentsExceedsTheMaximum(inputData.Students, inputData.MaxNumberOfStudents);
+            if(!numOfStudentsExceedsTheMaximumResult.Successful())
+            {
+                return ServiceResult<ProposalViewModel>.Error(numOfStudentsExceedsTheMaximumResult.GetAggregatedErrors());
+            }
+
+            var numOfStudentsExceedsTheMaximum = numOfStudentsExceedsTheMaximumResult.Body();
+            if(numOfStudentsExceedsTheMaximum)
+            {
+                return ServiceResult<ProposalViewModel>.Error("The number of students exceeds the maximal number");
+            }
+
+            var userResult = await _userGetter.GetCurrentUser();
+            if(!userResult.Successful())
+            {
+                var errors = userResult.GetAggregatedErrors();
                 return ServiceResult<ProposalViewModel>.Error(errors);
             }
 
-            var currentUser = result.Body();
+            var currentUser = userResult.Body();
             var promoter = 
                 await _context
                 .Promoters
@@ -60,9 +89,19 @@ namespace Capri.Services.Proposals
             }
 
             var proposal = _mapper.Map<Proposal>(inputData);
-            proposal.Promoter = promoter;
-            SetStartDate(proposal, inputData.Level);
 
+            var proposalStatusResult = _proposalStatusGetter.CalculateProposalStatus(proposal);
+            if(!proposalStatusResult.Successful())
+            {
+                return ServiceResult<ProposalViewModel>.Error(proposalStatusResult.GetAggregatedErrors());
+            }
+
+            var proposalStatus = proposalStatusResult.Body();
+            proposal.Status = proposalStatus;
+            
+            SetStartDate(proposal);
+
+            proposal.Promoter = promoter;
             promoter.Proposals.Add(proposal);
             _context.Promoters.Update(promoter);
 
@@ -118,8 +157,9 @@ namespace Capri.Services.Proposals
                 .Count(p => p.Level == level);
         }
 
-        private void SetStartDate(Proposal proposal, StudyLevel level)
+        private void SetStartDate(Proposal proposal)
         {
+            var level = proposal.Level;
             if(level == StudyLevel.Bachelor)
             {
                 var startingDate = _systemSettingsGetter.GetSystemSettings().BachelorThesisStartDate;

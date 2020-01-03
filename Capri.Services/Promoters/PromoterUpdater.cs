@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Capri.Database;
 using Capri.Services.Users;
+using Capri.Services.Institutes;
 using Capri.Web.ViewModels.Promoter;
 using Capri.Web.ViewModels.User;
 
@@ -14,15 +15,18 @@ namespace Capri.Services.Promoters
         private readonly ISqlDbContext _context;
         private readonly IMapper _mapper;
         private readonly IUserUpdater _userUpdater;
+        private readonly IInstituteGetter _instituteGetter;
 
         public PromoterUpdater(
             ISqlDbContext context,
             IMapper mapper,
-            IUserUpdater userUpdater)
+            IUserUpdater userUpdater,
+            IInstituteGetter instituteGetter)
         {
             _context = context;
             _mapper = mapper;
             _userUpdater = userUpdater;
+            _instituteGetter = instituteGetter;
         }
 
         public async Task<IServiceResult<PromoterViewModel>> Update(
@@ -38,6 +42,12 @@ namespace Capri.Services.Promoters
             {
                 return ServiceResult<PromoterViewModel>.Error(
                     $"Promoter with id {id} does not exist");
+            }
+
+            var instituteResult = await _instituteGetter.Get(newData.InstituteId);
+            if(!instituteResult.Successful())
+            {
+                return ServiceResult<PromoterViewModel>.Error(instituteResult.GetAggregatedErrors());
             }
 
             var credentials = new UserCredentials

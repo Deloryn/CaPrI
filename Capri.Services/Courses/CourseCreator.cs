@@ -34,16 +34,8 @@ namespace Capri.Services.Courses
 
             var course = _mapper.Map<Course>(registration);
 
-            try 
-            {
-                await _context.Courses.AddAsync(course);
-                await _context.SaveChangesAsync();
-            }
-            catch
-            {
-                return ServiceResult<CourseViewModel>.Error(
-                    "Failed to create a course from the given data");
-            }
+            await _context.Courses.AddAsync(course);
+            await _context.SaveChangesAsync();
 
             var courseViewModel = _mapper.Map<CourseViewModel>(course);
             return ServiceResult<CourseViewModel>.Success(courseViewModel);

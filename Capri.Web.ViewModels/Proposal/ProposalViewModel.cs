@@ -12,6 +12,7 @@ namespace Capri.Web.ViewModels.Proposal
         public string Description { get; set; }
         public string OutputData { get; set; }
         public string Specialization { get; set; }
+        public int MaxNumberOfStudents { get; set; }
         public DateTime StartingDate { get; set; }
         public ProposalStatus Status { get; set; }
         public StudyLevel Level { get; set; }
