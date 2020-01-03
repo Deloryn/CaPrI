@@ -5,7 +5,7 @@ using Capri.Database.Entities;
 
 namespace Capri.Services.Proposals
 {
-    public class ProposalInformer : IProposalInformer
+    public class ProposalNumberValidator : IProposalNumberValidator
     {
         public IServiceResult<bool> NumOfStudentsExceedsTheMaximum(ICollection<Guid> students, int maxNumOfStudents)
         {

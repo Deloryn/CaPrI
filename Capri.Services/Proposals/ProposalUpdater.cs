@@ -16,20 +16,20 @@ namespace Capri.Services.Proposals
         private readonly IMapper _mapper;
         private readonly IUserGetter _userGetter;
         private readonly ICourseGetter _courseGetter;
-        private readonly IProposalInformer _proposalInformer;
+        private readonly IProposalNumberValidator _proposalNumberValidator;
 
         public ProposalUpdater(
             ISqlDbContext context, 
             IMapper mapper, 
             IUserGetter userGetter,
             ICourseGetter courseGetter,
-            IProposalInformer proposalInformer)
+            IProposalNumberValidator proposalNumberValidator)
         {
             _context = context;
             _mapper = mapper;
             _userGetter = userGetter;
             _courseGetter = courseGetter;
-            _proposalInformer = proposalInformer;
+            _proposalNumberValidator = proposalNumberValidator;
         }
         
         public async Task<IServiceResult<ProposalViewModel>> Update(
@@ -42,7 +42,7 @@ namespace Capri.Services.Proposals
                 return ServiceResult<ProposalViewModel>.Error(courseResult.GetAggregatedErrors());
             }
 
-            var numOfStudentsExceedsTheMaximumResult = _proposalInformer
+            var numOfStudentsExceedsTheMaximumResult = _proposalNumberValidator
                 .NumOfStudentsExceedsTheMaximum(inputData.Students, inputData.MaxNumberOfStudents);
             if(!numOfStudentsExceedsTheMaximumResult.Successful())
             {
@@ -84,7 +84,7 @@ namespace Capri.Services.Proposals
 
             proposal = _mapper.Map(inputData, proposal);
 
-            var proposalStatusResult = _proposalInformer.CalculateProposalStatus(proposal);
+            var proposalStatusResult = _proposalNumberValidator.CalculateProposalStatus(proposal);
             if(!proposalStatusResult.Successful())
             {
                 return ServiceResult<ProposalViewModel>.Error(proposalStatusResult.GetAggregatedErrors());

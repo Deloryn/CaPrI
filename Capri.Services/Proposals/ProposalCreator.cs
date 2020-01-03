@@ -19,7 +19,7 @@ namespace Capri.Services.Proposals
         private readonly IUserGetter _userGetter;
         private readonly ICourseGetter _courseGetter;
         private readonly ISubmittedProposalGetter _submittedProposalGetter;
-        private readonly IProposalInformer _proposalInformer;
+        private readonly IProposalNumberValidator _proposalNumberValidator;
 
         public ProposalCreator(
             ISqlDbContext context, 
@@ -28,7 +28,7 @@ namespace Capri.Services.Proposals
             IUserGetter userGetter,
             ICourseGetter courseGetter,
             ISubmittedProposalGetter submittedProposalGetter,
-            IProposalInformer proposalInformer)
+            IProposalNumberValidator proposalNumberValidator)
         {
             _context = context;
             _mapper = mapper;
@@ -36,7 +36,7 @@ namespace Capri.Services.Proposals
             _userGetter = userGetter;
             _courseGetter = courseGetter;
             _submittedProposalGetter = submittedProposalGetter;
-            _proposalInformer = proposalInformer;
+            _proposalNumberValidator = proposalNumberValidator;
         }
 
         public async Task<IServiceResult<ProposalViewModel>> Create(
@@ -48,7 +48,7 @@ namespace Capri.Services.Proposals
                 return ServiceResult<ProposalViewModel>.Error(courseResult.GetAggregatedErrors());
             }
 
-            var numOfStudentsExceedsTheMaximumResult = _proposalInformer
+            var numOfStudentsExceedsTheMaximumResult = _proposalNumberValidator
                 .NumOfStudentsExceedsTheMaximum(inputData.Students, inputData.MaxNumberOfStudents);
             if(!numOfStudentsExceedsTheMaximumResult.Successful())
             {
@@ -87,7 +87,7 @@ namespace Capri.Services.Proposals
 
             var proposal = _mapper.Map<Proposal>(inputData);
 
-            var proposalStatusResult = _proposalInformer.CalculateProposalStatus(proposal);
+            var proposalStatusResult = _proposalNumberValidator.CalculateProposalStatus(proposal);
             if(!proposalStatusResult.Successful())
             {
                 return ServiceResult<ProposalViewModel>.Error(proposalStatusResult.GetAggregatedErrors());
