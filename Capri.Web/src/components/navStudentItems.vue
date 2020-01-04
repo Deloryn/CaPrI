@@ -28,36 +28,35 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
 export default class NavStudentItems extends Vue {
+    public filters = [
+        {
+            name: 'Faculty',
+            values: ['Computer Science'],
+            chosen: false,
+        },
+        {
+            name: 'Field of study',
+            values: ['IT', 'Robotics', 'Bioinformatics'],
+            chosen: false,
+        },
+        {
+            name: 'Degree',
+            values: ['Bacheloer', 'Master'],
+            chosen: false,
+        },
+        {
+            name: 'Type',
+            values: ['Full time', 'Part time'],
+            chosen: false,
+        },
+    ];
     public data() {
         return {
             isAllSelected: 'nie',
-            filters: [
-                {
-                    name: 'Faculty',
-                    values: ['Computer Science'],
-                    chosen: false,
-                },
-                {
-                    name: 'Field of study',
-                    values: ['IT', 'Robotics', 'Bioinformatics'],
-                    chosen: false,
-                },
-                {
-                    name: 'Degree',
-                    values: ['Bacheloer', 'Master'],
-                    chosen: false,
-                },
-                {
-                    name: 'Type',
-                    values: ['Full time', 'Part time'],
-                    chosen: false,
-                },
-            ],
         };
     }
     public changeRoute(which): void {
-        this.filters[which] = true;
-        // tslint:disable-next-line:prefer-for-of
+        this.filters[which].chosen = true;
         for (let i = 0; i < this.filters.length; i += 1) {
             if (this.filters[i].chosen === false) {
                 return;

@@ -68,9 +68,9 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
 export default class CardsView extends Vue {
+    public chosenFileWithPromoterList = '';
     public data() {
         return {
-            chosenFileWithPromoterList: '',
             headers: [
                 {
                     sortable: false,

@@ -135,28 +135,18 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
 export default class CardsView extends Vue {
-    public popup: {
-        title: string;
-        promoter: string;
-        thesisType: string;
-        studyType: string;
-        freeSlots: string;
-        maxSlots: string;
-        description: string;
+    public popup =  {
+        title: '',
+        promoter: '',
+        thesisType: '',
+        studyType: '',
+        freeSlots: -1,
+        maxSlots: -1,
+        description: '',
     };
-    public dialog: boolean;
+    public dialog = false;
     public data() {
         return {
-            dialog: false,
-            popup: {
-                title: '',
-                promoter: '',
-                thesisType: '',
-                studyType: '',
-                freeSlots: -1,
-                maxSlots: -1,
-                description: '',
-            },
             selected: [],
             searchTitle: '',
             searchPromoter: '',

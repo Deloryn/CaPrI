@@ -161,21 +161,21 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
 export default class MyProporsals extends Vue {
+    dialog = false;
+    popup = {
+        title: '',
+        thesisType: '',
+        studyType: '',
+        students: ['',''],
+        freeSlots: -1,
+        description: '',
+    };
     public data() {
         return {
             studyTypes: ['Full-time', 'Part-time'],
             thesisTypes: ['Bachelor', 'Master'],
             search: '',
             numberOfThesis: 6,
-            dialog: false,
-            popup: {
-                title: '',
-                thesisType: '',
-                studyType: '',
-                students: [],
-                freeSlots: -1,
-                description: '',
-            },
             headers: [
                 {
                     sortable: true,
