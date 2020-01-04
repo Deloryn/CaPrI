@@ -20,6 +20,7 @@ namespace Capri.Web.ViewModels.Promoter
         [MaxLength(30)]
         public string TitlePrefix { get; set; }
 
+        [MinLength(2)]
         [MaxLength(30)]
         public string TitlePostfix { get; set; }
 
