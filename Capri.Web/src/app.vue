@@ -4,12 +4,12 @@
 			<navBar>
 				<div slot="navItems">
 					<navStudentItems
-						v-if="userType === 'student'"
+						v-if="parsedToken.userType === 'student'"
 					></navStudentItems>
 					<navPromoterItems
-						v-if="userType === 'promoter'"
+						v-if="parsedToken.userType === 'promoter'"
 					></navPromoterItems>
-					<navDeanItems v-if="userType === 'dean'"></navDeanItems>
+					<navDeanItems v-if="parsedToken.userType === 'dean'"></navDeanItems>
 				</div>
 			</navBar>
 			<topBar> </topBar>
@@ -44,10 +44,15 @@ enum UserTypes {
     },
 })
 export default class App extends Vue {
-    public data() {
-        return {
-            userType: UserTypes.promoter,
-        };
-    }
+    public parseJwt(token: string): JSON {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
+    };
+    public token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE1NzgyMTIyMzksImV4cCI6MTYwOTc0ODIzOSwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsIm5hbWUiOiJKYW4iLCJzdXJuYW1lIjoiS293YWxza2kiLCJ1c2VyVHlwZSI6InN0dWRlbnQifQ.ctvoGDzu1NduvYTfMnpegWPt8dgLhCuUfPouUaaDtwY.ctvoGDzu1NduvYTfMnpegWPt8dgLhCuUfPouUaaDtwY';
+    public parsedToken = this.parseJwt(this.token);
 }
 </script>
