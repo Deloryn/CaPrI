@@ -34,10 +34,11 @@ namespace Capri.Services.Faculties
                     $"Faculty with id {id} does not exist");
             }
 
+            var facultyViewModel = _mapper.Map<FacultyViewModel>(faculty);
+
             _context.Faculties.Remove(faculty);
             await _context.SaveChangesAsync();
 
-            var facultyViewModel = _mapper.Map<FacultyViewModel>(faculty);
             return ServiceResult<FacultyViewModel>.Success(facultyViewModel);
         }
     }

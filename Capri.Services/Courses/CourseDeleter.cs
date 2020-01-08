@@ -34,10 +34,11 @@ namespace Capri.Services.Courses
                     $"Course with id {id} does not exist");
             }
 
+            var courseViewModel = _mapper.Map<CourseViewModel>(course);
+
             _context.Courses.Remove(course);
             await _context.SaveChangesAsync();
 
-            var courseViewModel = _mapper.Map<CourseViewModel>(course);
             return ServiceResult<CourseViewModel>.Success(courseViewModel);
         }
     }

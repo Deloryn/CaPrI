@@ -58,10 +58,11 @@ namespace Capri.Services.Proposals
                     $"Promoter with id {promoter.Id} has no proposal with id {id}");
             }
 
+            var proposalViewModel = _mapper.Map<ProposalViewModel>(proposal);
+
             _context.Proposals.Remove(proposal);
             await _context.SaveChangesAsync();
 
-            var proposalViewModel = _mapper.Map<ProposalViewModel>(proposal);
             return ServiceResult<ProposalViewModel>.Success(proposalViewModel);
         }
     }

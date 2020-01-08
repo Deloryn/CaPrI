@@ -38,6 +38,8 @@ namespace Capri.Services.Promoters
                     $"Promoter with id {id} does not exist");
             }
 
+            var promoterViewModel = _mapper.Map<PromoterViewModel>(promoter);
+
             var applicationUser = 
                 await _context
                 .Users
@@ -46,7 +48,6 @@ namespace Capri.Services.Promoters
             await _userManager.DeleteAsync(applicationUser);
             await _context.SaveChangesAsync();
 
-            var promoterViewModel = _mapper.Map<PromoterViewModel>(promoter);
             return ServiceResult<PromoterViewModel>.Success(promoterViewModel);
         }
     }
