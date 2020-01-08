@@ -62,6 +62,7 @@ namespace Capri.Web.Configuration.Service
             services.AddScoped<IUserCreator, UserCreator>();
             services.AddScoped<IUserUpdater, UserUpdater>();
             services.AddScoped<IUserGetter, UserGetter>();
+            services.AddScoped<IUserDeleter, UserDeleter>();
         }
 
         private static void AddCourseServicesConfiguration(this IServiceCollection services)
