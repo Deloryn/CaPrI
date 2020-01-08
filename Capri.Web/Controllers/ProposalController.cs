@@ -141,6 +141,11 @@ namespace Capri.Web.Controllers
             Guid id, 
             [FromBody] ProposalRegistration registration)
         {
+            if(id == null || id == Guid.Empty)
+            {
+                return NotFound();
+            }
+            
             if(registration == null)
             {
                 return BadRequest("Proposal registration not given");

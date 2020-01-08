@@ -78,6 +78,11 @@ namespace Capri.Web.Controllers
             Guid id,
             [FromBody] CourseRegistration registration)
         {
+            if(id == null || id == Guid.Empty)
+            {
+                return NotFound();
+            }
+            
             if(registration == null)
             {
                 return BadRequest("Course registration not given");
