@@ -1,13 +1,13 @@
 <template>
 	<v-card-actions class="mainCard">
 		<div class="sentence">
-			<strong>{{ listType }}</strong>
+			<strong>{{ $i18n.t('topBar.'+listType) }}</strong>
 		</div>
 		<v-spacer></v-spacer>
 		<div class="headerElement">
 			<div style="width: 100px; text-align: center;">
 				<span style="font-size: 18px; color: rgb(18,98,141);">
-					<strong>Font size</strong>
+					<strong>{{ $i18n.t('topBar.fontSize') }}</strong>
 				</span>
 				<v-select
 					v-model="fontSize"
@@ -42,7 +42,7 @@ import i18n from '../plugins/i18n';
 export default class TopBar extends Vue {
     public data() {
         return {
-            listType: 'Bachelor thesis',
+            listType: 'bachelorThesis',
             fontSize: { font: 12 },
             items: [
                 { font: 8 },

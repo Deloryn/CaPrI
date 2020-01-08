@@ -11,7 +11,7 @@
 				<v-icon>{{ link.icon }}</v-icon>
 			</v-list-item-action>
 
-			<v-list-item-title v-text="link.text" />
+			<v-list-item-title v-text="$i18n.t(link.text)" />
 		</v-list-item>
 	</div>
 </template>
@@ -26,17 +26,17 @@ export default class NavDeanItems extends Vue {
                 {
                     to: '/promoterList',
                     icon: 'mdi-account-multiple',
-                    text: 'Promoters',
+                    text: 'dean.promoters',
                 },
                 {
                     to: '/cards',
                     icon: 'mdi-school-outline',
-                    text: 'List of thesis',
+                    text: 'dean.listOfThesis',
                 },
                 {
                     to: '/import',
                     icon: 'mdi-import',
-                    text: 'Import',
+                    text: 'dean.import',
                 },
             ],
         };

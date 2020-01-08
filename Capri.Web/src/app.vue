@@ -4,12 +4,12 @@
 			<navBar>
 				<div slot="navItems">
 					<navStudentItems
-						v-if="parsedToken.userType === 'student'"
+						v-if="parsedToken.userType === ''"
 					></navStudentItems>
 					<navPromoterItems
-						v-if="parsedToken.userType === 'promoter'"
+						v-if="parsedToken.userType === ''"
 					></navPromoterItems>
-					<navDeanItems v-if="parsedToken.userType === 'dean'"></navDeanItems>
+					<navDeanItems v-if="parsedToken.userType === 'student'"></navDeanItems>
 				</div>
 			</navBar>
 			<topBar> </topBar>
