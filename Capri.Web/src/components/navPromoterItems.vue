@@ -11,27 +11,30 @@
 				<v-icon>{{ link.icon }}</v-icon>
 			</v-list-item-action>
 
-			<v-list-item-title v-text="link.text" />
+			<v-list-item-title v-text="$i18n.t(link.text)" />
 		</v-list-item>
 	</div>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
+import i18n from '../plugins/i18n'
 
 @Component
 export default class NavPromoterItems extends Vue {
+
+
     public data() {
         return {
             links: [
                 {
                     to: '/myProporsals',
                     icon: 'mdi-book-open',
-                    text: 'My proporsal',
+                    text: 'promoter.myProposals',
                 },
                 {
                     to: '/cards',
                     icon: 'mdi-school-outline',
-                    text: 'List of thesis',
+                    text: 'promoter.listOfThesis',
                 },
             ],
         };

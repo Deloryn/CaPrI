@@ -6,7 +6,7 @@
 		style="margin-bottom: 140px;"
 	>
 		<v-file-input
-			label="File input"
+			:label="$i18n.t('import.fileInput')"
 			style="width: 60%;"
 			@change="previewFiles"
 		></v-file-input>
@@ -19,16 +19,16 @@
 						style="background-color: #FFFFFF;"
 					>
 						<template v-slot:header.name="{ header }">
-							<span>{{ header.text }}</span>
+							<span>{{ $i18n.t(header.text) }}</span>
 						</template>
 						<template v-slot:header.laboratory="{ header }">
-							<span>{{ header.text }}</span>
+							<span>{{ $i18n.t(header.text) }}</span>
 						</template>
 						<template v-slot:header.bachelorTopics="{ header }">
-							<span>{{ header.text }}</span>
+							<span>{{ $i18n.t(header.text) }}</span>
 						</template>
 						<template v-slot:header.masterTopics="{ header }">
-							<span>{{ header.text }}</span>
+							<span>{{ $i18n.t(header.text) }}</span>
 						</template>
 
 						<template v-slot:item.name="{ item }">
@@ -44,20 +44,20 @@
 				</v-col>
 			</v-row>
 			<div class="biggerFont">
-				<span>Set default value of expected number of topics</span>
+				<span>{{ $i18n.t('import.expectedTitle') }}</span>
 				<div class="ml-3">
 					<v-text-field
-						label="Bachelor"
+						:label="$i18n.t('import.bachelor')"
 						class="inputMaxNumber"
 					></v-text-field
-					><v-btn class="topMargin10">Set</v-btn>
+					><v-btn class="topMargin10">{{ $i18n.t('import.set') }}</v-btn>
 				</div>
 				<div class="ml-3" style="clear: left;">
 					<v-text-field
-						label="Master"
+						:label="$i18n.t('import.master')"
 						class="inputMaxNumber"
 					></v-text-field
-					><v-btn class="topMargin10">Set</v-btn>
+					><v-btn class="topMargin10">{{ $i18n.t('import.set') }}</v-btn>
 				</div>
 			</div>
 		</div>
@@ -74,28 +74,28 @@ export default class CardsView extends Vue {
             headers: [
                 {
                     sortable: false,
-                    text: 'Name',
+                    text: 'import.name',
                     value: 'name',
                     width: '30%',
                     align: 'center',
                 },
                 {
                     sortable: false,
-                    text: 'Laboratory',
+                    text: 'import.laboratory',
                     value: 'laboratory',
                     width: '20%',
                     align: 'center',
                 },
                 {
                     sortable: false,
-                    text: 'Bachelor topics',
+                    text: 'import.bachelorTopics',
                     value: 'bachelorTopics',
                     width: '20%',
                     align: 'center',
                 },
                 {
                     sortable: false,
-                    text: 'Master Topics',
+                    text: 'import.masterTopics',
                     value: 'masterTopics',
                     width: '20%',
                     align: 'center',

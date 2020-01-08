@@ -5,19 +5,23 @@
 			:key="i"
 			class="paddingAndMarginZero px-3"
 		>
-			<v-list-item-action
-				color="blue"
-				class="paddingAndMarginZero my-4"
-                style="width: 310px;"
-			>
-				<v-select
-					:items="filter.values"
-					:label="filter.name"
-					:model="filter.chosen"
-					v-on:change="changeRoute(i)"
-					color="blue"
-					class="paddingAndMarginZero"
-				>
+			<v-list-item-action color="blue"
+								class="paddingAndMarginZero my-4"
+								style="width: 310px;">
+				<v-select :items="filter.values"
+						  :label="$i18n.t(filter.name)"
+						  :model=true
+						  clearable
+						  v-on:change="changeRoute(i)"
+						  color="blue"
+						  class="paddingAndMarginZero">
+
+					<template slot="selection" slot-scope="data">
+						{{ $i18n.t(data.item) }}
+					</template>
+					<template slot="item" slot-scope="data">
+						{{ $i18n.t(data.item) }}
+					</template>
 				</v-select>
 			</v-list-item-action>
 		</v-list-item>
@@ -30,26 +34,26 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 export default class NavStudentItems extends Vue {
     public filters = [
         {
-            name: 'Faculty',
-            values: ['Computer Science'],
+            name: 'faculty',
+            values: ['computerScience'],
             chosen: false,
         },
         {
-            name: 'Field of study',
-            values: ['IT', 'Robotics', 'Bioinformatics'],
+            name: 'fieldOfStudy',
+            values: ['IT', 'robotics', 'bioinformatics'],
             chosen: false,
         },
         {
-            name: 'Degree',
-            values: ['Bacheloer', 'Master'],
+            name: 'degree',
+            values: ['bachelor', 'master'],
             chosen: false,
         },
         {
-            name: 'Type',
-            values: ['Full time', 'Part time'],
+            name: 'type',
+            values: ['fullTime', 'partTime'],
             chosen: false,
         },
-    ];
+	];
     public data() {
         return {
             isAllSelected: 'nie',

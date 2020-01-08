@@ -1,13 +1,13 @@
 <template>
 	<v-card-actions class="mainCard">
 		<div class="sentence">
-			<strong>{{ listType }}</strong>
+			<strong>{{ $i18n.t('topBar.'+listType) }}</strong>
 		</div>
 		<v-spacer></v-spacer>
 		<div class="headerElement">
 			<div style="width: 100px; text-align: center;">
 				<span style="font-size: 18px; color: rgb(18,98,141);">
-					<strong>Font size</strong>
+					<strong>{{ $i18n.t('topBar.fontSize') }}</strong>
 				</span>
 				<v-select
 					v-model="fontSize"
@@ -20,8 +20,8 @@
 			</div>
 		</div>
 		<div class="headerElement">
-			<div class="polish"></div>
-			<div class="english"></div>
+			<div class="polish" @click="changeLocale('pl')"></div>
+			<div class="english" @click="changeLocale('en')"></div>
 		</div>
 
 		<div class="headerElement">
@@ -36,12 +36,13 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
+import i18n from '../plugins/i18n';
 
 @Component
 export default class TopBar extends Vue {
     public data() {
         return {
-            listType: 'Bachelor thesis',
+            listType: 'bachelorThesis',
             fontSize: { font: 12 },
             items: [
                 { font: 8 },
@@ -49,9 +50,18 @@ export default class TopBar extends Vue {
                 { font: 16 },
                 { font: 20 },
                 { font: 24 },
-            ],
+			],
+			languages: [
+                    { flag: 'polish', language: 'pl', title: 'Polski' },
+                    { flag: 'english', language: 'en', title: 'English' }
+             ],
         };
-    }
+	}
+	
+	changeLocale(locale) {
+		i18n.locale = locale;
+     }
+
 }
 </script>
 <style lang="scss" scoped>
@@ -79,6 +89,7 @@ export default class TopBar extends Vue {
 	height: 25px;
 	width: 50px;
 	background: linear-gradient(to bottom, #ffffff 50%, #d4213d 50%);
+	cursor: pointer;
 }
 
 .english {
@@ -87,6 +98,7 @@ export default class TopBar extends Vue {
 	margin: 10px;
 	height: 25px;
 	width: 50px;
+	cursor: pointer;
 }
 
 .selectStyle {

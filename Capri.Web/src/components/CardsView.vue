@@ -84,10 +84,10 @@
 					class="table"
 				>
 					<template v-slot:header.title="{ header }">
-						<span class="headerText">{{ header.text }}</span>
+						<span class="headerText">{{ $i18n.t(header.text) }}</span>
 						<v-text-field
 							v-model="searchTitle"
-							label="Filter"
+							:label="$i18n.t('cards.filter')"
 							single-line
 							hide-details
 							outlined
@@ -95,10 +95,10 @@
 					</template>
 
 					<template v-slot:header.promoter="{ header }">
-						<span class="headerText">{{ header.text }}</span>
+						<span class="headerText">{{ $i18n.t(header.text) }}</span>
 						<v-text-field
 							v-model="searchPromoter"
-							label="Filter"
+							:label="$i18n.t('cards.filter')"
 							single-line
 							hide-details
 							outlined
@@ -106,10 +106,10 @@
 					</template>
 
 					<template v-slot:header.freeSlots="{ header }">
-						<span class="headerText">{{ header.text }}</span>
+						<span class="headerText">{{ $i18n.t(header.text) }}</span>
 						<v-text-field
 							v-model="searchFreeSlots"
-							label="Filter"
+							:label="$i18n.t('cards.filter')"
 							single-line
 							hide-details
 							outlined
@@ -154,21 +154,21 @@ export default class CardsView extends Vue {
             headers: [
                 {
                     sortable: true,
-                    text: 'Title',
+                    text: 'cards.title',
                     value: 'title',
                     width: '60%',
                     align: 'center',
                 },
                 {
                     sortable: true,
-                    text: 'Promoter',
+                    text: 'cards.promoter',
                     value: 'promoter',
                     width: '20%',
                     align: 'center',
                 },
                 {
                     sortable: true,
-                    text: 'Free slots',
+                    text: 'cards.freeSlots',
                     value: 'freeSlots',
                     align: 'center',
                 },
