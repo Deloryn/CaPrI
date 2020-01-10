@@ -15,9 +15,15 @@ namespace Capri.Services.Proposals
             {
                 return ServiceResult<ProposalStatus>.Success(ProposalStatus.PartiallyTaken);
             }
-            else
+            else if(proposal.Students.Count() == proposal.MaxNumberOfStudents)
             {
                 return ServiceResult<ProposalStatus>.Success(ProposalStatus.Taken);
+            }
+            else
+            {
+                return ServiceResult<ProposalStatus>.Error(
+                    "The number of the given students exceeds the max number of students"
+                );
             }
         }
     }

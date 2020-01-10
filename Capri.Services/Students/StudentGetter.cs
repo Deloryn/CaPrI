@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Capri.Database;
+using Capri.Database.Entities;
 using Capri.Web.ViewModels.Student;
 
 namespace Capri.Services.Students
@@ -44,6 +45,20 @@ namespace Capri.Services.Students
             var studentViewModels = students.Select(p => _mapper.Map<StudentViewModel>(p));
 
             return ServiceResult<IEnumerable<StudentViewModel>>.Success(studentViewModels);
+        }
+
+        public async Task<IServiceResult<ICollection<Student>>> GetMany(IEnumerable<Guid> studentIds)
+        {
+            var students = new List<Student>();
+            foreach(var id in studentIds)
+            {
+                var student = await _context.Students.FirstOrDefaultAsync(s => s.Id == id);
+                if(student != null)
+                {
+                    students.Add(student);
+                }
+            }
+            return ServiceResult<ICollection<Student>>.Success(students);
         }
     }
 }

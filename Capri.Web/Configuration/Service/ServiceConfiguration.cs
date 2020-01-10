@@ -44,6 +44,7 @@ namespace Capri.Web.Configuration.Service
             services.AddScoped<IStudentUpdater, StudentUpdater>();
             services.AddScoped<IStudentGetter, StudentGetter>();
             services.AddScoped<IStudentDeleter, StudentDeleter>();
+            services.AddScoped<IStudentGroupValidator, StudentGroupValidator>();
         }
 
         private static void AddProposalServicesConfiguration(this IServiceCollection services)
