@@ -21,8 +21,12 @@ namespace Capri.Web.ViewModels.Student
         public ushort Semester { get; set; }
 
         [Required]
-        [EnumDataType(typeof(StudyMode))]
+        [EnumDataType(typeof(StudyLevel))]
         public StudyLevel StudyLevel { get; set; }
+
+        [Required]
+        [EnumDataType(typeof(StudyMode))]
+        public StudyMode StudyMode;
 
         public Guid ProposalId { get; set; }
     }

@@ -21,6 +21,7 @@
     {
       "Semester": 6,
       "StudyLevel": 0,
+      "StudyMode": 0,
       "ApplicationUser": {
         "Email": "student1@gmail.com",
         "PasswordHash": "zaq1@WSX"
@@ -29,6 +30,7 @@
     {
       "Semester": 6,
       "StudyLevel": 0,
+      "StudyMode": 0,
       "ApplicationUser": {
         "Email": "student2@gmail.com",
         "PasswordHash": "zaq1@WSX"
@@ -37,6 +39,7 @@
     {
       "Semester": 6,
       "StudyLevel": 0,
+      "StudyMode": 0,
       "ApplicationUser": {
         "Email": "student3@gmail.com",
         "PasswordHash": "zaq1@WSX"
@@ -45,6 +48,7 @@
     {
       "Semester": 6,
       "StudyLevel": 0,
+      "StudyMode": 0,
       "ApplicationUser": {
         "Email": "student4@gmail.com",
         "PasswordHash": "zaq1@WSX"
