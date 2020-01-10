@@ -17,7 +17,6 @@ namespace Capri.Services.Proposals
         private readonly IMapper _mapper;
         private readonly IUserGetter _userGetter;
         private readonly ICourseGetter _courseGetter;
-        private readonly IProposalNumberValidator _proposalNumberValidator;
         private readonly IProposalStatusGetter _proposalStatusGetter;
         private readonly IStudentGroupValidator _studentGroupValidator;
         private readonly IStudentGetter _studentGetter;
@@ -27,7 +26,6 @@ namespace Capri.Services.Proposals
             IMapper mapper, 
             IUserGetter userGetter,
             ICourseGetter courseGetter,
-            IProposalNumberValidator proposalNumberValidator,
             IProposalStatusGetter proposalStatusGetter,
             IStudentGroupValidator studentGroupValidator,
             IStudentGetter studentGetter)
@@ -36,7 +34,6 @@ namespace Capri.Services.Proposals
             _mapper = mapper;
             _userGetter = userGetter;
             _courseGetter = courseGetter;
-            _proposalNumberValidator = proposalNumberValidator;
             _proposalStatusGetter = proposalStatusGetter;
             _studentGroupValidator = studentGroupValidator;
             _studentGetter = studentGetter;
@@ -52,29 +49,16 @@ namespace Capri.Services.Proposals
                 return ServiceResult<ProposalViewModel>.Error(courseResult.GetAggregatedErrors());
             }
 
-            var numOfStudentsExceedsTheMaximumResult = _proposalNumberValidator
-                .NumOfStudentsExceedsTheMaximum(inputData.Students, inputData.MaxNumberOfStudents);
-            if(!numOfStudentsExceedsTheMaximumResult.Successful())
-            {
-                return ServiceResult<ProposalViewModel>.Error(numOfStudentsExceedsTheMaximumResult.GetAggregatedErrors());
-            }
-
-            var numOfStudentsExceedsTheMaximum = numOfStudentsExceedsTheMaximumResult.Body();
-            if(numOfStudentsExceedsTheMaximum)
-            {
-                return ServiceResult<ProposalViewModel>.Error("The number of students exceeds the maximal number");
-            }
-
-            var studentGroupValidatorResult = await _studentGroupValidator.DoStudentsExist(inputData.Students);
+            var studentGroupValidatorResult = await _studentGroupValidator.IsStudentGroupValidFor(inputData);
             if(!studentGroupValidatorResult.Successful())
             {
                 return ServiceResult<ProposalViewModel>.Error(studentGroupValidatorResult.GetAggregatedErrors());
             }
 
-            var doStudentsExist = studentGroupValidatorResult.Body();
-            if(!doStudentsExist)
+            var isStudentGroupValid = studentGroupValidatorResult.Body();
+            if(!isStudentGroupValid)
             {
-                return ServiceResult<ProposalViewModel>.Error("Some of the given students don't exist");
+                return ServiceResult<ProposalViewModel>.Error("The given students are not valid");
             }
 
             var userResult = await _userGetter.GetCurrentUser();
@@ -111,10 +95,6 @@ namespace Capri.Services.Proposals
             }
 
             var students = studentsResult.Body();
-            if(students.Any(s => s.ProposalId != null))
-            {
-                return ServiceResult<ProposalViewModel>.Error("Some of the students already have an assigned proposal");
-            }
 
             proposal = _mapper.Map(inputData, proposal);
             proposal.Students = students;

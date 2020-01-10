@@ -1,7 +1,10 @@
+using System.Linq;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using Capri.Database;
+using Capri.Web.ViewModels.Proposal;
 
 namespace Capri.Services.Students
 {
@@ -19,14 +22,43 @@ namespace Capri.Services.Students
             _studentGetter = studentGetter;
         }
 
-        public async Task<IServiceResult<bool>> DoStudentsExist(IEnumerable<Guid> studentIds)
+        public async Task<IServiceResult<bool>> IsStudentGroupValidFor(
+            ProposalRegistration registration)
         {
+            var studentIds = registration.Students;
+            if(studentIds == null)
+            {
+                return ServiceResult<bool>.Success(true);
+            }
+
+            var numOfStudents = studentIds.Count();
+            if(numOfStudents > registration.MaxNumberOfStudents)
+            {
+                return ServiceResult<bool>.Error("The number of students exceeds the maximal number");
+            }
+            if(numOfStudents != studentIds.Distinct().Count())
+            {
+                return ServiceResult<bool>.Error("Some of the given student IDs are the same");
+            }
+
             foreach(var id in studentIds)
             {
-                var result = await _studentGetter.Get(id);
-                if(!result.Successful())
+                var student = await _context.Students.FirstOrDefaultAsync(s => s.Id == id);
+                if(student == null)
                 {
-                    return ServiceResult<bool>.Success(false);
+                    return ServiceResult<bool>.Error($"The student with id {id} does not exist");
+                }
+                if(student.StudyLevel != registration.Level)
+                {
+                    return ServiceResult<bool>.Error($"The student with id {id} does not match to the given study level");
+                }
+                if(student.StudyMode != registration.Mode)
+                {
+                    return ServiceResult<bool>.Error($"The student with id {id} does not match to the given study mode");
+                }
+                if(student.ProposalId != null && student.ProposalId != Guid.Empty)
+                {
+                    return ServiceResult<bool>.Error($"The student with id {id} is already assigned to a proposal with id {student.ProposalId}");
                 }
             }
             return ServiceResult<bool>.Success(true);
