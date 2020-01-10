@@ -17,5 +17,8 @@ namespace Capri.Database.Entities
         [ForeignKey("ApplicationUser")]
         public Guid UserId { get; set; }
         public virtual User ApplicationUser { get; set; }
+        public Guid ProposalId { get; set; }
+        [ForeignKey("ProposalId")]
+        public virtual Proposal Proposal { get; set; }
     }
 }

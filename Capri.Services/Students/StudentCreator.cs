@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Capri.Database;
 using Capri.Database.Entities;
@@ -18,8 +19,7 @@ namespace Capri.Services.Students
         public StudentCreator(
             ISqlDbContext context,
             IMapper mapper,
-            IUserCreator userCreator
-        )
+            IUserCreator userCreator)
         {
             _context = context;
             _mapper = mapper;
@@ -28,6 +28,17 @@ namespace Capri.Services.Students
 
         public async Task<IServiceResult<StudentViewModel>> Create(StudentRegistration registration)
         {
+            if(registration.ProposalId != null)
+            {
+                var proposal = await _context.Proposals.FirstOrDefaultAsync(p => p.Id == registration.ProposalId);
+                if(proposal == null)
+                {
+                    return ServiceResult<StudentViewModel>.Error(
+                        $"The proposal with id {registration.ProposalId} does not exist"
+                    );
+                }
+            }
+
             var userResult = 
                 await _userCreator
                 .CreateUser(

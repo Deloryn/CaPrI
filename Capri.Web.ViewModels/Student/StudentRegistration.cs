@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using Capri.Database.Entities;
 
@@ -22,5 +23,7 @@ namespace Capri.Web.ViewModels.Student
         [Required]
         [EnumDataType(typeof(StudyMode))]
         public StudyLevel StudyLevel { get; set; }
+
+        public Guid ProposalId { get; set; }
     }
 }

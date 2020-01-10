@@ -30,6 +30,17 @@ namespace Capri.Services.Students
             Guid id, 
             StudentRegistration newData)
         {
+            if(newData.ProposalId != null)
+            {
+                var proposal = await _context.Proposals.FirstOrDefaultAsync(p => p.Id == newData.ProposalId);
+                if(proposal == null)
+                {
+                    return ServiceResult<StudentViewModel>.Error(
+                        $"The proposal with id {newData.ProposalId} does not exist"
+                    );
+                }
+            }
+
             var existingStudent = 
                 await _context
                 .Students

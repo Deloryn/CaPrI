@@ -50,6 +50,11 @@ namespace Capri.Database
                 .WithMany(f => f.Courses)
                 .HasForeignKey(c => c.FacultyId);
 
+            modelBuilder.Entity<Student>()
+                .HasOne(s => s.Proposal)
+                .WithMany(p => p.Students)
+                .HasForeignKey(s => s.ProposalId);
+
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new GuidRoleConfiguration());
             modelBuilder.ApplyConfiguration(new GuidUserRoleConfiguration());

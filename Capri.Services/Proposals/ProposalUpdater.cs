@@ -111,6 +111,10 @@ namespace Capri.Services.Proposals
             }
 
             var students = studentsResult.Body();
+            if(students.Any(s => s.ProposalId != null))
+            {
+                return ServiceResult<ProposalViewModel>.Error("Some of the students already have an assigned proposal");
+            }
 
             proposal = _mapper.Map(inputData, proposal);
             proposal.Students = students;
