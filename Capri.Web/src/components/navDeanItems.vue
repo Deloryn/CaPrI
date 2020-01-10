@@ -5,9 +5,9 @@
 			:key="i"
 			:to="link.to"
 			active-class="primary white--text"
-			style="margin: 0; padding: 0; border-radius: 0; height: 80px;  font-size: 50px;"
+            class="paddingAndMarginZero noBorder listDim"
 		>
-			<v-list-item-action style="margin: 0; padding: 0;" class="px-3">
+			<v-list-item-action class="paddingAndMarginZero px-3">
 				<v-icon>{{ link.icon }}</v-icon>
 			</v-list-item-action>
 
@@ -47,5 +47,16 @@ export default class NavDeanItems extends Vue {
 div .v-list-item__title {
 	font-size: 24px;
 	font-weight: bold;
+}
+.paddingAndMarginZero {
+    padding: 0px;
+    margin: 0px;
+}
+.noBorder {
+    border-radius: 0px;
+}
+.listDim {
+    height: 80px;
+    font-size: 50px;
 }
 </style>

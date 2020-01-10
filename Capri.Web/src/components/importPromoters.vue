@@ -3,11 +3,10 @@
 		fluid
 		grid-list-xl
 		class="mainView"
-		style="margin-bottom: 140px;"
 	>
 		<v-file-input
 			label="File input"
-			style="width: 60%;"
+			class="fileInputWidth"
 			@change="previewFiles"
 		></v-file-input>
 		<div v-if="chosenFileWithPromoterList !== ''">
@@ -16,7 +15,7 @@
 					<v-data-table
 						:headers="headers"
 						:items="items"
-						style="background-color: #FFFFFF;"
+						class="whiteBackground"
 					>
 						<template v-slot:header.name="{ header }">
 							<span>{{ header.text }}</span>
@@ -52,7 +51,7 @@
 					></v-text-field
 					><v-btn class="topMargin10">Set</v-btn>
 				</div>
-				<div class="ml-3" style="clear: left;">
+				<div class="ml-3 .clearLeft">
 					<v-text-field
 						label="Master"
 						class="inputMaxNumber"
@@ -243,8 +242,8 @@ export default class CardsView extends Vue {
 	margin-left: 350px;
 	margin-right: 10px;
 	margin-top: 0px;
-	margin-bottom: 0px;
-	background-color: #ffffff;
+    margin-bottom: 140px;
+    background-color: #ffffff;
 }
 
 .paintData {
@@ -270,5 +269,11 @@ td span {
 .biggerFont {
 	font-size: 24px;
 	font-weight: bold;
+}
+.clearLeft {
+    clear: left;
+}
+.fileInputWidth {
+    width: 60%;
 }
 </style>

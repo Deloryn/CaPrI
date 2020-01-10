@@ -20,13 +20,13 @@
 			:src="require('../assets/putLogoColor.png')"
 			height="140"
 			contain
-			style="margin: 10px;"
+            class="marginTen"
 		/>
 
-		<p class="text-center" style="font-size: 60px; color: #FFFFFF">CaPri</p>
+		<p class="text-center capriText">CaPri</p>
 
 		<slot name="navItems"></slot>
-		<v-list nav style="margin: 0; padding: 0;">
+		<v-list nav class="paddingAndMarginZero">
 			<!-- Bug in Vuetify for first child of v-list not receiving proper border-radius -->
 			<div />
 		</v-list>
@@ -38,4 +38,12 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 @Component
 export default class NavBar extends Vue {}
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.marginTen {
+    margin: 10px;
+}
+.capriText {
+    font-size: 60px;
+    color: #FFFFFF;
+}
+</style>

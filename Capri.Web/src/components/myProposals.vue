@@ -3,7 +3,7 @@
 		<v-row justify="center">
 			<v-dialog v-model="dialog" max-width="1000">
 				<v-form>
-					<v-container style="background-color: #FFFFFF;">
+					<v-container class="whiteBack">
 						<v-row>
 							<v-col cols="12">
 								<v-text-field
@@ -89,53 +89,53 @@
 					:items="items"
 					:search="search"
 					@click:row="showPopup"
-					style="background-color: #FFFFFF;"
+					class="whiteBack"
 				>
 					<template v-slot:header.title="{ header }">
-						<span style="font-size: 30px; color: rgb(18,98,141)">{{
+						<span class="headerText">{{
 							header.text
 						}}</span>
 					</template>
 
 					<template v-slot:header.thesisType="{ header }">
-						<span style="font-size: 30px; color: rgb(18,98,141)">{{
+						<span class="headerText">{{
 							header.text
 						}}</span>
 					</template>
 
 					<template v-slot:header.studyType="{ header }">
-						<span style="font-size: 30px; color: rgb(18,98,141)">{{
+						<span class="headerText">{{
 							header.text
 						}}</span>
 					</template>
 
 					<template v-slot:header.freeSlots="{ header }">
-						<span style="font-size: 30px; color: rgb(18,98,141)">{{
+						<span class="headerText">{{
 							header.text
 						}}</span>
 					</template>
 
 					<template v-slot:item.title="{ item }">
 						<span
-							style="float: left; font-size: 24px; font-weight: bold;"
+							class="itemText"
 							>{{ item.title }}</span
 						>
 					</template>
 					<template v-slot:item.thesisType="{ item }">
 						<span
-							style="float: left; font-size: 24px; font-weight: bold;"
+							class="itemText"
 							>{{ item.thesisType }}</span
 						>
 					</template>
 					<template v-slot:item.studyType="{ item }">
 						<span
-							style="float: left; font-size: 24px; font-weight: bold;"
+							class="itemText"
 							>{{ item.studyType }}</span
 						>
 					</template>
 					<template v-slot:item.freeSlots="{ item }">
 						<span
-							style="float: left; font-size: 24px; font-weight: bold;"
+							class="itemText"
 							>{{ item.maxStudents - item.freeSlots }} /
 							{{ item.maxStudents }}
 						</span>
@@ -143,8 +143,8 @@
 
 					<template v-slot:body.append>
 						<td @click="showEmptyPopup">
-							<span style="font-size: 24px; font-weight: bold;"
-								><v-icon style="margin-bottom: 6px;"
+							<span class="addItem"
+								><v-icon class="marginBottomSix"
 									>mdi-plus-box</v-icon
 								>
 								Add a new thesis</span
@@ -285,7 +285,9 @@ export default class MyProporsals extends Vue {
 	margin-bottom: 0px;
 	background-color: #ffffff;
 }
-
+.marginBottomSix {
+    margin-bottom: 6px;
+}
 .paintData {
 	width: 100%;
 	height: 100%;
@@ -297,12 +299,26 @@ export default class MyProporsals extends Vue {
 	height: 50px;
 	font-size: 24px;
 }
-
 .green {
 	background-color: rgb(40, 167, 69);
 }
-
 .red {
 	background-color: rgb(220, 53, 69);
+}
+.whiteBack {
+    background-color: #FFFFFF;
+}
+.headerText {
+    font-size: 30px;
+    color: rgb(18,98,141);
+}
+.itemText {
+    float: left;
+    font-size: 24px;
+    font-weight: bold;
+}
+.addItem {
+    font-size: 24px;
+    font-weight: bold;
 }
 </style>

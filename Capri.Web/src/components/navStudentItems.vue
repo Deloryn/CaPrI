@@ -7,15 +7,14 @@
 		>
 			<v-list-item-action
 				color="blue"
-				class="paddingAndMarginZero my-4"
-                style="width: 310px;"
+				class="paddingAndMarginZero my-4 listItemWidth"
 			>
 				<v-select
 					:items="filter.values"
 					:label="filter.name"
 					:model="filter.chosen"
 					v-on:change="changeRoute(i)"
-					color="blue"
+					color="rgb(18,98,141)"
 					class="paddingAndMarginZero"
 				>
 				</v-select>
@@ -67,8 +66,7 @@ export default class NavStudentItems extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-.paddingAndMarginZero {
-    padding: 0px;
-    margin: 0px;
+.listItemWidth {
+    width: 310px;
 }
 </style>

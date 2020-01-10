@@ -56,3 +56,9 @@ export default class App extends Vue {
     }
 }
 </script>
+<style>
+.paddingAndMarginZero {
+    padding: 0px;
+    margin: 0px;
+}
+</style>

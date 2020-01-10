@@ -5,8 +5,8 @@
 		</div>
 		<v-spacer></v-spacer>
 		<div class="headerElement">
-			<div style="width: 100px; text-align: center;">
-				<span style="font-size: 18px; color: rgb(18,98,141);">
+			<div class="fontBar">
+				<span class="fontChoose">
 					<strong>Font size</strong>
 				</span>
 				<v-select
@@ -25,7 +25,7 @@
 		</div>
 
 		<div class="headerElement">
-			<router-link to="/" style="text-decoration: none;">
+			<router-link to="/" class="noTextDecoration">
 				<v-avatar color="rgb(18,98,141)" class="icon" size="50">
 					<v-icon color="#EEEEEE">person</v-icon>
 				</v-avatar>
@@ -55,6 +55,14 @@ export default class TopBar extends Vue {
 }
 </script>
 <style lang="scss" scoped>
+.fontChoose {
+    font-size: 18px;
+    color: rgb(18,98,141);
+}
+.fontBar {
+    width: 100px;
+    text-align: center;
+}
 .mainCard {
 	margin-left: 340px;
 	width: calc(100% - 340px);
@@ -80,7 +88,6 @@ export default class TopBar extends Vue {
 	width: 50px;
 	background: linear-gradient(to bottom, #ffffff 50%, #d4213d 50%);
 }
-
 .english {
 	background-image: url('../assets/british-flag.svg');
 	background-size: 100% 100%;
@@ -88,7 +95,6 @@ export default class TopBar extends Vue {
 	height: 25px;
 	width: 50px;
 }
-
 .selectStyle {
 	background-color: #ffffff;
 	padding: 0px;
@@ -96,5 +102,8 @@ export default class TopBar extends Vue {
 	height: 32px;
 	text-decoration-style: none;
 	display: inline-block;
+}
+.noTextDecoration {
+    text-decoration: none;
 }
 </style>

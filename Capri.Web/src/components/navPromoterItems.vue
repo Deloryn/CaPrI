@@ -24,7 +24,7 @@ export default class NavPromoterItems extends Vue {
         return {
             links: [
                 {
-                    to: '/myProporsals',
+                    to: '/myProposals',
                     icon: 'mdi-book-open',
                     text: 'My proporsal',
                 },
