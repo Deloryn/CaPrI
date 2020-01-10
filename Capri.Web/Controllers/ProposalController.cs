@@ -48,7 +48,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = "dean")]
+        [Authorize(Roles = RoleType.Dean)]
         [HttpGet("{id}/csv")]
         public async Task<IActionResult> GetCsvFile(Guid id)
         {
@@ -83,7 +83,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = "dean,promoter")]
+        [Authorize(Roles = RoleType.DeanOrPromoter)]
         [HttpGet("submitted/bachelor/{promoterId}")]
         public async Task<IActionResult> GetSubmittedBachelorProposals(Guid promoterId)
         {
@@ -98,7 +98,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = "dean,promoter")]
+        [Authorize(Roles = RoleType.DeanOrPromoter)]
         [HttpGet("submitted/master/{promoterId}")]
         public async Task<IActionResult> GetSubmittedMasterProposals(Guid promoterId)
         {
@@ -113,7 +113,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = "promoter")]
+        [Authorize(Roles = RoleType.Promoter)]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ProposalRegistration registration)
         {
@@ -135,7 +135,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = "promoter")]
+        [Authorize(Roles = RoleType.Promoter)]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(
             Guid id, 
@@ -164,7 +164,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = "promoter")]
+        [Authorize(Roles = RoleType.Promoter)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {

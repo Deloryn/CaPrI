@@ -12,20 +12,20 @@ namespace Capri.Database.Entities.Configuration
                 new GuidRole
                 {
                     Id = SeedGetter.DeanRoleId,
-                    Name = "dean",
-                    NormalizedName = "dean"
+                    Name = RoleType.Dean,
+                    NormalizedName = RoleType.Dean
                 },
                 new GuidRole
                 {
                     Id = SeedGetter.StudentRoleId,
-                    Name = "student",
-                    NormalizedName = "student"
+                    Name = RoleType.Student,
+                    NormalizedName = RoleType.Student
                 },
                 new GuidRole
                 {
                     Id = SeedGetter.PromoterRoleId,
-                    Name = "promoter",
-                    NormalizedName = "promoter"
+                    Name = RoleType.Promoter,
+                    NormalizedName = RoleType.Promoter
                 });
         }
     }
