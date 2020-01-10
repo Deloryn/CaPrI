@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Capri.Database;
+using Capri.Database.Entities.Identity;
 using Capri.Services.Users;
 using Capri.Services.Institutes;
 using Capri.Web.ViewModels.Promoter;
@@ -58,7 +59,10 @@ namespace Capri.Services.Promoters
 
             var result = await _userUpdater.Update(
                 existingPromoter.UserId, 
-                credentials);
+                credentials,
+                new string[] {
+                    RoleType.Promoter
+                });
 
             if (!result.Successful())
             {

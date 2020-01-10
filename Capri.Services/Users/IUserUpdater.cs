@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Capri.Database.Entities.Identity;
 using Capri.Web.ViewModels.User;
@@ -9,6 +10,7 @@ namespace Capri.Services.Users
     {
         Task<IServiceResult<User>> Update(
             Guid id, 
-            UserCredentials credentials);
+            UserCredentials credentials,
+            IEnumerable<string> roles);
     }
 }

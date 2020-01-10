@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Capri.Database;
 using Capri.Database.Entities;
+using Capri.Database.Entities.Identity;
 using Capri.Services.Users;
 using Capri.Web.ViewModels.Student;
 
@@ -29,7 +30,12 @@ namespace Capri.Services.Students
         {
             var userResult = 
                 await _userCreator
-                .CreateUser(registration.Email, registration.Password);
+                .CreateUser(
+                    registration.Email, 
+                    registration.Password,
+                    new string [] {
+                        RoleType.Student
+                    });
 
             if(!userResult.Successful())
             {

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Capri.Database;
 using Capri.Database.Entities.Identity;
 using Capri.Web.ViewModels.User;
@@ -23,7 +23,8 @@ namespace Capri.Services.Users
 
         public async Task<IServiceResult<User>> Update(
             Guid id,
-            UserCredentials credentials)
+            UserCredentials credentials,
+            IEnumerable<string> roles)
         {
             var existingUser = await _userManager.FindByIdAsync(id.ToString());
             if (existingUser == null)
@@ -33,6 +34,10 @@ namespace Capri.Services.Users
             }
 
             UpdateCredentialsOf(existingUser, credentials);
+            
+            var currentRoles = await _userManager.GetRolesAsync(existingUser);
+            await _userManager.RemoveFromRolesAsync(existingUser, currentRoles);
+            await _userManager.AddToRolesAsync(existingUser, roles);
             
             await _userManager.UpdateAsync(existingUser);
             await _context.SaveChangesAsync();

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Capri.Database;
+using Capri.Database.Entities.Identity;
 using Capri.Services.Users;
 using Capri.Web.ViewModels.User;
 using Capri.Web.ViewModels.Student;
@@ -48,7 +49,10 @@ namespace Capri.Services.Students
 
             var result = await _userUpdater.Update(
                 existingStudent.UserId, 
-                credentials);
+                credentials,
+                new string[] {
+                    RoleType.Student
+                });
 
             if (!result.Successful())
             {

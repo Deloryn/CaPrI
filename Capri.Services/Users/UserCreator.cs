@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +27,8 @@ namespace Capri.Services.Users
 
         public async Task<IServiceResult<User>> CreateUser(
             string email, 
-            string password)
+            string password,
+            IEnumerable<string> roles)
         {
             var emailExists = await EmailExists(email);
             if(emailExists)
@@ -55,6 +57,7 @@ namespace Capri.Services.Users
             user.SecurityStamp = _tokenGenerator.GenerateTokenFor(user);
 
             await _userManager.CreateAsync(user);
+            await _userManager.AddToRolesAsync(user, roles);
             await _context.SaveChangesAsync();
 
             return ServiceResult<User>.Success(user);
