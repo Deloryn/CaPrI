@@ -6,7 +6,6 @@ import Vuex from 'vuex';
 export const ExampleModule = {
     state: {
     },
-    // tslint:disable-next-line: object-literal-sort-keys
     mutations: {    // synchronous change
 
     },

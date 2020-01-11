@@ -141,90 +141,85 @@ export default class MyProporsals extends Vue {
             },
         },
     };
-    public data() {
-        return {
-            studyTypes: ['Full-time', 'Part-time'],
-            thesisTypes: ['Bachelor', 'Master'],
-            search: '',
-            numberOfThesis: 6,
-            headers: [
-                {
-                    sortable: true,
-                    text: 'Title',
-                    value: 'title',
-                    width: '55%',
-                    align: 'center',
-                },
-                {
-                    sortable: true,
-                    text: 'Degree',
-                    value: 'thesisType',
-                    width: '15%',
-                    align: 'center',
-                },
-                {
-                    sortable: true,
-                    text: 'Type',
-                    value: 'studyType',
-                    width: '15%',
-                    algin: 'center',
-                },
-                {
-                    sortable: true,
-                    text: 'State',
-                    value: 'freeSlots',
-                    width: '15%',
-                    algin: 'center',
-                },
-            ],
-            items: [
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    students: ['Jan Nowak', 'Jan Kowalski'],
-                    maxStudents: 4,
-                },
-                {
-                    title: 'CaPri2 System',
-                    promoter: 'Nawrocki Jerzy',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Bachelor',
-                    studyType: 'Part time',
-                    freeSlots: 2,
-                    students: ['Jan 2', 'Jan 23'],
-                    maxStudents: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    students: ['Jan Nowak', 'Jan Kowalski'],
-                    maxStudents: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    students: ['Jan Nowak', 'Jan Kowalski'],
-                    maxStudents: 4,
-                },
-            ],
-        };
-    }
+    public studyTypes = ['Full-time', 'Part-time'];
+    public thesisTypes = ['Bachelor', 'Master'];
+    public search = '';
+    public headers = [
+        {
+            sortable: true,
+            text: 'Title',
+            value: 'title',
+            width: '55%',
+            align: 'center',
+        },
+        {
+            sortable: true,
+            text: 'Degree',
+            value: 'thesisType',
+            width: '15%',
+            align: 'center',
+        },
+        {
+            sortable: true,
+            text: 'Type',
+            value: 'studyType',
+            width: '15%',
+            algin: 'center',
+        },
+        {
+            sortable: true,
+            text: 'State',
+            value: 'freeSlots',
+            width: '15%',
+            algin: 'center',
+        },
+    ];
+    public items = [
+        {
+            title: 'CaPri System',
+            promoter: 'Jerzy Nawrocki',
+            description:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+            thesisType: 'Master',
+            studyType: 'Full time',
+            freeSlots: 3,
+            students: ['Jan Nowak', 'Jan Kowalski'],
+            maxStudents: 4,
+        },
+        {
+            title: 'CaPri2 System',
+            promoter: 'Nawrocki Jerzy',
+            description:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+            thesisType: 'Bachelor',
+            studyType: 'Part time',
+            freeSlots: 2,
+            students: ['Jan 2', 'Jan 23'],
+            maxStudents: 4,
+        },
+        {
+            title: 'CaPri System',
+            promoter: 'Jerzy Nawrocki',
+            description:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+            thesisType: 'Master',
+            studyType: 'Full time',
+            freeSlots: 3,
+            students: ['Jan Nowak', 'Jan Kowalski'],
+            maxStudents: 4,
+        },
+        {
+            title: 'CaPri System',
+            promoter: 'Jerzy Nawrocki',
+            description:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+            thesisType: 'Master',
+            studyType: 'Full time',
+            freeSlots: 3,
+            students: ['Jan Nowak', 'Jan Kowalski'],
+            maxStudents: 4,
+        },
+    ];
     public showPopup(value): void {
         this.popup.data.title.text = value.title;
         this.popup.data.studyType.text = value.studyType;

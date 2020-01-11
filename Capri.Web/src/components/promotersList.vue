@@ -24,67 +24,10 @@
 			</template>
 		</popup>
 
-		<v-dialog v-model="dialog" max-width="600">
-			<v-form>
-				<v-container class="whiteBackground">
-					<v-row>
-						<v-col cols="12">
-							<v-text-field
-								:model="popup.name"
-								label="Promoter name"
-							></v-text-field>
-						</v-col>
-					</v-row>
-					<v-row>
-						<v-col cols="12">
-							<v-select
-								:items="institutes"
-								label="Insitute name"
-								:model="popup.institute"
-								class="addInstitute"
-							>
-							</v-select>
-						</v-col>
-						<v-col cols="12">
-							<v-select
-								:items="degrees"
-								label="Degree"
-								:model="popup.degree"
-								class="addInstitute"
-							>
-							</v-select>
-						</v-col>
-					</v-row>
-
-					<v-row>
-						<v-col cols="12" class="text-center">
-							<v-btn
-								id="saveButton"
-								style="background-color: green;"
-								class="formDiv mx-12"
-								text
-								@click="popup.show = false"
-							>
-								Save
-							</v-btn>
-							<v-btn
-								id="cancelButton"
-								class="formDiv mx-12"
-								text
-								@click="popup.show = false"
-							>
-								Cancel
-							</v-btn>
-						</v-col>
-					</v-row>
-				</v-container>
-			</v-form>
-		</v-dialog>
-
 		<v-btn @click="popup.show = true" id="addPromoterButton"
 			>ADD PROMOTER</v-btn
 		>
-		<v-row justify="center" style="margin-top: 60px;">
+		<v-row justify="center" class="rowMargin">
 			<v-col cols="12">
 				<v-data-table
 					:headers="headers"
@@ -277,5 +220,8 @@ th span {
 td span {
 	font-size: 24px;
 	font-weight: bold;
+}
+.rowMargin {
+	margin-top: 60px;
 }
 </style>
