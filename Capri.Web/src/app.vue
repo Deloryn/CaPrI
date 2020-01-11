@@ -46,12 +46,16 @@ enum UserTypes {
 })
 export default class App extends Vue {
     public token = sessionStorage.token;
-    public parsedToken = this.parseJwt(this.token);
-    public parseJwt(token: string): JSON {
-        if (token === '') {
-            return JSON.parse('');
+    public parsedToken = this.parseJwt();
+    public parseJwt(): JSON {
+        if (this.token === undefined) {
+            sessionStorage.setItem(
+                'token',
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Ijg4NDhlMGFlLTJkOGYtNDM2MS04MjVmLTU1MDU1ZmNjNGEwMiIsInJvbGUiOiJwcm9tb3RlciIsIm5iZiI6MTU3ODY5MjEyNiwiZXhwIjoxNTc5Mjk2OTI2LCJpYXQiOjE1Nzg2OTIxMjYsImlzcyI6ImVtcHR5Q29tcGFueSJ9.2WuO_GDiGUkW_rfr6Rxn4fao3q-D6Mx-RUrNtOahWiQ',
+            );
+            this.token = sessionStorage.token;
         }
-        const base64Url = token.split('.')[1];
+        const base64Url = this.token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         const jsonPayload = decodeURIComponent(
             atob(base64)
