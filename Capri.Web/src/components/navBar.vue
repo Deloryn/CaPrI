@@ -27,8 +27,6 @@
 
 		<slot name="navItems"></slot>
 		<v-list nav class="paddingAndMarginZero">
-			<!-- Bug in Vuetify for first child of v-list not receiving proper border-radius -->
-			<div />
 		</v-list>
 	</v-navigation-drawer>
 </template>

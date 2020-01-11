@@ -51,7 +51,7 @@ export default class NavStudentItems extends Vue {
     ];
     public data() {
         return {
-            isAllSelected: 'nie',
+            isAllSelected: 'tak',
         };
     }
     public changeRoute(which): void {

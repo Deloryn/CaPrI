@@ -51,7 +51,7 @@
 					></v-text-field
 					><v-btn class="topMargin10">Set</v-btn>
 				</div>
-				<div class="ml-3 .clearLeft">
+				<div class="ml-3 clearLeft">
 					<v-text-field
 						label="Master"
 						class="inputMaxNumber"
@@ -104,129 +104,27 @@ export default class CardsView extends Vue {
             items: [
                 {
                     title: 'Dakota Rice',
-                    thesis: 'Master',
-                    taken: 0,
-                    available: 3,
-                    type: 'full-time',
+                    laboratory: 'Z1',
+                    bachelorTopics: 3,
+                    masterTopics: 4,
                 },
                 {
                     title: 'Dakota Rice',
-                    thesis: 'Master',
-                    taken: 0,
-                    available: 3,
-                    type: 'full-time',
+                    laboratory: 'Z1',
+                    bachelorTopics: 3,
+                    masterTopics: 4,
                 },
                 {
                     title: 'Dakota Rice',
-                    thesis: 'Bachelor',
-                    taken: 0,
-                    available: 3,
-                    type: 'full-time',
+                    laboratory: 'Z1',
+                    bachelorTopics: 3,
+                    masterTopics: 4,
                 },
                 {
                     title: 'Dakota Rice',
-                    thesis: 'Bachelor',
-                    taken: 0,
-                    available: 3,
-                    type: 'full-time',
-                },
-                {
-                    title: 'Dakota Rice',
-                    thesis: 'Bachelor',
-                    taken: 1,
-                    available: 3,
-                    type: 'full-time',
-                },
-                {
-                    title: 'Dakota Rice',
-                    thesis: 'Bachelor',
-                    taken: 0,
-                    available: 3,
-                    type: 'full-time',
-                },
-                {
-                    title: 'Dakota Rice',
-                    thesis: 'Bachelor',
-                    taken: 0,
-                    available: 3,
-                    type: 'full-time',
-                },
-                {
-                    title: 'Dakota Rice',
-                    thesis: 'Master',
-                    taken: 0,
-                    available: 3,
-                    type: 'full-time',
-                },
-                {
-                    title: 'Dakota Rice',
-                    thesis: 'Master',
-                    taken: 0,
-                    available: 3,
-                    type: 'full-time',
-                },
-                {
-                    title: 'Dakota Rice',
-                    thesis: 'Master',
-                    taken: 0,
-                    available: 3,
-                    type: 'full-time',
-                },
-                {
-                    title: 'Jan Szczuka',
-                    thesis: 'Master',
-                    taken: 0,
-                    available: 3,
-                    type: 'full-time',
-                },
-                {
-                    title: 'Dakota Rice',
-                    thesis: 'Master',
-                    taken: 0,
-                    available: 3,
-                    type: 'full-time',
-                },
-                {
-                    title: 'Dakota Rice',
-                    thesis: 'Master',
-                    taken: 0,
-                    available: 3,
-                    type: 'full-time',
-                },
-                {
-                    title: 'Minerva Hooper',
-                    thesis: 'Bachelor',
-                    taken: 3,
-                    available: 3,
-                    type: 'full-time',
-                },
-                {
-                    title: 'Sage Rodriguez',
-                    thesis: 'Master',
-                    taken: 0,
-                    available: 3,
-                    type: 'full-time',
-                },
-                {
-                    title: 'Philip Chanley',
-                    thesis: 'Bachelor',
-                    taken: 2,
-                    available: 3,
-                    type: 'part-time',
-                },
-                {
-                    title: 'Doris Greene',
-                    thesis: 'Bachelor',
-                    taken: 0,
-                    available: 3,
-                    type: 'part-time',
-                },
-                {
-                    title: 'Mason Porter',
-                    thesis: 'Bachelor',
-                    taken: 2,
-                    available: 3,
-                    type: 'full-time',
+                    laboratory: 'Z1',
+                    bachelorTopics: 3,
+                    masterTopics: 4,
                 },
             ],
         };

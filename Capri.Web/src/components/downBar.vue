@@ -2,10 +2,9 @@
 	<v-footer
 		fixed
 		height="128"
-		class="footerContainer"
 	>
 		<v-spacer></v-spacer>
-		<div class="footer">&copy; {{ new Date().getFullYear() }}</div>
+		<div class="footer">&copy; 2020</div>
 	</v-footer>
 </template>
 
@@ -23,8 +22,11 @@ export default class DownBar extends Vue {}
 	left: 50%;
 	transform: translateX(-50%);
 }
-.footerContainer {
-    left: 320px;
+.theme--light.v-footer {
+    margin-left: 320px;
     background-color: rgb(149, 149, 149);
+}
+element.style {
+
 }
 </style>

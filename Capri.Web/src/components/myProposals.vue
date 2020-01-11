@@ -1,175 +1,190 @@
 ﻿<template>
 	<v-container fluid grid-list-xl class="mainView">
-		<v-row justify="center">
-			<v-dialog v-model="dialog" max-width="1000">
-				<v-form>
-					<v-container class="whiteBack">
-						<v-row>
-							<v-col cols="12">
-								<v-text-field
-									:value="popup.title"
-									label="Thesis title"
-								></v-text-field>
-							</v-col>
-						</v-row>
-						<v-row>
-							<v-col cols="6">
-								<v-select
-									:items="thesisTypes"
-									label="Thesis type"
-									v-model="popup.thesisType"
-								>
-								</v-select>
-							</v-col>
-							<v-col cols="6">
-								<v-select
-									:items="studyTypes"
-									label="Study type"
-									v-model="popup.studyType"
-								>
-								</v-select>
-							</v-col>
-						</v-row>
-						<v-row>
-							<v-col
-								cols="6"
-								v-for="student in popup.students"
-								v-bind:key="student.name"
-							>
-								<v-text-field
-									:value="student"
-									label="Student"
-								></v-text-field>
-							</v-col>
-							<v-col>
-								<span @click="addStudent()">
-									<v-icon style="margin-bottom: 6px;"
-										>mdi-plus-box</v-icon
-									>Add a new student
-								</span>
-							</v-col>
-						</v-row>
+        <v-row justify="center">
+            <popup :thesisData="popup">
+                <template v-slot:after>
+                    <v-col cols="6" class="text-center">
+                        <v-btn id="saveButton"
+                               class="formDiv mx-12 green"
+                               text
+                               @click="popup.show = false">
+                            Save
+                        </v-btn>
+                        </v-col>
+                        <v-col cols="6" class="text-center">
+                            <v-btn id="cancelButton"
+                                   class="formDiv mx-12 red"
+                                   text
+                                   @click="popup.show = false">
+                                Cancel
+                            </v-btn>
+                        </v-col>
+                </template>
+            </popup>
 
-						<v-row>
-							<v-col cols="12">
-								<v-textarea
-									:value="popup.description"
-									label="Description"
-								></v-textarea>
-							</v-col>
-						</v-row>
 
-						<v-row>
-							<v-col cols="12" class="text-center">
-								<v-btn
-									class="buttonStyle green mx-12"
-									text
-									color="#FFFFFF"
-									@click="dialog = false"
-								>
-									Save
-								</v-btn>
-								<v-btn
-									class="buttonStyle red mx-12"
-									text
-									color="#FFFFFF"
-									@click="dialog = false"
-								>
-									Cancel
-								</v-btn>
-							</v-col>
-						</v-row>
-					</v-container>
-				</v-form>
-			</v-dialog>
+            <v-dialog v-model="dialog" max-width="1000">
+                <v-form>
+                    <v-container class="whiteBack">
+                        <v-row>
+                            <v-col cols="12">
+                                <v-text-field :value="popup.title"
+                                              label="Thesis title"></v-text-field>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col cols="6">
+                                <v-select :items="thesisTypes"
+                                          label="Thesis type"
+                                          v-model="popup.thesisType">
+                                </v-select>
+                            </v-col>
+                            <v-col cols="6">
+                                <v-select :items="studyTypes"
+                                          label="Study type"
+                                          v-model="popup.studyType">
+                                </v-select>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col cols="6"
+                                   v-for="student in popup.students"
+                                   v-bind:key="student.name">
+                                <v-text-field :value="student"
+                                              label="Student"></v-text-field>
+                            </v-col>
+                            <v-col>
+                                <span @click="addStudent()">
+                                    <v-icon style="margin-bottom: 6px;">mdi-plus-box</v-icon>Add a new student
+                                </span>
+                            </v-col>
+                        </v-row>
 
-			<v-col cols="12">
-				<v-data-table
-					:headers="headers"
-					:items="items"
-					:search="search"
-					@click:row="showPopup"
-					class="whiteBack"
-				>
-					<template v-slot:header.title="{ header }">
-						<span class="headerText">{{
+                        <v-row>
+                            <v-col cols="12">
+                                <v-textarea :value="popup.description"
+                                            label="Description"></v-textarea>
+                            </v-col>
+                        </v-row>
+
+                        <v-row>
+                            <v-col cols="12" class="text-center">
+                                <v-btn class="buttonStyle green mx-12"
+                                       text
+                                       color="#FFFFFF"
+                                       @click="dialog = false">
+                                    Save
+                                </v-btn>
+                                <v-btn class="buttonStyle red mx-12"
+                                       text
+                                       color="#FFFFFF"
+                                       @click="dialog = false">
+                                    Cancel
+                                </v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-form>
+            </v-dialog>
+
+            <v-col cols="12">
+                <v-data-table :headers="headers"
+                              :items="items"
+                              :search="search"
+                              @click:row="showPopup"
+                              class="whiteBack">
+                    <template v-slot:header.title="{ header }">
+                        <span class="headerText">
+                            {{
 							header.text
-						}}</span>
-					</template>
+                            }}
+                        </span>
+                    </template>
 
-					<template v-slot:header.thesisType="{ header }">
-						<span class="headerText">{{
+                    <template v-slot:header.thesisType="{ header }">
+                        <span class="headerText">
+                            {{
 							header.text
-						}}</span>
-					</template>
+                            }}
+                        </span>
+                    </template>
 
-					<template v-slot:header.studyType="{ header }">
-						<span class="headerText">{{
+                    <template v-slot:header.studyType="{ header }">
+                        <span class="headerText">
+                            {{
 							header.text
-						}}</span>
-					</template>
+                            }}
+                        </span>
+                    </template>
 
-					<template v-slot:header.freeSlots="{ header }">
-						<span class="headerText">{{
+                    <template v-slot:header.freeSlots="{ header }">
+                        <span class="headerText">
+                            {{
 							header.text
-						}}</span>
-					</template>
+                            }}
+                        </span>
+                    </template>
 
-					<template v-slot:item.title="{ item }">
-						<span
-							class="itemText"
-							>{{ item.title }}</span
-						>
-					</template>
-					<template v-slot:item.thesisType="{ item }">
-						<span
-							class="itemText"
-							>{{ item.thesisType }}</span
-						>
-					</template>
-					<template v-slot:item.studyType="{ item }">
-						<span
-							class="itemText"
-							>{{ item.studyType }}</span
-						>
-					</template>
-					<template v-slot:item.freeSlots="{ item }">
-						<span
-							class="itemText"
-							>{{ item.maxStudents - item.freeSlots }} /
-							{{ item.maxStudents }}
-						</span>
-					</template>
+                    <template v-slot:item.title="{ item }">
+                        <span class="itemText">{{ item.title }}</span>
+                    </template>
+                    <template v-slot:item.thesisType="{ item }">
+                        <span class="itemText">{{ item.thesisType }}</span>
+                    </template>
+                    <template v-slot:item.studyType="{ item }">
+                        <span class="itemText">{{ item.studyType }}</span>
+                    </template>
+                    <template v-slot:item.freeSlots="{ item }">
+                        <span class="itemText">
+                            {{ item.maxStudents - item.freeSlots }} /
+                            {{ item.maxStudents }}
+                        </span>
+                    </template>
 
-					<template v-slot:body.append>
-						<td @click="showEmptyPopup">
-							<span class="addItem"
-								><v-icon class="marginBottomSix"
-									>mdi-plus-box</v-icon
-								>
-								Add a new thesis</span
-							>
-						</td>
-					</template>
-				</v-data-table>
-			</v-col>
-		</v-row>
+                    <template v-slot:body.append>
+                        <td @click="showEmptyPopup">
+                            <span class="addItem">
+                                <v-icon class="marginBottomSix">mdi-plus-box</v-icon>
+                                Add a new thesis
+                            </span>
+                        </td>
+                    </template>
+                </v-data-table>
+            </v-col>
+        </v-row>
 	</v-container>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
+import popup from './popup.vue';
 
-@Component
+@Component({
+    components: {
+        popup,
+    },
+})
+
 export default class MyProporsals extends Vue {
-    dialog = false;
-    popup = {
-        title: '',
-        thesisType: '',
-        studyType: '',
-        students: ['',''],
-        freeSlots: -1,
-        description: '',
+    public popup = {
+        show: false,
+        maxWidth: 1000,
+        data: {
+            title: { text: '', label: 'Thesis title', type: 'editableTextField', columns: 12 },
+            thesisType: { text: '', label: 'Thesis type', items: ['Bachelor', 'Master'], chosen: '', type: 'selectableField', columns: 6 },
+            studyType: { text: '', label: 'Study type', items: ['Full-time', 'Part-time'], chosen: '', type: 'selectableField', columns: 6 },
+            students: { text: '', label: 'Student', type: 'studentField', columns: 12, students: ['',''], max: 4 },
+            description: { text: '', label: 'Description', type: 'editableTextAreaField', columns: 12 },
+        }
     };
+    dialog = false;
+    //popup = {
+    //    title: '',
+    //    thesisType: '',
+    //    studyType: '',
+    //    students: ['',''],
+    //    freeSlots: -1,
+    //    description: '',
+    //};
     public data() {
         return {
             studyTypes: ['Full-time', 'Part-time'],
@@ -237,6 +252,8 @@ export default class MyProporsals extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    students: ['Jan Nowak', 'Jan Kowalski'],
+                    maxStudents: 4,
                 },
                 {
                     title: 'CaPri System',
@@ -246,33 +263,31 @@ export default class MyProporsals extends Vue {
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
+                    students: ['Jan Nowak', 'Jan Kowalski'],
+                    maxStudents: 4,
                 },
             ],
         };
     }
     public showPopup(value): void {
-        this.popup.title = value.title;
-        this.popup.studyType = value.studyType;
-        this.popup.thesisType = value.thesisType;
-        this.popup.freeSlots = value.freeSlots;
-        this.popup.description = value.description;
-        this.popup.students = value.students;
-        this.dialog = true;
+        this.popup.data.title.text = value.title;
+        this.popup.data.studyType.text = value.studyType;
+        this.popup.data.thesisType.text = value.thesisType;
+        this.popup.data.description.text = value.description;
+        this.popup.data.students.students = value.students;
+        this.popup.data.thesisType.chosen = value.thesisType;
+        this.popup.data.students.max = value.maxStudents;
+        this.popup.show = true;
     }
-    public showEmptyPopup(value): void {
-        this.popup.title = '';
-        this.popup.studyType = '';
-        this.popup.thesisType = '';
-        this.popup.freeSlots = 4;
-        this.popup.description = '';
-        this.popup.students = ['', ''];
-        this.dialog = true;
-    }
-    public addStudent(): void {
-        if (!this.popup.students) {
-            this.popup.students = [];
-        }
-        this.popup.students.push('');
+    public showEmptyPopup(): void {
+        this.popup.data.title.text = '';
+        this.popup.data.studyType.text = '';
+        this.popup.data.thesisType.text = '';
+        this.popup.data.description.text = '';
+        this.popup.data.students.students = ['',''];
+        this.popup.data.thesisType.chosen = '';
+        this.popup.data.students.max = 4;
+        this.popup.show = true;
     }
 }
 </script>
@@ -299,12 +314,6 @@ export default class MyProporsals extends Vue {
 	height: 50px;
 	font-size: 24px;
 }
-.green {
-	background-color: rgb(40, 167, 69);
-}
-.red {
-	background-color: rgb(220, 53, 69);
-}
 .whiteBack {
     background-color: #FFFFFF;
 }
@@ -320,5 +329,11 @@ export default class MyProporsals extends Vue {
 .addItem {
     font-size: 24px;
     font-weight: bold;
+}
+.formDiv {
+	color: rgb(255, 255, 255);
+	width: 150px;
+	height: 50px;
+    font-size: 24px;
 }
 </style>

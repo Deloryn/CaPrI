@@ -1,78 +1,13 @@
 ﻿<template>
 	<v-container fluid grid-list-xl class="mainView">
 		<v-row justify="center">
-			<v-dialog v-model="dialog" max-width="1000">
-				<v-form>
-					<v-container class="table">
-						<v-row>
-							<v-col cols="12">
-								<v-text-field
-									:value="popup.title"
-									label="Thesis title"
-									readonly
-								></v-text-field>
-							</v-col>
-						</v-row>
-						<v-row>
-							<v-col cols="12">
-								<v-text-field
-									:value="popup.promoter"
-									label="Promoter"
-									readonly
-								></v-text-field>
-							</v-col>
-						</v-row>
-
-						<v-row>
-							<v-col cols="4">
-								<v-text-field
-									:value="popup.thesisType"
-									label="Thesis type"
-									readonly
-								></v-text-field>
-							</v-col>
-							<v-col cols="4">
-								<v-text-field
-									:value="popup.studyType"
-									label="Study type"
-									readonly
-								></v-text-field>
-							</v-col>
-							<v-col cols="4">
-								<v-text-field
-									:value="
-										popup.freeSlots + '/' + popup.maxSlots
-									"
-									label="State"
-									readonly
-								></v-text-field>
-							</v-col>
-						</v-row>
-
-						<v-row>
-							<v-col cols="12">
-								<v-textarea
-									:value="popup.description"
-									label="Description"
-									readonly
-								></v-textarea>
-							</v-col>
-						</v-row>
-
-						<v-row>
-							<v-col cols="12" class="text-center">
-								<v-btn
-									text
-									@click="dialog = false"
-									class="closeButton"
-								>
-									Close
-								</v-btn>
-							</v-col>
-						</v-row>
-					</v-container>
-				</v-form>
-			</v-dialog>
+            <popup :thesisData="popup">
+                <template v-slot:after>
+                    <v-col cols="12" class="text-center">
+                        <v-btn color="#12628d" class="thesisDetailCloseButton" @click="popup.show=false">Close</v-btn>
+                    </v-col>
+                </template>
+            </popup>
 
 			<v-col cols="12">
 				<v-data-table
@@ -132,19 +67,26 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
+import popup from './popup.vue';
 
-@Component
+@Component({
+    components: {
+        popup,
+    },
+})
 export default class CardsView extends Vue {
-    public popup =  {
-        title: '',
-        promoter: '',
-        thesisType: '',
-        studyType: '',
-        freeSlots: -1,
-        maxSlots: -1,
-        description: '',
+    public popup = {
+        show: false,
+        maxWidth: 1000,
+        data: {
+            title: { text: '', label: 'Title', type: 'textField', columns: 12 },
+            promoter: { text: '', label: 'Promoter', type: 'textField', columns: 12 },
+            thesisType: { text: '', label: 'Thesis type', type: 'textField', columns: 4 },
+            studyType: { text: '', label: 'Study type', type: 'textField', columns: 4 },
+            slots: { text: '', label: 'State', type: 'textField', columns: 4 },
+            description: { text: '', label: 'Description', type: 'textAreaField', columns: 12 },
+        }
     };
-    public dialog = false;
     public data() {
         return {
             selected: [],
@@ -388,14 +330,13 @@ export default class CardsView extends Vue {
         };
     }
     public showDialog(value): void {
-        this.popup.title = value.title;
-        this.popup.promoter = value.promoter;
-        this.popup.studyType = value.studyType;
-        this.popup.thesisType = value.thesisType;
-        this.popup.freeSlots = value.freeSlots;
-        this.popup.maxSlots = value.maxSlots;
-        this.popup.description = value.description;
-        this.dialog = true;
+        this.popup.data.title.text = value.title;
+        this.popup.data.promoter.text = value.promoter;
+        this.popup.data.studyType.text = value.studyType;
+        this.popup.data.thesisType.text = value.thesisType;
+        this.popup.data.slots.text = value.freeSlots + '/' + value.maxSlots;
+        this.popup.data.description.text = value.description;
+        this.popup.show = true;
     }
 }
 </script>
@@ -408,30 +349,22 @@ export default class CardsView extends Vue {
 	margin-bottom: 140px;
 	background-color: #ffffff;
 }
-.table {
-	background-color: #ffffff;
-}
-.closeButton {
-	width: 25%;
-	height: 64px;
-	font-size: 24px;
-	color: #ffffff;
-	background-color: #12628d;
-}
-
 .headerText {
 	color: #12628d;
 	font-size: 30px;
 }
-
 .itemText {
 	float: left;
 	font-size: 24px;
 	font-weight: bold;
 }
-
 .itemTextSlot {
 	font-size: 24px;
 	font-weight: bold;
+}
+.thesisDetailCloseButton{
+    width: 33%;
+    color: #FFFFFF;
+    font-size: 24px;
 }
 </style>
