@@ -79,7 +79,7 @@ namespace Capri.Web.Controllers
             Guid id,
             [FromBody] StudentRegistration registration)
         {
-            if(id == null || id == Guid.Empty)
+            if(id == Guid.Empty)
             {
                 return NotFound();
             }

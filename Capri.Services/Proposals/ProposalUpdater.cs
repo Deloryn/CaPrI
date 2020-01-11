@@ -43,6 +43,14 @@ namespace Capri.Services.Proposals
             Guid id, 
             ProposalRegistration inputData)
         {
+            var proposal = _context.Proposals.Include(p => p.Students).FirstOrDefault(p => p.Id == id);
+            if(proposal == null)
+            {
+                return ServiceResult<ProposalViewModel>.Error(
+                    $"Proposal with id {id} does not exist"
+                );
+            }
+
             var courseResult = await _courseGetter.Get(inputData.CourseId);
             if(!courseResult.Successful())
             {
@@ -72,7 +80,6 @@ namespace Capri.Services.Proposals
             var promoter = 
                 await _context
                 .Promoters
-                .Include(p => p.Proposals)
                 .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
 
             if(promoter == null)
@@ -80,12 +87,11 @@ namespace Capri.Services.Proposals
                 return ServiceResult<ProposalViewModel>.Error("The current user has no associated promoter");
             }
             
-            var proposal = promoter.Proposals.FirstOrDefault(p => p.Id == id);
-
-            if (proposal == null)
+            if (proposal.PromoterId != promoter.Id)
             {
                 return ServiceResult<ProposalViewModel>.Error(
-                    $"This promoter has no proposal with id {id}");
+                    $"Promoter with id {promoter.Id} has no proposal with id {id}"
+                    );
             }
 
             var studentsResult = await _studentGetter.GetMany(inputData.Students);
@@ -93,21 +99,25 @@ namespace Capri.Services.Proposals
             {
                 return ServiceResult<ProposalViewModel>.Error(studentsResult.GetAggregatedErrors());
             }
+            var newStudents = studentsResult.Body();
 
-            var students = studentsResult.Body();
-
-            proposal = _mapper.Map(inputData, proposal);
-            proposal.Students = students;
-
-            var proposalStatusResult = _proposalStatusGetter.CalculateProposalStatus(proposal);
+            var proposalStatusResult = _proposalStatusGetter.CalculateProposalStatus(newStudents, inputData.MaxNumberOfStudents);
             if(!proposalStatusResult.Successful())
             {
                 return ServiceResult<ProposalViewModel>.Error(proposalStatusResult.GetAggregatedErrors());
             }
-
             var proposalStatus = proposalStatusResult.Body();
-            proposal.Status = proposalStatus;
 
+            var oldStudents = proposal.Students;
+            foreach(var student in oldStudents)
+            {
+                student.ProposalId = null;
+            }
+            await _context.SaveChangesAsync();
+            
+            proposal = _mapper.Map(inputData, proposal);
+            proposal.Students = newStudents;
+            proposal.Status = proposalStatus;
             _context.Proposals.Update(proposal);
             await _context.SaveChangesAsync();
 

@@ -31,6 +31,7 @@ namespace Capri.Web
         {
             services.AddMvc();
             services.AddDatabaseConfiguration(Configuration["DbConnectionString"]);
+            services.AddIdentityConfiguration();
             services.AddSystemSettingsConfiguration(Configuration.GetSection("SystemSettings"));
             services.AddJwtConfiguration(Configuration.GetSection("JwtAuthorizationDetails"));
             services.AddSieveConfiguration(Configuration.GetSection("SieveSettings"));

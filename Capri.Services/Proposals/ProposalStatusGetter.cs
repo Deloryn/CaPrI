@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Capri.Database.Entities;
 
@@ -5,17 +6,17 @@ namespace Capri.Services.Proposals
 {
     public class ProposalStatusGetter : IProposalStatusGetter
     {
-        public IServiceResult<ProposalStatus> CalculateProposalStatus(Proposal proposal)
+        public IServiceResult<ProposalStatus> CalculateProposalStatus(ICollection<Student> students, int maxNumberOfStudents)
         {
-            if(proposal.Students == null)
+            if(students == null)
             {
                 return ServiceResult<ProposalStatus>.Success(ProposalStatus.Free);
             }
-            else if(proposal.Students.Count() < proposal.MaxNumberOfStudents)
+            else if(students.Count() < maxNumberOfStudents)
             {
                 return ServiceResult<ProposalStatus>.Success(ProposalStatus.PartiallyTaken);
             }
-            else if(proposal.Students.Count() == proposal.MaxNumberOfStudents)
+            else if(students.Count() == maxNumberOfStudents)
             {
                 return ServiceResult<ProposalStatus>.Success(ProposalStatus.Taken);
             }

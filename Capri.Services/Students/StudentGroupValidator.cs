@@ -56,10 +56,6 @@ namespace Capri.Services.Students
                 {
                     return ServiceResult<bool>.Error($"The student with id {id} does not match to the given study mode");
                 }
-                if(student.ProposalId != null && student.ProposalId != Guid.Empty)
-                {
-                    return ServiceResult<bool>.Error($"The student with id {id} is already assigned to a proposal with id {student.ProposalId}");
-                }
             }
             return ServiceResult<bool>.Success(true);
         }

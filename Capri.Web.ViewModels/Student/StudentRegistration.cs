@@ -26,8 +26,8 @@ namespace Capri.Web.ViewModels.Student
 
         [Required]
         [EnumDataType(typeof(StudyMode))]
-        public StudyMode StudyMode;
+        public StudyMode StudyMode { get; set; }
 
-        public Guid ProposalId { get; set; }
+        public Guid? ProposalId { get; set; }
     }
 }

@@ -32,6 +32,13 @@ namespace Capri.Services.Faculties
                     $"Faculty with id {id} does not exist");
             }
 
+            if(IsNameTakenByOtherFaculty(faculty.Id, newData.Name))
+            {
+                return ServiceResult<FacultyViewModel>.Error(
+                    $"Faculty name {newData.Name} already exists"
+                );
+            }
+
             faculty = _mapper.Map(newData, faculty);
 
             _context.Faculties.Update(faculty);
@@ -39,6 +46,13 @@ namespace Capri.Services.Faculties
 
             var facultyViewModel = _mapper.Map<FacultyViewModel>(faculty);
             return ServiceResult<FacultyViewModel>.Success(facultyViewModel);
+        }
+
+        private bool IsNameTakenByOtherFaculty(Guid myFacultyId, string name)
+        {
+            return _context
+                .Faculties
+                .Any(i => i.Name == name && i.Id != myFacultyId);
         }
     }
 }

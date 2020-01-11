@@ -14,15 +14,19 @@ namespace Capri.Services.Users
         private readonly ISqlDbContext _context;
         private readonly ITokenGenerator _tokenGenerator;
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<GuidRole> _roleManager;
 
         public UserCreator(
             ISqlDbContext context,
             ITokenGenerator tokenGenerator,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            RoleManager<GuidRole> roleManager
+            )
         {
             _context = context;
             _tokenGenerator = tokenGenerator;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public async Task<IServiceResult<User>> CreateUser(
@@ -35,6 +39,16 @@ namespace Capri.Services.Users
             {
                 return ServiceResult<User>.Error(
                     $"Email {email} is already taken");
+            }
+
+            foreach(var role in roles)
+            {
+                var roleExists = await _roleManager.RoleExistsAsync(role);
+                if(!roleExists)
+                {
+                    return ServiceResult<User>.Error(
+                        $"Role {role} does not exist");
+                }
             }
 
             var user = new User
@@ -65,7 +79,12 @@ namespace Capri.Services.Users
 
         private async Task<bool> EmailExists(string email)
         {
-            return await _context.Users.AnyAsync(u => u.Email == email);
+            var user = await _userManager.FindByEmailAsync(email);
+            if(user != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

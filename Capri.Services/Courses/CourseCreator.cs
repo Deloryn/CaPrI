@@ -1,8 +1,9 @@
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Capri.Database;
 using Capri.Database.Entities;
-using Capri.Services.Faculties;
 using Capri.Web.ViewModels.Course;
 
 namespace Capri.Services.Courses
@@ -11,25 +12,35 @@ namespace Capri.Services.Courses
     {
         private readonly ISqlDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IFacultyGetter _facultyGetter;
 
         public CourseCreator(
             ISqlDbContext context,
-            IMapper mapper,
-            IFacultyGetter facultyGetter
+            IMapper mapper
         )
         {
             _context = context;
             _mapper = mapper;
-            _facultyGetter = facultyGetter;
         }
 
         public async Task<IServiceResult<CourseViewModel>> Create(CourseRegistration registration)
         {
-            var facultyResult = await _facultyGetter.Get(registration.FacultyId);
-            if(!facultyResult.Successful())
+            var faculty = await _context
+                .Faculties
+                .Include(f => f.Courses)
+                .FirstOrDefaultAsync(f => f.Id == registration.FacultyId);
+
+            if(faculty == null)
             {
-                return ServiceResult<CourseViewModel>.Error(facultyResult.GetAggregatedErrors());
+                return ServiceResult<CourseViewModel>.Error(
+                    $"Faculty with id {registration.FacultyId} does not exist"
+                );
+            }
+
+            if(IsCourseNameOnFacultyTaken(registration.Name, faculty))
+            {
+                return ServiceResult<CourseViewModel>.Error(
+                    $"Faculty with id {faculty.Id} already has a course with name {registration.Name}"
+                );
             }
 
             var course = _mapper.Map<Course>(registration);
@@ -39,6 +50,11 @@ namespace Capri.Services.Courses
 
             var courseViewModel = _mapper.Map<CourseViewModel>(course);
             return ServiceResult<CourseViewModel>.Success(courseViewModel);
+        }
+
+        private bool IsCourseNameOnFacultyTaken(string name, Faculty faculty)
+        {
+            return faculty.Courses.Any(c => c.Name == name);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Capri.Database;
-using Capri.Database.Entities.Identity;
 
 namespace Capri.Web.Configuration
 {
@@ -11,10 +10,8 @@ namespace Capri.Web.Configuration
         {
             services.AddDbContext<CapriDbContext>(
                 options => options.UseSqlServer(connectionString));
-            services.AddScoped<ISqlDbContext, CapriDbContext>();
 
-            services.AddIdentity<User, GuidRole>(options => { })
-                    .AddEntityFrameworkStores<CapriDbContext>();
+            services.AddScoped<ISqlDbContext, CapriDbContext>();
         }
     }
 }

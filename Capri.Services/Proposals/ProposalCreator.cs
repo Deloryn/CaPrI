@@ -96,23 +96,19 @@ namespace Capri.Services.Proposals
             {
                 return ServiceResult<ProposalViewModel>.Error(studentsResult.GetAggregatedErrors());
             }
-
             var students = studentsResult.Body();
 
-            var proposal = _mapper.Map<Proposal>(inputData);
-            proposal.Students = students;
-
-            var proposalStatusResult = _proposalStatusGetter.CalculateProposalStatus(proposal);
+            var proposalStatusResult = _proposalStatusGetter.CalculateProposalStatus(students, inputData.MaxNumberOfStudents);
             if(!proposalStatusResult.Successful())
             {
                 return ServiceResult<ProposalViewModel>.Error(proposalStatusResult.GetAggregatedErrors());
             }
-
             var proposalStatus = proposalStatusResult.Body();
-            proposal.Status = proposalStatus;
-            
-            SetStartDate(proposal);
 
+            var proposal = _mapper.Map<Proposal>(inputData);
+            proposal.Students = students;
+            proposal.Status = proposalStatus;
+            SetStartDate(proposal);
             proposal.Promoter = promoter;
             promoter.Proposals.Add(proposal);
             _context.Promoters.Update(promoter);
@@ -121,7 +117,6 @@ namespace Capri.Services.Proposals
             await _context.SaveChangesAsync();
 
             var proposalViewModel = _mapper.Map<ProposalViewModel>(proposal);
-
             return ServiceResult<ProposalViewModel>.Success(proposalViewModel);
         }
 

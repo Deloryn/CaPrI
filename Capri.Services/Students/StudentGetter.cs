@@ -1,3 +1,4 @@
+using System.Collections;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
@@ -49,6 +50,11 @@ namespace Capri.Services.Students
 
         public async Task<IServiceResult<ICollection<Student>>> GetMany(IEnumerable<Guid> studentIds)
         {
+            if(studentIds == null)
+            {
+                return ServiceResult<ICollection<Student>>.Success(null);
+            }
+            
             var students = new List<Student>();
             foreach(var id in studentIds)
             {

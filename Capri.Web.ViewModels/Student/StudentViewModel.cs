@@ -10,6 +10,6 @@ namespace Capri.Web.ViewModels.Student
         public ushort Semester { get; set; }
         public StudyLevel StudyLevel { get; set; }
         public StudyMode StudyMode;
-        public Guid ProposalId { get; set; }
+        public Guid? ProposalId { get; set; }
     }
 }

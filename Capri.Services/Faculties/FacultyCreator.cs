@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Capri.Database;
@@ -22,6 +23,13 @@ namespace Capri.Services.Faculties
 
         public async Task<IServiceResult<FacultyViewModel>> Create(FacultyRegistration registration)
         {
+            if(DoesFacultyNameExist(registration.Name))
+            {
+                return ServiceResult<FacultyViewModel>.Error(
+                    $"Faculty name {registration.Name} already exists"
+                );
+            }
+
             var faculty = _mapper.Map<Faculty>(registration);
 
             await _context.Faculties.AddAsync(faculty);
@@ -29,6 +37,13 @@ namespace Capri.Services.Faculties
 
             var facultyViewModel = _mapper.Map<FacultyViewModel>(faculty);
             return ServiceResult<FacultyViewModel>.Success(facultyViewModel);
+        }
+
+        private bool DoesFacultyNameExist(string name)
+        {
+            return _context
+                .Faculties
+                .Any(i => i.Name == name);
         }
     }
 }
