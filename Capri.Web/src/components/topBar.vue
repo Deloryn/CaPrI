@@ -46,7 +46,6 @@ import popup from './popup.vue';
 export default class TopBar extends Vue {
     public data() {
         return {
-            ninjas: 'slo',
             showPopup: false,
             listType: 'Thesis list',
             fontSize: { font: 12 },
