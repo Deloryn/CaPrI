@@ -96,6 +96,7 @@ namespace Capri.Web.Configuration.Service
         private static void AddFileServicesConfiguration(this IServiceCollection services)
         {
             services.AddScoped<ICsvCreator, CsvCreator>();
+            services.AddScoped<IDiplomaCardCreator, DiplomaCardCreator>();
         }
     }
 }

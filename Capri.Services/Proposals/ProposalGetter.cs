@@ -11,6 +11,7 @@ using Capri.Database;
 using Capri.Services.Files;
 using Capri.Web.ViewModels.Proposal;
 using Capri.Web.ViewModels.Common;
+using System.IO;
 
 namespace Capri.Services.Proposals
 {
@@ -20,17 +21,20 @@ namespace Capri.Services.Proposals
         private readonly IMapper _mapper;
         private readonly ISieveProcessor _sieveProcessor;
         private readonly ICsvCreator _csvCreator;
+        private readonly IDiplomaCardCreator _diplomaCardCreator;
 
         public ProposalGetter(
             ISqlDbContext context,
             IMapper mapper,
             ISieveProcessor sieveProcessor,
-            ICsvCreator csvCreator)
+            ICsvCreator csvCreator,
+            IDiplomaCardCreator diplomaCardCreator)
         {
             _context = context;
             _mapper = mapper;
             _sieveProcessor = sieveProcessor;
             _csvCreator = csvCreator;
+            _diplomaCardCreator = diplomaCardCreator;
         }
 
         public async Task<IServiceResult<ProposalViewModel>> Get(Guid id)
@@ -79,6 +83,25 @@ namespace Capri.Services.Proposals
             var fileDescription = new FileDescription {
                 Name = fileName,
                 Bytes = bytes
+            };
+
+            return ServiceResult<FileDescription>.Success(fileDescription);
+        }
+
+        public async Task<IServiceResult<FileDescription>> GetDiplomaCard()
+        {
+            var proposal = await _context.Proposals
+                .Include(p => p.Students)
+                .Include(p => p.Course.Faculty)
+                .Include(p => p.Promoter.Institute)
+                .FirstOrDefaultAsync();
+
+            var result = _diplomaCardCreator.CreateDiplomaCard();
+            var fileName = $"document.docx";
+
+            var fileDescription = new FileDescription {
+                Name = fileName,
+                Bytes = result.Body().ToArray()
             };
 
             return ServiceResult<FileDescription>.Success(fileDescription);
