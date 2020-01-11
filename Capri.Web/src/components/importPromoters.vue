@@ -1,9 +1,5 @@
 ﻿<template>
-	<v-container
-		fluid
-		grid-list-xl
-		class="mainView"
-	>
+	<v-container fluid grid-list-xl class="mainView">
 		<v-file-input
 			label="File input"
 			class="fileInputWidth"
@@ -140,8 +136,8 @@ export default class CardsView extends Vue {
 	margin-left: 350px;
 	margin-right: 10px;
 	margin-top: 0px;
-    margin-bottom: 140px;
-    background-color: #ffffff;
+	margin-bottom: 140px;
+	background-color: #ffffff;
 }
 
 .paintData {
@@ -169,9 +165,9 @@ td span {
 	font-weight: bold;
 }
 .clearLeft {
-    clear: left;
+	clear: left;
 }
 .fileInputWidth {
-    width: 60%;
+	width: 60%;
 }
 </style>

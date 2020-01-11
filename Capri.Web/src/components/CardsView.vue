@@ -1,13 +1,18 @@
 ﻿<template>
 	<v-container fluid grid-list-xl class="mainView">
 		<v-row justify="center">
-            <popup :thesisData="popup">
-                <template v-slot:after>
-                    <v-col cols="12" class="text-center">
-                        <v-btn color="#12628d" class="thesisDetailCloseButton" @click="popup.show=false">Close</v-btn>
-                    </v-col>
-                </template>
-            </popup>
+			<popup :thesisData="popup">
+				<template v-slot:after>
+					<v-col cols="12" class="text-center">
+						<v-btn
+							color="#12628d"
+							class="thesisDetailCloseButton"
+							@click="popup.show = false"
+							>Close</v-btn
+						>
+					</v-col>
+				</template>
+			</popup>
 
 			<v-col cols="12">
 				<v-data-table
@@ -80,12 +85,32 @@ export default class CardsView extends Vue {
         maxWidth: 1000,
         data: {
             title: { text: '', label: 'Title', type: 'textField', columns: 12 },
-            promoter: { text: '', label: 'Promoter', type: 'textField', columns: 12 },
-            thesisType: { text: '', label: 'Thesis type', type: 'textField', columns: 4 },
-            studyType: { text: '', label: 'Study type', type: 'textField', columns: 4 },
+            promoter: {
+                text: '',
+                label: 'Promoter',
+                type: 'textField',
+                columns: 12,
+            },
+            thesisType: {
+                text: '',
+                label: 'Thesis type',
+                type: 'textField',
+                columns: 4,
+            },
+            studyType: {
+                text: '',
+                label: 'Study type',
+                type: 'textField',
+                columns: 4,
+            },
             slots: { text: '', label: 'State', type: 'textField', columns: 4 },
-            description: { text: '', label: 'Description', type: 'textAreaField', columns: 12 },
-        }
+            description: {
+                text: '',
+                label: 'Description',
+                type: 'textAreaField',
+                columns: 12,
+            },
+        },
     };
     public data() {
         return {
@@ -362,9 +387,9 @@ export default class CardsView extends Vue {
 	font-size: 24px;
 	font-weight: bold;
 }
-.thesisDetailCloseButton{
-    width: 33%;
-    color: #FFFFFF;
-    font-size: 24px;
+.thesisDetailCloseButton {
+	width: 33%;
+	color: #ffffff;
+	font-size: 24px;
 }
 </style>

@@ -43,13 +43,12 @@ import popup from './popup.vue';
         popup,
     },
 })
-
 export default class TopBar extends Vue {
     public data() {
         return {
-            ninjas: "slo",
+            ninjas: 'slo',
             showPopup: false,
-            listType: 'Bachelor thesis',
+            listType: 'Thesis list',
             fontSize: { font: 12 },
             items: [
                 { font: 8 },
@@ -64,12 +63,12 @@ export default class TopBar extends Vue {
 </script>
 <style lang="scss" scoped>
 .fontChoose {
-    font-size: 18px;
-    color: rgb(18,98,141);
+	font-size: 18px;
+	color: rgb(18, 98, 141);
 }
 .fontBar {
-    width: 100px;
-    text-align: center;
+	width: 100px;
+	text-align: center;
 }
 .mainCard {
 	margin-left: 340px;
@@ -112,6 +111,6 @@ export default class TopBar extends Vue {
 	display: inline-block;
 }
 .noTextDecoration {
-    text-decoration: none;
+	text-decoration: none;
 }
 </style>

@@ -4,12 +4,15 @@
 			<navBar>
 				<div slot="navItems">
 					<navStudentItems
-						v-if="userType === 'student'"
+						v-if="parsedToken.role === 'student'"
 					></navStudentItems>
-					<navPromoterItems
-						v-if="userType === 'promoter'"
-					></navPromoterItems>
-					<navDeanItems v-if="userType === 'dean'"></navDeanItems>
+					<navList
+						:userType="parsedToken.role"
+						v-if="
+							parsedToken.role === 'promoter' ||
+								userType === 'dean'
+						"
+					></navList>
 				</div>
 			</navBar>
 			<topBar> </topBar>
@@ -24,8 +27,8 @@ import navBar from './components/navBar.vue';
 import topBar from './components/topBar.vue';
 import downBar from './components/downBar.vue';
 import navStudentItems from './components/navStudentItems.vue';
-import navPromoterItems from './components/navPromoterItems.vue';
-import navDeanItems from './components/navDeanItems.vue';
+import navList from './components/navList.vue';
+
 enum UserTypes {
     student = 'student',
     promoter = 'promoter',
@@ -38,16 +41,34 @@ enum UserTypes {
         topBar,
         downBar,
         navStudentItems,
-        navPromoterItems,
-        navDeanItems,
+        navList,
     },
 })
 export default class App extends Vue {
-    public userType = UserTypes.promoter;
+    public token = sessionStorage.token;
+    public parsedToken = this.parseJwt(this.token);
+    public parseJwt(token: string): JSON {
+        if (token === '') {
+            return JSON.parse('');
+        }
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(
+            atob(base64)
+                .split('')
+                .map(c => {
+                    return (
+                        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+                    );
+                })
+                .join(''),
+        );
+        return JSON.parse(jsonPayload);
+    }
 }
 </script>
 <style scoped>
-.appColor{
-    background-color: #EEEEEE;
+.appColor {
+	background-color: #eeeeee;
 }
 </style>

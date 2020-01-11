@@ -1,157 +1,92 @@
 ﻿<template>
 	<v-container fluid grid-list-xl class="mainView">
-        <v-row justify="center">
-            <popup :thesisData="popup">
-                <template v-slot:after>
-                    <v-col cols="6" class="text-center">
-                        <v-btn id="saveButton"
-                               class="formDiv mx-12 green"
-                               text
-                               @click="popup.show = false">
-                            Save
-                        </v-btn>
-                        </v-col>
-                        <v-col cols="6" class="text-center">
-                            <v-btn id="cancelButton"
-                                   class="formDiv mx-12 red"
-                                   text
-                                   @click="popup.show = false">
-                                Cancel
-                            </v-btn>
-                        </v-col>
-                </template>
-            </popup>
+		<v-row justify="center">
+			<popup :thesisData="popup">
+				<template v-slot:after>
+					<v-col cols="6" class="text-center">
+						<v-btn
+							id="saveButton"
+							class="formDiv mx-12 green"
+							text
+							@click="popup.show = false"
+						>
+							Save
+						</v-btn>
+					</v-col>
+					<v-col cols="6" class="text-center">
+						<v-btn
+							id="cancelButton"
+							class="formDiv mx-12 red"
+							text
+							@click="popup.show = false"
+						>
+							Cancel
+						</v-btn>
+					</v-col>
+				</template>
+			</popup>
 
+			<v-col cols="12">
+				<v-data-table
+					:headers="headers"
+					:items="items"
+					:search="search"
+					@click:row="showPopup"
+					class="whiteBack"
+				>
+					<template v-slot:header.title="{ header }">
+						<span class="headerText">
+							{{ header.text }}
+						</span>
+					</template>
 
-            <v-dialog v-model="dialog" max-width="1000">
-                <v-form>
-                    <v-container class="whiteBack">
-                        <v-row>
-                            <v-col cols="12">
-                                <v-text-field :value="popup.title"
-                                              label="Thesis title"></v-text-field>
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            <v-col cols="6">
-                                <v-select :items="thesisTypes"
-                                          label="Thesis type"
-                                          v-model="popup.thesisType">
-                                </v-select>
-                            </v-col>
-                            <v-col cols="6">
-                                <v-select :items="studyTypes"
-                                          label="Study type"
-                                          v-model="popup.studyType">
-                                </v-select>
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            <v-col cols="6"
-                                   v-for="student in popup.students"
-                                   v-bind:key="student.name">
-                                <v-text-field :value="student"
-                                              label="Student"></v-text-field>
-                            </v-col>
-                            <v-col>
-                                <span @click="addStudent()">
-                                    <v-icon style="margin-bottom: 6px;">mdi-plus-box</v-icon>Add a new student
-                                </span>
-                            </v-col>
-                        </v-row>
+					<template v-slot:header.thesisType="{ header }">
+						<span class="headerText">
+							{{ header.text }}
+						</span>
+					</template>
 
-                        <v-row>
-                            <v-col cols="12">
-                                <v-textarea :value="popup.description"
-                                            label="Description"></v-textarea>
-                            </v-col>
-                        </v-row>
+					<template v-slot:header.studyType="{ header }">
+						<span class="headerText">
+							{{ header.text }}
+						</span>
+					</template>
 
-                        <v-row>
-                            <v-col cols="12" class="text-center">
-                                <v-btn class="buttonStyle green mx-12"
-                                       text
-                                       color="#FFFFFF"
-                                       @click="dialog = false">
-                                    Save
-                                </v-btn>
-                                <v-btn class="buttonStyle red mx-12"
-                                       text
-                                       color="#FFFFFF"
-                                       @click="dialog = false">
-                                    Cancel
-                                </v-btn>
-                            </v-col>
-                        </v-row>
-                    </v-container>
-                </v-form>
-            </v-dialog>
+					<template v-slot:header.freeSlots="{ header }">
+						<span class="headerText">
+							{{ header.text }}
+						</span>
+					</template>
 
-            <v-col cols="12">
-                <v-data-table :headers="headers"
-                              :items="items"
-                              :search="search"
-                              @click:row="showPopup"
-                              class="whiteBack">
-                    <template v-slot:header.title="{ header }">
-                        <span class="headerText">
-                            {{
-							header.text
-                            }}
-                        </span>
-                    </template>
+					<template v-slot:item.title="{ item }">
+						<span class="itemText">{{ item.title }}</span>
+					</template>
+					<template v-slot:item.thesisType="{ item }">
+						<span class="itemText">{{ item.thesisType }}</span>
+					</template>
+					<template v-slot:item.studyType="{ item }">
+						<span class="itemText">{{ item.studyType }}</span>
+					</template>
+					<template v-slot:item.freeSlots="{ item }">
+						<span class="itemText">
+							{{ item.maxStudents - item.freeSlots }} /
+							{{ item.maxStudents }}
+						</span>
+					</template>
 
-                    <template v-slot:header.thesisType="{ header }">
-                        <span class="headerText">
-                            {{
-							header.text
-                            }}
-                        </span>
-                    </template>
-
-                    <template v-slot:header.studyType="{ header }">
-                        <span class="headerText">
-                            {{
-							header.text
-                            }}
-                        </span>
-                    </template>
-
-                    <template v-slot:header.freeSlots="{ header }">
-                        <span class="headerText">
-                            {{
-							header.text
-                            }}
-                        </span>
-                    </template>
-
-                    <template v-slot:item.title="{ item }">
-                        <span class="itemText">{{ item.title }}</span>
-                    </template>
-                    <template v-slot:item.thesisType="{ item }">
-                        <span class="itemText">{{ item.thesisType }}</span>
-                    </template>
-                    <template v-slot:item.studyType="{ item }">
-                        <span class="itemText">{{ item.studyType }}</span>
-                    </template>
-                    <template v-slot:item.freeSlots="{ item }">
-                        <span class="itemText">
-                            {{ item.maxStudents - item.freeSlots }} /
-                            {{ item.maxStudents }}
-                        </span>
-                    </template>
-
-                    <template v-slot:body.append>
-                        <td @click="showEmptyPopup">
-                            <span class="addItem">
-                                <v-icon class="marginBottomSix">mdi-plus-box</v-icon>
-                                Add a new thesis
-                            </span>
-                        </td>
-                    </template>
-                </v-data-table>
-            </v-col>
-        </v-row>
+					<template v-slot:body.append>
+						<td @click="showEmptyPopup">
+							<span class="addItem">
+								<v-icon class="marginBottomSix"
+									>mdi-plus-box</v-icon
+								>
+								Add a new thesis
+							</span>
+						</td>
+					</template>
+				</v-data-table>
+			</v-col>
+		</v-row>
 	</v-container>
 </template>
 <script lang="ts">
@@ -163,28 +98,49 @@ import popup from './popup.vue';
         popup,
     },
 })
-
 export default class MyProporsals extends Vue {
     public popup = {
         show: false,
         maxWidth: 1000,
         data: {
-            title: { text: '', label: 'Thesis title', type: 'editableTextField', columns: 12 },
-            thesisType: { text: '', label: 'Thesis type', items: ['Bachelor', 'Master'], chosen: '', type: 'selectableField', columns: 6 },
-            studyType: { text: '', label: 'Study type', items: ['Full-time', 'Part-time'], chosen: '', type: 'selectableField', columns: 6 },
-            students: { text: '', label: 'Student', type: 'studentField', columns: 12, students: ['',''], max: 4 },
-            description: { text: '', label: 'Description', type: 'editableTextAreaField', columns: 12 },
-        }
+            title: {
+                text: '',
+                label: 'Thesis title',
+                type: 'editableTextField',
+                columns: 12,
+            },
+            thesisType: {
+                text: '',
+                label: 'Thesis type',
+                items: ['Bachelor', 'Master'],
+                chosen: '',
+                type: 'selectableField',
+                columns: 6,
+            },
+            studyType: {
+                text: '',
+                label: 'Study type',
+                items: ['Full-time', 'Part-time'],
+                chosen: '',
+                type: 'selectableField',
+                columns: 6,
+            },
+            students: {
+                text: '',
+                label: 'Student',
+                type: 'studentField',
+                columns: 12,
+                students: ['', ''],
+                max: 4,
+            },
+            description: {
+                text: '',
+                label: 'Description',
+                type: 'editableTextAreaField',
+                columns: 12,
+            },
+        },
     };
-    dialog = false;
-    //popup = {
-    //    title: '',
-    //    thesisType: '',
-    //    studyType: '',
-    //    students: ['',''],
-    //    freeSlots: -1,
-    //    description: '',
-    //};
     public data() {
         return {
             studyTypes: ['Full-time', 'Part-time'],
@@ -284,7 +240,7 @@ export default class MyProporsals extends Vue {
         this.popup.data.studyType.text = '';
         this.popup.data.thesisType.text = '';
         this.popup.data.description.text = '';
-        this.popup.data.students.students = ['',''];
+        this.popup.data.students.students = ['', ''];
         this.popup.data.thesisType.chosen = '';
         this.popup.data.students.max = 4;
         this.popup.show = true;
@@ -301,7 +257,7 @@ export default class MyProporsals extends Vue {
 	background-color: #ffffff;
 }
 .marginBottomSix {
-    margin-bottom: 6px;
+	margin-bottom: 6px;
 }
 .paintData {
 	width: 100%;
@@ -315,25 +271,25 @@ export default class MyProporsals extends Vue {
 	font-size: 24px;
 }
 .whiteBack {
-    background-color: #FFFFFF;
+	background-color: #ffffff;
 }
 .headerText {
-    font-size: 30px;
-    color: rgb(18,98,141);
+	font-size: 30px;
+	color: rgb(18, 98, 141);
 }
 .itemText {
-    float: left;
-    font-size: 24px;
-    font-weight: bold;
+	float: left;
+	font-size: 24px;
+	font-weight: bold;
 }
 .addItem {
-    font-size: 24px;
-    font-weight: bold;
+	font-size: 24px;
+	font-weight: bold;
 }
 .formDiv {
 	color: rgb(255, 255, 255);
 	width: 150px;
 	height: 50px;
-    font-size: 24px;
+	font-size: 24px;
 }
 </style>

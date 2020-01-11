@@ -1,17 +1,24 @@
 ﻿<template>
-    <v-dialog v-model="thesisData.show" :max-width="thesisData.maxWidth">
-        <v-form class="whiteBackground">
-            <v-container class="table">
-                <v-row>
-                    <v-col v-for="popupElement in thesisData.data" :key="popupElement.text" :cols="popupElement.columns">
-                        <component :is="popupElement.type" :elementData="popupElement">
-                        </component>
-                    </v-col>
-                    <slot name="after"></slot>
-                </v-row>
-            </v-container>
-        </v-form>
-    </v-dialog>
+	<v-dialog v-model="thesisData.show" :max-width="thesisData.maxWidth">
+		<v-form class="whiteBackground">
+			<v-container class="table">
+				<v-row>
+					<v-col
+						v-for="popupElement in thesisData.data"
+						:key="popupElement.text"
+						:cols="popupElement.columns"
+					>
+						<component
+							:is="popupElement.type"
+							:elementData="popupElement"
+						>
+						</component>
+					</v-col>
+					<slot name="after"></slot>
+				</v-row>
+			</v-container>
+		</v-form>
+	</v-dialog>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
@@ -35,10 +42,8 @@ import studentField from './popupFields/studentField.vue';
 export default class Popup extends Vue {
     @Prop() public thesisData!: ['thesisData'];
     public data() {
-        return {
-        };
+        return {};
     }
-
 }
 </script>
 <style scoped>
@@ -49,7 +54,7 @@ export default class Popup extends Vue {
 	width: 25%;
 	height: 64px;
 	font-size: 24px;
-	color: #FFFFFF;
-	background-color: #FF0000;
+	color: #ffffff;
+	background-color: #ff0000;
 }
 </style>

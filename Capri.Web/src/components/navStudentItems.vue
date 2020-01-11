@@ -13,7 +13,6 @@
 					:items="filter.values"
 					:label="filter.name"
 					:model="filter.chosen"
-					v-on:change="changeRoute(i)"
 					color="rgb(18,98,141)"
 					class="paddingAndMarginZero"
 				>
@@ -49,24 +48,10 @@ export default class NavStudentItems extends Vue {
             chosen: false,
         },
     ];
-    public data() {
-        return {
-            isAllSelected: 'tak',
-        };
-    }
-    public changeRoute(which): void {
-        this.filters[which].chosen = true;
-        for (let i = 0; i < this.filters.length; i += 1) {
-            if (this.filters[i].chosen === false) {
-                return;
-            }
-        }
-        this.$router.push({ path: '/cards' });
-    }
 }
 </script>
 <style lang="scss" scoped>
 .listItemWidth {
-    width: 310px;
+	width: 310px;
 }
 </style>
