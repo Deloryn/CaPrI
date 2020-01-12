@@ -10,7 +10,6 @@
   "author": "Michał Sibera",
   "license": "MIT",
   "devDependencies": {
-    "@types/jwt-decode": "^2.2.1",
     "@types/webpack-env": "^1.14.0",
     "aspnet-webpack": "^3.0.0",
     "cross-env": "^5.2.0",
