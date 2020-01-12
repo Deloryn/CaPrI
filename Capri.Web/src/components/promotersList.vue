@@ -1,6 +1,6 @@
 ﻿<template>
 	<v-container fluid grid-list-xl class="mainView">
-		<popup :thesisData="popup">
+		<popUp :thesisData="popUp">
 			<template v-slot:after>
 				<v-col cols="12" class="text-center">
 					<v-btn
@@ -8,7 +8,7 @@
 						style="background-color: green;"
 						class="formDiv mx-12"
 						text
-						@click="popup.show = false"
+						@click="popUp.show = false"
 					>
 						Save
 					</v-btn>
@@ -16,15 +16,15 @@
 						id="cancelButton"
 						class="formDiv mx-12"
 						text
-						@click="popup.show = false"
+						@click="popUp.show = false"
 					>
 						Cancel
 					</v-btn>
 				</v-col>
 			</template>
-		</popup>
+		</popUp>
 
-		<v-btn @click="popup.show = true" id="addPromoterButton"
+		<v-btn @click="popUp.show = true" id="addPromoterButton"
 			>ADD PROMOTER</v-btn
 		>
 		<v-row justify="center" class="rowMargin">
@@ -71,15 +71,15 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import popup from './popup.vue';
+import popUp from './popUp.vue';
 
 @Component({
     components: {
-        popup,
+        popUp,
     },
 })
 export default class MyProporsals extends Vue {
-    public popup = {
+    public popUp = {
         show: false,
         maxWidth: 600,
         data: {
@@ -113,7 +113,7 @@ export default class MyProporsals extends Vue {
             institutes: ['Bioinformatics'],
             dialog: '',
             search: '',
-            popup: {
+            popUp: {
                 name: '',
                 insitute: '',
                 degree: '',
@@ -172,7 +172,7 @@ export default class MyProporsals extends Vue {
     }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .mainView {
 	width: calc(100% - 370px);
 	margin-left: 350px;

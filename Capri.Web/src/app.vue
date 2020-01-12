@@ -4,13 +4,13 @@
 			<navBar>
 				<div slot="navItems">
 					<navStudentItems
-						v-if="parsedToken.role === 'student'"
+						v-if="parsedToken.role === UserType.student"
 					></navStudentItems>
 					<navList
 						:userType="parsedToken.role"
 						v-if="
-							parsedToken.role === 'promoter' ||
-								userType === 'dean'
+							parsedToken.role === UserType.promoter ||
+								parsedToken.role === UserType.dean
 						"
 					></navList>
 				</div>
@@ -28,9 +28,9 @@ import topBar from './components/topBar.vue';
 import downBar from './components/downBar.vue';
 import navStudentItems from './components/navStudentItems.vue';
 import navList from './components/navList.vue';
-import jwt_decode from 'jwt-decode';
+import sessionService from './services/sessionService';
 
-enum UserTypes {
+enum UserType {
     student = 'student',
     promoter = 'promoter',
     dean = 'dean',
@@ -46,11 +46,11 @@ enum UserTypes {
     },
 })
 export default class App extends Vue {
-    public token = sessionStorage.token;
-    public parsedToken = jwt_decode(this.token);
+    public UserType = UserType;
+    public parsedToken = sessionService.parsedToken;
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .appColor {
 	background-color: #eeeeee;
 }

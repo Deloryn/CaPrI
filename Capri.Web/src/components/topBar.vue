@@ -36,17 +36,15 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import popup from './popup.vue';
 
 @Component({
     components: {
-        popup,
     },
 })
 export default class TopBar extends Vue {
     public data() {
         return {
-            showPopup: false,
+            showpopUp: false,
             listType: 'Thesis list',
             fontSize: { font: 12 },
             items: [

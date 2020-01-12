@@ -1,14 +1,14 @@
 ﻿<template>
 	<v-container fluid grid-list-xl class="mainView">
 		<v-row justify="center">
-			<popup :thesisData="popup">
+			<popUp :thesisData="popUp">
 				<template v-slot:after>
 					<v-col cols="6" class="text-center">
 						<v-btn
 							id="saveButton"
 							class="formDiv mx-12 green"
 							text
-							@click="popup.show = false"
+							@click="popUp.show = false"
 						>
 							Save
 						</v-btn>
@@ -18,20 +18,20 @@
 							id="cancelButton"
 							class="formDiv mx-12 red"
 							text
-							@click="popup.show = false"
+							@click="popUp.show = false"
 						>
 							Cancel
 						</v-btn>
 					</v-col>
 				</template>
-			</popup>
+			</popUp>
 
 			<v-col cols="12">
 				<v-data-table
 					:headers="headers"
 					:items="items"
 					:search="search"
-					@click:row="showPopup"
+					@click:row="showpopUp"
 					class="whiteBack"
 				>
 					<template v-slot:header.title="{ header }">
@@ -75,7 +75,7 @@
 					</template>
 
 					<template v-slot:body.append>
-						<td @click="showEmptyPopup">
+						<td @click="showEmptypopUp">
 							<span class="addItem">
 								<v-icon class="marginBottomSix"
 									>mdi-plus-box</v-icon
@@ -91,15 +91,15 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import popup from './popup.vue';
+import popUp from './popUp.vue';
 
 @Component({
     components: {
-        popup,
+        popUp,
     },
 })
 export default class MyProporsals extends Vue {
-    public popup = {
+    public popUp = {
         show: false,
         maxWidth: 1000,
         data: {
@@ -179,7 +179,7 @@ export default class MyProporsals extends Vue {
             title: 'CaPri System',
             promoter: 'Jerzy Nawrocki',
             description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
             thesisType: 'Master',
             studyType: 'Full time',
             freeSlots: 3,
@@ -190,7 +190,7 @@ export default class MyProporsals extends Vue {
             title: 'CaPri2 System',
             promoter: 'Nawrocki Jerzy',
             description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
             thesisType: 'Bachelor',
             studyType: 'Part time',
             freeSlots: 2,
@@ -201,7 +201,7 @@ export default class MyProporsals extends Vue {
             title: 'CaPri System',
             promoter: 'Jerzy Nawrocki',
             description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
             thesisType: 'Master',
             studyType: 'Full time',
             freeSlots: 3,
@@ -212,7 +212,7 @@ export default class MyProporsals extends Vue {
             title: 'CaPri System',
             promoter: 'Jerzy Nawrocki',
             description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
             thesisType: 'Master',
             studyType: 'Full time',
             freeSlots: 3,
@@ -220,29 +220,29 @@ export default class MyProporsals extends Vue {
             maxStudents: 4,
         },
     ];
-    public showPopup(value): void {
-        this.popup.data.title.text = value.title;
-        this.popup.data.studyType.text = value.studyType;
-        this.popup.data.thesisType.text = value.thesisType;
-        this.popup.data.description.text = value.description;
-        this.popup.data.students.students = value.students;
-        this.popup.data.thesisType.chosen = value.thesisType;
-        this.popup.data.students.max = value.maxStudents;
-        this.popup.show = true;
+    public showpopUp(value): void {
+        this.popUp.data.title.text = value.title;
+        this.popUp.data.studyType.text = value.studyType;
+        this.popUp.data.thesisType.text = value.thesisType;
+        this.popUp.data.description.text = value.description;
+        this.popUp.data.students.students = value.students;
+        this.popUp.data.thesisType.chosen = value.thesisType;
+        this.popUp.data.students.max = value.maxStudents;
+        this.popUp.show = true;
     }
-    public showEmptyPopup(): void {
-        this.popup.data.title.text = '';
-        this.popup.data.studyType.text = '';
-        this.popup.data.thesisType.text = '';
-        this.popup.data.description.text = '';
-        this.popup.data.students.students = ['', ''];
-        this.popup.data.thesisType.chosen = '';
-        this.popup.data.students.max = 4;
-        this.popup.show = true;
+    public showEmptypopUp(): void {
+        this.popUp.data.title.text = '';
+        this.popUp.data.studyType.text = '';
+        this.popUp.data.thesisType.text = '';
+        this.popUp.data.description.text = '';
+        this.popUp.data.students.students = ['', ''];
+        this.popUp.data.thesisType.chosen = '';
+        this.popUp.data.students.max = 4;
+        this.popUp.show = true;
     }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .mainView {
 	width: calc(100% - 370px);
 	margin-left: 350px;

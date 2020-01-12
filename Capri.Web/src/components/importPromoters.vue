@@ -130,7 +130,7 @@ export default class CardsView extends Vue {
     }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .mainView {
 	width: calc(100% - 370px);
 	margin-left: 350px;

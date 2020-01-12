@@ -1,18 +1,18 @@
 ﻿<template>
 	<v-container fluid grid-list-xl class="mainView">
 		<v-row justify="center">
-			<popup :thesisData="popup">
+			<popUp :thesisData="popUp">
 				<template v-slot:after>
 					<v-col cols="12" class="text-center">
 						<v-btn
 							color="#12628d"
 							class="thesisDetailCloseButton"
-							@click="popup.show = false"
+							@click="popUp.show = false"
 							>Close</v-btn
 						>
 					</v-col>
 				</template>
-			</popup>
+			</popUp>
 
 			<v-col cols="12">
 				<v-data-table
@@ -72,15 +72,15 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import popup from './popup.vue';
+import popUp from './popUp.vue';
 
 @Component({
     components: {
-        popup,
+        popUp,
     },
 })
 export default class CardsView extends Vue {
-    public popup = {
+    public popUp = {
         show: false,
         maxWidth: 1000,
         data: {
@@ -145,7 +145,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
@@ -155,7 +155,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 0,
@@ -165,7 +165,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 1,
@@ -175,7 +175,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 2,
@@ -185,7 +185,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
@@ -195,7 +195,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
@@ -205,7 +205,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
@@ -215,7 +215,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
@@ -225,7 +225,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
@@ -235,7 +235,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
@@ -245,7 +245,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
@@ -255,7 +255,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
@@ -265,7 +265,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
@@ -275,7 +275,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
@@ -285,7 +285,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
@@ -295,7 +295,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
@@ -305,7 +305,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
@@ -315,7 +315,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
@@ -325,7 +325,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
@@ -335,7 +335,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
@@ -345,7 +345,7 @@ export default class CardsView extends Vue {
                     title: 'CaPri System',
                     promoter: 'Jerzy Nawrocki',
                     description:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla lacus, facilisis vel felis id, porta blandit nulla. Quisque congue congue orci elementum tristique. Integer consequat est a nibh mollis aliquam. Integer leo justo, posuere fermentum euismod sit amet, blandit sagittis elit. Suspendisse laoreet massa nec neque tincidunt, in ullamcorper urna sollicitudin. Mauris vitae arcu bibendum, bibendum nisi vitae, aliquet nunc. In tincidunt purus sed lacus tincidunt facilisis. ',
+                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
                     freeSlots: 3,
@@ -355,17 +355,17 @@ export default class CardsView extends Vue {
         };
     }
     public showDialog(value): void {
-        this.popup.data.title.text = value.title;
-        this.popup.data.promoter.text = value.promoter;
-        this.popup.data.studyType.text = value.studyType;
-        this.popup.data.thesisType.text = value.thesisType;
-        this.popup.data.slots.text = value.freeSlots + '/' + value.maxSlots;
-        this.popup.data.description.text = value.description;
-        this.popup.show = true;
+        this.popUp.data.title.text = value.title;
+        this.popUp.data.promoter.text = value.promoter;
+        this.popUp.data.studyType.text = value.studyType;
+        this.popUp.data.thesisType.text = value.thesisType;
+        this.popUp.data.slots.text = value.freeSlots + '/' + value.maxSlots;
+        this.popUp.data.description.text = value.description;
+        this.popUp.show = true;
     }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .mainView {
 	width: calc(100% - 370px);
 	margin-left: 350px;
