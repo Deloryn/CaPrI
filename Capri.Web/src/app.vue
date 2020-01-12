@@ -47,6 +47,9 @@ enum UserTypes {
 export default class App extends Vue {
     public parsedToken = this.parseJwt();
     public parseJwt(): JSON {
+        if (!sessionStorage.token) {
+            return JSON.parse('{}')
+        }
         const base64Url = sessionStorage.token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         const jsonPayload = decodeURIComponent(
