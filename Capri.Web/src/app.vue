@@ -28,6 +28,7 @@ import topBar from './components/topBar.vue';
 import downBar from './components/downBar.vue';
 import navStudentItems from './components/navStudentItems.vue';
 import navList from './components/navList.vue';
+import jwt_decode from 'jwt-decode';
 
 enum UserTypes {
     student = 'student',
@@ -45,25 +46,8 @@ enum UserTypes {
     },
 })
 export default class App extends Vue {
-    public parsedToken = this.parseJwt();
-    public parseJwt(): JSON {
-        if (!sessionStorage.token) {
-            return JSON.parse('{}')
-        }
-        const base64Url = sessionStorage.token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(
-            atob(base64)
-                .split('')
-                .map(c => {
-                    return (
-                        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-                    );
-                })
-                .join(''),
-        );
-        return JSON.parse(jsonPayload);
-    }
+    public token = sessionStorage.token;
+    public parsedToken = jwt_decode(this.token);
 }
 </script>
 <style scoped>
