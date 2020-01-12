@@ -5,17 +5,44 @@ import CardsView from './components/cardsView.vue';
 import MyProposals from './components/myProposals.vue';
 import PromoterList from './components/promotersList.vue';
 import Import from './components/importPromoters.vue';
+import axios from 'axios';
+import VueAxios from 'vue-axios';
 
 Vue.use(Router);
+Vue.use(VueAxios, axios);
 
-export default new Router({
+Vue.axios.interceptors.request.use(
+    config => {
+        return config;
+    },
+    error => {
+        if (401 === error.response.status) {
+            router.push('/login');
+        } else {
+            return Promise.reject(error);
+        }
+        return Promise.reject(error);
+    },
+);
+
+const router = new Router({
     mode: 'history',
     routes: [
-        { path: '/', component: LoginView },
+        { path: '/login', component: LoginView },
         { path: '/cards', component: CardsView },
         { path: '/myProposals', component: MyProposals },
         { path: '/promoterList', component: PromoterList },
         { path: '/import', component: Import },
-        { path: '/Home/Index/', component: CardsView},
+        { path: '/Home/Index/', component: CardsView },
     ],
 });
+
+router.beforeEach((to, from, next) => {
+    if (to.path !== '/login' && !sessionStorage.token) {
+        next('/login');
+    } else {
+        next();
+    }
+});
+
+export default router;

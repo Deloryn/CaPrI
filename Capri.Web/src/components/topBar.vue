@@ -25,7 +25,7 @@
 		</div>
 
 		<div class="headerElement">
-			<router-link to="/" class="noTextDecoration">
+			<router-link to="/login" class="noTextDecoration">
 				<v-avatar color="rgb(18,98,141)" class="icon" size="50">
 					<v-icon color="#EEEEEE">person</v-icon>
 				</v-avatar>
