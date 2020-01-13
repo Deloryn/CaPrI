@@ -5,6 +5,7 @@ using AutoMapper;
 using Capri.Database;
 using Capri.Database.Entities;
 using Capri.Services.Users;
+using Capri.Services.Students;
 using Capri.Services.Settings;
 using Capri.Services.Courses;
 using Capri.Web.ViewModels.Proposal;
@@ -19,8 +20,9 @@ namespace Capri.Services.Proposals
         private readonly IUserGetter _userGetter;
         private readonly ICourseGetter _courseGetter;
         private readonly ISubmittedProposalGetter _submittedProposalGetter;
-        private readonly IProposalNumberValidator _proposalNumberValidator;
         private readonly IProposalStatusGetter _proposalStatusGetter;
+        private readonly IStudentGroupValidator _studentGroupValidator;
+        private readonly IStudentGetter _studentGetter;
 
         public ProposalCreator(
             ISqlDbContext context, 
@@ -29,8 +31,9 @@ namespace Capri.Services.Proposals
             IUserGetter userGetter,
             ICourseGetter courseGetter,
             ISubmittedProposalGetter submittedProposalGetter,
-            IProposalNumberValidator proposalNumberValidator,
-            IProposalStatusGetter proposalStatusGetter)
+            IProposalStatusGetter proposalStatusGetter,
+            IStudentGroupValidator studentGroupValidator,
+            IStudentGetter studentGetter)
         {
             _context = context;
             _mapper = mapper;
@@ -38,8 +41,9 @@ namespace Capri.Services.Proposals
             _userGetter = userGetter;
             _courseGetter = courseGetter;
             _submittedProposalGetter = submittedProposalGetter;
-            _proposalNumberValidator = proposalNumberValidator;
             _proposalStatusGetter = proposalStatusGetter;
+            _studentGroupValidator = studentGroupValidator;
+            _studentGetter = studentGetter;
         }
 
         public async Task<IServiceResult<ProposalViewModel>> Create(
@@ -51,17 +55,16 @@ namespace Capri.Services.Proposals
                 return ServiceResult<ProposalViewModel>.Error(courseResult.GetAggregatedErrors());
             }
 
-            var numOfStudentsExceedsTheMaximumResult = _proposalNumberValidator
-                .NumOfStudentsExceedsTheMaximum(inputData.Students, inputData.MaxNumberOfStudents);
-            if(!numOfStudentsExceedsTheMaximumResult.Successful())
+            var studentGroupValidatorResult = await _studentGroupValidator.IsStudentGroupValidFor(inputData);
+            if(!studentGroupValidatorResult.Successful())
             {
-                return ServiceResult<ProposalViewModel>.Error(numOfStudentsExceedsTheMaximumResult.GetAggregatedErrors());
+                return ServiceResult<ProposalViewModel>.Error(studentGroupValidatorResult.GetAggregatedErrors());
             }
 
-            var numOfStudentsExceedsTheMaximum = numOfStudentsExceedsTheMaximumResult.Body();
-            if(numOfStudentsExceedsTheMaximum)
+            var isStudentGroupValid = studentGroupValidatorResult.Body();
+            if(!isStudentGroupValid)
             {
-                return ServiceResult<ProposalViewModel>.Error("The number of students exceeds the maximal number");
+                return ServiceResult<ProposalViewModel>.Error("The given students are not valid");
             }
 
             var userResult = await _userGetter.GetCurrentUser();
@@ -88,19 +91,24 @@ namespace Capri.Services.Proposals
                 return ServiceResult<ProposalViewModel>.Error("You are not allowed to create this type of proposal");
             }
 
-            var proposal = _mapper.Map<Proposal>(inputData);
+            var studentsResult = await _studentGetter.GetMany(inputData.Students);
+            if(!studentsResult.Successful())
+            {
+                return ServiceResult<ProposalViewModel>.Error(studentsResult.GetAggregatedErrors());
+            }
+            var students = studentsResult.Body();
 
-            var proposalStatusResult = _proposalStatusGetter.CalculateProposalStatus(proposal);
+            var proposalStatusResult = _proposalStatusGetter.CalculateProposalStatus(students, inputData.MaxNumberOfStudents);
             if(!proposalStatusResult.Successful())
             {
                 return ServiceResult<ProposalViewModel>.Error(proposalStatusResult.GetAggregatedErrors());
             }
-
             var proposalStatus = proposalStatusResult.Body();
-            proposal.Status = proposalStatus;
-            
-            SetStartDate(proposal);
 
+            var proposal = _mapper.Map<Proposal>(inputData);
+            proposal.Students = students;
+            proposal.Status = proposalStatus;
+            SetStartDate(proposal);
             proposal.Promoter = promoter;
             promoter.Proposals.Add(proposal);
             _context.Promoters.Update(promoter);
@@ -109,7 +117,6 @@ namespace Capri.Services.Proposals
             await _context.SaveChangesAsync();
 
             var proposalViewModel = _mapper.Map<ProposalViewModel>(proposal);
-
             return ServiceResult<ProposalViewModel>.Success(proposalViewModel);
         }
 

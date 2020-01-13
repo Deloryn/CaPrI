@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using Capri.Database.Entities.Identity;
@@ -42,7 +41,7 @@ namespace Capri.Database.Entities.Configuration
                 Users.Add(user);
                 student.ApplicationUser = null;
                 student.UserId = user.Id;
-                if(student.Id == null || student.Id.Equals(Guid.Empty))
+                if(student.Id == Guid.Empty)
                 {
                     student.Id = Guid.NewGuid();
                 }
@@ -50,7 +49,7 @@ namespace Capri.Database.Entities.Configuration
             }
             foreach(var institute in seed.Institutes)
             {
-                if(institute.Id == null|| institute.Id.Equals(Guid.Empty))
+                if(institute.Id == Guid.Empty)
                 {
                     institute.Id = Guid.NewGuid();
                 }
@@ -62,7 +61,7 @@ namespace Capri.Database.Entities.Configuration
                     promoter.ApplicationUser = null;
                     promoter.UserId = user.Id;
                     promoter.InstituteId = institute.Id;
-                    if(promoter.Id == null || promoter.Id.Equals(Guid.Empty))
+                    if(promoter.Id == Guid.Empty)
                     {
                         promoter.Id = Guid.NewGuid();
                     }
@@ -73,21 +72,21 @@ namespace Capri.Database.Entities.Configuration
             }
             foreach(var faculty in seed.Faculties)
             {
-                if(faculty.Id == null || faculty.Id.Equals(Guid.Empty))
+                if(faculty.Id == Guid.Empty)
                 {
                     faculty.Id = Guid.NewGuid();
                 }  
                 
                 foreach(var course in faculty.Courses)
                 {
-                    if(course.Id == null || course.Id.Equals(Guid.Empty))
+                    if(course.Id == Guid.Empty)
                     {
                         course.Id = Guid.NewGuid();
                     }
                     course.FacultyId = faculty.Id;          
                     foreach(var proposal in course.Proposals)
                     {
-                        if(proposal.Id == null || proposal.Id.Equals(Guid.Empty))
+                        if(proposal.Id == Guid.Empty)
                         {
                             proposal.Id = Guid.NewGuid();
                         }
@@ -105,7 +104,7 @@ namespace Capri.Database.Entities.Configuration
 
         private static User PrepareUser(User user)
         {
-            if(user.Id == null || user.Id.Equals(Guid.Empty))
+            if(user.Id == Guid.Empty)
             {
                 user.Id = Guid.NewGuid();
             }

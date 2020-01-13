@@ -1,37 +1,37 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Capri.Database.Entities.Identity;
-using Capri.Services.Promoters;
+using Capri.Services.Students;
 using Capri.Web.Controllers.Attributes;
-using Capri.Web.ViewModels.Promoter;
+using Capri.Web.ViewModels.Student;
 
 namespace Capri.Web.Controllers
 {
-    [Route("promoters")]
-    public class PromoterController : Controller
+    [Route("students")]
+    public class StudentController : Controller
     {
-        private readonly IPromoterCreator _promoterCreator;
-        private readonly IPromoterUpdater _promoterUpdater;
-        private readonly IPromoterGetter _promoterGetter;
-        private readonly IPromoterDeleter _promoterDeleter;
+        private readonly IStudentCreator _studentCreator;
+        private readonly IStudentUpdater _studentUpdater;
+        private readonly IStudentGetter _studentGetter;
+        private readonly IStudentDeleter _studentDeleter;
 
-        public PromoterController(
-            IPromoterCreator promoterCreator,
-            IPromoterUpdater promoterUpdater,
-            IPromoterGetter promoterGetter,
-            IPromoterDeleter promoterDeleter)
+        public StudentController(
+            IStudentCreator studentCreator,
+            IStudentUpdater studentUpdater,
+            IStudentGetter studentGetter,
+            IStudentDeleter studentDeleter)
         {
-            _promoterCreator = promoterCreator;
-            _promoterUpdater = promoterUpdater;
-            _promoterGetter = promoterGetter;
-            _promoterDeleter = promoterDeleter;
+            _studentCreator = studentCreator;
+            _studentUpdater = studentUpdater;
+            _studentGetter = studentGetter;
+            _studentDeleter = studentDeleter;
         }
-
+        
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var result = await _promoterGetter.Get(id);
+            var result = await _studentGetter.Get(id);
             if(result.Successful())
             {
                 return Ok(result.Body());
@@ -42,7 +42,7 @@ namespace Capri.Web.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var result = _promoterGetter.GetAll();
+            var result = _studentGetter.GetAll();
             if(result.Successful())
             {
                 return Ok(result.Body());
@@ -53,19 +53,19 @@ namespace Capri.Web.Controllers
         [AllowedRoles(RoleType.Dean)]
         [HttpPost]
         public async Task<IActionResult> Create(
-            [FromBody] PromoterRegistration registration)
+            [FromBody] StudentRegistration registration)
         {
             if(registration == null)
             {
-                return BadRequest("Promoter registration not given");
+                return BadRequest("Student registration not given");
             }
 
             if(!ModelState.IsValid)
             {
-                return BadRequest("The given promoter registration is invalid");
+                return BadRequest("The given student registration is invalid");
             }
 
-            var result = await _promoterCreator.Create(registration);
+            var result = await _studentCreator.Create(registration);
             if(result.Successful())
             {
                 return Ok(result.Body());
@@ -77,24 +77,24 @@ namespace Capri.Web.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(
             Guid id,
-            [FromBody] PromoterRegistration registration)
+            [FromBody] StudentRegistration registration)
         {
             if(id == Guid.Empty)
             {
                 return NotFound();
             }
-
+            
             if(registration == null)
             {
-                return BadRequest("Promoter registration not given");
+                return BadRequest("Student registration not given");
             }
 
             if(!ModelState.IsValid)
             {
-                return BadRequest("The given promoter registration is invalid");
+                return BadRequest("The given student registration is invalid");
             }
-
-            var result = await _promoterUpdater.Update(id, registration);
+            
+            var result = await _studentUpdater.Update(id, registration);
             if(result.Successful())
             {
                 return Ok(result.Body());
@@ -106,7 +106,7 @@ namespace Capri.Web.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var result = await _promoterDeleter.Delete(id);
+            var result = await _studentDeleter.Delete(id);
             if(result.Successful())
             {
                 return Ok(result.Body());

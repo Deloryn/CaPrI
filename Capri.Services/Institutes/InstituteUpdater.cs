@@ -25,11 +25,17 @@ namespace Capri.Services.Institutes
             InstituteRegistration newData)
         {
             var institute = _context.Institutes.FirstOrDefault(i => i.Id == id);
-
-            if (institute == null)
+            if(institute == null)
             {
                 return ServiceResult<InstituteViewModel>.Error(
                     $"Institute with id {id} does not exist");
+            }
+
+            if(IsNameTakenByAnotherInstitute(institute.Id, newData.Name))
+            {
+                return ServiceResult<InstituteViewModel>.Error(
+                    $"Institute name {newData.Name} already exists"
+                );
             }
 
             institute = _mapper.Map(newData, institute);
@@ -39,6 +45,13 @@ namespace Capri.Services.Institutes
 
             var instituteViewModel = _mapper.Map<InstituteViewModel>(institute);
             return ServiceResult<InstituteViewModel>.Success(instituteViewModel);
+        }
+
+        private bool IsNameTakenByAnotherInstitute(Guid myInstituteId, string name)
+        {
+            return _context
+                .Institutes
+                .Any(i => i.Name == name && i.Id != myInstituteId);
         }
     }
 }

@@ -26,14 +26,18 @@ namespace Capri.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Institute>()
+                .HasIndex(i => i.Name)
+                .IsUnique();
+
+            modelBuilder.Entity<Faculty>()
+                .HasIndex(f => f.Name)
+                .IsUnique();
+
             modelBuilder.Entity<Promoter>()
                 .HasOne(p => p.Institute)
                 .WithMany(i => i.Promoters)
                 .HasForeignKey(p => p.InstituteId);
-
-            modelBuilder.Entity<Proposal>()
-                .HasMany(p => p.Students)
-                .WithOne();
 
             modelBuilder.Entity<Proposal>()
                 .HasOne(pl => pl.Promoter)
@@ -49,6 +53,20 @@ namespace Capri.Database
                 .HasOne(c => c.Faculty)
                 .WithMany(f => f.Courses)
                 .HasForeignKey(c => c.FacultyId);
+
+            modelBuilder.Entity<Student>()
+                .HasOne(s => s.Proposal)
+                .WithMany(p => p.Students)
+                .HasForeignKey(s => s.ProposalId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            modelBuilder.Entity<GuidUserRole>()
+                .HasKey(userRole => new { userRole.UserId, userRole.RoleId });
+
+            modelBuilder.Entity<GuidUserRole>()
+                .Property(userRole => userRole.Id)
+                .ValueGeneratedOnAdd();
+                
 
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new GuidRoleConfiguration());

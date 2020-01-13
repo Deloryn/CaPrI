@@ -1,4 +1,6 @@
-﻿using System;
+﻿using System.Linq;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,26 +15,42 @@ namespace Capri.Services.Users
         private readonly ISqlDbContext _context;
         private readonly ITokenGenerator _tokenGenerator;
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<GuidRole> _roleManager;
 
         public UserCreator(
             ISqlDbContext context,
             ITokenGenerator tokenGenerator,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            RoleManager<GuidRole> roleManager
+            )
         {
             _context = context;
             _tokenGenerator = tokenGenerator;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public async Task<IServiceResult<User>> CreateUser(
             string email, 
-            string password)
+            string password,
+            RoleType[] roles)
         {
             var emailExists = await EmailExists(email);
             if(emailExists)
             {
                 return ServiceResult<User>.Error(
                     $"Email {email} is already taken");
+            }
+
+            var roleNames = roles.Select(r => GetRoleName(r));
+            foreach(var roleName in roleNames)
+            {
+                var roleExists = await _roleManager.RoleExistsAsync(roleName);
+                if(!roleExists)
+                {
+                    return ServiceResult<User>.Error(
+                        $"Role {roleName} does not exist");
+                }
             }
 
             var user = new User
@@ -55,6 +73,7 @@ namespace Capri.Services.Users
             user.SecurityStamp = _tokenGenerator.GenerateTokenFor(user);
 
             await _userManager.CreateAsync(user);
+            await _userManager.AddToRolesAsync(user, roleNames);
             await _context.SaveChangesAsync();
 
             return ServiceResult<User>.Success(user);
@@ -62,7 +81,17 @@ namespace Capri.Services.Users
 
         private async Task<bool> EmailExists(string email)
         {
-            return await _context.Users.AnyAsync(u => u.Email == email);
+            var user = await _userManager.FindByEmailAsync(email);
+            if(user != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private string GetRoleName(RoleType role)
+        {
+            return Enum.GetName(typeof(RoleType), role);
         }
     }
 }

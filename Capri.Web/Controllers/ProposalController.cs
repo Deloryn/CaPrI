@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Sieve.Models;
 using Capri.Database.Entities;
 using Capri.Database.Entities.Identity;
 using Capri.Services.Proposals;
+using Capri.Web.Controllers.Attributes;
 using Capri.Web.ViewModels.Proposal;
 
 namespace Capri.Web.Controllers
@@ -48,7 +48,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = "dean")]
+        [AllowedRoles(RoleType.Dean)]
         [HttpGet("{id}/csv")]
         public async Task<IActionResult> GetCsvFile(Guid id)
         {
@@ -83,7 +83,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = "dean,promoter")]
+        [AllowedRoles(RoleType.Dean, RoleType.Promoter)]
         [HttpGet("submitted/bachelor/{promoterId}")]
         public async Task<IActionResult> GetSubmittedBachelorProposals(Guid promoterId)
         {
@@ -98,7 +98,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = "dean,promoter")]
+        [AllowedRoles(RoleType.Dean, RoleType.Promoter)]
         [HttpGet("submitted/master/{promoterId}")]
         public async Task<IActionResult> GetSubmittedMasterProposals(Guid promoterId)
         {
@@ -113,7 +113,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = "promoter")]
+        [AllowedRoles(RoleType.Promoter)]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ProposalRegistration registration)
         {
@@ -135,12 +135,17 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = "promoter")]
+        [AllowedRoles(RoleType.Promoter)]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(
             Guid id, 
             [FromBody] ProposalRegistration registration)
         {
+            if(id == Guid.Empty)
+            {
+                return NotFound();
+            }
+            
             if(registration == null)
             {
                 return BadRequest("Proposal registration not given");
@@ -159,7 +164,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = "promoter")]
+        [AllowedRoles(RoleType.Promoter)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {

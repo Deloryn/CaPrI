@@ -1,7 +1,8 @@
-﻿using System;
+﻿using System.Linq;
+using System.Collections.Generic;
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Capri.Database;
 using Capri.Database.Entities.Identity;
 using Capri.Web.ViewModels.User;
@@ -12,18 +13,23 @@ namespace Capri.Services.Users
     {
         private readonly ISqlDbContext _context;
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<GuidRole> _roleManager;
 
         public UserUpdater(
             ISqlDbContext context,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            RoleManager<GuidRole> roleManager
+            )
         {
             _context = context;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public async Task<IServiceResult<User>> Update(
             Guid id,
-            UserCredentials credentials)
+            UserCredentials credentials,
+            RoleType[] roles)
         {
             var existingUser = await _userManager.FindByIdAsync(id.ToString());
             if (existingUser == null)
@@ -32,12 +38,50 @@ namespace Capri.Services.Users
                     $"User with id {id} does not exist");
             }
 
+            var isEmailTakenBySomeOneElse = await IsEmailTakenBySomeoneElse(credentials.Email);
+            if(isEmailTakenBySomeOneElse)
+            {
+                return ServiceResult<User>.Error(
+                    $"Email {credentials.Email} is already taken by another user"
+                );
+            }
+
+            var roleNames = roles.Select(r => GetRoleName(r));
+            foreach(var roleName in roleNames)
+            {
+                var roleExists = await _roleManager.RoleExistsAsync(roleName);
+                if(!roleExists)
+                {
+                    return ServiceResult<User>.Error(
+                        $"Role {roleName} does not exist");
+                }
+            }
+
             UpdateCredentialsOf(existingUser, credentials);
+            
+            var currentRoles = await _userManager.GetRolesAsync(existingUser);
+            await _userManager.RemoveFromRolesAsync(existingUser, currentRoles);
+            await _userManager.AddToRolesAsync(existingUser, roleNames);
             
             await _userManager.UpdateAsync(existingUser);
             await _context.SaveChangesAsync();
 
             return ServiceResult<User>.Success(existingUser);
+        }
+
+        private async Task<bool> IsEmailTakenBySomeoneElse(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if(user == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private string GetRoleName(RoleType role)
+        {
+            return Enum.GetName(typeof(RoleType), role);
         }
 
         private void UpdateCredentialsOf(

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Capri.Database;
 using Capri.Database.Entities;
+using Capri.Database.Entities.Identity;
 using Capri.Services.Users;
 using Capri.Services.Institutes;
 using Capri.Web.ViewModels.Promoter;
@@ -40,7 +41,12 @@ namespace Capri.Services.Promoters
 
             var userResult = 
                 await _userCreator
-                .CreateUser(registration.Email, registration.Password);
+                .CreateUser(
+                    registration.Email, 
+                    registration.Password,
+                    new RoleType[] {
+                        RoleType.Promoter
+                    });
 
             if(!userResult.Successful())
             {

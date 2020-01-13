@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Capri.Services.Account;
 using Capri.Services.Token;
 using Capri.Services.Users;
+using Capri.Services.Students;
 using Capri.Services.Proposals;
 using Capri.Services.Promoters;
 using Capri.Services.Courses;
@@ -17,6 +18,7 @@ namespace Capri.Web.Configuration.Service
         public static void AddServicesConfiguration(this IServiceCollection services)
         {
             services.AddPromoterServicesConfiguration();
+            services.AddStudentServicesConfiguration();
             services.AddProposalServicesConfiguration();
             services.AddTokenServicesConfiguration();
             services.AddAccountServicesConfiguration();
@@ -36,6 +38,15 @@ namespace Capri.Web.Configuration.Service
             services.AddScoped<IPromoterDeleter, PromoterDeleter>();
         }
 
+        private static void AddStudentServicesConfiguration(this IServiceCollection services)
+        {
+            services.AddScoped<IStudentCreator, StudentCreator>();
+            services.AddScoped<IStudentUpdater, StudentUpdater>();
+            services.AddScoped<IStudentGetter, StudentGetter>();
+            services.AddScoped<IStudentDeleter, StudentDeleter>();
+            services.AddScoped<IStudentGroupValidator, StudentGroupValidator>();
+        }
+
         private static void AddProposalServicesConfiguration(this IServiceCollection services)
         {
             services.AddScoped<IProposalCreator, ProposalCreator>();
@@ -43,7 +54,6 @@ namespace Capri.Web.Configuration.Service
             services.AddScoped<IProposalGetter, ProposalGetter>();
             services.AddScoped<IProposalUpdater, ProposalUpdater>();
             services.AddScoped<ISubmittedProposalGetter, SubmittedProposalGetter>();
-            services.AddScoped<IProposalNumberValidator, ProposalNumberValidator>();
             services.AddScoped<IProposalStatusGetter, ProposalStatusGetter>();
         }
 
@@ -62,6 +72,7 @@ namespace Capri.Web.Configuration.Service
             services.AddScoped<IUserCreator, UserCreator>();
             services.AddScoped<IUserUpdater, UserUpdater>();
             services.AddScoped<IUserGetter, UserGetter>();
+            services.AddScoped<IUserDeleter, UserDeleter>();
         }
 
         private static void AddCourseServicesConfiguration(this IServiceCollection services)

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
+using Capri.Database;
 using Capri.Database.Entities;
 using Capri.Web.ViewModels.Proposal;
 
@@ -9,7 +10,10 @@ namespace Capri.Web.Configuration.Mapper
     {
         public ProposalMappingProfile()
         {
-            CreateMap<ProposalRegistration, Proposal>();
+            CreateMap<ProposalRegistration, Proposal>()
+            .ForMember(
+                proposal => proposal.Students,
+                o => o.Ignore());
 
             CreateMap<Proposal, ProposalViewModel>()
             .ForMember(
