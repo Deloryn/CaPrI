@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using Capri.Database.Entities.Identity;
 using Capri.Services.Courses;
+using Capri.Web.Controllers.Attributes;
 using Capri.Web.ViewModels.Course;
 
 namespace Capri.Web.Controllers
@@ -50,7 +50,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = RoleType.Dean)]
+        [AllowedRoles(RoleType.Dean)]
         [HttpPost]
         public async Task<IActionResult> Create(
             [FromBody] CourseRegistration registration)
@@ -73,7 +73,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = RoleType.Dean)]
+        [AllowedRoles(RoleType.Dean)]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(
             Guid id,
@@ -102,7 +102,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = RoleType.Dean)]
+        [AllowedRoles(RoleType.Dean)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {

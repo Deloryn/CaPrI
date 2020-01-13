@@ -108,8 +108,7 @@ namespace Capri.Services.Proposals
             }
             var proposalStatus = proposalStatusResult.Body();
 
-            var oldStudents = proposal.Students;
-            foreach(var student in oldStudents)
+            foreach(var student in proposal.Students)
             {
                 student.ProposalId = null;
             }

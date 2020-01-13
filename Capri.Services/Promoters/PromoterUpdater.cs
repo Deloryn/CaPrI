@@ -60,7 +60,7 @@ namespace Capri.Services.Promoters
             var result = await _userUpdater.Update(
                 existingPromoter.UserId, 
                 credentials,
-                new string[] {
+                new RoleType[] {
                     RoleType.Promoter
                 });
 

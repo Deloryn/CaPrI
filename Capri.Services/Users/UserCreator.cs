@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Linq;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -32,7 +33,7 @@ namespace Capri.Services.Users
         public async Task<IServiceResult<User>> CreateUser(
             string email, 
             string password,
-            IEnumerable<string> roles)
+            RoleType[] roles)
         {
             var emailExists = await EmailExists(email);
             if(emailExists)
@@ -41,13 +42,14 @@ namespace Capri.Services.Users
                     $"Email {email} is already taken");
             }
 
-            foreach(var role in roles)
+            var roleNames = roles.Select(r => GetRoleName(r));
+            foreach(var roleName in roleNames)
             {
-                var roleExists = await _roleManager.RoleExistsAsync(role);
+                var roleExists = await _roleManager.RoleExistsAsync(roleName);
                 if(!roleExists)
                 {
                     return ServiceResult<User>.Error(
-                        $"Role {role} does not exist");
+                        $"Role {roleName} does not exist");
                 }
             }
 
@@ -71,7 +73,7 @@ namespace Capri.Services.Users
             user.SecurityStamp = _tokenGenerator.GenerateTokenFor(user);
 
             await _userManager.CreateAsync(user);
-            await _userManager.AddToRolesAsync(user, roles);
+            await _userManager.AddToRolesAsync(user, roleNames);
             await _context.SaveChangesAsync();
 
             return ServiceResult<User>.Success(user);
@@ -85,6 +87,11 @@ namespace Capri.Services.Users
                 return true;
             }
             return false;
+        }
+
+        private string GetRoleName(RoleType role)
+        {
+            return Enum.GetName(typeof(RoleType), role);
         }
     }
 }

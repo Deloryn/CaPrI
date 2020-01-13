@@ -44,7 +44,7 @@ namespace Capri.Services.Promoters
                 .CreateUser(
                     registration.Email, 
                     registration.Password,
-                    new string[] {
+                    new RoleType[] {
                         RoleType.Promoter
                     });
 

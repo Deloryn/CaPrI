@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -28,7 +29,7 @@ namespace Capri.Services.Users
         public async Task<IServiceResult<User>> Update(
             Guid id,
             UserCredentials credentials,
-            IEnumerable<string> roles)
+            RoleType[] roles)
         {
             var existingUser = await _userManager.FindByIdAsync(id.ToString());
             if (existingUser == null)
@@ -45,13 +46,14 @@ namespace Capri.Services.Users
                 );
             }
 
-            foreach(var role in roles)
+            var roleNames = roles.Select(r => GetRoleName(r));
+            foreach(var roleName in roleNames)
             {
-                var roleExists = await _roleManager.RoleExistsAsync(role);
+                var roleExists = await _roleManager.RoleExistsAsync(roleName);
                 if(!roleExists)
                 {
                     return ServiceResult<User>.Error(
-                        $"Role {role} does not exist");
+                        $"Role {roleName} does not exist");
                 }
             }
 
@@ -59,7 +61,7 @@ namespace Capri.Services.Users
             
             var currentRoles = await _userManager.GetRolesAsync(existingUser);
             await _userManager.RemoveFromRolesAsync(existingUser, currentRoles);
-            await _userManager.AddToRolesAsync(existingUser, roles);
+            await _userManager.AddToRolesAsync(existingUser, roleNames);
             
             await _userManager.UpdateAsync(existingUser);
             await _context.SaveChangesAsync();
@@ -75,6 +77,11 @@ namespace Capri.Services.Users
                 return false;
             }
             return true;
+        }
+
+        private string GetRoleName(RoleType role)
+        {
+            return Enum.GetName(typeof(RoleType), role);
         }
 
         private void UpdateCredentialsOf(

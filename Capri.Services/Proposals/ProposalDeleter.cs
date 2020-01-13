@@ -68,12 +68,7 @@ namespace Capri.Services.Proposals
             }
 
             var proposalViewModel = _mapper.Map<ProposalViewModel>(proposal);
-
-            // foreach(var student in proposal.Students)
-            // {
-            //     student.ProposalId = null;
-            // }
-
+            
             _context.Proposals.Remove(proposal);
             await _context.SaveChangesAsync();
 

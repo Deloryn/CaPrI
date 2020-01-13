@@ -32,7 +32,7 @@ namespace Capri.Services.Faculties
                     $"Faculty with id {id} does not exist");
             }
 
-            if(IsNameTakenByOtherFaculty(faculty.Id, newData.Name))
+            if(FacultyNameTaken(faculty.Id, newData.Name))
             {
                 return ServiceResult<FacultyViewModel>.Error(
                     $"Faculty name {newData.Name} already exists"
@@ -48,7 +48,7 @@ namespace Capri.Services.Faculties
             return ServiceResult<FacultyViewModel>.Success(facultyViewModel);
         }
 
-        private bool IsNameTakenByOtherFaculty(Guid myFacultyId, string name)
+        private bool FacultyNameTaken(Guid myFacultyId, string name)
         {
             return _context
                 .Faculties

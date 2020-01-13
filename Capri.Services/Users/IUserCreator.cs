@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Capri.Database.Entities.Identity;
 
 namespace Capri.Services.Users
@@ -9,6 +8,6 @@ namespace Capri.Services.Users
         Task<IServiceResult<User>> CreateUser(
             string email, 
             string password, 
-            IEnumerable<string> roles);
+            RoleType[] roles);
     }
 }

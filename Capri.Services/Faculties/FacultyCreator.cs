@@ -23,7 +23,7 @@ namespace Capri.Services.Faculties
 
         public async Task<IServiceResult<FacultyViewModel>> Create(FacultyRegistration registration)
         {
-            if(DoesFacultyNameExist(registration.Name))
+            if(FacultyExists(registration.Name))
             {
                 return ServiceResult<FacultyViewModel>.Error(
                     $"Faculty name {registration.Name} already exists"
@@ -39,7 +39,7 @@ namespace Capri.Services.Faculties
             return ServiceResult<FacultyViewModel>.Success(facultyViewModel);
         }
 
-        private bool DoesFacultyNameExist(string name)
+        private bool FacultyExists(string name)
         {
             return _context
                 .Faculties

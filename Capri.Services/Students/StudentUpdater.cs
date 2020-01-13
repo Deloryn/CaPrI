@@ -61,7 +61,7 @@ namespace Capri.Services.Students
             var result = await _userUpdater.Update(
                 existingStudent.UserId, 
                 credentials,
-                new string[] {
+                new RoleType[] {
                     RoleType.Student
                 });
 
