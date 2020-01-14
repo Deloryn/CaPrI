@@ -38,7 +38,7 @@ namespace Capri.Services.Users
                     $"User with id {id} does not exist");
             }
 
-            var isEmailTakenBySomeOneElse = await IsEmailTakenBySomeoneElse(credentials.Email);
+            var isEmailTakenBySomeOneElse = await IsEmailTakenBySomeoneElse(existingUser.Id, credentials.Email);
             if(isEmailTakenBySomeOneElse)
             {
                 return ServiceResult<User>.Error(
@@ -69,10 +69,14 @@ namespace Capri.Services.Users
             return ServiceResult<User>.Success(existingUser);
         }
 
-        private async Task<bool> IsEmailTakenBySomeoneElse(string email)
+        private async Task<bool> IsEmailTakenBySomeoneElse(Guid userId, string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if(user == null)
+            {
+                return false;
+            }
+            else if(user.Id == userId)
             {
                 return false;
             }
