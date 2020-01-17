@@ -36,7 +36,7 @@
     "webpack-hot-middleware": "^2.25.0"
   },
   "dependencies": {
-    "@mdi/font": "^4.5.95",
+    "material-design-icons-iconfont": "^5.0.1",
     "axios": "^0.19.1",
     "axis": "^1.0.0",
     "jwt-decode": "^2.2.0",
