@@ -22,6 +22,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
+import IThesisData from '../models/thesis'
 import textField from './popUpFields/textField.vue';
 import editableTextField from './popUpFields/editableTextField.vue';
 import textAreaField from './popUpFields/textAreaField.vue';
@@ -40,7 +41,7 @@ import studentField from './popUpFields/studentField.vue';
     },
 })
 export default class PopUp extends Vue {
-    @Prop() public thesisData!: ['thesisData'];
+    @Prop() public thesisData!: IThesisData;
     public data() {
         return {};
     }

@@ -40,7 +40,6 @@
     "axios": "^0.19.1",
     "axis": "^1.0.0",
     "jwt-decode": "^2.2.0",
-    "material-design-icons-iconfont": "^5.0.1",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.5",
     "vue-router": "^3.1.3",

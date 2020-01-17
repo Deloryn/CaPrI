@@ -47,7 +47,7 @@ enum UserType {
 })
 export default class App extends Vue {
     public UserType = UserType;
-    public parsedToken = sessionService.parsedToken;
+    public parsedToken = new sessionService().parsedToken;
 }
 </script>
 <style lang="scss" scoped>
