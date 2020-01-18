@@ -25,36 +25,36 @@ namespace Capri.Services.Students
         public async Task<IServiceResult<bool>> IsStudentGroupValidFor(
             ProposalRegistration registration)
         {
-            var studentIds = registration.Students;
-            if(studentIds == null)
+            var indexNumbers = registration.Students;
+            if(indexNumbers == null)
             {
                 return ServiceResult<bool>.Success(true);
             }
 
-            var numOfStudents = studentIds.Count();
+            var numOfStudents = indexNumbers.Count();
             if(numOfStudents > registration.MaxNumberOfStudents)
             {
                 return ServiceResult<bool>.Error("The number of students exceeds the maximal number");
             }
-            if(numOfStudents != studentIds.Distinct().Count())
+            if(numOfStudents != indexNumbers.Distinct().Count())
             {
-                return ServiceResult<bool>.Error("Some of the given student IDs are the same");
+                return ServiceResult<bool>.Error("Some of the given student index numbers are the same");
             }
 
-            foreach(var id in studentIds)
+            foreach(var indexNumber in indexNumbers)
             {
-                var student = await _context.Students.FirstOrDefaultAsync(s => s.Id == id);
+                var student = await _context.Students.FirstOrDefaultAsync(s => s.IndexNumber == indexNumber);
                 if(student == null)
                 {
-                    return ServiceResult<bool>.Error($"The student with id {id} does not exist");
+                    return ServiceResult<bool>.Error($"The student with index number {indexNumber} does not exist");
                 }
                 if(student.StudyLevel != registration.Level)
                 {
-                    return ServiceResult<bool>.Error($"The student with id {id} does not match to the given study level");
+                    return ServiceResult<bool>.Error($"The student with index number {indexNumber} does not match to the given study level");
                 }
                 if(student.StudyMode != registration.Mode)
                 {
-                    return ServiceResult<bool>.Error($"The student with id {id} does not match to the given study mode");
+                    return ServiceResult<bool>.Error($"The student with index number {indexNumber} does not match to the given study mode");
                 }
             }
             return ServiceResult<bool>.Success(true);

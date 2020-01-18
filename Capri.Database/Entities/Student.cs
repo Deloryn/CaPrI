@@ -10,6 +10,12 @@ namespace Capri.Database.Entities
         [Key]
         public Guid Id { get; set; }
         [Required]
+        public int IndexNumber { get; set; }
+        [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
+        [Required]
         public ushort Semester { get; set; }
         [Required]
         public StudyLevel StudyLevel { get; set; }

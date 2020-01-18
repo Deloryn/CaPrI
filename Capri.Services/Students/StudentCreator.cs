@@ -39,6 +39,14 @@ namespace Capri.Services.Students
                 }
             }
 
+            var isIndexNumberTaken = await IsIndexNumberTaken(registration.IndexNumber);
+            if(isIndexNumberTaken)
+            {
+                return ServiceResult<StudentViewModel>.Error(
+                    $"Index number {registration.IndexNumber} is already taken"
+                );
+            }
+
             var userResult = 
                 await _userCreator
                 .CreateUser(
@@ -64,6 +72,16 @@ namespace Capri.Services.Students
 
             var studentViewModel = _mapper.Map<StudentViewModel>(student);
             return ServiceResult<StudentViewModel>.Success(studentViewModel);
+        }
+
+        private async Task<bool> IsIndexNumberTaken(int indexNumber)
+        {
+            var student = await _context.Students.FirstOrDefaultAsync(s => s.IndexNumber == indexNumber);
+            if(student == null)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

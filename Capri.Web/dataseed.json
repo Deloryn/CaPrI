@@ -19,6 +19,9 @@
   ],
   "Students": [
     {
+      "IndexNumber": 132201,
+      "FirstName": "Filip",
+      "LastName": "Cegielski",
       "Semester": 6,
       "StudyLevel": 0,
       "StudyMode": 0,
@@ -28,6 +31,9 @@
       }
     },
     {
+      "IndexNumber": 132202,
+      "FirstName": "Marcin",
+      "LastName": "Zawadzki",
       "Semester": 6,
       "StudyLevel": 0,
       "StudyMode": 0,
@@ -37,6 +43,9 @@
       }
     },
     {
+      "IndexNumber": 132203,
+      "FirstName": "Szymon",
+      "LastName": "Wójcik",
       "Semester": 6,
       "StudyLevel": 0,
       "StudyMode": 0,
@@ -46,6 +55,9 @@
       }
     },
     {
+      "IndexNumber": 132204,
+      "FirstName": "Andrzej",
+      "LastName": "Król",
       "Semester": 6,
       "StudyLevel": 0,
       "StudyMode": 0,

@@ -41,6 +41,14 @@ namespace Capri.Services.Students
                 }
             }
 
+            var isIndexNumberTaken = await IsIndexNumberTaken(id, newData.IndexNumber);
+            if(isIndexNumberTaken)
+            {
+                return ServiceResult<StudentViewModel>.Error(
+                    $"Index number {newData.IndexNumber} is already taken"
+                );
+            }
+
             var existingStudent = 
                 await _context
                 .Students
@@ -78,6 +86,20 @@ namespace Capri.Services.Students
 
             var studentViewModel = _mapper.Map<StudentViewModel>(existingStudent);
             return ServiceResult<StudentViewModel>.Success(studentViewModel);
+        }
+
+        private async Task<bool> IsIndexNumberTaken(Guid myId, int newIndexNumber)
+        {
+            var student = await _context.Students.FirstOrDefaultAsync(s => s.IndexNumber == newIndexNumber);
+            if(student == null)
+            {
+                return false;
+            }
+            else if(student.Id == myId)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

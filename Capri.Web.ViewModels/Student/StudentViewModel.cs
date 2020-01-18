@@ -7,6 +7,9 @@ namespace Capri.Web.ViewModels.Student
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
+        public int IndexNumber { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public ushort Semester { get; set; }
         public StudyLevel StudyLevel { get; set; }
         public StudyMode StudyMode;
