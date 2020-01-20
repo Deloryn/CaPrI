@@ -91,11 +91,7 @@ namespace Capri.Services.Students
         private async Task<bool> IsIndexNumberTaken(Guid myId, int newIndexNumber)
         {
             var student = await _context.Students.FirstOrDefaultAsync(s => s.IndexNumber == newIndexNumber);
-            if(student == null)
-            {
-                return false;
-            }
-            else if(student.Id == myId)
+            if(student == null || student.Id == myId)
             {
                 return false;
             }

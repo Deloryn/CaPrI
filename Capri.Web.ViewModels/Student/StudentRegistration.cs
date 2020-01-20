@@ -17,7 +17,7 @@ namespace Capri.Web.ViewModels.Student
         public string Password { get; set; }
 
         [Required]
-        [Range(100000, 999999)]
+        [Range(1, int.MaxValue)]
         public int IndexNumber { get; set; }
         
         [Required]

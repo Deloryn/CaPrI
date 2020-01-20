@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
@@ -39,8 +40,7 @@ namespace Capri.Services.Students
                 }
             }
 
-            var isIndexNumberTaken = await IsIndexNumberTaken(registration.IndexNumber);
-            if(isIndexNumberTaken)
+            if(IsIndexNumberTaken(registration.IndexNumber))
             {
                 return ServiceResult<StudentViewModel>.Error(
                     $"Index number {registration.IndexNumber} is already taken"
@@ -74,14 +74,9 @@ namespace Capri.Services.Students
             return ServiceResult<StudentViewModel>.Success(studentViewModel);
         }
 
-        private async Task<bool> IsIndexNumberTaken(int indexNumber)
+        private bool IsIndexNumberTaken(int indexNumber)
         {
-            var student = await _context.Students.FirstOrDefaultAsync(s => s.IndexNumber == indexNumber);
-            if(student == null)
-            {
-                return false;
-            }
-            return true;
+            return _context.Students.Any(s => s.IndexNumber == indexNumber);
         }
     }
 }
