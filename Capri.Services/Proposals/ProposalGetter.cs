@@ -88,16 +88,24 @@ namespace Capri.Services.Proposals
             return ServiceResult<FileDescription>.Success(fileDescription);
         }
 
-        public async Task<IServiceResult<FileDescription>> GetDiplomaCard()
+        public async Task<IServiceResult<FileDescription>> GetDiplomaCard(Guid id)
         {
             var proposal = await _context.Proposals
                 .Include(p => p.Students)
                 .Include(p => p.Course.Faculty)
                 .Include(p => p.Promoter.Institute)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(p => p.Id == id);
 
-            var result = _diplomaCardCreator.CreateDiplomaCard();
-            var fileName = $"document.docx";
+            if (proposal == null)
+            {
+                return ServiceResult<FileDescription>.Error($"Proposal with id {id} does not exist.");
+            }
+
+            var proposalDocRecord = _mapper.Map<ProposalDocRecord>(proposal);
+
+            var result = _diplomaCardCreator.CreateDiplomaCard(proposalDocRecord);
+
+            var fileName = $"document_{proposal.Id}.docx";
 
             var fileDescription = new FileDescription {
                 Name = fileName,

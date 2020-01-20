@@ -48,7 +48,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        //[Authorize(Roles = "dean")]
+        [Authorize(Roles = "dean")]
         [HttpGet("{id}/csv")]
         public async Task<IActionResult> GetCsvFile(Guid id)
         {
@@ -61,10 +61,10 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [HttpGet("docx")]
-        public async Task<IActionResult> GetDiplomaCardFile()
+        [HttpGet("{id}/docx")]
+        public async Task<IActionResult> GetDiplomaCardFile(Guid id)
         {
-            var result = await _proposalGetter.GetDiplomaCard();
+            var result = await _proposalGetter.GetDiplomaCard(id);
             if (result.Successful())
             {
                 var fileDescription = result.Body();
