@@ -25,11 +25,11 @@
 		</div>
 
 		<div class="headerElement">
-			<router-link to="/login" class="noTextDecoration">
+			<div @click="logout()" class="noTextDecoration">
 				<v-avatar color="rgb(18,98,141)" class="icon" size="50">
 					<v-icon color="#EEEEEE">person</v-icon>
 				</v-avatar>
-			</router-link>
+			</div>
 		</div>
 	</v-card-actions>
 </template>
@@ -55,6 +55,10 @@ export default class TopBar extends Vue {
                 { font: 24 },
             ],
         };
+    };
+    public logout() {
+        sessionStorage.removeItem('token')
+        this.$router.push('/login')
     }
 }
 </script>

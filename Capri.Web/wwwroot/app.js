@@ -5,6 +5,7 @@ import 'vuetify/dist/vuetify.min.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import '@mdi/font/css/materialdesignicons.css';
 import router from './router';
+export var bus = new Vue();
 if (module.hot) {
     module.hot.accept();
 }

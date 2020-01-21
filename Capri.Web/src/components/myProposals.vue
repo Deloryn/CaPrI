@@ -30,7 +30,7 @@
 				<v-data-table
 					:headers="headers"
 					:items="items"
-					:search="search"
+					:search="searchTitle"
 					@click:row="showpopUp"
 					class="whiteBack"
 				>

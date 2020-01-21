@@ -31,7 +31,7 @@
 			<v-col cols="12">
 				<v-data-table
 					:headers="headers"
-					:items="items"
+					:items="promoters"
 					:search="search"
 					class="whiteBackground"
 				>
@@ -39,28 +39,29 @@
 						<span>{{ header.text }}</span>
 					</template>
 
-					<template v-slot:header.bachelorsTopics="{ header }">
+					<template v-slot:header.expectedNumberOfBachelorProposals="{ header }">
 						<span>{{ header.text }}</span>
 					</template>
 
-					<template v-slot:header.masterTopics="{ header }">
+					<template v-slot:header.expectedNumberOfMasterProposals="{ header }">
 						<span>{{ header.text }}</span>
 					</template>
 
 					<template v-slot:item.title="{ item }">
-						<span>
-							{{ item.promoter }}
-						</span>
+                        <span>
+                            {{ item.titlePrefix }} {{item.firstName}} {{item.lastName}}<span v-if="item.titlePostfix!==''">, </span>
+                             {{item.titlePostfix}}
+                        </span>
 					</template>
-					<template v-slot:item.bachelorsTopics="{ item }">
-						<span>
-							{{ item.bachelorThesis }}
-						</span>
+					<template v-slot:item.expectedNumberOfBachelorProposals="{ item }">
+                        <span>
+                            {{ item.expectedNumberOfBachelorProposals }}
+                        </span>
 					</template>
-					<template v-slot:item.masterTopics="{ item }">
-						<span>
-							{{ item.masterThesis }}
-						</span>
+					<template v-slot:item.expectedNumberOfMasterProposals="{ item }">
+                        <span>
+                            {{ item.expectedNumberOfMasterProposals }}
+                        </span>
 					</template>
 				</v-data-table>
 			</v-col>
@@ -79,6 +80,13 @@ import popUp from './popUp.vue';
     },
 })
 export default class MyProporsals extends Vue {
+    public promoters = [{"id":"","titlePrefix":"","titlePostfix":"","firstName":"Loading data…","lastName":"","expectedNumberOfBachelorProposals":0,"expectedNumberOfMasterProposals":0,"proposals":[""],"userId":"","instituteId":""}];
+    public getData() {
+        Vue.axios.get('http://40.87.155.231/promoters').then((response) => {
+            this.promoters = response.data
+        })
+    };
+    public dane = this.getData();
     public popUp = {
         show: false,
         maxWidth: 600,
@@ -129,14 +137,14 @@ export default class MyProporsals extends Vue {
                 {
                     sortable: false,
                     text: 'Bachelor topics',
-                    value: 'bachelorsTopics',
+                    value: 'expectedNumberOfBachelorProposals',
                     width: '20%',
                     align: 'center',
                 },
                 {
                     sortable: false,
                     text: 'Master topics',
-                    value: 'masterTopics',
+                    value: 'expectedNumberOfMasterProposals',
                     width: '20%',
                     align: 'center',
                 },
@@ -148,22 +156,22 @@ export default class MyProporsals extends Vue {
             items: [
                 {
                     promoter: 'Dakota Rice',
-                    bachelorThesis: 3,
-                    masterThesis: 2,
+                    expectedNumberOfBachelorProposals: 3,
+                    expectedNumberOfMasterProposals: 2,
                     available: 3,
                     type: 'full-time',
                 },
                 {
                     promoter: 'Dakota Rice',
-                    bachelorThesis: 3,
-                    masterThesis: 2,
+                    expectedNumberOfBachelorProposals: 3,
+                    expectedNumberOfMasterProposals: 2,
                     available: 3,
                     type: 'full-time',
                 },
                 {
                     promoter: 'Dakota Rice',
-                    bachelorThesis: 3,
-                    masterThesis: 2,
+                    expectedNumberOfBachelorProposals: 3,
+                    expectedNumberOfMasterProposals: 2,
                     available: 3,
                     type: 'full-time',
                 },

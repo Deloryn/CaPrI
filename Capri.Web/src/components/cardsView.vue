@@ -14,65 +14,58 @@
 				</template>
 			</popUp>
 
-			<v-col cols="12">
-				<v-data-table
-					:headers="headers"
-					:items="items"
-					:search="searchTitle"
-					v-model="selected"
-					@click:row="showDialog"
-					class="table"
-				>
-					<template v-slot:header.title="{ header }">
-						<span class="headerText">{{ header.text }}</span>
-						<v-text-field
-							v-model="searchTitle"
-							label="Filter"
-							single-line
-							hide-details
-							outlined
-						></v-text-field>
-					</template>
+            <v-col cols="12">
+                <v-data-table :headers="headers"
+                              :items="thesisList"
+                              :search="searchTitle"
+                              v-model="selected"
+                              @click:row="showDialog"
+                              class="table">
+                    <template v-slot:header.title="{ header }">
+                        <span class="headerText">{{ header.text }}</span>
+                        <v-text-field v-model="searchTitle"
+                                      label="Filter"
+                                      single-line
+                                      hide-details
+                                      outlined></v-text-field>
+                    </template>
 
-					<template v-slot:header.promoter="{ header }">
-						<span class="headerText">{{ header.text }}</span>
-						<v-text-field
-							v-model="searchPromoter"
-							label="Filter"
-							single-line
-							hide-details
-							outlined
-						></v-text-field>
-					</template>
+                    <template v-slot:header.promoter="{ header }">
+                        <span class="headerText">{{ header.text }}</span>
+                        <v-text-field v-model="searchPromoter"
+                                      label="Filter"
+                                      single-line
+                                      hide-details
+                                      outlined></v-text-field>
+                    </template>
 
-					<template v-slot:header.freeSlots="{ header }">
-						<span class="headerText">{{ header.text }}</span>
-						<v-text-field
-							v-model="searchFreeSlots"
-							label="Filter"
-							single-line
-							hide-details
-							outlined
-						></v-text-field>
-					</template>
+                    <template v-slot:header.freeSlots="{ header }">
+                        <span class="headerText">{{ header.text }}</span>
+                        <v-text-field v-model="searchFreeSlots"
+                                      label="Filter"
+                                      single-line
+                                      hide-details
+                                      outlined></v-text-field>
+                    </template>
 
-					<template v-slot:item.title="{ item }">
-						<span class="itemText">{{ item.title }}</span>
-					</template>
-					<template v-slot:item.promoter="{ item }">
-						<span class="itemText">{{ item.promoter }}</span>
-					</template>
-					<template v-slot:item.freeSlots="{ item }">
-						<span class="itemTextSlot">{{ item.freeSlots }}</span>
-					</template>
-				</v-data-table>
-			</v-col>
+                    <template v-slot:item.title="{ item }">
+                        <span class="itemText">{{ item.topicEnglish }}</span>
+                    </template>
+                    <template v-slot:item.promoter="{ item }">
+                        <span class="itemText">{{ findPromoter(item.promoterId) }}</span>
+                    </template>
+                    <template v-slot:item.freeSlots="{ item }">
+                        <span class="itemTextSlot">{{ item.status }}/{{ item.maxNumberOfStudents }}</span>
+                    </template>
+                </v-data-table>
+            </v-col>
 		</v-row>
 	</v-container>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import popUp from './popUp.vue';
+import { bus } from '../app';
 
 @Component({
     components: {
@@ -80,6 +73,7 @@ import popUp from './popUp.vue';
     },
 })
 export default class CardsView extends Vue {
+    public napis = "czesc";
     public popUp = {
         show: false,
         maxWidth: 1000,
@@ -112,6 +106,49 @@ export default class CardsView extends Vue {
             },
         },
     };
+    public getData() {
+        Vue.axios.get('http://40.87.155.231/proposals').then((response) => {
+            this.thesisList = response.data
+        })
+        Vue.axios.get('http://40.87.155.231/promoters').then((response) => {
+            this.promoters = response.data
+        })
+    };
+    //public getData2() {
+    //    alert("dziala")
+    //    Vue.axios.get('http://40.87.155.231//proposals/filtered?filters=level==1').then((response) => {
+    //        this.thesisList = response.data;
+    //    })
+    //};
+    public findPromoter(promoterId: string): string {
+        let indexOfPromoter = -1;
+        this.promoters.find((o, i) => {
+            if (o.id === promoterId) {
+                indexOfPromoter = i;
+            }
+        });
+        if (indexOfPromoter !== -1) {
+            let prefixPostfix = "";
+            if (this.promoters[indexOfPromoter].titlePostfix) {
+                prefixPostfix = ", "
+            }
+            return this.promoters[indexOfPromoter].titlePrefix + " " +
+                this.promoters[indexOfPromoter].firstName + " " +
+                this.promoters[indexOfPromoter].lastName + prefixPostfix +
+                this.promoters[indexOfPromoter].titlePostfix
+        }
+        return promoterId;
+    }
+    public dane = this.getData();
+    public thesisList = [{"id":"","topicPolish":"","topicEnglish":"Loading data…","description":"","outputData":"","specialization":"","maxNumberOfStudents":4,"startingDate":"","status":0,"level":0,"mode":0,"studyProfile":0,"promoterId":"","courseId":"","students":[]}];
+    public promoters = [{"id":"","titlePrefix":"","titlePostfix":"","firstName":"Loading data…","lastName":"","expectedNumberOfBachelorProposals":0,"expectedNumberOfMasterProposals":0,"proposals":[""],"userId":"","instituteId":""}];
+    //public odSomsiada = bus.$on('someEvent', (interesting_data) => {
+    //    console.log(interesting_data)
+    //    this.napis = interesting_data;
+    //    Vue.axios.get('http://40.87.155.231//proposals/filtered?filters=level==1').then((response) => {
+    //        this.thesisList = response.data;
+    //    })
+    //});
     public data() {
         return {
             selected: [],
@@ -124,7 +161,7 @@ export default class CardsView extends Vue {
                     text: 'Title',
                     value: 'title',
                     width: '60%',
-                    align: 'center',
+                    align: 'left',
                 },
                 {
                     sortable: true,
@@ -158,208 +195,30 @@ export default class CardsView extends Vue {
                         'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
                     thesisType: 'Master',
                     studyType: 'Full time',
-                    freeSlots: 0,
-                    maxSlots: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 1,
-                    maxSlots: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 2,
-                    maxSlots: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    maxSlots: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    maxSlots: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    maxSlots: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    maxSlots: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    maxSlots: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    maxSlots: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    maxSlots: 5,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    maxSlots: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    maxSlots: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    maxSlots: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    maxSlots: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    maxSlots: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    maxSlots: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    maxSlots: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    maxSlots: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    maxSlots: 3,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
                     freeSlots: 3,
                     maxSlots: 4,
                 },
             ],
         };
     }
+    public toStudyType(type) {
+        if (type) {
+            return "Part-time"
+        }
+        return "Full-time"
+    }
+    public toThesisType(type) {
+        if (type) {
+            return "Master"
+        }
+        return "Bachelor"
+    }
     public showDialog(value): void {
-        this.popUp.data.title.text = value.title;
-        this.popUp.data.promoter.text = value.promoter;
-        this.popUp.data.studyType.text = value.studyType;
-        this.popUp.data.thesisType.text = value.thesisType;
-        this.popUp.data.slots.text = value.freeSlots + '/' + value.maxSlots;
+        this.popUp.data.title.text = value.topicEnglish;
+        this.popUp.data.promoter.text = this.findPromoter(value.promoterId);
+        this.popUp.data.studyType.text = this.toStudyType(value.level);
+        this.popUp.data.thesisType.text = this.toThesisType(value.mode);
+        this.popUp.data.slots.text = value.status + '/' + value.maxNumberOfStudents;
         this.popUp.data.description.text = value.description;
         this.popUp.show = true;
     }

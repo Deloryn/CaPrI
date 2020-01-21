@@ -8,34 +8,35 @@
 		<div v-if="chosenFileWithPromoterList !== ''">
 			<v-row justify="center">
 				<v-col cols="12">
-					<v-data-table
-						:headers="headers"
-						:items="items"
-						class="whiteBackground"
-					>
-						<template v-slot:header.name="{ header }">
-							<span>{{ header.text }}</span>
-						</template>
-						<template v-slot:header.laboratory="{ header }">
-							<span>{{ header.text }}</span>
-						</template>
-						<template v-slot:header.bachelorTopics="{ header }">
-							<span>{{ header.text }}</span>
-						</template>
-						<template v-slot:header.masterTopics="{ header }">
-							<span>{{ header.text }}</span>
-						</template>
+                    <v-data-table :headers="headers"
+                                  :items="items"
+                                  class="whiteBackground">
+                        <template v-slot:header.name="{ header }">
+                            <span>{{ header.text }}</span>
+                        </template>
+                        <template v-slot:header.laboratory="{ header }">
+                            <span>{{ header.text }}</span>
+                        </template>
+                        <template v-slot:header.bachelorTopics="{ header }">
+                            <span>{{ header.text }}</span>
+                        </template>
+                        <template v-slot:header.masterTopics="{ header }">
+                            <span>{{ header.text }}</span>
+                        </template>
 
-						<template v-slot:item.name="{ item }">
-							<span>{{ item.title }}</span>
-						</template>
-						<template v-slot:item.promoter="{ item }">
-							<span>{{ item.thesis }}</span>
-						</template>
-						<template v-slot:item.freeSlots="{ item }">
-							<span>{{ item.taken }}</span>
-						</template>
-					</v-data-table>
+                        <template v-slot:item.name="{ item }">
+                            <span>{{ item.title }}</span>
+                        </template>
+                        <template v-slot:item.laboratory="{ item }">
+                            <span>{{ item.laboratory }}</span>
+                        </template>
+                        <template v-slot:item.masterTopics="{ item }">
+                            <span>{{ item.masterTopics }}</span>
+                        </template>
+                        <template v-slot:item.bachelorTopics="{ item }">
+                            <span>{{ item.bachelorTopics }}</span>
+                        </template>
+                    </v-data-table>
 				</v-col>
 			</v-row>
 			<div class="biggerFont">

@@ -13,4 +13,7 @@ export default class EditableTextField extends Vue {
 }
 </script>
 <style lang="scss" scoped>
+.v-text-field__slot{
+    font-size: 24px;
+}
 </style>

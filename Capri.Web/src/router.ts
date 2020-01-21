@@ -7,7 +7,6 @@ import PromoterList from './components/promotersList.vue';
 import Import from './components/importPromoters.vue';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
-import sessionService from './services/sessionService';
 
 Vue.use(Router);
 Vue.use(VueAxios, axios);
@@ -15,19 +14,18 @@ Vue.use(VueAxios, axios);
 const router = new Router({
     mode: 'history',
     routes: [
-        { path: '/login', component: LoginView },
-        { path: '/cards', component: CardsView },
-        { path: '/myProposals', component: MyProposals },
-        { path: '/promoterList', component: PromoterList },
-        { path: '/import', component: Import },
-        { path: '/', component: CardsView },
-        { path: '/Home/Index/', redirect: '/' },
+        { path: '/Home/Index/login', component: LoginView },
+        { path: '/Home/Index/cards', component: CardsView },
+        { path: '/Home/Index/myProposals', component: MyProposals },
+        { path: '/Home/Index/promoterList', component: PromoterList },
+        { path: '/Home/Index/import', component: Import },
+        { path: '/Home/Index/', component: CardsView },
     ],
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.path !== '/login' && !sessionStorage.token) {
-        next('/login');
+    if (to.path !== '/Home/Index/login' && !sessionStorage.token) {
+        next('/Home/Index/login');
     } else {
         next();
     }

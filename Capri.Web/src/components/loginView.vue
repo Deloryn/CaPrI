@@ -16,6 +16,7 @@
 										name="login"
 										prepend-icon="person"
 										type="text"
+                                        v-model="userData.email"
 									></v-text-field>
 
 									<v-text-field
@@ -24,12 +25,16 @@
 										name="password"
 										prepend-icon="lock"
 										type="password"
+                                        v-model="userData.password"
 									></v-text-field>
 								</v-form>
 							</v-card-text>
 							<v-card-actions>
 								<div class="flex-grow-1"></div>
-								<v-btn color="primary" to="/cards">Login</v-btn>
+								<v-btn color="primary"
+                                       @click="tryToLog(userData.email,userData.password)"
+                                       @keyup.enter="tryToLog(userData.email,userData.password)"
+                                       >Login</v-btn>
 							</v-card-actions>
 						</v-card>
 					</v-col>
@@ -42,6 +47,21 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
-export default class LoginPanel extends Vue {}
+export default class LoginPanel extends Vue {
+    public userData = {
+        email: '',
+        password: ''
+    };
+    public tryToLog(email, password) {
+        Vue.axios.post('http://40.87.155.231/account/login', {
+	        email: email,
+	        password: password
+        }).then((response) => {
+            console.log(response.data)
+            sessionStorage.setItem('token', response.data.securityStamp)
+            this.$router.push('/Home/Index')
+        })
+    }
+}
 </script>
 <style lang="scss" scoped></style>

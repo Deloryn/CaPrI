@@ -6,7 +6,7 @@ if (token) {
     parsedToken = jwt_decode(token);
 }
 
-const sessionService = {
+var sessionService = {
     token,
     parsedToken,
 };
