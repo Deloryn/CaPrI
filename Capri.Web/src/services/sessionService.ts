@@ -1,15 +1,12 @@
 import jwt_decode from 'jwt-decode';
 
-class sessionService {
-    token: string;
-    parsedToken: {};
-    constructor() {
-        this.token = sessionStorage.token;
-        this.parsedToken = JSON.parse('{ "role":""}');
-        if (this.token) {
-            this.parsedToken = jwt_decode(this.token);
-        } 
+export class SessionService {
+    public getParsedToken(): object {
+        const token = sessionStorage.token;
+        let parsedToken = JSON.parse('{ "role":""}');
+        if (token) {
+            parsedToken = jwt_decode(token);
+        }
+        return parsedToken;
     }
 }
-
-export default sessionService;

@@ -7,7 +7,6 @@ import PromoterList from './components/promotersList.vue';
 import Import from './components/importPromoters.vue';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
-import sessionService from './services/sessionService';
 
 Vue.use(Router);
 Vue.use(VueAxios, axios);

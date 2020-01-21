@@ -22,7 +22,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import IThesisData from '../models/thesis'
+import IThesisData from '../models/thesis';
 import textField from './popUpFields/textField.vue';
 import editableTextField from './popUpFields/editableTextField.vue';
 import textAreaField from './popUpFields/textAreaField.vue';

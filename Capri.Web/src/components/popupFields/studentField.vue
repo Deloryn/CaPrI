@@ -22,7 +22,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import IPopUpData from '../../models/popUp'
+import IPopUpData from '../../models/popUp';
 
 @Component
 export default class StudentField extends Vue {
