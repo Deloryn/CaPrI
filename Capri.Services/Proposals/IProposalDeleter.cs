@@ -1,13 +1,11 @@
-﻿using Capri.Database.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
+using Capri.Web.ViewModels.Proposal;
 
-namespace Capri.Services
+namespace Capri.Services.Proposals
 {
     public interface IProposalDeleter
     {
-        Task<IServiceResult<Proposal>> Delete(Guid id);
+        Task<IServiceResult<ProposalViewModel>> Delete(Guid id);
     }
 }

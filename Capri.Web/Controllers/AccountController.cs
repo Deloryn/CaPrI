@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Capri.Web.ViewModels.User;
-using Capri.Services;
+using Capri.Services.Account;
 
 namespace Capri.Web.Controllers
 {
@@ -22,9 +19,14 @@ namespace Capri.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody]UserCredentials credentials)
         {
-            if (credentials == null)
+            if(credentials == null)
             {
                 return BadRequest("Credentials not given");
+            }
+
+            if(!ModelState.IsValid)
+            {
+                return BadRequest("The given credentials are invalid");
             }
 
             var result = 
@@ -32,12 +34,9 @@ namespace Capri.Web.Controllers
 
             if(result.Successful())
             {
-                return Ok(result);
+                return Ok(result.Body());
             }
-            else
-            {
-                return BadRequest(result);
-            }
+            return BadRequest(result.GetAggregatedErrors());
         }
     }
 }

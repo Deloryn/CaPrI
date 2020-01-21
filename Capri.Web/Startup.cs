@@ -1,12 +1,13 @@
-﻿using System;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Capri.Web.Configuration;
-using Capri.Services;
-using Microsoft.AspNetCore.Http;
+using Capri.Web.Configuration.Sieve;
+using Capri.Web.Configuration.Mapper;
+using Capri.Web.Configuration.Service;
 
 namespace Capri.Web
 {
@@ -14,9 +15,14 @@ namespace Capri.Web
     {
         public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -25,23 +31,13 @@ namespace Capri.Web
         {
             services.AddMvc();
             services.AddDatabaseConfiguration(Configuration["DbConnectionString"]);
+            services.AddIdentityConfiguration();
+            services.AddSystemSettingsConfiguration(Configuration.GetSection("SystemSettings"));
             services.AddJwtConfiguration(Configuration.GetSection("JwtAuthorizationDetails"));
-            services.AddSystemConfiguration(Configuration.GetSection("SystemSettings"));
+            services.AddSieveConfiguration(Configuration.GetSection("SieveSettings"));
             services.AddMapperConfiguration();
-            services.AddHttpContextAccessor();
-            services.AddScoped<ILoginService, LoginService>();
-            services.AddScoped<IProposalCreator, ProposalCreator>();
-            services.AddScoped<IProposalDeleter, ProposalDeleter>();
-            services.AddScoped<IProposalGetter, ProposalGetter>();
-            services.AddScoped<IProposalUpdater, ProposalUpdater>();
-            services.AddScoped<IPromoterCreator, PromoterCreator>();
-            services.AddScoped<IPromoterUpdater, PromoterUpdater>();
-            services.AddScoped<IPromoterGetter, PromoterGetter>();
-            services.AddScoped<IPromoterDeleter, PromoterDeleter>();
-            services.AddScoped<ITokenGenerator, TokenGenerator>();
-            services.AddScoped<IUserCreator, UserCreator>();
-            services.AddScoped<IUserUpdater, UserUpdater>();
-            services.AddScoped<IApplicationUserGetter, ApplicationUserGetter>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddServicesConfiguration();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

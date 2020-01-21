@@ -1,34 +1,106 @@
-﻿using Capri.Database;
-using Capri.Database.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Text;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using Sieve.Models;
+using Sieve.Services;
+using Capri.Database;
+using Capri.Services.Files;
+using Capri.Web.ViewModels.Proposal;
+using Capri.Web.ViewModels.Common;
 
-namespace Capri.Services
+namespace Capri.Services.Proposals
 {
     public class ProposalGetter : IProposalGetter
     {
         private readonly ISqlDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly ISieveProcessor _sieveProcessor;
+        private readonly ICsvCreator _csvCreator;
 
-        public ProposalGetter(ISqlDbContext context)
+        public ProposalGetter(
+            ISqlDbContext context,
+            IMapper mapper,
+            ISieveProcessor sieveProcessor,
+            ICsvCreator csvCreator)
         {
             _context = context;
+            _mapper = mapper;
+            _sieveProcessor = sieveProcessor;
+            _csvCreator = csvCreator;
         }
 
-        public async Task<IServiceResult<Proposal>> Get(Guid id)
+        public async Task<IServiceResult<ProposalViewModel>> Get(Guid id)
         {
-            var proposal = await _context.Proposals.FirstOrDefaultAsync(p => p.Id == id);
+            var proposal = await _context.Proposals
+                .Include(p => p.Students)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
-            return ServiceResult<Proposal>.Success(proposal);
+            if(proposal == null)
+            {
+                return ServiceResult<ProposalViewModel>.Error(
+                    $"Proposal with id {id} does not exist");
+            }
+
+            var proposalViewModel = _mapper.Map<ProposalViewModel>(proposal);
+            return ServiceResult<ProposalViewModel>.Success(proposalViewModel);
         }
 
-        public IServiceResult<IEnumerable<Proposal>> GetAll()
+        public async Task<IServiceResult<FileDescription>> GetCsvFileDescription(Guid id)
         {
-            var proposals = _context.Proposals;
+            var proposal = await _context.Proposals
+                .Include(p => p.Students)
+                .Include(p => p.Course.Faculty)
+                .Include(p => p.Promoter.Institute)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
-            return ServiceResult<IEnumerable<Proposal>>.Success(proposals);
+            if(proposal == null)
+            {
+                return ServiceResult<FileDescription>.Error(
+                    $"Proposal with id {id} does not exist");
+            }
+            
+            var proposalCsvRecord = _mapper.Map<ProposalCsvRecord>(proposal);
+            var records = new ProposalCsvRecord[] { proposalCsvRecord };
+
+            var csvStringResult = _csvCreator.CreateCsvStringFrom<ProposalCsvRecord>(records);
+            if(!csvStringResult.Successful())
+            {
+                return ServiceResult<FileDescription>.Error(csvStringResult.GetAggregatedErrors());
+            }
+
+            var csvString = csvStringResult.Body();
+            var bytes = Encoding.UTF8.GetBytes(csvString);
+            var fileName = $"proposal-{proposal.Id}.csv";
+
+            var fileDescription = new FileDescription {
+                Name = fileName,
+                Bytes = bytes
+            };
+
+            return ServiceResult<FileDescription>.Success(fileDescription);
+        }
+
+        public IServiceResult<IEnumerable<ProposalViewModel>> GetAll()
+        {
+            var proposals = _context.Proposals
+                .Include(p => p.Students);
+
+            var proposalViewModels = proposals.Select(p => _mapper.Map<ProposalViewModel>(p));
+            return ServiceResult<IEnumerable<ProposalViewModel>>.Success(proposalViewModels);
+        }
+
+        public IServiceResult<IQueryable<ProposalViewModel>> GetFiltered(SieveModel sieveModel)
+        {
+            var proposals = _context.Proposals.AsQueryable();
+
+            var filtered = _sieveProcessor.Apply(sieveModel, proposals);
+            
+            var proposalViewModels = filtered.Select(p => _mapper.Map<ProposalViewModel>(p));
+            return ServiceResult<IQueryable<ProposalViewModel>>.Success(proposalViewModels);
         }
     }
 }

@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Capri.Services;
+using Capri.Database.Entities.Identity;
+using Capri.Services.Promoters;
+using Capri.Web.Controllers.Attributes;
 using Capri.Web.ViewModels.Promoter;
 
 namespace Capri.Web.Controllers
@@ -29,18 +28,15 @@ namespace Capri.Web.Controllers
             _promoterDeleter = promoterDeleter;
         }
 
-        [HttpGet("{id:Guid}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
             var result = await _promoterGetter.Get(id);
             if(result.Successful())
             {
-                return Ok(result);
+                return Ok(result.Body());
             }
-            else
-            {
-                return BadRequest(result);
-            }
+            return BadRequest(result.GetAggregatedErrors());
         }
 
         [HttpGet]
@@ -49,60 +45,73 @@ namespace Capri.Web.Controllers
             var result = _promoterGetter.GetAll();
             if(result.Successful())
             {
-                return Ok(result);
+                return Ok(result.Body());
             }
-            else
-            {
-                return BadRequest(result);
-            }
+            return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = "dean")]
+        [AllowedRoles(RoleType.Dean)]
         [HttpPost]
         public async Task<IActionResult> Create(
             [FromBody] PromoterRegistration registration)
         {
+            if(registration == null)
+            {
+                return BadRequest("Promoter registration not given");
+            }
+
+            if(!ModelState.IsValid)
+            {
+                return BadRequest("The given promoter registration is invalid");
+            }
+
             var result = await _promoterCreator.Create(registration);
             if(result.Successful())
             {
-                return Ok(result);
+                return Ok(result.Body());
             }
-            else
-            {
-                return BadRequest(result);
-            }
+            return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = "dean")]
-        [HttpPut("{id:Guid}")]
+        [AllowedRoles(RoleType.Dean)]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(
             Guid id,
-            [FromBody] PromoterUpdate newData)
+            [FromBody] PromoterRegistration registration)
         {
-            var result = await _promoterUpdater.Update(id, newData);
+            if(id == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if(registration == null)
+            {
+                return BadRequest("Promoter registration not given");
+            }
+
+            if(!ModelState.IsValid)
+            {
+                return BadRequest("The given promoter registration is invalid");
+            }
+
+            var result = await _promoterUpdater.Update(id, registration);
             if(result.Successful())
             {
-                return Ok(result);
+                return Ok(result.Body());
             }
-            else
-            {
-                return BadRequest(result);
-            }
+            return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = "dean")]
-        [HttpDelete("{id:Guid}")]
+        [AllowedRoles(RoleType.Dean)]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _promoterDeleter.Delete(id);
             if(result.Successful())
             {
-                return Ok(result);
+                return Ok(result.Body());
             }
-            else
-            {
-                return BadRequest(result);
-            }
+            return BadRequest(result.GetAggregatedErrors());
         }
     }
 }

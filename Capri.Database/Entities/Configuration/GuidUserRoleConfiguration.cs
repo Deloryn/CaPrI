@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Capri.Database.Entities.Identity;
@@ -11,40 +10,31 @@ namespace Capri.Database.Entities.Configuration
     {
         public void Configure(EntityTypeBuilder<GuidUserRole> builder)
         {
-            foreach(var adminId in SeedParams.AdminIds)
+            foreach (var userId in SeedGetter.DeanEmployees.Select(d => d.Id))
             {
                 builder.HasData(new GuidUserRole
                 {
                     Id = Guid.NewGuid(),
-                    RoleId = SeedParams.AdminRoleId,
-                    UserId = adminId
+                    RoleId = SeedGetter.DeanRoleId,
+                    UserId = userId
                 });
             }
-            foreach (var deanId in SeedParams.DeanIds)
+            foreach (var userId in SeedGetter.Students.Select(s => s.UserId))
             {
                 builder.HasData(new GuidUserRole
                 {
                     Id = Guid.NewGuid(),
-                    RoleId = SeedParams.DeanRoleId,
-                    UserId = deanId
+                    RoleId = SeedGetter.StudentRoleId,
+                    UserId = userId
                 });
             }
-            foreach (var studentId in SeedParams.StudentIds)
+            foreach (var userId in SeedGetter.Promoters.Select(p => p.UserId))
             {
                 builder.HasData(new GuidUserRole
                 {
                     Id = Guid.NewGuid(),
-                    RoleId = SeedParams.StudentRoleId,
-                    UserId = studentId
-                });
-            }
-            foreach (var promoterId in SeedParams.PromoterIds)
-            {
-                builder.HasData(new GuidUserRole
-                {
-                    Id = Guid.NewGuid(),
-                    RoleId = SeedParams.PromoterRoleId,
-                    UserId = promoterId
+                    RoleId = SeedGetter.PromoterRoleId,
+                    UserId = userId
                 });
             }
         }

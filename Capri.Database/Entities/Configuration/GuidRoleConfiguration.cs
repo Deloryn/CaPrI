@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Capri.Database.Entities.Identity;
@@ -11,30 +9,29 @@ namespace Capri.Database.Entities.Configuration
     {
         public void Configure(EntityTypeBuilder<GuidRole> builder)
         {
-            builder.HasData(new GuidRole
-            {
-                Id = SeedParams.AdminRoleId,
-                Name = "admin",
-                NormalizedName = "admin"
-            },
-            new GuidRole
-            {
-                Id = SeedParams.DeanRoleId,
-                Name = "dean",
-                NormalizedName = "dean"
-            },
-            new GuidRole
-            {
-                Id = SeedParams.StudentRoleId,
-                Name = "student",
-                NormalizedName = "student"
-            },
-            new GuidRole
-            {
-                Id = SeedParams.PromoterRoleId,
-                Name = "promoter",
-                NormalizedName = "promoter"
-            });
+            var deanRoleName = Enum.GetName(typeof(RoleType), RoleType.Dean);
+            var studentRoleName = Enum.GetName(typeof(RoleType), RoleType.Student);
+            var promoterRoleName = Enum.GetName(typeof(RoleType), RoleType.Promoter);
+
+            builder.HasData(
+                new GuidRole
+                {
+                    Id = SeedGetter.DeanRoleId,
+                    Name = deanRoleName,
+                    NormalizedName = deanRoleName
+                },
+                new GuidRole
+                {
+                    Id = SeedGetter.StudentRoleId,
+                    Name = studentRoleName,
+                    NormalizedName = studentRoleName
+                },
+                new GuidRole
+                {
+                    Id = SeedGetter.PromoterRoleId,
+                    Name = promoterRoleName,
+                    NormalizedName = promoterRoleName
+                });
         }
     }
 }
