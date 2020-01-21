@@ -42,8 +42,7 @@ namespace Capri.Services.Students
                     $"Student with id {id} does not exist");
             }
 
-            var deleteResult = await Delete(student);
-            return deleteResult;
+            return await Delete(student);
         }
 
         public async Task<IServiceResult<StudentViewModel>> Delete(int indexNumber)
@@ -59,8 +58,7 @@ namespace Capri.Services.Students
                     $"Student with index number {indexNumber} does not exist");
             }
 
-            var deleteResult = await Delete(student);
-            return deleteResult;
+            return await Delete(student);
         }
 
         private async Task<IServiceResult<StudentViewModel>> Delete(Student student)
