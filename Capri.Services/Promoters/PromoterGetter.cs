@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Capri.Database;
 using Capri.Web.ViewModels.Promoter;
+using Newtonsoft.Json;
+using System.Text;
+using Capri.Web.ViewModels.Common;
 
 namespace Capri.Services.Promoters
 {
@@ -47,6 +50,28 @@ namespace Capri.Services.Promoters
                 
             var promoterViewModels = promoters.Select(p => _mapper.Map<PromoterViewModel>(p));
             return ServiceResult<IEnumerable<PromoterViewModel>>.Success(promoterViewModels);
+        }
+
+        public IServiceResult<FileDescription> GetAllWithJsonFormat()
+        {
+            var promoters = _context.Promoters
+                .Include(p => p.ApplicationUser)
+                .Include(p => p.Proposals);
+
+            var promoterJsonModels = promoters.Select(p => _mapper.Map<PromoterJsonRecord>(p));
+
+            var jsonText = JsonConvert.SerializeObject(promoterJsonModels, Formatting.Indented);
+
+            var bytes = Encoding.UTF8.GetBytes(jsonText);
+            var fileName = $"promoters-export.json";
+
+            var fileDescription = new FileDescription
+            {
+                Name = fileName,
+                Bytes = bytes
+            };
+
+            return ServiceResult<FileDescription>.Success(fileDescription);
         }
     }
 }

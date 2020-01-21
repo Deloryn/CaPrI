@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Capri.Services.Promoters;
 using Capri.Web.ViewModels.Promoter;
+using Newtonsoft.Json;
 
 namespace Capri.Web.Controllers
 {
@@ -104,6 +105,19 @@ namespace Capri.Web.Controllers
             if(result.Successful())
             {
                 return Ok(result.Body());
+            }
+            return BadRequest(result.GetAggregatedErrors());
+        }
+
+        [Authorize(Roles = "dean")]
+        [HttpGet("export")]
+        public IActionResult Export()
+        {
+            var result = _promoterGetter.GetAllWithJsonFormat();
+            if (result.Successful())
+            {
+                var fileDescription = result.Body();
+                return File(fileDescription.Bytes, "application/json", fileDescription.Name);
             }
             return BadRequest(result.GetAggregatedErrors());
         }
