@@ -9,7 +9,8 @@ namespace Capri.Services.Students
     public interface IStudentGetter
     {
         Task<IServiceResult<StudentViewModel>> Get(Guid id);
-        Task<IServiceResult<ICollection<Student>>> GetMany(IEnumerable<Guid> studentIds);
+        Task<IServiceResult<StudentViewModel>> Get(int indexNumber);
+        Task<IServiceResult<ICollection<Student>>> GetMany(IEnumerable<int> indexNumbers);
         IServiceResult<IEnumerable<StudentViewModel>> GetAll();
     }
 }

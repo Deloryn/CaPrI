@@ -60,6 +60,10 @@ namespace Capri.Database
                 .HasForeignKey(s => s.ProposalId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
+            modelBuilder.Entity<Student>()
+                .HasIndex(s => s.IndexNumber)
+                .IsUnique();
+
             modelBuilder.Entity<GuidUserRole>()
                 .HasKey(userRole => new { userRole.UserId, userRole.RoleId });
 
