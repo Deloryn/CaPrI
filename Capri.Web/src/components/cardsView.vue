@@ -52,7 +52,7 @@
                         <span class="itemText">{{ item.topicEnglish }}</span>
                     </template>
                     <template v-slot:item.promoter="{ item }">
-                        <span class="itemText">{{ findPromoter(item.promoterId) }}</span>
+                        <span class="itemText">{{ getPromoterFullName(item.promoterId) }}</span>
                     </template>
                     <template v-slot:item.freeSlots="{ item }">
                         <span class="itemTextSlot">{{ item.status }}/{{ item.maxNumberOfStudents }}</span>
@@ -66,89 +66,125 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import popUp from './popUp.vue';
 import { bus } from '../app';
+import { promoterService } from '@src/services/promoterService'
+import { proposalService } from '@src/services/proposalService'
+import { courseService } from '@src/services/courseService'
 
 @Component({
     components: {
         popUp,
     },
 })
-export default class CardsView extends Vue {
-    public napis = "czesc";
+export default class ProposalView extends Vue {
     public popUp = {
         show: false,
         maxWidth: 1000,
         data: {
-            title: { text: '', label: 'Title', type: 'textField', columns: 12 },
+            titlePolish: { 
+                text: '', 
+                label: 'Title Polish', 
+                type: 'textField', 
+                columns: 12 },
+            titleEnglish: { 
+                text: '', 
+                label: 'Title English', 
+                type: 'textField', 
+                columns: 12 },
             promoter: {
                 text: '',
                 label: 'Promoter',
                 type: 'textField',
                 columns: 12,
             },
-            thesisType: {
+            course: {
                 text: '',
-                label: 'Thesis type',
+                label: 'Course',
+                type: 'textField',
+                columns: 12,
+            },
+            level: {
+                text: '',
+                label: 'Study level',
                 type: 'textField',
                 columns: 4,
             },
-            studyType: {
+            mode: {
                 text: '',
-                label: 'Study type',
+                label: 'Study mode',
                 type: 'textField',
                 columns: 4,
             },
-            slots: { text: '', label: 'State', type: 'textField', columns: 4 },
+            status: {
+                text: '',
+                label: 'Proposal status',
+                type: 'textField',
+                columns: 4,
+            },
+            studyProfile: {
+                text: '',
+                label: 'Study profile',
+                type: 'textField',
+                columns: 4,
+            },
+            numOfAvailableSlots: { 
+                text: '', 
+                label: 'Number of available slots', 
+                type: 'textField', 
+                columns: 4 },
             description: {
                 text: '',
                 label: 'Description',
                 type: 'textAreaField',
                 columns: 12,
             },
+            outputData: {
+                text: '',
+                label: 'Output data',
+                type: 'textAreaField',
+                columns: 12,
+            },
+            specialization: {
+                text: '',
+                label: 'Specialization',
+                type: 'textAreaField',
+                columns: 12,
+            },
+            startingDate: {
+                text: '',
+                label: 'StartingDate',
+                type: 'textAreaField',
+                columns: 12,
+            },
         },
     };
     public getData() {
-        Vue.axios.get('http://40.87.155.231/proposals').then((response) => {
+        proposalService.getAll().then((response) => {
             this.thesisList = response.data
         })
-        Vue.axios.get('http://40.87.155.231/promoters').then((response) => {
+        promoterService.getAll().then((response) => {
             this.promoters = response.data
         })
     };
-    //public getData2() {
-    //    alert("dziala")
-    //    Vue.axios.get('http://40.87.155.231//proposals/filtered?filters=level==1').then((response) => {
-    //        this.thesisList = response.data;
-    //    })
-    //};
-    public findPromoter(promoterId: string): string {
-        let indexOfPromoter = -1;
-        this.promoters.find((o, i) => {
-            if (o.id === promoterId) {
-                indexOfPromoter = i;
-            }
-        });
-        if (indexOfPromoter !== -1) {
-            let prefixPostfix = "";
-            if (this.promoters[indexOfPromoter].titlePostfix) {
-                prefixPostfix = ", "
-            }
-            return this.promoters[indexOfPromoter].titlePrefix + " " +
-                this.promoters[indexOfPromoter].firstName + " " +
-                this.promoters[indexOfPromoter].lastName + prefixPostfix +
-                this.promoters[indexOfPromoter].titlePostfix
-        }
-        return promoterId;
-    }
+
     public dane = this.getData();
-    public thesisList = [{"id":"","topicPolish":"","topicEnglish":"Loading data…","description":"","outputData":"","specialization":"","maxNumberOfStudents":4,"startingDate":"","status":0,"level":0,"mode":0,"studyProfile":0,"promoterId":"","courseId":"","students":[]}];
-    public promoters = [{"id":"","titlePrefix":"","titlePostfix":"","firstName":"Loading data…","lastName":"","expectedNumberOfBachelorProposals":0,"expectedNumberOfMasterProposals":0,"proposals":[""],"userId":"","instituteId":""}];
-    //public odSomsiada = bus.$on('someEvent', (interesting_data) => {
-    //    console.log(interesting_data)
-    //    this.napis = interesting_data;
-    //    Vue.axios.get('http://40.87.155.231//proposals/filtered?filters=level==1').then((response) => {
-    //        this.thesisList = response.data;
-    //    })
-    //});
+    public thesisList = [{
+        "id":"",
+        "topicPolish":"",
+        "topicEnglish":"",
+        "description":"",
+        "outputData":"",
+        "specialization":"",
+        "maxNumberOfStudents":0,
+        "startingDate":"",
+        "status":0,
+        "level":0,
+        "mode":0,
+        "studyProfile":0,
+        "promoterId":"",
+        "courseId":"",
+        "students":[]}];
+        
+    public promoters = [{"id":"","titlePrefix":"","titlePostfix":"","firstName":"Loading data…","lastName":"","expectedNumberOfBachelorProposals":0,"expectedNumberOfMasterProposals":0,"proposal":[""],"userId":"","instituteId":""}];
     public data() {
         return {
             selected: [],
@@ -159,46 +195,25 @@ export default class CardsView extends Vue {
                 {
                     sortable: true,
                     text: 'Title',
-                    value: 'title',
+                    proposal: 'title',
                     width: '60%',
                     align: 'left',
                 },
                 {
                     sortable: true,
                     text: 'Promoter',
-                    value: 'promoter',
+                    proposal: 'promoter',
                     width: '20%',
                     align: 'center',
                 },
                 {
                     sortable: true,
-                    text: 'Free slots',
-                    value: 'freeSlots',
+                    text: 'Free numOfAvailableSlots',
+                    proposal: 'freeSlots',
                     align: 'center',
                 },
             ],
-            items: [
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    maxSlots: 4,
-                },
-                {
-                    title: 'CaPri System',
-                    promoter: 'Jerzy Nawrocki',
-                    description:
-                        'Lorem ipsum dolor sit amet, consectetur tincidunt purus sed lacus tincidunt facilisis. ',
-                    thesisType: 'Master',
-                    studyType: 'Full time',
-                    freeSlots: 3,
-                    maxSlots: 4,
-                },
-            ],
+            items: [],
         };
     }
     public toStudyType(type) {
@@ -213,13 +228,35 @@ export default class CardsView extends Vue {
         }
         return "Bachelor"
     }
-    public showDialog(value): void {
-        this.popUp.data.title.text = value.topicEnglish;
-        this.popUp.data.promoter.text = this.findPromoter(value.promoterId);
-        this.popUp.data.studyType.text = this.toStudyType(value.level);
-        this.popUp.data.thesisType.text = this.toThesisType(value.mode);
-        this.popUp.data.slots.text = value.status + '/' + value.maxNumberOfStudents;
-        this.popUp.data.description.text = value.description;
+    public showDialog(proposal): void {
+        this.popUp.data.titleEnglish.text = proposal.topicEnglish;
+        this.popUp.data.titlePolish.text = proposal.topicPolish;
+        this.popUp.data.mode.text = this.toStudyType(proposal.level);
+        this.popUp.data.level.text = this.toThesisType(proposal.mode);
+        this.popUp.data.numOfAvailableSlots.text = proposal.status + '/' + proposal.maxNumberOfStudents;
+        this.popUp.data.description.text = proposal.description;
+        promoterService.get(proposal.promoterId)
+        .then((response) => {
+            if(response.status == 200) {
+                var promoter = response.data;
+                var fullName = promoter.titlePrefix + " " +
+                                promoter.firstName + " " +
+                                promoter.lastName;
+                if(promoter.titlePostfix)
+                {
+                    fullName += ", "
+                    fullName += promoter.titlePostfix
+                }
+                this.popUp.data.promoter.text = fullName;
+            }
+        })
+        courseService.get(proposal.courseId)
+        .then((response) => {
+            if(response.status == 200) {
+                var course = response.data;
+                this.popUp.data.course.text = course.name;
+            }
+        })
         this.popUp.show = true;
     }
 }

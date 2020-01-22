@@ -73,6 +73,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import popUp from './popUp.vue';
+import { promoterService } from '@src/services/promoterService'
 
 @Component({
     components: {
@@ -82,7 +83,8 @@ import popUp from './popUp.vue';
 export default class MyProporsals extends Vue {
     public promoters = [{"id":"","titlePrefix":"","titlePostfix":"","firstName":"Loading data…","lastName":"","expectedNumberOfBachelorProposals":0,"expectedNumberOfMasterProposals":0,"proposals":[""],"userId":"","instituteId":""}];
     public getData() {
-        Vue.axios.get('http://40.87.155.231/promoters').then((response) => {
+        promoterService.getAll()
+        .then((response) => {
             this.promoters = response.data
         })
     };

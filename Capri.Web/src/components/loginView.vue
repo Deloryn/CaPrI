@@ -45,6 +45,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
+import { accountService } from '@src/services/accountService'
 
 @Component
 export default class LoginPanel extends Vue {
@@ -53,14 +54,12 @@ export default class LoginPanel extends Vue {
         password: ''
     };
     public tryToLog(email, password) {
-        Vue.axios.post('http://40.87.155.231/account/login', {
-	        email: email,
-	        password: password
-        }).then((response) => {
-            console.log(response.data)
-            sessionStorage.setItem('token', response.data.securityStamp)
-            this.$router.push('/Home/Index')
-        })
+		accountService
+			.login(email, password)
+			.then((response) => 
+			{
+				this.$router.push('/Home/Index')
+        	})
     }
 }
 </script>
