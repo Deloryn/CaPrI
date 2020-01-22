@@ -16,7 +16,7 @@
 
             <v-col cols="12">
                 <v-data-table :headers="headers"
-                              :items="thesisList"
+                              :items="proposals"
                               :search="searchTitle"
                               v-model="selected"
                               @click:row="showDialog"
@@ -159,7 +159,7 @@ export default class ProposalView extends Vue {
     };
     public getData() {
         proposalService.getAll().then((response) => {
-            this.thesisList = response.data
+            this.proposals = response.data
         })
         promoterService.getAll().then((response) => {
             this.promoters = response.data
@@ -167,24 +167,9 @@ export default class ProposalView extends Vue {
     };
 
     public dane = this.getData();
-    public thesisList = [{
-        "id":"",
-        "topicPolish":"",
-        "topicEnglish":"",
-        "description":"",
-        "outputData":"",
-        "specialization":"",
-        "maxNumberOfStudents":0,
-        "startingDate":"",
-        "status":0,
-        "level":0,
-        "mode":0,
-        "studyProfile":0,
-        "promoterId":"",
-        "courseId":"",
-        "students":[]}];
-        
-    public promoters = [{"id":"","titlePrefix":"","titlePostfix":"","firstName":"Loading data…","lastName":"","expectedNumberOfBachelorProposals":0,"expectedNumberOfMasterProposals":0,"proposal":[""],"userId":"","instituteId":""}];
+    public proposals = [];
+    public promoters = [];
+    
     public data() {
         return {
             selected: [],
@@ -208,7 +193,7 @@ export default class ProposalView extends Vue {
                 },
                 {
                     sortable: true,
-                    text: 'Free numOfAvailableSlots',
+                    text: 'Available slots',
                     proposal: 'freeSlots',
                     align: 'center',
                 },
@@ -231,9 +216,9 @@ export default class ProposalView extends Vue {
     public showDialog(proposal): void {
         this.popUp.data.titleEnglish.text = proposal.topicEnglish;
         this.popUp.data.titlePolish.text = proposal.topicPolish;
-        this.popUp.data.mode.text = this.toStudyType(proposal.level);
-        this.popUp.data.level.text = this.toThesisType(proposal.mode);
-        this.popUp.data.numOfAvailableSlots.text = proposal.status + '/' + proposal.maxNumberOfStudents;
+        this.popUp.data.mode.text = this.toStudyType(proposal.mode);
+        this.popUp.data.level.text = this.toThesisType(proposal.level);
+        this.popUp.data.numOfAvailableSlots.text = (proposal.maxNumberOfStudents - proposal.students.length).toString()
         this.popUp.data.description.text = proposal.description;
         promoterService.get(proposal.promoterId)
         .then((response) => {

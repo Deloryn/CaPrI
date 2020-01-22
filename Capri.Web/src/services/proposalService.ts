@@ -6,8 +6,12 @@ class ProposalService extends CrudService {
         super("/proposals")
     }
 
-    public getFiltered(params: string) {
-        return requestService.request("GET", "/proposals/filtered?" + params)
+    public getFiltered(sorts: string, filters: string, page: number, pageSize: number) {
+        var queryString = "?sorts=" + sorts
+                        + "&filters=" + filters
+                        + "&page=" + page
+                        + "&pageSize=" + pageSize
+        return requestService.request("GET", "/proposals/filtered" + queryString)
     }
 
     public getCsv(id: string) {
