@@ -12,6 +12,18 @@
 import { Vue, Component } from 'vue-property-decorator';
 import mainView from './mainView.vue';
 import loginView from './components/loginView.vue';
+import navBar from './components/navBar.vue';
+import topBar from './components/topBar.vue';
+import downBar from './components/downBar.vue';
+import navStudentItems from './components/navStudentItems.vue';
+import navList from './components/navList.vue';
+import {SessionService} from './services/sessionService';
+
+enum UserType {
+    student = 'student',
+    promoter = 'promoter',
+    dean = 'dean',
+}
 
 @Component({
     components: {
@@ -20,6 +32,8 @@ import loginView from './components/loginView.vue';
     },
 })
 export default class App extends Vue {
+    public UserType = UserType;
+    public parsedToken = new SessionService().getParsedToken();
 }
 </script>
 <style lang="scss" scoped>
