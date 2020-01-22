@@ -1,25 +1,57 @@
 <template>
-  <div id="app">
-    <h1 class="test">Vue works!</h1>
-    <Test></Test>
-  </div>
+	<v-app id="app" class="appColor">
+		<div v-if="$route.path !== '/login'">
+			<navBar>
+				<div slot="navItems">
+					<navStudentItems
+						v-if="parsedToken.role === UserType.student"
+					></navStudentItems>
+					<navList
+						:userType="parsedToken.role"
+						v-if="
+							parsedToken.role === UserType.promoter ||
+								parsedToken.role === UserType.dean
+						"
+					></navList>
+				</div>
+			</navBar>
+			<topBar> </topBar>
+		</div>
+		<router-view></router-view>
+		<downBar v-if="$route.path !== '/login'" />
+	</v-app>
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import Test from '@src/test.vue';
+import navBar from './components/navBar.vue';
+import topBar from './components/topBar.vue';
+import downBar from './components/downBar.vue';
+import navStudentItems from './components/navStudentItems.vue';
+import navList from './components/navList.vue';
+import {SessionService} from './services/sessionService';
+
+enum UserType {
+    student = 'student',
+    promoter = 'promoter',
+    dean = 'dean',
+}
 
 @Component({
-  components: {
-    Test
-  }
+    components: {
+        navBar,
+        topBar,
+        downBar,
+        navStudentItems,
+        navList,
+    },
 })
 export default class App extends Vue {
-    readonly imagePath: string = '/assets/testImage.jpg';
+    public UserType = UserType;
+    public parsedToken = new SessionService().getParsedToken();
 }
 </script>
 <style lang="scss" scoped>
-.test {
-  color: #555555;
+.appColor {
+	background-color: #eeeeee;
 }
 </style>
-
