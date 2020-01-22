@@ -28,10 +28,21 @@ namespace Capri.Web.Controllers
             _studentDeleter = studentDeleter;
         }
         
-        [HttpGet("{id}")]
+        [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
             var result = await _studentGetter.Get(id);
+            if(result.Successful())
+            {
+                return Ok(result.Body());
+            }
+            return BadRequest(result.GetAggregatedErrors());
+        }
+
+        [HttpGet("{indexNumber:int}")]
+        public async Task<IActionResult> Get(int indexNumber)
+        {
+            var result = await _studentGetter.Get(indexNumber);
             if(result.Successful())
             {
                 return Ok(result.Body());
@@ -103,10 +114,22 @@ namespace Capri.Web.Controllers
         }
 
         [AllowedRoles(RoleType.Dean)]
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _studentDeleter.Delete(id);
+            if(result.Successful())
+            {
+                return Ok(result.Body());
+            }
+            return BadRequest(result.GetAggregatedErrors());
+        }
+
+        [AllowedRoles(RoleType.Dean)]
+        [HttpDelete("{indexNumber:int}")]
+        public async Task<IActionResult> Delete(int indexNumber)
+        {
+            var result = await _studentDeleter.Delete(indexNumber);
             if(result.Successful())
             {
                 return Ok(result.Body());

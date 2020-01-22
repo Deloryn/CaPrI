@@ -12,7 +12,7 @@ namespace Capri.Web.ViewModels.Promoter
         public string LastName { get; set; }
         public int ExpectedNumberOfBachelorProposals { get; set; }
         public int ExpectedNumberOfMasterProposals { get; set; }
-        public virtual ICollection<Guid> Proposals { get; set; }
+        public ICollection<Guid> Proposals { get; set; }
         public Guid UserId { get; set; }
         public Guid InstituteId { get; set; }
     }

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
@@ -39,6 +40,13 @@ namespace Capri.Services.Students
                 }
             }
 
+            if(IsIndexNumberTaken(registration.IndexNumber))
+            {
+                return ServiceResult<StudentViewModel>.Error(
+                    $"Index number {registration.IndexNumber} is already taken"
+                );
+            }
+
             var userResult = 
                 await _userCreator
                 .CreateUser(
@@ -64,6 +72,11 @@ namespace Capri.Services.Students
 
             var studentViewModel = _mapper.Map<StudentViewModel>(student);
             return ServiceResult<StudentViewModel>.Success(studentViewModel);
+        }
+
+        private bool IsIndexNumberTaken(int indexNumber)
+        {
+            return _context.Students.Any(s => s.IndexNumber == indexNumber);
         }
     }
 }

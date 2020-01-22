@@ -1,4 +1,3 @@
-using System.Collections;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
@@ -40,6 +39,24 @@ namespace Capri.Services.Students
             var studentViewModel = _mapper.Map<StudentViewModel>(student);
             return ServiceResult<StudentViewModel>.Success(studentViewModel);
         }
+
+        public async Task<IServiceResult<StudentViewModel>> Get(int indexNumber)
+        {
+            var student = 
+                await _context
+                .Students
+                .FirstOrDefaultAsync(p => p.IndexNumber == indexNumber);
+
+            if (student == null)
+            {
+                return ServiceResult<StudentViewModel>.Error(
+                    $"Student with index number {indexNumber} does not exist");
+            }
+
+            var studentViewModel = _mapper.Map<StudentViewModel>(student);
+            return ServiceResult<StudentViewModel>.Success(studentViewModel);
+        }
+
         public IServiceResult<IEnumerable<StudentViewModel>> GetAll()
         {
             var students = _context.Students;
@@ -48,17 +65,17 @@ namespace Capri.Services.Students
             return ServiceResult<IEnumerable<StudentViewModel>>.Success(studentViewModels);
         }
 
-        public async Task<IServiceResult<ICollection<Student>>> GetMany(IEnumerable<Guid> studentIds)
+        public async Task<IServiceResult<ICollection<Student>>> GetMany(IEnumerable<int> indexNumbers)
         {
-            if(studentIds == null)
+            if(indexNumbers == null)
             {
                 return ServiceResult<ICollection<Student>>.Success(null);
             }
             
             var students = new List<Student>();
-            foreach(var id in studentIds)
+            foreach(var indexNumber in indexNumbers)
             {
-                var student = await _context.Students.FirstOrDefaultAsync(s => s.Id == id);
+                var student = await _context.Students.FirstOrDefaultAsync(s => s.IndexNumber == indexNumber);
                 if(student != null)
                 {
                     students.Add(student);

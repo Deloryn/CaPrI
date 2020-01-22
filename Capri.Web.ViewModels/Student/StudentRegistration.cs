@@ -15,6 +15,16 @@ namespace Capri.Web.ViewModels.Student
         [MinLength(8)]
         [MaxLength(24)]
         public string Password { get; set; }
+
+        [Required]
+        [Range(1, int.MaxValue)]
+        public int IndexNumber { get; set; }
+        
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
         
         [Required]
         [Range(1,7)]

@@ -20,6 +20,6 @@ namespace Capri.Web.ViewModels.Proposal
         public StudyProfile StudyProfile { get; set; }
         public Guid PromoterId { get; set; }
         public Guid CourseId { get; set; }
-        public ICollection<Guid> Students { get; set; }
+        public ICollection<int> Students { get; set; }
     }
 }

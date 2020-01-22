@@ -43,6 +43,6 @@ namespace Capri.Web.ViewModels.Proposal
 
         [Required]
         public Guid CourseId { get; set; }
-        public ICollection<Guid> Students { get; set; }
+        public ICollection<int> Students { get; set; }
     }
 }
