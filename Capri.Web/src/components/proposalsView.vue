@@ -37,7 +37,9 @@
 <script>
 import { promoterService } from '@src/services/promoterService'
 import { proposalService } from '@src/services/proposalService'
+import { facultyService } from '@src/services/facultyService'
 import { courseService } from '@src/services/courseService'
+import { bus } from '@src/services/eventBus'
 import detailsPopUp from '@src/components/popups/detailsPopUp.vue'
 
 export default {
@@ -45,7 +47,6 @@ export default {
     data() {
         return {
             proposals: [],
-            // simplifiedProposals: [],
             headers: [
                 {
                     sortable: true,
@@ -156,7 +157,8 @@ export default {
         }
     },
     created() {
-		this.getData()
+        this.getData();
+        bus.$on('facultyWasChosen', this.chooseProposalsFromFaculty);
 	},
     methods: {
         getData: function() {
@@ -178,6 +180,44 @@ export default {
                     proposal.freeSlots = proposal.maxNumberOfStudents - proposal.students.length;
                 });
             });            
+        },
+        chooseProposalsFromFaculty: function(facultyId) {
+            facultyService.get(facultyId)
+                .then(response => {
+                    if(response.status == 200) {
+                        this.proposals = [];
+                        var faculty = response.data;
+                        faculty.courses.forEach(courseId => {
+                            courseService.get(courseId)
+                                .then(response => {
+                                    if(response.status == 200) {
+                                        var course = response.data;
+                                        course.proposals.forEach(proposalId => {
+                                            proposalService.get(proposalId)
+                                                .then(response => {
+                                                    if(response.status == 200) {
+                                                        var proposal = response.data;
+                                                        this.proposals.push(proposal);
+                                                        promoterService.get(proposal.promoterId)
+                                                            .then((response) => {
+                                                                let promoterFullName = "";
+                                                                if(response.status == 200) {
+                                                                    var promoter = response.data;
+                                                                    promoterFullName = promoter.lastName + " " + promoter.firstName;
+                                                                }
+                                                                
+                                                                proposal.promoter = promoterFullName;
+                                                            });
+                                                        proposal.topic = proposal.topicEnglish;
+                                                        proposal.freeSlots = proposal.maxNumberOfStudents - proposal.students.length;
+                                                    }
+                                                })
+                                        })
+                                    }
+                                })
+                        })
+                    }
+                })
         },
         toStudyMode: function(type) {
             switch(type) {

@@ -25,6 +25,7 @@
 <script>
 import { facultyService } from '@src/services/facultyService'
 import { courseService } from '@src/services/courseService'
+import { bus } from '@src/services/eventBus'
 
 export default {
     name: 'navStudentItems',
@@ -91,6 +92,7 @@ export default {
                                             }
                                         });
                                 });
+                                bus.$emit('facultyWasChosen', faculty.id);
                             }
                         }
                     });
