@@ -1,29 +1,28 @@
 ﻿<template>
 	<v-container fluid grid-list-xl class="mainView">
 		<v-row justify="center">
-			<!-- <popUp :proposals="popUp">
+			<detailsPopUp :params="popUpParams">
 				<template v-slot:after>
 					<v-col cols="12" class="text-center">
 						<v-btn
 							color="#12628d"
 							class="proposalDetailsCloseButton"
-							@click="popUp.show = false"
+							@click="popUpParams.show = false"
 							>Close</v-btn
 						>
 					</v-col>
 				</template>
-			</popUp> -->
+			</detailsPopUp>
 
             <v-col cols="12">
                 <v-data-table 
                     :headers="headers"
-                    :items="simplifiedProposals"
-                    @click:row="showDialog"
+                    :items="proposals"
                     id="proposalstable"
                     class="table"
                 >
                     <template v-slot:item="{ item }">
-                        <tr>
+                        <tr @click="showDetails(item)">
                         <td>{{ item.topic }}</td>
                         <td>{{ item.promoter }}</td>
                         <td>{{ item.freeSlots }}</td>
@@ -39,14 +38,14 @@
 import { promoterService } from '@src/services/promoterService'
 import { proposalService } from '@src/services/proposalService'
 import { courseService } from '@src/services/courseService'
-import displayDetailsPopUp from '@src/components/popups/displayDetailsPopUp'
+import detailsPopUp from '@src/components/popups/detailsPopUp.vue'
 
 export default {
     name: 'proposalsView',
     data() {
         return {
             proposals: [],
-            simplifiedProposals: [],
+            // simplifiedProposals: [],
             headers: [
                 {
                     sortable: true,
@@ -73,7 +72,7 @@ export default {
                     class: 'blue--text text--darken-4 display-1'
                 },
             ],
-            displayDetailsPopUpParams: {
+            popUpParams: {
                 show: false,
                 maxWidth: 1000,
                 data: {
@@ -172,14 +171,12 @@ export default {
                             var promoter = response.data;
                             promoterFullName = promoter.lastName + " " + promoter.firstName;
                         }
-                        simplifiedProposals.push({
-                            topic: proposal.topicEnglish,
-                            promoter: promoterFullName,
-                            freeSlots: proposal.maxNumberOfStudents - proposal.students.length
-                        });
+                        
+                        proposal.promoter = promoterFullName;
                     });
+                    proposal.topic = proposal.topicEnglish;
+                    proposal.freeSlots = proposal.maxNumberOfStudents - proposal.students.length;
                 });
-                this.simplifiedProposals = simplifiedProposals;
             });            
         },
         toStudyMode: function(type) {
@@ -234,39 +231,38 @@ export default {
                 }
             }
         },
-        showDialog: function(proposal) {
+        showDetails: function(proposal) {
             promoterService.get(proposal.promoterId)
                 .then(response => {
                     if(response.status == 200) {
                         var promoter = response.data;
-                        var fullName = promoter.titlePrefix + " " + promoter.firstName + promoter.lastName;
+                        var fullName = promoter.titlePrefix + " " + promoter.firstName + " " + promoter.lastName;
                         if(promoter.titlePostfix) {
                             fullName += ", ";
                             fullName += promoter.titlePostfix;
                         }
-                        this.displayDetailsPopUpParams.data.promoter.text = fullName;
+                        this.popUpParams.data.promoter.text = fullName;
                     }
                 })
             courseService.get(proposal.courseId)
                 .then((response) => {
                     if(response.status == 200) {
                         var course = response.data;
-                        this.displayDetailsPopUpParams.data.course.text = course.name;
+                        this.popUpParams.data.course.text = course.name;
                     }
-                    return "";
-                })
-            this.displayDetailsPopUpParams.data.topicEnglish.text = proposal.topicEnglish;
-            this.displayDetailsPopUpParams.data.topicPolish.text = proposal.topicPolish;
-            this.displayDetailsPopUpParams.data.mode.text = this.toStudyMode(proposal.mode);
-            this.displayDetailsPopUpParams.data.level.text = this.toStudyLevel(proposal.level);
-            this.displayDetailsPopUpParams.data.studyProfile.text = this.toStudyProfile(proposal.studyProfile);
-            this.displayDetailsPopUpParams.data.status.text = this.toProposalStatus(proposal.status);
-            this.displayDetailsPopUpParams.data.numOfAvailableSlots.text = (proposal.maxNumberOfStudents - proposal.students.length).toString()
-            this.displayDetailsPopUpParams.data.description.text = proposal.description;
-            this.displayDetailsPopUpParams.data.specialization.text = proposal.specialization;
-            this.displayDetailsPopUpParams.data.outputData.text = proposal.outputData;
-            this.displayDetailsPopUpParams.data.startingDate.text = proposal.startingDate;
-            this.displayDetailsPopUpParams.show = true;
+                });
+            this.popUpParams.data.topicEnglish.text = proposal.topicEnglish;
+            this.popUpParams.data.topicPolish.text = proposal.topicPolish;
+            this.popUpParams.data.mode.text = this.toStudyMode(proposal.mode);
+            this.popUpParams.data.level.text = this.toStudyLevel(proposal.level);
+            this.popUpParams.data.studyProfile.text = this.toStudyProfile(proposal.studyProfile);
+            this.popUpParams.data.status.text = this.toProposalStatus(proposal.status);
+            this.popUpParams.data.numOfAvailableSlots.text = (proposal.maxNumberOfStudents - proposal.students.length).toString()
+            this.popUpParams.data.description.text = proposal.description;
+            this.popUpParams.data.specialization.text = proposal.specialization;
+            this.popUpParams.data.outputData.text = proposal.outputData;
+            this.popUpParams.data.startingDate.text = proposal.startingDate;
+            this.popUpParams.show = true;
         }
     }
 }

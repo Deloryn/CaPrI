@@ -9,7 +9,6 @@ if (module.hot) {
     module.hot.accept();
 }
 Vue.use(Vuetify);
-// tslint:disable-next-line:no-unused-expression
 new Vue({
     router: router,
     el: '#app',

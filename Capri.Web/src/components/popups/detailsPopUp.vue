@@ -1,30 +1,31 @@
 <template>
     <v-dialog 
-        v-model="popup.show"
-        :max-width="popup.maxWidth"
-    >
-		<v-form class="whiteBackground">
-			<v-container class="table">
-				<v-row>
-					<v-col
-						v-for="element in popup.data"
-						:key="element.text"
-						:cols="element.columns"
-					>
-						<component
-							:is="element.type"
-							:elementData="element"
-						>
-						</component>
-					</v-col>
-					<slot name="after"></slot>
-				</v-row>
-			</v-container>
-		</v-form>
-	</v-dialog>
+					v-model="params.show"
+					:max-width="params.maxWidth"
+				>
+					<v-form class="whiteBackground">
+						<v-container class="table">
+							<v-row>
+								<v-col
+									v-for="element in params.data"
+									:key="element.label"
+									:cols="element.columns"
+								>
+									<component
+										:is="element.type"
+										:elementData="element"
+									>
+									</component>
+								</v-col>
+								<slot name="after"></slot>
+							</v-row>
+						</v-container>
+					</v-form>
+				</v-dialog>
 </template>
 
-<script lang="ts">
+
+<script>
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import textField from '@src/components/popUpFields/textField.vue';
 import editableTextField from '@src/components/popUpFields/editableTextField.vue';
@@ -33,23 +34,22 @@ import editableTextAreaField from '@src/components/popUpFields/editableTextAreaF
 import selectableField from '@src/components/popUpFields/selectableField.vue';
 import studentField from '@src/components/popUpFields/studentField.vue';
 
-@Component({
-    components: {
+export default Vue.component('detailsPopUp', {
+	props: {
+		params: Object
+	},
+	components: {
         textField,
         editableTextField,
         textAreaField,
         editableTextAreaField,
         selectableField,
         studentField,
-    },
+	}
 })
-export default class DisplayDetailsPopUp extends Vue {
-    @Prop() public popup!: ['popup'];
-    public data() {
-        return {};
-    }
-}
 </script>
+
+
 <style lang="scss" scoped>
 .table {
 	background-color: #ffffff;

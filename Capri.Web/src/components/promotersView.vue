@@ -1,28 +1,27 @@
 <template>
 	<v-container fluid grid-list-xl class="mainView">
 		<v-row justify="center" class="rowMargin">
-			<!-- <displayDetailsPopUp :popup="promoterInfoPopupParams">
+			<detailsPopUp v-bind:params="popUpParams">
 				<template v-slot:after>
 					<v-col cols="12" class="text-center">
 						<v-btn
 							color="#12628d"
 							class="promoterCloseButton"
-							@click="promoterInfoPopupParams.show = false"
+							@click="popUpParams.show = false"
 							>Close</v-btn
 						>
 					</v-col>
 				</template>
-			</displayDetailsPopUp> -->
+			</detailsPopUp>
 			<v-col cols="12">
 				<v-data-table
 					:headers="headers"
 					:items="promoters"
-					
 					id="promoterstable"
 					class="whiteBackground"
 				>
-				<template v-slot:item="{ item }" click="showDialog">
-					<tr>
+				<template v-slot:item="{ item }">
+					<tr @click="showDetails(item)">
 					<td>{{ item.lastName }} {{ item.firstName }}</td>
 					<td>{{ item.expectedNumberOfBachelorProposals }}</td>
 					<td>{{ item.expectedNumberOfMasterProposals }}</td>
@@ -39,12 +38,12 @@
 import {promoterService} from '@src/services/promoterService'
 import {instituteService} from '@src/services/instituteService'
 import {proposalService} from '@src/services/proposalService'
-import displayDetailsPopUp from '@src/components/popups/displayDetailsPopUp'
+import detailsPopUp from '@src/components/popups/detailsPopUp.vue'
 
 export default {
 	name: 'promotersView',
 	components: {
-        displayDetailsPopUp,
+        detailsPopUp,
     },
     data() {
       return {
@@ -75,7 +74,7 @@ export default {
 				sortable: false 
 			},
 		],
-		promoterInfoPopupParams: {
+		popUpParams: {
 			show: false,
 			maxWidth: 1000,
 			data: {
@@ -127,7 +126,10 @@ export default {
 				this.promoters = response.data
 			})
 		},
-		showDialog: function(promoter) {
+		showDetails: function(promoter) {
+			var expectedBachelors = promoter.expectedNumberOfBachelorProposals;
+			var expectedMasters = promoter.expectedNumberOfMasterProposals;
+
 			var fullName = promoter.titlePrefix + " " +
                            promoter.firstName + " " +
                            promoter.lastName;
@@ -136,40 +138,38 @@ export default {
 				fullName += ", "
 				fullName += promoter.titlePostfix
 			}
-
-			var instituteName = instituteService.get(promoter.instituteId)
-				.then(response => {
-					if(response.status == 200) {
-						return response.data.name;
-					}
-					return '';
-				});
-
-			var expectedBachelors = promoter.expectedNumberOfBachelorProposals;
-			var expectedMasters = promoter.expectedNumberOfMasterProposals;
-			var submittedBachelors = proposalService.calculateSubmittedBachelorProposals(promoter.id)
-				.then(response => {
-					if(response.status == 200) {
-						return response.data;
-					}
-					return 0;
-				});
-			var submittedMasters = proposalService.calculateSubmittedMasterProposals(promoter.id)
-				.then(response => {
-					if(response.status == 200) {
-						return response.data;
-					}
-					return 0;
-				});
 			
-			this.promoterInfoPopupParams.data.fullName.text = fullName;
-			this.promoterInfoPopupParams.data.institute.text = instituteName;
-			this.promoterInfoPopupParams.data.expectedNumberOfBachelorProposals.text = expectedBachelors;
-			this.promoterInfoPopupParams.data.expectedNumberOfMasterProposals.text = expectedMasters;
-			this.promoterInfoPopupParams.data.numberOfSubmittedBachelorProposals.text = submittedBachelors;
-			this.promoterInfoPopupParams.data.numberOfSubmittedMasterProposals.text = submittedMasters;
+			this.popUpParams.data.fullName.text = fullName;
+			this.popUpParams.data.expectedNumberOfBachelorProposals.text = expectedBachelors;
+			this.popUpParams.data.expectedNumberOfMasterProposals.text = expectedMasters;
 
-			this.promoterInfoPopupParams.show = true;
+			instituteService.get(promoter.instituteId)
+				.then(response => {
+					var institute = "";
+					if(response.status == 200) {
+						institute = response.data.name;
+					}
+					this.popUpParams.data.institute.text = institute;
+				});
+
+			proposalService.calculateSubmittedBachelorProposals(promoter.id)
+				.then(response => {
+					var submitted = 0;
+					if(response.status == 200) {
+						submitted = response.data;
+					}
+					this.popUpParams.data.numberOfSubmittedBachelorProposals.text = submitted;
+				});
+			proposalService.calculateSubmittedMasterProposals(promoter.id)
+				.then(response => {
+					var submitted = 0;
+					if(response.status == 200) {
+						submitted = response.data;
+					}
+					this.popUpParams.data.numberOfSubmittedMasterProposals.text = submitted;
+				});
+
+			this.popUpParams.show = true;
     	}
 	},
   }
