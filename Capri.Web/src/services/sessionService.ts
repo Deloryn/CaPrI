@@ -1,6 +1,6 @@
 import jwt_decode from 'jwt-decode';
 
-export class SessionService {
+export default class SessionService {
     public getParsedToken(): object {
         const token = sessionStorage.token;
         let parsedToken = JSON.parse('{ "role":""}');

@@ -61,6 +61,19 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
+        [AllowedRoles(RoleType.Promoter)]
+        [HttpGet("mine")]
+        public async Task<IActionResult> GetMyProposals() 
+        {
+            var result = await _proposalGetter.GetMyProposals();
+            if(result.Successful())
+            {
+                return Ok(result.Body());
+            }
+            return BadRequest(result.GetAggregatedErrors());
+        }
+
+
         [HttpGet]
         public IActionResult GetAll()
         {

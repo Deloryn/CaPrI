@@ -1,7 +1,7 @@
-interface IThesisData {
+interface IProposals {
     show: boolean;
     maxWidth: number;
     data: {};
 }
 
-export default IThesisData;
+export default IProposals;

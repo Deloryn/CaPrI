@@ -58,7 +58,7 @@ export default class LoginPanel extends Vue {
 			.login(email, password)
 			.then((response) => 
 			{
-				this.$router.push('/Home/Index')
+				this.$router.push('/')
         	})
     }
 }

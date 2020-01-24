@@ -9,6 +9,7 @@ using Sieve.Models;
 using Sieve.Services;
 using Capri.Database;
 using Capri.Services.Files;
+using Capri.Services.Users;
 using Capri.Web.ViewModels.Proposal;
 using Capri.Web.ViewModels.Common;
 
@@ -20,17 +21,20 @@ namespace Capri.Services.Proposals
         private readonly IMapper _mapper;
         private readonly ISieveProcessor _sieveProcessor;
         private readonly ICsvCreator _csvCreator;
+        private readonly IUserGetter _userGetter;
 
         public ProposalGetter(
             ISqlDbContext context,
             IMapper mapper,
             ISieveProcessor sieveProcessor,
-            ICsvCreator csvCreator)
+            ICsvCreator csvCreator,
+            IUserGetter userGetter)
         {
             _context = context;
             _mapper = mapper;
             _sieveProcessor = sieveProcessor;
             _csvCreator = csvCreator;
+            _userGetter = userGetter;
         }
 
         public async Task<IServiceResult<ProposalViewModel>> Get(Guid id)
@@ -82,6 +86,33 @@ namespace Capri.Services.Proposals
             };
 
             return ServiceResult<FileDescription>.Success(fileDescription);
+        }
+
+        public async Task<IServiceResult<IEnumerable<ProposalViewModel>>> GetMyProposals() {
+            var userResult = await _userGetter.GetCurrentUser();
+            if(!userResult.Successful())
+            {
+                var errors = userResult.GetAggregatedErrors();
+                return ServiceResult<IEnumerable<ProposalViewModel>>.Error(errors);
+            }
+
+            var currentUser = userResult.Body();
+            var promoter = 
+                await _context
+                .Promoters
+                .Include(p => p.Proposals)
+                .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
+
+            if(promoter == null)
+            {
+                return ServiceResult<IEnumerable<ProposalViewModel>>.Error("The current user has no associated promoter");
+            }
+
+            var proposalViewModels = promoter
+                .Proposals
+                .Select(p => _mapper.Map<ProposalViewModel>(p));
+
+            return ServiceResult<IEnumerable<ProposalViewModel>>.Success(proposalViewModels);
         }
 
         public IServiceResult<IEnumerable<ProposalViewModel>> GetAll()

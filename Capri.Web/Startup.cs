@@ -60,7 +60,7 @@ namespace Capri.Web
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "Account", action = "Login" });
+                    defaults: new { controller = "Home", action = "Index" });
             });
         }
     }

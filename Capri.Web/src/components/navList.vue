@@ -23,24 +23,29 @@ export default class NavDeanItems extends Vue {
     @Prop() public userType!: ['userType'];
     public links = [
         {
-            to: '/Home/Index/promoterList',
+            to: '/view/institutes',
+            icon: '',
+            text: 'Institutes',
+        },
+        {
+            to: '/view/promoters',
             icon: 'mdi-account-multiple',
             text: 'Promoters',
         },
         {
-            to: '/Home/Index/cards',
+            to: '/view/proposals',
             icon: 'mdi-school-outline',
-            text: 'List of thesis',
+            text: 'Proposals',
         },
         {
-            to: '/Home/Index/import',
+            to: '/view/import',
             icon: 'mdi-import',
-            text: 'Import',
+            text: 'Import promoters',
         },
         {
-            to: '/Home/Index/myProposals',
+            to: '/view/my_proposals',
             icon: 'mdi-book-open',
-            text: 'My proporsal',
+            text: 'My proposals',
         },
     ];
     public data() {
@@ -49,9 +54,13 @@ export default class NavDeanItems extends Vue {
     public selectLinks(userType): [] {
         const newLinks = [] as any;
         if (userType === 'Promoter') {
-            newLinks.push(this.links[3], this.links[1]);
-        } else if (userType === 'Dean') {
-            newLinks.push(this.links[0], this.links[1], this.links[2]);
+            newLinks.push(this.links[2], this.links[4]);
+        } 
+        else if (userType === 'Dean') {
+            newLinks.push(this.links[0], this.links[1], this.links[2], this.links[3]);
+        }
+        else if (userType === 'Student') {
+            newLinks.push(this.links[2])
         }
         return newLinks;
     }

@@ -24,7 +24,7 @@ import topBar from './components/topBar.vue';
 import downBar from './components/downBar.vue';
 import navStudentItems from './components/navStudentItems.vue';
 import navList from './components/navList.vue';
-import sessionService from './services/sessionService'
+import SessionService from '@src/services/sessionService'
 enum UserType {
     student = 'Student',
     promoter = 'Promoter',
@@ -42,9 +42,9 @@ enum UserType {
 })
 export default class mainView extends Vue {
     public UserType = UserType;
-    public parsedToken = sessionService.parsedToken;
+    public parsedToken = new SessionService().getParsedToken();
     public checkNav(): string {
-        return this.parsedToken.role
+        return this.parsedToken["role"]
     }
 }
 </script>

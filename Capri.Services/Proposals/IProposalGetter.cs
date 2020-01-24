@@ -12,6 +12,7 @@ namespace Capri.Services.Proposals
     {
         Task<IServiceResult<ProposalViewModel>> Get(Guid id);
         Task<IServiceResult<FileDescription>> GetCsvFileDescription(Guid id);
+        Task<IServiceResult<IEnumerable<ProposalViewModel>>> GetMyProposals();
         IServiceResult<IEnumerable<ProposalViewModel>> GetAll();
         IServiceResult<IQueryable<ProposalViewModel>> GetFiltered(SieveModel sieveModel);
     }

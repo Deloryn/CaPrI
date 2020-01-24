@@ -1,6 +1,6 @@
 <template>
     <v-app id="app" class="appColor">
-        <div v-if="$route.path === '/Home/Index/login'">
+        <div v-if="$route.path === '/login'">
             <loginView />
         </div>
         <div v-else>
@@ -17,7 +17,7 @@ import topBar from './components/topBar.vue';
 import downBar from './components/downBar.vue';
 import navStudentItems from './components/navStudentItems.vue';
 import navList from './components/navList.vue';
-import {SessionService} from './services/sessionService';
+import SessionService from './services/sessionService';
 
 enum UserType {
     student = 'student',

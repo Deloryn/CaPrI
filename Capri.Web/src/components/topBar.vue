@@ -5,21 +5,6 @@
 		</div>
 		<v-spacer></v-spacer>
 		<div class="headerElement">
-			<div class="fontBar">
-				<span class="fontChoose">
-					<strong>Font size</strong>
-				</span>
-				<v-select
-					v-model="fontSize"
-					:items="items"
-					item-text="font"
-					item-value="font"
-					return-object
-					class="selectStyle"
-				></v-select>
-			</div>
-		</div>
-		<div class="headerElement">
 			<div class="polish"></div>
 			<div class="english"></div>
 		</div>
@@ -60,14 +45,6 @@ export default class TopBar extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-.fontChoose {
-	font-size: 18px;
-	color: rgb(18, 98, 141);
-}
-.fontBar {
-	width: 100px;
-	text-align: center;
-}
 .mainCard {
 	margin-left: 340px;
 	width: calc(100% - 340px);
@@ -99,14 +76,6 @@ export default class TopBar extends Vue {
 	margin: 10px;
 	height: 25px;
 	width: 50px;
-}
-.selectStyle {
-	background-color: #ffffff;
-	padding: 0px;
-	width: 56px;
-	height: 32px;
-	text-decoration-style: none;
-	display: inline-block;
 }
 .noTextDecoration {
 	text-decoration: none;
