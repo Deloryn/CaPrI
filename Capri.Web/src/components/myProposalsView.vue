@@ -1,20 +1,31 @@
 ﻿<template>
 	<v-container fluid grid-list-xl class="mainView">
 		<v-row justify="center">
+            <detailsPopUp v-bind:params="popUpParams">
+				<template v-slot:after>
+					<v-col cols="12" class="text-center">
+						<v-btn
+							color="#12628d"
+							class="promoterCloseButton"
+							@click="popUpParams.show = false"
+							>Close</v-btn
+						>
+					</v-col>
+				</template>
+			</detailsPopUp>
 			<v-col cols="12">
 				<v-data-table
 					:headers="headers"
-					:items="mySimplifiedProposals"
-					@click:row="showpopUp"
+					:items="myProposals"
 					class="whiteBack"
                     id="myproposalstable"
 				>
                     <template v-slot:item="{ item }">
-                            <tr>
+                            <tr @click="showDetails(item)">
                             <td>{{ item.topic }}</td>
-                            <td>{{ item.level }}</td>
-                            <td>{{ item.mode }}</td>
-                            <td>{{ item.state }}</td>
+                            <td>{{ item.levelText }}</td>
+                            <td>{{ item.modeText }}</td>
+                            <td>{{ item.stateText }}</td>
                             </tr>
                     </template>
 				</v-data-table>
@@ -24,14 +35,18 @@
 </template>
 <script>
 import { proposalService } from '@src/services/proposalService'
-
+import { facultyService } from '@src/services/facultyService'
+import { courseService } from '@src/services/courseService'
+import detailsPopUp from '@src/components/popups/detailsPopUp.vue'
 
 export default {
     name: 'myProposalsView',
+    components: {
+        detailsPopUp
+    },
     data() {
         return {
             myProposals: [],
-            mySimplifiedProposals: [],
             popUpParams: {
                 show: false,
                 maxWidth: 1000,
@@ -46,6 +61,12 @@ export default {
                         label: 'English title', 
                         type: 'textField', 
                         columns: 12 },
+                    faculty: {
+                        text: '',
+                        label: 'Faculty',
+                        type: 'textField',
+                        columns: 12,
+                    },
                     course: {
                         text: '',
                         label: 'Course',
@@ -55,6 +76,12 @@ export default {
                     level: {
                         text: '',
                         label: 'Study level',
+                        type: 'textField',
+                        columns: 4,
+                    },
+                    status: {
+                        text: '',
+                        label: 'Status',
                         type: 'textField',
                         columns: 4,
                     },
@@ -92,6 +119,12 @@ export default {
                         text: '',
                         label: 'Students',
                         type: 'studentField',
+                        columns: 12,
+                    },
+                    startingDate: {
+                        text: '',
+                        label: 'StartingDate',
+                        type: 'textAreaField',
                         columns: 12,
                     }
                 },
@@ -143,16 +176,12 @@ export default {
                 .then(response => {
                     if(response.status == 200) {
                         this.myProposals = response.data;
-                        var simplifiedProposals = []
                         this.myProposals.forEach(proposal => {
-                            simplifiedProposals.push({
-                                topic: proposal.topicEnglish,
-                                level: this.toStudyLevel(proposal.level),
-                                mode: this.toStudyMode(proposal.mode),
-                                state: this.toProposalStatus(proposal)
-                            });
+                            proposal.topic = proposal.topicEnglish;
+                            proposal.levelText = this.toStudyLevel(proposal.level);
+                            proposal.modeText = this.toStudyMode(proposal.mode);
+                            proposal.stateText = this.toProposalStatusText(proposal);
                         });
-                        this.mySimplifiedProposals = simplifiedProposals;
                     }
                 });
         },
@@ -192,26 +221,47 @@ export default {
                 }
             }
         },
-        toProposalStatus: function(proposal) {
+        toProposalStatus: function(type) {
+            switch(type) {
+                case 0: {
+                    return "Taken";
+                }
+                case 1: {
+                    return "Partially taken";
+                }
+                case 2: {
+                    return "Free";
+                }
+                default: {
+                    return "Unknown";
+                }
+            }
+        },
+        toProposalStatusText: function(proposal) {
             return proposal.students.length + " / " + proposal.maxNumberOfStudents;
         },
-        showpopUp: function(value) {
-            this.popUpParams.data.title.text = value.title;
-            this.popUpParams.data.studyType.text = value.studyType;
-            this.popUpParams.data.thesisType.text = value.thesisType;
-            this.popUpParams.data.description.text = value.description;
-            this.popUpParams.data.students.students = value.students;
-            this.popUpParams.data.thesisType.chosen = value.thesisType;
-            this.popUpParams.data.students.max = value.maxStudents;
+        showDetails: function(proposal) {
+            this.popUpParams.data.topicEnglish.text = proposal.topicEnglish;
+            this.popUpParams.data.topicPolish.text = proposal.topicPolish;
+            this.popUpParams.data.mode.text = this.toStudyMode(proposal.mode);
+            this.popUpParams.data.level.text = this.toStudyLevel(proposal.level);
+            this.popUpParams.data.studyProfile.text = this.toStudyProfile(proposal.studyProfile);
+            this.popUpParams.data.status.text = this.toProposalStatus(proposal.status);
+            this.popUpParams.data.description.text = proposal.description;
+            this.popUpParams.data.specialization.text = proposal.specialization;
+            this.popUpParams.data.outputData.text = proposal.outputData;
+            this.popUpParams.data.startingDate.text = proposal.startingDate;
+
+            this.popUpParams.data.faculty.text = 'to do';
+            this.popUpParams.data.course.text = 'to do';
+
             this.popUpParams.show = true;
         },
-        showEmptypopUp: function() {
-            this.popUpParams.data.title.text = '';
-            this.popUpParams.data.studyType.text = '';
-            this.popUpParams.data.thesisType.text = '';
-            this.popUpParams.data.description.text = '';
+        showEmptyDetails: function(proposal) {
+            this.popUpParams.data.forEach(element => {
+                element.text = '';
+            });
             this.popUpParams.data.students.students = ['', ''];
-            this.popUpParams.data.thesisType.chosen = '';
             this.popUpParams.data.students.max = 4;
             this.popUpParams.show = true;
         }
