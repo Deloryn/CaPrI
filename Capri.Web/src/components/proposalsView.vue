@@ -158,7 +158,7 @@ export default {
     },
     created() {
         this.getData();
-        bus.$on('facultyWasChosen', this.chooseProposalsFromFaculty);
+        bus.$on('filtersWereChosen', this.filterProposals);
 	},
     methods: {
         getData: function() {
@@ -181,43 +181,44 @@ export default {
                 });
             });            
         },
-        chooseProposalsFromFaculty: function(facultyId) {
-            facultyService.get(facultyId)
+        filterProposals: function(chosenFilters) {
+            this.proposals = [];
+            var sorts = "";
+            var page = 1;
+            var pageSize = 10;
+            var filters = "";
+            if(chosenFilters.level != null) {
+                filters += "level==" + chosenFilters.level + ",";
+            }
+            if(chosenFilters.mode != null) {
+                filters += "mode==" + chosenFilters.mode + ",";
+            }
+            if(chosenFilters.course && chosenFilters.course.id) {
+                filters += "course_id==" + chosenFilters.course.id + ",";
+            }
+            if(chosenFilters.faculty && chosenFilters.faculty.id) {
+                filters += "faculty_id==" + chosenFilters.faculty.id + ",";
+            }
+
+            proposalService.getFiltered(sorts, filters, page, pageSize)
                 .then(response => {
                     if(response.status == 200) {
-                        this.proposals = [];
-                        var faculty = response.data;
-                        faculty.courses.forEach(courseId => {
-                            courseService.get(courseId)
-                                .then(response => {
+                        this.proposals = response.data;
+                        this.proposals.forEach(proposal => {
+                            promoterService.get(proposal.promoterId)
+                                .then((response) => {
+                                    let promoterFullName = "";
                                     if(response.status == 200) {
-                                        var course = response.data;
-                                        course.proposals.forEach(proposalId => {
-                                            proposalService.get(proposalId)
-                                                .then(response => {
-                                                    if(response.status == 200) {
-                                                        var proposal = response.data;
-                                                        this.proposals.push(proposal);
-                                                        promoterService.get(proposal.promoterId)
-                                                            .then((response) => {
-                                                                let promoterFullName = "";
-                                                                if(response.status == 200) {
-                                                                    var promoter = response.data;
-                                                                    promoterFullName = promoter.lastName + " " + promoter.firstName;
-                                                                }
-                                                                
-                                                                proposal.promoter = promoterFullName;
-                                                            });
-                                                        proposal.topic = proposal.topicEnglish;
-                                                        proposal.freeSlots = proposal.maxNumberOfStudents - proposal.students.length;
-                                                    }
-                                                })
-                                        })
+                                        var promoter = response.data;
+                                        promoterFullName = promoter.lastName + " " + promoter.firstName;
                                     }
-                                })
-                        })
+                                    proposal.promoter = promoterFullName;
+                                });
+                            proposal.topic = proposal.topicEnglish;
+                            proposal.freeSlots = proposal.maxNumberOfStudents - proposal.students.length;
+                        });
                     }
-                })
+                });
         },
         toStudyMode: function(type) {
             switch(type) {
