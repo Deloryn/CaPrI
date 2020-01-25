@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Authorization;
 using Capri.Services.Promoters;
 using Capri.Web.ViewModels.Promoter;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.Collections.Generic;
 
 namespace Capri.Web.Controllers
 {
@@ -15,17 +18,20 @@ namespace Capri.Web.Controllers
         private readonly IPromoterUpdater _promoterUpdater;
         private readonly IPromoterGetter _promoterGetter;
         private readonly IPromoterDeleter _promoterDeleter;
+        private readonly IPromoterImporter _promoterImporter;
 
         public PromoterController(
             IPromoterCreator promoterCreator,
             IPromoterUpdater promoterUpdater,
             IPromoterGetter promoterGetter,
-            IPromoterDeleter promoterDeleter)
+            IPromoterDeleter promoterDeleter,
+            IPromoterImporter promoterImporter)
         {
             _promoterCreator = promoterCreator;
             _promoterUpdater = promoterUpdater;
             _promoterGetter = promoterGetter;
             _promoterDeleter = promoterDeleter;
+            _promoterImporter = promoterImporter;
         }
 
         [HttpGet("{id}")]
@@ -120,6 +126,32 @@ namespace Capri.Web.Controllers
                 return File(fileDescription.Bytes, "application/json", fileDescription.Name);
             }
             return BadRequest(result.GetAggregatedErrors());
+        }
+
+        [Authorize(Roles = "dean")]
+        [HttpPost("import")]
+        public async Task<IActionResult> Import(IFormFile promotersImport)
+        {
+            if(promotersImport.Length > 0)
+            {
+                var stream = new StreamReader(promotersImport.OpenReadStream());
+                var text = await stream.ReadToEndAsync();
+                IEnumerable<PromoterJsonRecord> promotersList;
+
+                try
+                {
+                    promotersList = JsonConvert.DeserializeObject<IEnumerable<PromoterJsonRecord>>(text);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+
+                var result = await _promoterImporter.Import(promotersList);
+
+                return Ok(result.Body());
+            }
+            return BadRequest("The file is empty.");
         }
     }
 }

@@ -26,7 +26,8 @@ namespace Capri.Services.Users
 
         public async Task<IServiceResult<User>> CreateUser(
             string email, 
-            string password)
+            string password,
+            bool passwordHashed = false)
         {
             var emailExists = await EmailExists(email);
             if(emailExists)
@@ -49,7 +50,8 @@ namespace Capri.Services.Users
                         .Normalize(email)
                         .ToUpperInvariant(),
                 EmailConfirmed = true,
-                PasswordHash = new PasswordHasher<User>().HashPassword(null, password),
+                PasswordHash = passwordHashed ? password : 
+                    new PasswordHasher<User>().HashPassword(null, password),
             };
 
             user.SecurityStamp = _tokenGenerator.GenerateTokenFor(user);
@@ -64,5 +66,6 @@ namespace Capri.Services.Users
         {
             return await _context.Users.AnyAsync(u => u.Email == email);
         }
+
     }
 }

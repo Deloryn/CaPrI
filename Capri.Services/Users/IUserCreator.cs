@@ -5,6 +5,6 @@ namespace Capri.Services.Users
 {
     public interface IUserCreator
     {
-        Task<IServiceResult<User>> CreateUser(string email, string password);
+        Task<IServiceResult<User>> CreateUser(string email, string password, bool passwordHashed = false);
     }
 }

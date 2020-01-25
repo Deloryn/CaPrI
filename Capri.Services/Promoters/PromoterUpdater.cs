@@ -31,7 +31,8 @@ namespace Capri.Services.Promoters
 
         public async Task<IServiceResult<PromoterViewModel>> Update(
             Guid id,
-            PromoterRegistration newData)
+            PromoterRegistration newData,
+            bool passwordHashed = false)
         {
             var existingPromoter = 
                 await _context
@@ -58,7 +59,8 @@ namespace Capri.Services.Promoters
 
             var result = await _userUpdater.Update(
                 existingPromoter.UserId, 
-                credentials);
+                credentials,
+                passwordHashed);
 
             if (!result.Successful())
             {
@@ -74,5 +76,6 @@ namespace Capri.Services.Promoters
             var promoterViewModel = _mapper.Map<PromoterViewModel>(existingPromoter);
             return ServiceResult<PromoterViewModel>.Success(promoterViewModel);
         }
+
     }
 }

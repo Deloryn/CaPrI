@@ -30,7 +30,8 @@ namespace Capri.Services.Promoters
         }
 
         public async Task<IServiceResult<PromoterViewModel>> Create(
-            PromoterRegistration registration)
+            PromoterRegistration registration,
+            bool passwordHashed = false)
         {
             var instituteResult = await _instituteGetter.Get(registration.InstituteId);
             if(!instituteResult.Successful())
@@ -40,7 +41,7 @@ namespace Capri.Services.Promoters
 
             var userResult = 
                 await _userCreator
-                .CreateUser(registration.Email, registration.Password);
+                .CreateUser(registration.Email, registration.Password, passwordHashed);
 
             if(!userResult.Successful())
             {

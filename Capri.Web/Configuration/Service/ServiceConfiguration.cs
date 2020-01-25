@@ -34,6 +34,7 @@ namespace Capri.Web.Configuration.Service
             services.AddScoped<IPromoterUpdater, PromoterUpdater>();
             services.AddScoped<IPromoterGetter, PromoterGetter>();
             services.AddScoped<IPromoterDeleter, PromoterDeleter>();
+            services.AddScoped<IPromoterImporter, PromoterImporter>();
         }
 
         private static void AddProposalServicesConfiguration(this IServiceCollection services)

@@ -18,8 +18,9 @@ namespace Capri.Web.Configuration.Mapper
 
             CreateMap<Promoter, PromoterJsonRecord>()
                 .ForMember(view => view.Email, o => o.MapFrom(p => p.ApplicationUser.Email))
-                .ForMember(view => view.Password, o => o.MapFrom(p => p.ApplicationUser.PasswordHash))
-                .ForMember(view => view.Proposals, o => o.MapFrom(p => p.Proposals.Select(pr => pr.Id)));
+                .ForMember(view => view.Password, o => o.MapFrom(p => p.ApplicationUser.PasswordHash));
+
+            CreateMap<PromoterJsonRecord, PromoterRegistration>();
 
         }
     }

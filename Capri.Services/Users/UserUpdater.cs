@@ -23,7 +23,8 @@ namespace Capri.Services.Users
 
         public async Task<IServiceResult<User>> Update(
             Guid id,
-            UserCredentials credentials)
+            UserCredentials credentials,
+            bool passwordHashed = false)
         {
             var existingUser = await _userManager.FindByIdAsync(id.ToString());
             if (existingUser == null)
@@ -32,7 +33,7 @@ namespace Capri.Services.Users
                     $"User with id {id} does not exist");
             }
 
-            UpdateCredentialsOf(existingUser, credentials);
+            UpdateCredentialsOf(existingUser, credentials, passwordHashed);
             
             await _userManager.UpdateAsync(existingUser);
             await _context.SaveChangesAsync();
@@ -42,7 +43,8 @@ namespace Capri.Services.Users
 
         private void UpdateCredentialsOf(
             User user,
-            UserCredentials credentials)
+            UserCredentials credentials,
+            bool passwordHashed = false)
         {
             string email = credentials.Email;
             string password = credentials.Password;
@@ -57,9 +59,8 @@ namespace Capri.Services.Users
                     new UpperInvariantLookupNormalizer()
                         .Normalize(email)
                         .ToUpperInvariant();
-            user.PasswordHash =
-                new PasswordHasher<User>()
-                .HashPassword(user, password);
+            user.PasswordHash = passwordHashed ? password : 
+                new PasswordHasher<User>().HashPassword(user, password);
         }
     }
 }

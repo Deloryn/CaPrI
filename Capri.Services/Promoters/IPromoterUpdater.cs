@@ -6,6 +6,6 @@ namespace Capri.Services.Promoters
 {
     public interface IPromoterUpdater
     {
-        Task<IServiceResult<PromoterViewModel>> Update(Guid id, PromoterRegistration newData);
+        Task<IServiceResult<PromoterViewModel>> Update(Guid id, PromoterRegistration newData, bool passwordHashed = false);
     }
 }
