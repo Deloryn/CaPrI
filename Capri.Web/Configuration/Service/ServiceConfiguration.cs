@@ -9,6 +9,7 @@ using Capri.Services.Faculties;
 using Capri.Services.Institutes;
 using Capri.Services.Settings;
 using Capri.Services.Files;
+using Capri.Services.DiplomaCard;
 
 namespace Capri.Web.Configuration.Service
 {
@@ -26,6 +27,7 @@ namespace Capri.Web.Configuration.Service
             services.AddInstituteServicesConfiguration();
             services.AddSettingsServicesConfiguration();
             services.AddFileServicesConfiguration();
+            services.AddDiplomaCardServicesConfiguration();
         }
 
         private static void AddPromoterServicesConfiguration(this IServiceCollection services)
@@ -97,6 +99,14 @@ namespace Capri.Web.Configuration.Service
         {
             services.AddScoped<ICsvCreator, CsvCreator>();
             services.AddScoped<IDiplomaCardCreator, DiplomaCardCreator>();
+        }
+
+        private static void AddDiplomaCardServicesConfiguration(this IServiceCollection services)
+        {
+            services.AddScoped<IParagraphGetter, ParagraphGetter>();
+            services.AddScoped<IDrawingGetter, DrawingGetter>();
+            services.AddScoped<ITablePropertiesGetter, TablePropertiesGetter>();
+            services.AddScoped<ITableGetter, TableGetter>();
         }
     }
 }

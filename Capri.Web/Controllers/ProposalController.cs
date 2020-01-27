@@ -61,6 +61,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
+        [Authorize(Roles = "dean")]
         [HttpGet("{id}/docx")]
         public async Task<IActionResult> GetDiplomaCardFile(Guid id)
         {
