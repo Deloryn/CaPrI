@@ -132,6 +132,7 @@
 							:rules="maxNumberOfStudentsRules"
 							:label="'Maximal number of students*'" 
 							v-model="chosenMaximalNumberOfStudents"
+							@change="onChangeMaximalNumberOfStudents"
 						/>
 					</v-col>
 				</v-row>
@@ -155,14 +156,20 @@
 				</v-row>
 				<v-row>
 					<v-col>
-						<v-list>
+						<v-list v-show="!hideStudentList">
 							<v-subheader>
 								Students (optional)
 							</v-subheader>
-							<v-list-item v-for="student in chosenStudents" :key="student.indexNumber">
+							<v-list-item v-for="indexNumber in indexNumbers" :key="indexNumber">
 								<v-list-item-title>
-									{{ student.indexNumber }}
-									<v-icon color="rgba(255, 0, 0, 0.9)" large>remove_circle</v-icon>
+									<v-icon 
+										@click.stop="deleteIndexNumFromList(indexNumber)" 
+										color="rgba(255, 0, 0, 0.9)" 
+										large
+									>
+										delete
+									</v-icon>
+									{{ indexNumber }}
 								</v-list-item-title>
 							</v-list-item>
 							<v-list-item>
@@ -170,6 +177,8 @@
 									<v-tooltip top>
 										<template v-slot:activator="{ on }">
 											<v-text-field
+											@keyup.enter.stop="addStudent"
+											@click:prepend.stop="addStudent"
 											ref="studentIndexNumberInput"
 											type="number"
 											single-line
@@ -189,10 +198,16 @@
 				</v-row>
 				<v-row>
 					<v-col>
-						<v-btn class="submitButton green" @click="submit">Submit</v-btn>
+						<v-btn 
+							color="#12628d" 
+							class="cancelButton" 
+							@click="params.show = false"
+						>
+							Cancel
+						</v-btn>
 					</v-col>
 					<v-col>
-						<slot name="after"></slot>
+						<v-btn class="submitButton green" @click="submit">Submit</v-btn>
 					</v-col>
 				</v-row>
 			</v-container>
@@ -217,6 +232,20 @@ export default Vue.component('createProposalPopUp',{
 		selectableField
 	},
 	methods: {
+		addStudent: function() {
+			var maxNumOfStudents = parseInt(this.chosenMaximalNumberOfStudents);
+			if(this.indexNumbers.length < maxNumOfStudents) {
+				var indexNumber = this.chosenIndexNumber;
+				var isnum = /^\d+$/.test(indexNumber);
+				if(isnum && !indexNumber.startsWith("0")) {
+					var num = parseInt(indexNumber);
+					if(!this.indexNumbers.includes(num)) {
+						this.indexNumbers.push(num);
+					}
+				}
+			}
+			this.$refs.studentIndexNumberInput.reset();
+		},
 		onChangeFaculty: function() {
 			this.courses = [];
 			this.chosenCourse = null;
@@ -231,6 +260,19 @@ export default Vue.component('createProposalPopUp',{
 			});
 			this.selectCoursesDisabled = false;
 		},
+		onChangeMaximalNumberOfStudents: function() {
+			if(this.chosenMaximalNumberOfStudents.length > 0) {
+				this.hideStudentList = false;
+			}
+			else {
+				this.hideStudentList = true;
+				this.indexNumbers = [];
+			}
+		},
+		deleteIndexNumFromList: function(indexNumber) {
+			var i = this.indexNumbers.indexOf(indexNumber);
+			if (i !== -1) this.indexNumbers.splice(i, 1);
+		},
 		submit: function() {
 			if(this.$refs.studentIndexNumberInput.value == "") {
 				this.$refs.studentIndexNumberInput.resetValidation();
@@ -238,7 +280,7 @@ export default Vue.component('createProposalPopUp',{
 			if(this.$refs.createProposalForm.validate()) {
 				var proposalRegistration = {
 					courseId: this.chosenCourse.id,
-					students: this.chosenStudents,
+					students: this.indexNumbers,
 					topicPolish: this.topicPolish,
 					topicEnglish: this.topicEnglish,
 					description: this.description,
@@ -254,6 +296,7 @@ export default Vue.component('createProposalPopUp',{
 						if(response.status == 200) {
 							bus.$emit('proposalWasCreated');
 							this.params.show = false;
+							this.$refs.createProposalForm.reset();
 						}
 					});
 			}
@@ -263,12 +306,13 @@ export default Vue.component('createProposalPopUp',{
 		return {
 			isFormValid: false,
 			selectCoursesDisabled: true,
+			hideStudentList: true,
 			topicPolish: "",
 			topicEnglish: "",
 			description: "",
 			outputData: "",
 			specialization: "",
-			chosenStudents: [],
+			indexNumbers: [],
 			faculties: [],
 			courses: [],
 			levels: [
@@ -335,6 +379,7 @@ export default Vue.component('createProposalPopUp',{
 	},
 	created() {
 		this.selectCoursesDisabled = true;
+		this.disabledStudentList = true;
 		facultyService.getAll()
 			.then(response => {
 				if(response.status == 200) {
@@ -350,18 +395,21 @@ export default Vue.component('createProposalPopUp',{
 .table {
 	background-color: #ffffff;
 }
-.closeButton {
-	width: 25%;
-	height: 64px;
-	font-size: 24px;
-	color: #ffffff;
-	background-color: #ff0000;
-}
 .submitButton {
     font-size: 18px !important;
 	color: rgb(255, 255, 255) !important;
 	width: 180px !important;
 	height: 70px !important;
+	margin-left: 50px;
+	float: left;
+}
+
+.cancelButton {
+	font-size: 18px !important;
+	color: rgb(255, 255, 255) !important;
+	width: 180px !important;
+	height: 70px !important;
+	margin-right: 50px;
 	float: right;
 }
 </style>
