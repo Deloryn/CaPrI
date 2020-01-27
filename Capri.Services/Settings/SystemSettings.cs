@@ -6,5 +6,7 @@ namespace Capri.Services.Settings
     {
         public DateTime BachelorThesisStartDate { get; set; }
         public DateTime MasterThesisStartDate { get; set; }
+        public DateTime BachelorThesisEndDate { get; set; }
+        public DateTime MasterThesisEndDate { get; set; }
     }
 }
