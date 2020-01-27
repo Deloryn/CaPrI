@@ -18,12 +18,12 @@
 					color="rgb(18,98,141)"
 					class="paddingAndMarginZero"
 				>
-                <template slot="selection" slot-scope="data">
-                    {{ data.item.name }}
-                </template>
-                <template slot="item" slot-scope="data">
-                    {{ data.item.name }}
-                </template>
+                    <template slot="selection" slot-scope="data">
+                        {{ data.item.name }}
+                    </template>
+                    <template slot="item" slot-scope="data">
+                        {{ data.item.name }}
+                    </template>
 				</v-select>
 			</v-list-item-action>
 		</v-list-item>

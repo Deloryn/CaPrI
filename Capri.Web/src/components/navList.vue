@@ -27,14 +27,6 @@ export default Vue.component('navList', {
     components: {
         proposalsFilterComponent
     },
-    created() {
-        if(this.userType == "Promoter") {
-            this.links[4].dropDownOnStart = true;
-        }
-        else {
-            this.links[2].dropDownOnStart = true;
-        }
-    },
     data() {
         return {
             links: [
@@ -54,7 +46,7 @@ export default Vue.component('navList', {
                     to: '/view/proposals',
                     icon: 'mdi-school-outline',
                     text: 'Proposals',
-                    dropDownOnStart: false,
+                    dropDownOnStart: true,
                     component: proposalsFilterComponent
                 },
                 {
@@ -76,7 +68,7 @@ export default Vue.component('navList', {
         selectLinks: function(userType) {
             const newLinks = [];
             if (userType === 'Promoter') {
-                newLinks.push(this.links[4], this.links[2]);
+                newLinks.push(this.links[2], this.links[4]);
             } 
             else if (userType === 'Dean') {
                 newLinks.push(this.links[2], this.links[1], this.links[0], this.links[3]);

@@ -86,7 +86,9 @@ export default {
 				institute: { 
 					text: '', 
 					label: 'Institute', 
-					type: 'textField', 
+					type: 'selectableField', 
+					items: [],
+					chosen: null,
 					columns: 12 },
 				expectedNumberOfBachelorProposals: {
 					text: '',

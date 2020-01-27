@@ -159,7 +159,8 @@ export default {
     created() {
         this.getData();
         bus.$on('filtersWereChosen', this.filterProposals);
-	},
+        bus.$on('proposalWasCreated', this.getData);
+    },
     methods: {
         getData: function() {
             proposalService.getAll().then((response) => {

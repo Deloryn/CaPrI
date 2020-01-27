@@ -1,5 +1,5 @@
 <template>
-	<v-footer fixed height="128">
+	<v-footer fixed height="50">
 		<v-spacer></v-spacer>
 		<div class="footer">&copy; 2020</div>
 	</v-footer>
@@ -13,7 +13,7 @@ export default class DownBar extends Vue {}
 </script>
 <style lang="scss" scoped>
 .footer {
-	font-size: 80px;
+	font-size: 30px;
 	color: rgb(0, 100, 139);
 	position: absolute;
 	left: 50%;

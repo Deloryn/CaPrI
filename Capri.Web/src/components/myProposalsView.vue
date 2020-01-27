@@ -1,13 +1,43 @@
 ﻿<template>
 	<v-container fluid grid-list-xl class="mainView">
+        <v-row>
+            <v-col>
+                <p class="infoText">Expected BSc proposals: {{ numOfSubmittedBachelors + "/" + promoter.expectedNumberOfBachelorProposals }}</p>
+                <p class="infoText">Expected MSc proposals: {{ numOfSubmittedMasters + "/" + promoter.expectedNumberOfMasterProposals }}</p>
+            </v-col>
+            <v-col>
+                <v-btn
+                    id="createButton"
+                    class="promoterButton green"
+                    text
+                    @click="showProposalCreator"
+                >
+                    Create
+                </v-btn>
+            </v-col>
+        </v-row>
+        <v-row justify="center">
+            <createProposalPopUp :params="createProposalParams">
+                <template v-slot:after>
+					<v-col cols="12" class="text-center">
+						<v-btn
+							color="#12628d"
+							class="promoterButton"
+							@click="createProposalParams.show = false"
+							>Cancel</v-btn
+						>
+					</v-col>
+				</template>
+            </createProposalPopUp>
+        </v-row>
 		<v-row justify="center">
-            <detailsPopUp v-bind:params="popUpParams">
+            <detailsPopUp v-bind:params="proposalDetailsParams">
 				<template v-slot:after>
 					<v-col cols="12" class="text-center">
 						<v-btn
 							color="#12628d"
-							class="promoterCloseButton"
-							@click="popUpParams.show = false"
+							class="promoterButton"
+							@click="proposalDetailsParams.show = false"
 							>Close</v-btn
 						>
 					</v-col>
@@ -26,6 +56,20 @@
                             <td>{{ item.levelText }}</td>
                             <td>{{ item.modeText }}</td>
                             <td>{{ item.stateText }}</td>
+                            <td>
+                                <v-btn
+                                    icon="true"
+                                    @click.stop="deleteMyProposal(item)"
+                                >
+                                    <v-icon 
+                                        color="rgba(255, 0, 0, 0.9)" 
+                                        large
+                                    >
+                                        delete
+                                    </v-icon>
+                                </v-btn>
+                                
+                            </td>
                             </tr>
                     </template>
 				</v-data-table>
@@ -38,16 +82,27 @@ import { proposalService } from '@src/services/proposalService'
 import { facultyService } from '@src/services/facultyService'
 import { courseService } from '@src/services/courseService'
 import detailsPopUp from '@src/components/popups/detailsPopUp.vue'
+import createProposalPopUp from '@src/components/popups/createProposalPopUp.vue'
+import { promoterService } from '../services/promoterService'
+import { bus } from '@src/services/eventBus'
 
 export default {
     name: 'myProposalsView',
     components: {
-        detailsPopUp
+        detailsPopUp,
+        createProposalPopUp
     },
     data() {
         return {
+            promoter: {},
+            numOfSubmittedBachelors: 0,
+            numOfSubmittedMasters: 0,
             myProposals: [],
-            popUpParams: {
+            createProposalParams: {
+                show: false,
+                maxWidth: 1000
+            },
+            proposalDetailsParams: {
                 show: false,
                 maxWidth: 1000,
                 data: {
@@ -160,7 +215,15 @@ export default {
                     sortable: true,
                     text: 'State',
                     value: 'state',
-                    width: '15%',
+                    width: '10%',
+                    algin: 'left',
+                    class: 'blue--text text--darken-4 display-1'
+                },
+                {
+                    sortable: false,
+                    text: '',
+                    value: 'actions',
+                    width: '5%',
                     algin: 'left',
                     class: 'blue--text text--darken-4 display-1'
                 }
@@ -169,9 +232,19 @@ export default {
     },
     created() {
         this.getData();
+        bus.$on('proposalWasCreated', this.getData);
     },
     methods: {
         getData: function() {
+            promoterService.getMyData()
+                .then(response => {
+                    if(response.status == 200) {
+                        this.promoter = response.data;
+                    }
+                });
+            
+            this.numOfSubmittedBachelors = 0;
+            this.numOfSubmittedMasters = 0;
             proposalService.getMyProposals()
                 .then(response => {
                     if(response.status == 200) {
@@ -179,6 +252,12 @@ export default {
                         this.myProposals.forEach(proposal => {
                             proposal.topic = proposal.topicEnglish;
                             proposal.levelText = this.toStudyLevel(proposal.level);
+                            if(proposal.levelText == "Bachelor") {
+                                this.numOfSubmittedBachelors += 1;
+                            }
+                            else if(proposal.levelText == "Master") {
+                                this.numOfSubmittedMasters += 1;
+                            }
                             proposal.modeText = this.toStudyMode(proposal.mode);
                             proposal.stateText = this.toProposalStatusText(proposal);
                         });
@@ -240,30 +319,33 @@ export default {
         toProposalStatusText: function(proposal) {
             return proposal.students.length + " / " + proposal.maxNumberOfStudents;
         },
-        showDetails: function(proposal) {
-            this.popUpParams.data.topicEnglish.text = proposal.topicEnglish;
-            this.popUpParams.data.topicPolish.text = proposal.topicPolish;
-            this.popUpParams.data.mode.text = this.toStudyMode(proposal.mode);
-            this.popUpParams.data.level.text = this.toStudyLevel(proposal.level);
-            this.popUpParams.data.studyProfile.text = this.toStudyProfile(proposal.studyProfile);
-            this.popUpParams.data.status.text = this.toProposalStatus(proposal.status);
-            this.popUpParams.data.description.text = proposal.description;
-            this.popUpParams.data.specialization.text = proposal.specialization;
-            this.popUpParams.data.outputData.text = proposal.outputData;
-            this.popUpParams.data.startingDate.text = proposal.startingDate;
-
-            this.popUpParams.data.faculty.text = 'to do';
-            this.popUpParams.data.course.text = 'to do';
-
-            this.popUpParams.show = true;
+        deleteMyProposal: function(proposal) {
+            proposalService.delete(proposal.id)
+                .then(response => {
+                    if(response.status == 200) {
+                        this.getData();
+                    }
+                });
         },
-        showEmptyDetails: function(proposal) {
-            this.popUpParams.data.forEach(element => {
-                element.text = '';
-            });
-            this.popUpParams.data.students.students = ['', ''];
-            this.popUpParams.data.students.max = 4;
-            this.popUpParams.show = true;
+        showDetails: function(proposal) {
+            this.proposalDetailsParams.data.topicEnglish.text = proposal.topicEnglish;
+            this.proposalDetailsParams.data.topicPolish.text = proposal.topicPolish;
+            this.proposalDetailsParams.data.mode.text = this.toStudyMode(proposal.mode);
+            this.proposalDetailsParams.data.level.text = this.toStudyLevel(proposal.level);
+            this.proposalDetailsParams.data.studyProfile.text = this.toStudyProfile(proposal.studyProfile);
+            this.proposalDetailsParams.data.status.text = this.toProposalStatus(proposal.status);
+            this.proposalDetailsParams.data.description.text = proposal.description;
+            this.proposalDetailsParams.data.specialization.text = proposal.specialization;
+            this.proposalDetailsParams.data.outputData.text = proposal.outputData;
+            this.proposalDetailsParams.data.startingDate.text = proposal.startingDate;
+
+            this.proposalDetailsParams.data.faculty.text = 'to do';
+            this.proposalDetailsParams.data.course.text = 'to do';
+
+            this.proposalDetailsParams.show = true;
+        },
+        showProposalCreator: function() {
+            this.createProposalParams.show = true;
         }
     }
 }
@@ -312,10 +394,15 @@ export default {
 	font-size: 24px;
 	font-weight: bold;
 }
-.formDiv {
-	color: rgb(255, 255, 255);
-	width: 150px;
-	height: 50px;
-	font-size: 24px;
+.promoterButton {
+    font-size: 18px !important;
+	color: rgb(255, 255, 255) !important;
+	width: 180px !important;
+	height: 70px !important;
+    float: left;
+}
+.infoText {
+    font-size:24px;
+    font-weight: bold;
 }
 </style>
