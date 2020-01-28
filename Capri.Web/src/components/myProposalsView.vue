@@ -17,32 +17,10 @@
             </v-col>
         </v-row>
         <v-row justify="center">
-            <createProposalPopUp :params="createProposalParams">
-                <template v-slot:after>
-					<v-col cols="12" class="text-center">
-						<v-btn
-							color="#12628d"
-							class="promoterButton"
-							@click="createProposalParams.show = false"
-							>Cancel</v-btn
-						>
-					</v-col>
-				</template>
-            </createProposalPopUp>
+            <createProposalPopUp :params="createProposalParams" />
         </v-row>
 		<v-row justify="center">
-            <detailsPopUp v-bind:params="proposalDetailsParams">
-				<template v-slot:after>
-					<v-col cols="12" class="text-center">
-						<v-btn
-							color="#12628d"
-							class="promoterButton"
-							@click="proposalDetailsParams.show = false"
-							>Close</v-btn
-						>
-					</v-col>
-				</template>
-			</detailsPopUp>
+            <updateProposalPopUp :params="updateProposalParams" />
 			<v-col cols="12">
 				<v-data-table
 					:headers="headers"
@@ -51,14 +29,13 @@
                     id="myproposalstable"
 				>
                     <template v-slot:item="{ item }">
-                            <tr @click="showDetails(item)">
+                            <tr @click="showProposalUpdater(item)">
                             <td>{{ item.topic }}</td>
                             <td>{{ item.levelText }}</td>
                             <td>{{ item.modeText }}</td>
                             <td>{{ item.stateText }}</td>
                             <td>
                                 <v-btn
-                                    icon="true"
                                     @click.stop="deleteMyProposal(item)"
                                 >
                                     <v-icon 
@@ -68,7 +45,6 @@
                                         delete
                                     </v-icon>
                                 </v-btn>
-                                
                             </td>
                             </tr>
                     </template>
@@ -81,16 +57,16 @@
 import { proposalService } from '@src/services/proposalService'
 import { facultyService } from '@src/services/facultyService'
 import { courseService } from '@src/services/courseService'
-import detailsPopUp from '@src/components/popups/detailsPopUp.vue'
 import createProposalPopUp from '@src/components/popups/createProposalPopUp.vue'
+import updateProposalPopUp from '@src/components/popups/updateProposalPopUp.vue'
 import { promoterService } from '../services/promoterService'
 import { bus } from '@src/services/eventBus'
 
 export default {
     name: 'myProposalsView',
     components: {
-        detailsPopUp,
-        createProposalPopUp
+        createProposalPopUp,
+        updateProposalPopUp,
     },
     data() {
         return {
@@ -102,87 +78,9 @@ export default {
                 show: false,
                 maxWidth: 1000
             },
-            proposalDetailsParams: {
+            updateProposalParams: {
                 show: false,
-                maxWidth: 1000,
-                data: {
-                    topicPolish: { 
-                        text: '', 
-                        label: 'Polish title', 
-                        type: 'textField', 
-                        columns: 12 },
-                    topicEnglish: { 
-                        text: '', 
-                        label: 'English title', 
-                        type: 'textField', 
-                        columns: 12 },
-                    faculty: {
-                        text: '',
-                        label: 'Faculty',
-                        type: 'textField',
-                        columns: 12,
-                    },
-                    course: {
-                        text: '',
-                        label: 'Course',
-                        type: 'textField',
-                        columns: 12,
-                    },
-                    level: {
-                        text: '',
-                        label: 'Study level',
-                        type: 'textField',
-                        columns: 4,
-                    },
-                    status: {
-                        text: '',
-                        label: 'Status',
-                        type: 'textField',
-                        columns: 4,
-                    },
-                    mode: {
-                        text: '',
-                        label: 'Study mode',
-                        type: 'textField',
-                        columns: 4,
-                    },
-                    studyProfile: {
-                        text: '',
-                        label: 'Study profile',
-                        type: 'textField',
-                        columns: 4,
-                    },
-                    description: {
-                        text: '',
-                        label: 'Description',
-                        type: 'textAreaField',
-                        columns: 12,
-                    },
-                    outputData: {
-                        text: '',
-                        label: 'Output data',
-                        type: 'textAreaField',
-                        columns: 12,
-                    },
-                    specialization: {
-                        text: '',
-                        label: 'Specialization',
-                        type: 'textAreaField',
-                        columns: 12,
-                    },
-                    students: {
-                        text: '',
-                        label: 'Students',
-                        type: 'studentField',
-                        columns: 12,
-                    },
-                    startingDate: {
-                        text: '',
-                        label: 'StartingDate',
-                        type: 'textAreaField',
-                        columns: 12,
-                    }
-                },
+                maxWidth: 1000
             },
             studyTypes: ['Full-time', 'Part-time'],
             thesisTypes: ['Bachelor', 'Master'],
@@ -232,7 +130,6 @@ export default {
     },
     created() {
         this.getData();
-        bus.$on('proposalWasCreated', this.getData);
     },
     methods: {
         getData: function() {
@@ -327,25 +224,12 @@ export default {
                     }
                 });
         },
-        showDetails: function(proposal) {
-            this.proposalDetailsParams.data.topicEnglish.text = proposal.topicEnglish;
-            this.proposalDetailsParams.data.topicPolish.text = proposal.topicPolish;
-            this.proposalDetailsParams.data.mode.text = this.toStudyMode(proposal.mode);
-            this.proposalDetailsParams.data.level.text = this.toStudyLevel(proposal.level);
-            this.proposalDetailsParams.data.studyProfile.text = this.toStudyProfile(proposal.studyProfile);
-            this.proposalDetailsParams.data.status.text = this.toProposalStatus(proposal.status);
-            this.proposalDetailsParams.data.description.text = proposal.description;
-            this.proposalDetailsParams.data.specialization.text = proposal.specialization;
-            this.proposalDetailsParams.data.outputData.text = proposal.outputData;
-            this.proposalDetailsParams.data.startingDate.text = proposal.startingDate;
-
-            this.proposalDetailsParams.data.faculty.text = 'to do';
-            this.proposalDetailsParams.data.course.text = 'to do';
-
-            this.proposalDetailsParams.show = true;
-        },
         showProposalCreator: function() {
             this.createProposalParams.show = true;
+        },
+        showProposalUpdater: function(proposal) {
+            bus.$emit('showProposalToUpdate', proposal);
+            this.updateProposalParams.show = true;
         }
     }
 }

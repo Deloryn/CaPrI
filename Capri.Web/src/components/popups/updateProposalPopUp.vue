@@ -1,5 +1,6 @@
 <template>
     <v-dialog
+		@click:outside="clearInputs"
 		v-model="params.show"
 		:max-width="params.maxWidth"
 	>
@@ -156,7 +157,7 @@
 				</v-row>
 				<v-row>
 					<v-col>
-						<v-list v-show="!hideStudentList">
+						<v-list>
 							<v-subheader>
 								Students (optional)
 							</v-subheader>
@@ -201,13 +202,13 @@
 						<v-btn 
 							color="#12628d" 
 							class="cancelButton" 
-							@click="params.show = false"
+							@click="cancelPopUp"
 						>
 							Cancel
 						</v-btn>
 					</v-col>
 					<v-col>
-						<v-btn class="submitButton green" @click="submit">Create</v-btn>
+						<v-btn class="submitButton green" @click="submit">Update</v-btn>
 					</v-col>
 				</v-row>
 			</v-container>
@@ -224,14 +225,65 @@ import { courseService } from '@src/services/courseService'
 import selectableField from '@src/components/popups/popUpFields/selectableField'
 import { bus } from '@src/services/eventBus'
 
-export default Vue.component('createProposalPopUp',{
+export default Vue.component('updateProposalPopUp',{
 	props: {
-		params: Object
+		proposal: Object,
+		params: Object,
 	},
 	components: {
 		selectableField
 	},
 	methods: {
+		cancelPopUp: function() {
+			this.params.show = false;
+			this.clearInputs();
+		},
+		clearInputs: function() {
+			this.$refs.createProposalForm.resetValidation();
+			this.chosenFaculty = null;
+			this.chosenCourse = null;
+			this.courses = [];
+			this.chosenLevel = null;
+			this.chosenMode = null;
+			this.chosenProfile = null;
+			this.topicPolish = "";
+			this.topicEnglish = "";
+			this.description = "";
+			this.outputData = "";
+			this.specialization = "";
+			this.chosenMaximalNumberOfStudents = "";
+		},
+		fillInputs: function(proposal) {
+			facultyService.getAll()
+			.then(response => {
+				if(response.status == 200) {
+					this.faculties = response.data;
+				}
+			});
+
+			courseService.get(proposal.courseId)
+				.then(response => {
+					if(response.status == 200) {
+						this.chosenCourse = response.data;
+						facultyService.get(this.chosenCourse.facultyId)
+							.then(response => {
+								if(response.status == 200) {
+									this.chosenFaculty = response.data;
+								}
+							});
+					}
+				});
+
+			this.topicPolish = proposal.topicPolish;
+			this.topicEnglish = proposal.topicEnglish;
+			this.description = proposal.description;
+			this.outputData = proposal.outputData;
+			this.chosenMaximalNumberOfStudents = proposal.maxNumberOfStudents.toString();
+			this.indexNumbers = proposal.indexNumbers;
+			this.chosenLevel = this.levels[proposal.level];
+			this.chosenMode = this.modes[proposal.mode];
+			this.chosenProfile = this.profiles[proposal.studyProfile];
+		},
 		addStudent: function() {
 			var maxNumOfStudents = parseInt(this.chosenMaximalNumberOfStudents);
 			if(this.indexNumbers.length < maxNumOfStudents) {
@@ -261,15 +313,8 @@ export default Vue.component('createProposalPopUp',{
 			this.selectCoursesDisabled = false;
 		},
 		onChangeMaximalNumberOfStudents: function() {
-			if(this.chosenMaximalNumberOfStudents.length > 0) {
-				this.hideStudentList = false;
-				var maxNum = parseInt(this.chosenMaximalNumberOfStudents);
-				this.indexNumbers = this.indexNumbers.slice(0, maxNum);
-			}
-			else {
-				this.hideStudentList = true;
-				this.indexNumbers = [];
-			}
+			var maxNum = parseInt(this.chosenMaximalNumberOfStudents);
+			this.indexNumbers = this.indexNumbers.slice(0, maxNum);
 		},
 		deleteIndexNumFromList: function(indexNumber) {
 			var i = this.indexNumbers.indexOf(indexNumber);
@@ -293,12 +338,12 @@ export default Vue.component('createProposalPopUp',{
 					level: this.chosenLevel.value,
 					mode: this.chosenMode.value
 				}
-				proposalService.create(proposalRegistration)
+				proposalService.update(this.proposal.id, proposalRegistration)
 					.then(response => {
 						if(response.status == 200) {
 							bus.$emit('proposalWasCreated');
 							this.params.show = false;
-							this.$refs.createProposalForm.reset();
+							this.clearInputs();
 						}
 					});
 			}
@@ -308,7 +353,6 @@ export default Vue.component('createProposalPopUp',{
 		return {
 			isFormValid: false,
 			selectCoursesDisabled: true,
-			hideStudentList: true,
 			topicPolish: "",
 			topicEnglish: "",
 			description: "",
@@ -380,14 +424,7 @@ export default Vue.component('createProposalPopUp',{
 		}
 	},
 	created() {
-		this.selectCoursesDisabled = true;
-		this.disabledStudentList = true;
-		facultyService.getAll()
-			.then(response => {
-				if(response.status == 200) {
-					this.faculties = response.data;
-				}
-			});
+		bus.$on('showProposalToUpdate', this.fillInputs);
 	}
 })
 </script>
