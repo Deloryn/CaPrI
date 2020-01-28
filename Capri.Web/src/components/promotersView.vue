@@ -1,18 +1,7 @@
 <template>
 	<v-container fluid grid-list-xl class="mainView">
 		<v-row justify="center" class="rowMargin">
-			<detailsPopUp v-bind:params="popUpParams">
-				<template v-slot:after>
-					<v-col cols="12" class="text-center">
-						<v-btn
-							color="#12628d"
-							class="promoterCloseButton"
-							@click="popUpParams.show = false"
-							>Close</v-btn
-						>
-					</v-col>
-				</template>
-			</detailsPopUp>
+			<updatePromoterPopUp :params="updatePromoterPopUpParams" />
 			<v-col cols="12">
 				<v-data-table
 					:headers="headers"
@@ -21,10 +10,14 @@
 					class="whiteBackground"
 				>
 				<template v-slot:item="{ item }">
-					<tr @click="showDetails(item)">
+					<tr @click="showUpdatePromoterPopUp(item)">
 					<td>{{ item.lastName }} {{ item.firstName }}</td>
-					<td>{{ item.expectedNumberOfBachelorProposals }}</td>
-					<td>{{ item.expectedNumberOfMasterProposals }}</td>
+					<td>
+						{{ item.submittedBachelors + "/" + item.expectedNumberOfBachelorProposals }}
+					</td>
+					<td>
+						{{ item.submittedMasters + "/" + item.expectedNumberOfMasterProposals }}
+					</td>
 					</tr>
 				</template>
 				</v-data-table>
@@ -38,12 +31,13 @@
 import {promoterService} from '@src/services/promoterService'
 import {instituteService} from '@src/services/instituteService'
 import {proposalService} from '@src/services/proposalService'
-import detailsPopUp from '@src/components/popups/detailsPopUp.vue'
+import updatePromoterPopUp from '@src/components/popups/updatePromoterPopUp.vue'
+import { bus } from '@src/services/eventBus'
 
 export default {
 	name: 'promotersView',
 	components: {
-        detailsPopUp,
+        updatePromoterPopUp
     },
     data() {
       return {
@@ -54,124 +48,74 @@ export default {
 				value: 'name', 
 				class: 'blue--text text--darken-4 display-1', 
 				align: 'left', 
-				width: '30%', 
+				width: '60%', 
 				sortable: false 
 			},
 			{ 
-				text: 'Expected bachelor proposals', 
+				text: 'BSc.', 
 				value: 'expectedNumberOfBachelorProposals', 
 				class: 'blue--text text--darken-4 display-1', 
 				align: 'left', 
-				width: '35%', 
+				width: '20%', 
 				sortable: false 
 			},
 			{ 
-				text: 'Expected master proposals', 
+				text: 'MSc.', 
 				value: 'expectedNumberOfMasterProposals', 
 				class: 'blue--text text--darken-4 display-1', 
 				align: 'left', 
-				width: '35%', 
+				width: '20%', 
 				sortable: false 
 			},
 		],
-		popUpParams: {
+		updatePromoterPopUpParams: {
 			show: false,
 			maxWidth: 1000,
-			data: {
-				fullName: { 
-					text: '', 
-					label: 'Promoter', 
-					type: 'textField', 
-					columns: 12 },
-				institute: { 
-					text: '', 
-					label: 'Institute', 
-					type: 'selectableField', 
-					items: [],
-					chosen: null,
-					columns: 12 },
-				expectedNumberOfBachelorProposals: {
-					text: '',
-					label: 'Expected bachelor proposals',
-					type: 'textField',
-					columns: 12,
-				},
-				numberOfSubmittedBachelorProposals: {
-					text: '',
-					label: 'Submitted bachelor proposals',
-					type: 'textField',
-					columns: 12,
-				},
-				expectedNumberOfMasterProposals: {
-					text: '',
-					label: 'Expected master proposals',
-					type: 'textField',
-					columns: 12,
-				},
-				numberOfSubmittedMasterProposals: {
-					text: '',
-					label: 'Submitted master proposals',
-					type: 'textField',
-					columns: 12,
-				},
-			},
 		}
       }
 	},
 	created() {
-		this.getData()
+		this.getData();
 	},
 	methods: {
 		getData: function() {
 			promoterService.getAll()
 			.then(response => {
-				this.promoters = response.data
+				var promoters = response.data
+				promoters.forEach(promoter => {
+					proposalService.calculateSubmittedBachelorProposals(promoter.id)
+						.then(response => {
+							var submitted = 0;
+							if(response.status == 200) {
+								submitted = response.data;
+							}
+							promoter.submittedBachelors = submitted;
+
+							proposalService.calculateSubmittedMasterProposals(promoter.id)
+								.then(response => {
+									var submitted = 0;
+									if(response.status == 200) {
+										submitted = response.data;
+									}
+									promoter.submittedMasters = submitted;
+									var fullName = promoter.titlePrefix + " " +
+										promoter.firstName + " " +
+										promoter.lastName;
+									if(promoter.titlePostfix)
+									{
+										fullName += ", "
+										fullName += promoter.titlePostfix
+									}
+									promoter.fullName = fullName;
+									this.promoters.push(promoter);
+								});
+						});
+				});
 			})
 		},
-		showDetails: function(promoter) {
-			var expectedBachelors = promoter.expectedNumberOfBachelorProposals;
-			var expectedMasters = promoter.expectedNumberOfMasterProposals;
-
-			var fullName = promoter.titlePrefix + " " +
-                           promoter.firstName + " " +
-                           promoter.lastName;
-			if(promoter.titlePostfix)
-			{
-				fullName += ", "
-				fullName += promoter.titlePostfix
-			}
-			
-			this.popUpParams.data.fullName.text = fullName;
-			this.popUpParams.data.expectedNumberOfBachelorProposals.text = expectedBachelors;
-			this.popUpParams.data.expectedNumberOfMasterProposals.text = expectedMasters;
-
-			instituteService.get(promoter.instituteId)
-				.then(response => {
-					var institute = "";
-					if(response.status == 200) {
-						institute = response.data.name;
-					}
-					this.popUpParams.data.institute.text = institute;
-				});
-
-			proposalService.calculateSubmittedBachelorProposals(promoter.id)
-				.then(response => {
-					var submitted = 0;
-					if(response.status == 200) {
-						submitted = response.data;
-					}
-					this.popUpParams.data.numberOfSubmittedBachelorProposals.text = submitted;
-				});
-			proposalService.calculateSubmittedMasterProposals(promoter.id)
-				.then(response => {
-					var submitted = 0;
-					if(response.status == 200) {
-						submitted = response.data;
-					}
-					this.popUpParams.data.numberOfSubmittedMasterProposals.text = submitted;
-				});
-
-			this.popUpParams.show = true;
+		showUpdatePromoterPopUp: function(promoter) {
+			bus.$emit('showPromoterToUpdate', promoter);
+			this.updatePromoterPopUpParams.show = true;
     	}
 	},
   }

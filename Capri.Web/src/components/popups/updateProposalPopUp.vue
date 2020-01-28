@@ -4,7 +4,7 @@
 		v-model="params.show"
 		:max-width="params.maxWidth"
 	>
-		<v-form class="whiteBackground" ref="createProposalForm" v-model="isFormValid">
+		<v-form class="whiteBackground" ref="updateProposalForm" v-model="isFormValid">
 			<v-container class="table">
 				<v-row>
 					<v-col :cols="8">
@@ -222,7 +222,6 @@ import { Vue } from 'vue-property-decorator';
 import { proposalService } from '@src/services/proposalService'
 import { facultyService } from '@src/services/facultyService'
 import { courseService } from '@src/services/courseService'
-import selectableField from '@src/components/popups/popUpFields/selectableField'
 import { bus } from '@src/services/eventBus'
 
 export default Vue.component('updateProposalPopUp',{
@@ -230,16 +229,13 @@ export default Vue.component('updateProposalPopUp',{
 		proposal: Object,
 		params: Object,
 	},
-	components: {
-		selectableField
-	},
 	methods: {
 		cancelPopUp: function() {
 			this.params.show = false;
 			this.clearInputs();
 		},
 		clearInputs: function() {
-			this.$refs.createProposalForm.resetValidation();
+			this.$refs.updateProposalForm.resetValidation();
 			this.chosenFaculty = null;
 			this.chosenCourse = null;
 			this.courses = [];
@@ -324,7 +320,7 @@ export default Vue.component('updateProposalPopUp',{
 			if(this.$refs.studentIndexNumberInput.value == "") {
 				this.$refs.studentIndexNumberInput.resetValidation();
 			}
-			if(this.$refs.createProposalForm.validate()) {
+			if(this.$refs.updateProposalForm.validate()) {
 				var proposalRegistration = {
 					courseId: this.chosenCourse.id,
 					students: this.indexNumbers,
@@ -411,6 +407,7 @@ export default Vue.component('updateProposalPopUp',{
 				v => v.length <= 50 || 'Specialization should contain at most 50 characters'
 			],
 			maxNumberOfStudentsRules: [
+				v => !!v || 'This value is required',
 				v => v >= 1 || 'The maximal number of students should be greater or equal to 1',
 				v => v <= 4 || 'The maximal number of students should be less or equal to 4'
 			],

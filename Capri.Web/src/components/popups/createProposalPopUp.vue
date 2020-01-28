@@ -221,15 +221,11 @@ import { Vue } from 'vue-property-decorator';
 import { proposalService } from '@src/services/proposalService'
 import { facultyService } from '@src/services/facultyService'
 import { courseService } from '@src/services/courseService'
-import selectableField from '@src/components/popups/popUpFields/selectableField'
 import { bus } from '@src/services/eventBus'
 
 export default Vue.component('createProposalPopUp',{
 	props: {
 		params: Object
-	},
-	components: {
-		selectableField
 	},
 	methods: {
 		addStudent: function() {
@@ -367,6 +363,7 @@ export default Vue.component('createProposalPopUp',{
 				v => v.length <= 50 || 'Specialization should contain at most 50 characters'
 			],
 			maxNumberOfStudentsRules: [
+				v => !!v || 'This value is required',
 				v => v >= 1 || 'The maximal number of students should be greater or equal to 1',
 				v => v <= 4 || 'The maximal number of students should be less or equal to 4'
 			],
