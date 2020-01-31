@@ -5,8 +5,8 @@
 		</div>
 		<v-spacer></v-spacer>
 		<div class="headerElement">
-			<div class="polish"></div>
-			<div class="english"></div>
+			<div class="polish" @click="changeLocale('pl')" />
+			<div class="english" @click="changeLocale('en')" />
 		</div>
 
 		<div class="headerElement">
@@ -21,11 +21,11 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
+import { bus } from '@src/services/eventBus'
 
-@Component
-export default class TopBar extends Vue {
-    public data() {
-        return {
+export default Vue.component('topBar', {
+	data() {
+		return {
             showpopUp: false,
             listType: 'Thesis list',
             fontSize: { font: 12 },
@@ -35,14 +35,21 @@ export default class TopBar extends Vue {
                 { font: 16 },
                 { font: 20 },
                 { font: 24 },
-            ],
-        };
-    };
-    public logout() {
-        sessionStorage.removeItem('token')
-        this.$router.push('/login')
-    }
-}
+			],
+        }
+	},
+	methods: {
+		logout: function() {
+			sessionStorage.removeItem('token')
+			this.$router.push('/login')
+		},
+		changeLocale: function(locale) {
+			this.$i18n.locale = locale;
+			bus.$emit('languageChanged');
+		}
+	},
+});
+
 </script>
 <style lang="scss" scoped>
 .mainCard {

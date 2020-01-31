@@ -8,7 +8,7 @@
             </navBar>
             <topBar> </topBar>
         </div>
-        <router-view></router-view>
+        <router-view :key="$i18n.locale"></router-view>
         <downBar />
     </div>
 </template>
@@ -20,6 +20,7 @@ import downBar from './components/downBar.vue';
 import proposalsFilterComponent from './components/proposalsFilterComponent.vue';
 import navList from './components/navList.vue';
 import SessionService from '@src/services/sessionService'
+
 enum UserType {
     student = 'Student',
     promoter = 'Promoter',

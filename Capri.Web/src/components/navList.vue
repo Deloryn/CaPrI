@@ -29,58 +29,46 @@ export default Vue.component('navList', {
     },
     data() {
         return {
-            links: [
-                {
-                    to: '/view/institutes',
-                    icon: '',
-                    text: 'Institutes',
-                    dropDownOnStart: false
-                },
-                {
+            links: {
+                promoters: {
                     to: '/view/promoters',
                     icon: 'mdi-account-multiple',
                     text: 'Promoters',
                     dropDownOnStart: false
                 },
-                {
+                proposals: {
                     to: '/view/proposals',
                     icon: 'mdi-school-outline',
                     text: 'Proposals',
                     dropDownOnStart: true,
                     component: proposalsFilterComponent
                 },
-                {
-                    to: '/view/import',
-                    icon: 'mdi-import',
-                    text: 'Import data',
-                    dropDownOnStart: false
-                },
-                {
+                myProposals: {
                     to: '/view/my_proposals',
                     icon: 'mdi-book-open',
                     text: 'My proposals',
                     dropDownOnStart: false
                 },
-            ],
+            },
         }
     },
 	methods: {
         selectLinks: function(userType) {
             const newLinks = [];
             if (userType === 'Promoter') {
-                newLinks.push(this.links[2], this.links[4]);
+                newLinks.push(this.links.proposals, this.links.myProposals);
             } 
             else if (userType === 'Dean') {
-                newLinks.push(this.links[2], this.links[1], this.links[0], this.links[3]);
+                newLinks.push(this.links.proposals, this.links.promoters);
             }
             else if (userType === 'Student') {
-                newLinks.push(this.links[2])
+                newLinks.push(this.links.proposals)
             }
             return newLinks;
         },
         render: function(url) {
             router.push(url);
-            bus.$emit('clearFilters');
+            bus.$emit('clearProposalFilters');
         }
 	}
 })

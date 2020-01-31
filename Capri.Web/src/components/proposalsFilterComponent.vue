@@ -188,7 +188,7 @@ export default Vue.component('proposalsFilterComponent', {
     created() {
         this.getData();
         this.clearFilters();
-        bus.$on('clearFilters', this.clearFilters);
+        bus.$on('clearProposalFilters', this.clearFilters);
     }
 })
 </script>

@@ -4,8 +4,6 @@ import LoginView from './components/loginView.vue';
 import proposalsView from './components/proposalsView.vue';
 import myProposalsView from './components/myProposalsView.vue';
 import promotersView from './components/promotersView.vue'
-import institutesView from './components/institutesView.vue'
-import Import from './components/importPromoters.vue';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 
@@ -19,8 +17,6 @@ const router = new Router({
         { path: '/view/proposals', component: proposalsView },
         { path: '/view/my_proposals', component: myProposalsView },
         { path: '/view/promoters', component: promotersView },
-        { path: '/view/import', component: Import },
-        { path: '/view/institutes', component: institutesView },
         { path: '/', component: proposalsView },
     ],
 });
@@ -28,7 +24,8 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
     if (to.path !== '/login' && !sessionStorage.token) {
         next('/login');
-    } else {
+    }
+    else {
         next();
     }
 });
