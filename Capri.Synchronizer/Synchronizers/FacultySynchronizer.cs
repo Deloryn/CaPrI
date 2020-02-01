@@ -6,7 +6,7 @@ using Capri.Database.Entities;
 
 namespace Capri.Synchronizer.Synchronizers
 {
-    public class FacultiesSynchronizer : IFacultySynchronizer
+    public class FacultySynchronizer : IFacultySynchronizer
     {
         const int DoctoralSchool = 1;
 
@@ -14,7 +14,7 @@ namespace Capri.Synchronizer.Synchronizers
         private readonly ISqlDbContext _context;
         private readonly IMapper _mapper;
 
-        public FacultiesSynchronizer(
+        public FacultySynchronizer(
             IEDziekanatClient eDziekanatClient, 
             ISqlDbContext context,
             IMapper mapper)
@@ -26,10 +26,10 @@ namespace Capri.Synchronizer.Synchronizers
 
         public void Synchronize()
         {
-            EDziekanatFaculty[] faculties = this._eDziekanatClient.GetFaculties(true);
+            EDziekanatFaculty[] faculties = _eDziekanatClient.GetFaculties(true);
             foreach(EDziekanatFaculty faculty in faculties)
             {
-                if (faculty.id == DoctoralSchool)
+                if(faculty.id == DoctoralSchool)
                 {
                     continue;
                 }

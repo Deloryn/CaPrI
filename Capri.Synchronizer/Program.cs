@@ -7,6 +7,7 @@ using PUT.WebServices.eKontoServiceClient;
 using PUT.WebServices.eKadryServiceClient;
 using Capri.Database;
 using Capri.Synchronizer.Mapper;
+using Capri.Synchronizer.Synchronizers;
 
 namespace Capri.Synchronizer
 {
@@ -19,7 +20,7 @@ namespace Capri.Synchronizer
 
         private static IContainer CompositionRoot()
         {
-            string systemName = "capri.esys.put.poznan.pl";
+            string systemName = "";
             Console.Write(string.Format("Podaj hasło systemu {0} w eKoncie: ", systemName));
             string systemPassword = Console.ReadLine();
 
@@ -36,6 +37,7 @@ namespace Capri.Synchronizer
             var mappingConfig = new AutoMapper.MapperConfiguration(mc =>
             {
                 mc.AddProfile(new FacultyMappingProfile());
+                mc.AddProfile(new CourseMappingProfile());
             });
 
             var mapper = mappingConfig.CreateMapper();
@@ -48,6 +50,9 @@ namespace Capri.Synchronizer
             builder.RegisterInstance(eDziekanatClient).As<IEDziekanatClient>();
             builder.RegisterInstance(eKadryClient).As<IEKadryClient>();
 
+            builder.RegisterType<FacultySynchronizer>().As<IFacultySynchronizer>();
+            builder.RegisterType<CourseSynchronizer>().As<ICourseSynchronizer>();
+            builder.RegisterType<InstituteSynchronizer>().As<IInstituteSynchronizer>();
             builder.RegisterType<Application>();
 
             return builder.Build();
