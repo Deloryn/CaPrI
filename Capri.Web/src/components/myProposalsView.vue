@@ -145,8 +145,9 @@ export default {
             proposalService.getMyProposals()
                 .then(response => {
                     if(response.status == 200) {
-                        this.myProposals = response.data;
-                        this.myProposals.forEach(proposal => {
+                        var myProposals = response.data;
+                        this.myProposals = [];
+                        myProposals.forEach(proposal => {
                             if(this.$i18n.locale == 'pl') {
                                 proposal.topic = proposal.topicPolish;
                             }
@@ -162,7 +163,8 @@ export default {
                                 this.numOfSubmittedMasters += 1;
                             }
                             proposal.modeText = this.toStudyMode(proposal.mode).name;
-                            proposal.stateText = this.toProposalStatusText(proposal).name;
+                            proposal.stateText = this.toProposalStatusText(proposal);
+                            this.myProposals.push(proposal);
                         });
                     }
                 });

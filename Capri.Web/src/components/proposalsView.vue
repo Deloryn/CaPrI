@@ -85,9 +85,9 @@ export default {
     methods: {
         getData: function() {
             proposalService.getAll().then((response) => {
-                this.proposals = response.data;
-                var simplifiedProposals = [];
-                this.proposals.forEach(proposal => {
+                var proposals = response.data;
+                this.proposals = [];
+                proposals.forEach(proposal => {
                     promoterService.get(proposal.promoterId)
                     .then((response) => {
                         let promoterFullName = "";
@@ -95,16 +95,16 @@ export default {
                             var promoter = response.data;
                             promoterFullName = promoter.lastName + " " + promoter.firstName;
                         }
-                        
                         proposal.promoter = promoterFullName;
+                        if(this.$i18n.locale == 'pl') {
+                            proposal.topic = proposal.topicPolish;
+                        }
+                        else {
+                            proposal.topic = proposal.topicEnglish;
+                        }
+                        proposal.freeSlots = proposal.maxNumberOfStudents - proposal.students.length;
+                        this.proposals.push(proposal);
                     });
-                    if(this.$i18n.locale == 'pl') {
-                        proposal.topic = proposal.topicPolish;
-                    }
-                    else {
-                        proposal.topic = proposal.topicEnglish;
-                    }
-                    proposal.freeSlots = proposal.maxNumberOfStudents - proposal.students.length;
                 });
             });            
         },

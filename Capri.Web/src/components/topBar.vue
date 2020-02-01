@@ -10,7 +10,7 @@
 		</div>
 
 		<div class="headerElement">
-			<div @click="logout()" class="noTextDecoration">
+			<div @click="logout()" class="noTextDecoration logoutButton">
 				<v-avatar color="rgb(18,98,141)" class="icon" size="50">
 					<v-icon color="#EEEEEE">person</v-icon>
 				</v-avatar>
@@ -62,6 +62,10 @@ export default Vue.component('topBar', {
 	height: 25px;
 	width: 50px;
 	background: linear-gradient(to bottom, #ffffff 50%, #d4213d 50%);
+	opacity: 1.0;
+}
+.polish:hover {
+	opacity: 0.5;
 }
 .english {
 	background-image: url('../assets/british-flag.svg');
@@ -69,8 +73,18 @@ export default Vue.component('topBar', {
 	margin: 10px;
 	height: 25px;
 	width: 50px;
+	opacity: 1.0;
+}
+.english:hover {
+	opacity: 0.5;
 }
 .noTextDecoration {
 	text-decoration: none;
+}
+.logoutButton {
+	opacity: 1.0;
+}
+.logoutButton:hover {
+	opacity: 0.5;
 }
 </style>

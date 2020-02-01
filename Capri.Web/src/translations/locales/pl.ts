@@ -92,7 +92,7 @@ export default {
 
     proposal: {
         proposal: 'Propozycja',
-        proposalPlural: 'Propozycje tematów',
+        proposalPlural: 'Propozycje',
         myProposals: 'Moje propozycje',
         topic: 'Temat',
         titlePolish: 'Tytuł (PL)',
