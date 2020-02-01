@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Capri.Database;
 
@@ -8,15 +9,21 @@ namespace Capri.Synchronizer
     {
         static void Main(string[] args)
         {
-            string capriWebDir = Directory.
-                GetParent(Directory.GetCurrentDirectory())
-                .FullName;
+            // string capriWebDir = Directory.
+            //     GetParent(Directory.GetCurrentDirectory())
+            //     .FullName;
 
-            var connectionString = "???";
+            var connectionString = args[0];
             var optionsBuilder = 
                 new DbContextOptionsBuilder<CapriDbContext>()
                     .UseSqlServer(connectionString);
             var context = new CapriDbContext(optionsBuilder.Options);   
+
+            var faculties = context.Faculties;
+            foreach(var faculty in faculties) {
+                Console.WriteLine(faculty.Name);
+            }
+            Console.WriteLine("po wszystkim");
         }
     }
 }

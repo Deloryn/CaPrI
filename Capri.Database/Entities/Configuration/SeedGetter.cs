@@ -24,82 +24,82 @@ namespace Capri.Database.Entities.Configuration
 
         static SeedGetter()
         {
-            var fileName = "dataseed.json";
-            var path = Path.Combine(Environment.CurrentDirectory, fileName);
-            var jsonString = File.ReadAllTextAsync(path).Result;
-            var seed = JsonConvert.DeserializeObject<DataSeed>(jsonString);
+            // var fileName = "dataseed.json";
+            // var path = Path.Combine(Environment.CurrentDirectory, fileName);
+            // var jsonString = File.ReadAllTextAsync(path).Result;
+            // var seed = JsonConvert.DeserializeObject<DataSeed>(jsonString);
             
-            foreach(var user in seed.DeanEmployees)
-            {
-                var preparedUser = PrepareUser(user);
-                Users.Add(preparedUser);
-                DeanEmployees.Add(preparedUser);
-            }
-            foreach(var student in seed.Students)
-            {
-                var user = PrepareUser(student.ApplicationUser);
-                Users.Add(user);
-                student.ApplicationUser = null;
-                student.UserId = user.Id;
-                if(student.Id == Guid.Empty)
-                {
-                    student.Id = Guid.NewGuid();
-                }
-                Students.Add(student);
-            }
-            foreach(var institute in seed.Institutes)
-            {
-                if(institute.Id == Guid.Empty)
-                {
-                    institute.Id = Guid.NewGuid();
-                }
+            // foreach(var user in seed.DeanEmployees)
+            // {
+            //     var preparedUser = PrepareUser(user);
+            //     Users.Add(preparedUser);
+            //     DeanEmployees.Add(preparedUser);
+            // }
+            // foreach(var student in seed.Students)
+            // {
+            //     var user = PrepareUser(student.ApplicationUser);
+            //     Users.Add(user);
+            //     student.ApplicationUser = null;
+            //     student.UserId = user.Id;
+            //     if(student.Id == Guid.Empty)
+            //     {
+            //         student.Id = Guid.NewGuid();
+            //     }
+            //     Students.Add(student);
+            // }
+            // foreach(var institute in seed.Institutes)
+            // {
+            //     if(institute.Id == Guid.Empty)
+            //     {
+            //         institute.Id = Guid.NewGuid();
+            //     }
 
-                foreach(var promoter in institute.Promoters)
-                {
-                    var user = PrepareUser(promoter.ApplicationUser);
-                    Users.Add(user);
-                    promoter.ApplicationUser = null;
-                    promoter.UserId = user.Id;
-                    promoter.InstituteId = institute.Id;
-                    if(promoter.Id == Guid.Empty)
-                    {
-                        promoter.Id = Guid.NewGuid();
-                    }
-                    Promoters.Add(promoter);
-                }
-                institute.Promoters = null;
-                Institutes.Add(institute);
-            }
-            foreach(var faculty in seed.Faculties)
-            {
-                if(faculty.Id == Guid.Empty)
-                {
-                    faculty.Id = Guid.NewGuid();
-                }  
+            //     foreach(var promoter in institute.Promoters)
+            //     {
+            //         var user = PrepareUser(promoter.ApplicationUser);
+            //         Users.Add(user);
+            //         promoter.ApplicationUser = null;
+            //         promoter.UserId = user.Id;
+            //         promoter.InstituteId = institute.Id;
+            //         if(promoter.Id == Guid.Empty)
+            //         {
+            //             promoter.Id = Guid.NewGuid();
+            //         }
+            //         Promoters.Add(promoter);
+            //     }
+            //     institute.Promoters = null;
+            //     Institutes.Add(institute);
+            // }
+            // foreach(var faculty in seed.Faculties)
+            // {
+            //     if(faculty.Id == Guid.Empty)
+            //     {
+            //         faculty.Id = Guid.NewGuid();
+            //     }  
                 
-                foreach(var course in faculty.Courses)
-                {
-                    if(course.Id == Guid.Empty)
-                    {
-                        course.Id = Guid.NewGuid();
-                    }
-                    course.FacultyId = faculty.Id;          
-                    foreach(var proposal in course.Proposals)
-                    {
-                        if(proposal.Id == Guid.Empty)
-                        {
-                            proposal.Id = Guid.NewGuid();
-                        }
-                        proposal.CourseId = course.Id;
-                        proposal.StartingDate = new DateTime(2019, 10, 1);
-                        Proposals.Add(proposal);
-                    }
-                    course.Proposals = null;
-                    Courses.Add(course);
-                }
-                faculty.Courses = null;
-                Faculties.Add(faculty);
-            }
+            //     foreach(var course in faculty.Courses)
+            //     {
+            //         if(course.Id == Guid.Empty)
+            //         {
+            //             course.Id = Guid.NewGuid();
+            //         }
+            //         course.FacultyId = faculty.Id;          
+            //         foreach(var proposal in course.Proposals)
+            //         {
+            //             if(proposal.Id == Guid.Empty)
+            //             {
+            //                 proposal.Id = Guid.NewGuid();
+            //             }
+            //             proposal.CourseId = course.Id;
+            //             proposal.StartingDate = new DateTime(2019, 10, 1);
+            //             Proposals.Add(proposal);
+            //         }
+            //         course.Proposals = null;
+            //         Courses.Add(course);
+            //     }
+            //     faculty.Courses = null;
+            //     Faculties.Add(faculty);
+            // }
         }
 
         private static User PrepareUser(User user)
