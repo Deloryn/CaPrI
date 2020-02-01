@@ -38,7 +38,7 @@ namespace Capri.Web.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> Get(int id)
         {
             var result = await _proposalGetter.Get(id);
             if (result.Successful())
@@ -50,7 +50,7 @@ namespace Capri.Web.Controllers
 
         [AllowedRoles(RoleType.Dean)]
         [HttpGet("{id}/csv")]
-        public async Task<IActionResult> GetCsvFile(Guid id)
+        public async Task<IActionResult> GetCsvFile(int id)
         {
             var result = await _proposalGetter.GetCsvFileDescription(id);
             if(result.Successful())
@@ -85,7 +85,7 @@ namespace Capri.Web.Controllers
 
         [AllowedRoles(RoleType.Dean, RoleType.Promoter)]
         [HttpGet("submitted/bachelor/{promoterId}")]
-        public async Task<IActionResult> GetSubmittedBachelorProposals(Guid promoterId)
+        public async Task<IActionResult> GetSubmittedBachelorProposals(int promoterId)
         {
             var result = 
                 await _submittedProposalGetter
@@ -100,7 +100,7 @@ namespace Capri.Web.Controllers
 
         [AllowedRoles(RoleType.Dean, RoleType.Promoter)]
         [HttpGet("submitted/master/{promoterId}")]
-        public async Task<IActionResult> GetSubmittedMasterProposals(Guid promoterId)
+        public async Task<IActionResult> GetSubmittedMasterProposals(int promoterId)
         {
             var result = 
                 await _submittedProposalGetter
@@ -138,14 +138,9 @@ namespace Capri.Web.Controllers
         [AllowedRoles(RoleType.Promoter)]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(
-            Guid id, 
+            int id, 
             [FromBody] ProposalRegistration registration)
-        {
-            if(id == Guid.Empty)
-            {
-                return NotFound();
-            }
-            
+        {   
             if(registration == null)
             {
                 return BadRequest("Proposal registration not given");
@@ -166,7 +161,7 @@ namespace Capri.Web.Controllers
 
         [AllowedRoles(RoleType.Promoter)]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(int id)
         {
             var result = await _proposalDeleter.Delete(id);
             if (result.Successful())

@@ -8,7 +8,7 @@ namespace Capri.Services.Users
     public interface IUserUpdater
     {
         Task<IServiceResult<User>> Update(
-            Guid id, 
+            int id, 
             UserCredentials credentials,
             RoleType[] roles);
     }

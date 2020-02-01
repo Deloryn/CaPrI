@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using AutoMapper;
-using Capri.Database;
 using Capri.Database.Entities;
 using Capri.Web.ViewModels.Proposal;
 
@@ -18,7 +17,7 @@ namespace Capri.Web.Configuration.Mapper
             CreateMap<Proposal, ProposalViewModel>()
             .ForMember(
                 view=>view.Students, 
-                o=>o.MapFrom(proposal=>proposal.Students.Select(s=>s.IndexNumber)));
+                o=>o.MapFrom(proposal=>proposal.Students.Select(s=>s.Id)));
 
             CreateMap<Proposal, ProposalCsvRecord>()
             .ForMember(csv => csv.Promoter, o => o.MapFrom(p => GetPromoterFullName(p.Promoter)))

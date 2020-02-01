@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -13,12 +12,12 @@ namespace Capri.Services.Users
     {
         private readonly ISqlDbContext _context;
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<GuidRole> _roleManager;
+        private readonly RoleManager<IntRole> _roleManager;
 
         public UserUpdater(
             ISqlDbContext context,
             UserManager<User> userManager,
-            RoleManager<GuidRole> roleManager
+            RoleManager<IntRole> roleManager
             )
         {
             _context = context;
@@ -27,7 +26,7 @@ namespace Capri.Services.Users
         }
 
         public async Task<IServiceResult<User>> Update(
-            Guid id,
+            int id,
             UserCredentials credentials,
             RoleType[] roles)
         {
@@ -69,7 +68,7 @@ namespace Capri.Services.Users
             return ServiceResult<User>.Success(existingUser);
         }
 
-        private async Task<bool> IsEmailTakenBySomeoneElse(Guid userId, string email)
+        private async Task<bool> IsEmailTakenBySomeoneElse(int userId, string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if(user == null)

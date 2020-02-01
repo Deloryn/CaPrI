@@ -9,9 +9,9 @@ namespace Capri.Database.Entities.Configuration
 {
     public static class SeedGetter
     {
-        public static Guid DeanRoleId { get; private set; } = Guid.NewGuid();
-        public static Guid PromoterRoleId { get; private set; } = Guid.NewGuid();
-        public static Guid StudentRoleId { get; private set; } = Guid.NewGuid();
+        public static int DeanRoleId { get; private set; } = 1;
+        public static int PromoterRoleId { get; private set; } = 2;
+        public static int StudentRoleId { get; private set; } = 3;
 
         public static List<User> Users { get; private set; } = new List<User>();
         public static List<Student> Students { get; private set; } = new List<Student>();
@@ -104,10 +104,10 @@ namespace Capri.Database.Entities.Configuration
 
         private static User PrepareUser(User user)
         {
-            if(user.Id == Guid.Empty)
-            {
-                user.Id = Guid.NewGuid();
-            }
+            // if(user.Id == Guid.Empty)
+            // {
+            //     user.Id = Guid.NewGuid();
+            // }
             user.UserName = user.Email;
             user.NormalizedUserName = new UpperInvariantLookupNormalizer()
                 .Normalize(user.Email)

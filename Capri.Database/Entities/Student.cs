@@ -8,9 +8,7 @@ namespace Capri.Database.Entities
     public class Student : IEntity
     {
         [Key]
-        public Guid Id { get; set; }
-        [Required]
-        public int IndexNumber { get; set; }
+        public int Id { get; set; }
         [Required]
         public string FirstName { get; set; }
         [Required]
@@ -23,9 +21,9 @@ namespace Capri.Database.Entities
         public StudyMode StudyMode { get; set; }
         [Required]
         [ForeignKey("ApplicationUser")]
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
         public virtual User ApplicationUser { get; set; }
-        public Guid? ProposalId { get; set; }
+        public int? ProposalId { get; set; }
         [ForeignKey("ProposalId")]
         public virtual Proposal Proposal { get; set; }
     }

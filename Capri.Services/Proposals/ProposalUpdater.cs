@@ -40,7 +40,7 @@ namespace Capri.Services.Proposals
         }
         
         public async Task<IServiceResult<ProposalViewModel>> Update(
-            Guid id, 
+            int id, 
             ProposalRegistration inputData)
         {
             var proposal = _context.Proposals.Include(p => p.Students).FirstOrDefault(p => p.Id == id);

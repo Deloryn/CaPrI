@@ -29,7 +29,7 @@ namespace Capri.Services.Proposals
             _userGetter = userGetter;
         }
 
-        public async Task<IServiceResult<ProposalViewModel>> Delete(Guid id)
+        public async Task<IServiceResult<ProposalViewModel>> Delete(int id)
         {
             var proposal = await _context
                 .Proposals

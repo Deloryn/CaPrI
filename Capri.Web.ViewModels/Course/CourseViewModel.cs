@@ -5,9 +5,9 @@ namespace Capri.Web.ViewModels.Course
 {
     public class CourseViewModel
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
-        public Guid FacultyId { get; set; }
-        public ICollection<Guid> Proposals { get; set; }
+        public int FacultyId { get; set; }
+        public ICollection<int> Proposals { get; set; }
     }
 }

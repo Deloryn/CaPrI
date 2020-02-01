@@ -11,25 +11,19 @@ namespace Capri.Web.Controllers
     [Route("promoters")]
     public class PromoterController : Controller
     {
-        private readonly IPromoterCreator _promoterCreator;
         private readonly IPromoterUpdater _promoterUpdater;
         private readonly IPromoterGetter _promoterGetter;
-        private readonly IPromoterDeleter _promoterDeleter;
 
         public PromoterController(
-            IPromoterCreator promoterCreator,
             IPromoterUpdater promoterUpdater,
-            IPromoterGetter promoterGetter,
-            IPromoterDeleter promoterDeleter)
+            IPromoterGetter promoterGetter)
         {
-            _promoterCreator = promoterCreator;
             _promoterUpdater = promoterUpdater;
             _promoterGetter = promoterGetter;
-            _promoterDeleter = promoterDeleter;
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> Get(int id)
         {
             var result = await _promoterGetter.Get(id);
             if(result.Successful())
@@ -51,40 +45,12 @@ namespace Capri.Web.Controllers
         }
 
         [AllowedRoles(RoleType.Dean)]
-        [HttpPost]
-        public async Task<IActionResult> Create(
-            [FromBody] PromoterRegistration registration)
-        {
-            if(registration == null)
-            {
-                return BadRequest("Promoter registration not given");
-            }
-
-            if(!ModelState.IsValid)
-            {
-                return BadRequest("The given promoter registration is invalid");
-            }
-
-            var result = await _promoterCreator.Create(registration);
-            if(result.Successful())
-            {
-                return Ok(result.Body());
-            }
-            return BadRequest(result.GetAggregatedErrors());
-        }
-
-        [AllowedRoles(RoleType.Dean)]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(
-            Guid id,
-            [FromBody] PromoterRegistration registration)
+            int id,
+            [FromBody] PromoterUpdate update)
         {
-            if(id == Guid.Empty)
-            {
-                return NotFound();
-            }
-
-            if(registration == null)
+            if(update == null)
             {
                 return BadRequest("Promoter registration not given");
             }
@@ -94,19 +60,7 @@ namespace Capri.Web.Controllers
                 return BadRequest("The given promoter registration is invalid");
             }
 
-            var result = await _promoterUpdater.Update(id, registration);
-            if(result.Successful())
-            {
-                return Ok(result.Body());
-            }
-            return BadRequest(result.GetAggregatedErrors());
-        }
-
-        [AllowedRoles(RoleType.Dean)]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            var result = await _promoterDeleter.Delete(id);
+            var result = await _promoterUpdater.Update(id, update);
             if(result.Successful())
             {
                 return Ok(result.Body());

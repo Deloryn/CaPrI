@@ -7,7 +7,7 @@ namespace Capri.Database.Entities
     public class Faculty : IEntity
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         public virtual ICollection<Course> Courses { get; set; }

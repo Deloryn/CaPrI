@@ -9,8 +9,8 @@ using Capri.Database.Entities.Identity;
 namespace Capri.Database
 {
     public class CapriDbContext : IdentityDbContext
-        <User, GuidRole, Guid, GuidUserClaim, GuidUserRole, GuidUserLogin,
-        GuidRoleClaim, GuidUserToken>, 
+        <User, IntRole, int, IntUserClaim, IntUserRole, IntUserLogin,
+        IntRoleClaim, IntUserToken>, 
         ISqlDbContext
     {
         public DbSet<Student> Students { get; set; }
@@ -60,14 +60,10 @@ namespace Capri.Database
                 .HasForeignKey(s => s.ProposalId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
-            modelBuilder.Entity<Student>()
-                .HasIndex(s => s.IndexNumber)
-                .IsUnique();
-
-            modelBuilder.Entity<GuidUserRole>()
+            modelBuilder.Entity<IntUserRole>()
                 .HasKey(userRole => new { userRole.UserId, userRole.RoleId });
 
-            modelBuilder.Entity<GuidUserRole>()
+            modelBuilder.Entity<IntUserRole>()
                 .Property(userRole => userRole.Id)
                 .ValueGeneratedOnAdd();
                 

@@ -2,7 +2,7 @@
 
 namespace Capri.Database.Entities.Identity
 {
-    public class User : IdentityUser<int>, IEntity
+    public class IntRole : IdentityRole<int>
     {
     }
 }

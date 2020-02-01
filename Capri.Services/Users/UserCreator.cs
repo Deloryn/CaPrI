@@ -15,13 +15,13 @@ namespace Capri.Services.Users
         private readonly ISqlDbContext _context;
         private readonly ITokenGenerator _tokenGenerator;
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<GuidRole> _roleManager;
+        private readonly RoleManager<IntRole> _roleManager;
 
         public UserCreator(
             ISqlDbContext context,
             ITokenGenerator tokenGenerator,
             UserManager<User> userManager,
-            RoleManager<GuidRole> roleManager
+            RoleManager<IntRole> roleManager
             )
         {
             _context = context;
@@ -55,7 +55,6 @@ namespace Capri.Services.Users
 
             var user = new User
             {
-                Id = Guid.NewGuid(),
                 UserName = email,
                 NormalizedUserName =
                     new UpperInvariantLookupNormalizer()

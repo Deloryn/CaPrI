@@ -33,7 +33,7 @@ namespace Capri.Services.Proposals
             _csvCreator = csvCreator;
         }
 
-        public async Task<IServiceResult<ProposalViewModel>> Get(Guid id)
+        public async Task<IServiceResult<ProposalViewModel>> Get(int id)
         {
             var proposal = await _context.Proposals
                 .Include(p => p.Students)
@@ -49,7 +49,7 @@ namespace Capri.Services.Proposals
             return ServiceResult<ProposalViewModel>.Success(proposalViewModel);
         }
 
-        public async Task<IServiceResult<FileDescription>> GetCsvFileDescription(Guid id)
+        public async Task<IServiceResult<FileDescription>> GetCsvFileDescription(int id)
         {
             var proposal = await _context.Proposals
                 .Include(p => p.Students)

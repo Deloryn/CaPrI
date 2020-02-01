@@ -8,7 +8,7 @@ namespace Capri.Database.Entities
     public class Proposal : IEntity
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         [Required]
         public string TopicPolish { get; set; }
         [Required]
@@ -30,11 +30,11 @@ namespace Capri.Database.Entities
         [Required]
         public StudyMode Mode { get; set; }
         [Required]
-        public Guid PromoterId { get; set; }
+        public int PromoterId { get; set; }
         [ForeignKey("PromoterId")]
         public virtual Promoter Promoter { get; set; }
         [Required]
-        public Guid CourseId { get; set; }
+        public int CourseId { get; set; }
         [ForeignKey("CourseId")]
         public virtual Course Course { get; set; }
         public virtual ICollection<Student> Students { get; set; }

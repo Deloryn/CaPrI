@@ -6,7 +6,7 @@ namespace Capri.Web.ViewModels.Proposal
     public class ProposalCsvRecord
     {
         [Name("Id")]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [Name("Tytuł")]
         public string TopicPolish { get; set; }

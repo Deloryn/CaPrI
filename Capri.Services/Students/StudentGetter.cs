@@ -23,7 +23,7 @@ namespace Capri.Services.Students
             _mapper = mapper;
         }
 
-        public async Task<IServiceResult<StudentViewModel>> Get(Guid id)
+        public async Task<IServiceResult<StudentViewModel>> Get(int id)
         {
             var student = 
                 await _context
@@ -40,23 +40,6 @@ namespace Capri.Services.Students
             return ServiceResult<StudentViewModel>.Success(studentViewModel);
         }
 
-        public async Task<IServiceResult<StudentViewModel>> Get(int indexNumber)
-        {
-            var student = 
-                await _context
-                .Students
-                .FirstOrDefaultAsync(p => p.IndexNumber == indexNumber);
-
-            if (student == null)
-            {
-                return ServiceResult<StudentViewModel>.Error(
-                    $"Student with index number {indexNumber} does not exist");
-            }
-
-            var studentViewModel = _mapper.Map<StudentViewModel>(student);
-            return ServiceResult<StudentViewModel>.Success(studentViewModel);
-        }
-
         public IServiceResult<IEnumerable<StudentViewModel>> GetAll()
         {
             var students = _context.Students;
@@ -65,17 +48,17 @@ namespace Capri.Services.Students
             return ServiceResult<IEnumerable<StudentViewModel>>.Success(studentViewModels);
         }
 
-        public async Task<IServiceResult<ICollection<Student>>> GetMany(IEnumerable<int> indexNumbers)
+        public async Task<IServiceResult<ICollection<Student>>> GetMany(IEnumerable<int> ids)
         {
-            if(indexNumbers == null)
+            if(ids == null)
             {
                 return ServiceResult<ICollection<Student>>.Success(null);
             }
             
             var students = new List<Student>();
-            foreach(var indexNumber in indexNumbers)
+            foreach(var id in ids)
             {
-                var student = await _context.Students.FirstOrDefaultAsync(s => s.IndexNumber == indexNumber);
+                var student = await _context.Students.FirstOrDefaultAsync(s => s.Id == id);
                 if(student != null)
                 {
                     students.Add(student);

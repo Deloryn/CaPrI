@@ -8,7 +8,7 @@ namespace Capri.Web.Configuration
     {
         public static void AddIdentityConfiguration(this IServiceCollection services)
         {
-            services.AddIdentity<User, GuidRole>(options => {})
+            services.AddIdentity<User, IntRole>(options => {})
                     .AddEntityFrameworkStores<CapriDbContext>();
         }
     }

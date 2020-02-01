@@ -20,7 +20,7 @@ namespace Capri.Services.Users
             _userManager = userManager;
         }
 
-        public async Task<IServiceResult<User>> Delete(Guid id)
+        public async Task<IServiceResult<User>> Delete(int id)
         {
             var applicationUser = 
                 await _context

@@ -43,7 +43,7 @@ namespace Capri.Services.Students
 
             foreach(var indexNumber in indexNumbers)
             {
-                var student = await _context.Students.FirstOrDefaultAsync(s => s.IndexNumber == indexNumber);
+                var student = await _context.Students.FirstOrDefaultAsync(s => s.Id == indexNumber);
                 if(student == null)
                 {
                     return ServiceResult<bool>.Error($"The student with index number {indexNumber} does not exist");

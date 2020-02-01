@@ -31,8 +31,8 @@ namespace Capri.Services.Promoters
         }
 
         public async Task<IServiceResult<PromoterViewModel>> Update(
-            Guid id,
-            PromoterRegistration newData)
+            int id,
+            PromoterUpdate newData)
         {
             var existingPromoter = 
                 await _context
@@ -43,31 +43,6 @@ namespace Capri.Services.Promoters
             {
                 return ServiceResult<PromoterViewModel>.Error(
                     $"Promoter with id {id} does not exist");
-            }
-
-            var instituteResult = await _instituteGetter.Get(newData.InstituteId);
-            if(!instituteResult.Successful())
-            {
-                return ServiceResult<PromoterViewModel>.Error(instituteResult.GetAggregatedErrors());
-            }
-
-            var credentials = new UserCredentials
-            {
-                Email = newData.Email,
-                Password = newData.Password
-            };
-
-            var result = await _userUpdater.Update(
-                existingPromoter.UserId, 
-                credentials,
-                new RoleType[] {
-                    RoleType.Promoter
-                });
-
-            if (!result.Successful())
-            {
-                var errors = result.GetAggregatedErrors();
-                return ServiceResult<PromoterViewModel>.Error(errors);
             }
             
             existingPromoter = _mapper.Map(newData, existingPromoter);

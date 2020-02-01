@@ -6,6 +6,6 @@ namespace Capri.Services.Users
 {
     public interface IUserDeleter
     {
-        Task<IServiceResult<User>> Delete(Guid id);
+        Task<IServiceResult<User>> Delete(int id);
     }
 }

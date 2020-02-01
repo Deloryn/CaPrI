@@ -9,7 +9,7 @@ namespace Capri.Web.Configuration.Mapper
     {
         public PromoterMappingProfile()
         {
-            CreateMap<PromoterRegistration, Promoter>();
+            CreateMap<PromoterUpdate, Promoter>();
 
             CreateMap<Promoter, PromoterViewModel>()
             .ForMember(

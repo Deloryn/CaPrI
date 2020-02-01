@@ -9,7 +9,7 @@ namespace Capri.Database.Entities
     public class Promoter : IEntity
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         [Required]
         public string TitlePrefix { get; set; }
         public string TitlePostfix { get; set; }
@@ -24,10 +24,10 @@ namespace Capri.Database.Entities
         public virtual ICollection<Proposal> Proposals { get; set; }
         [Required]
         [ForeignKey("ApplicationUser")]
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
         public virtual User ApplicationUser { get; set; }
         [Required]
-        public Guid InstituteId { get; set; }
+        public int InstituteId { get; set; }
         [ForeignKey("InstituteId")]
         public virtual Institute Institute { get; set; }
     }
