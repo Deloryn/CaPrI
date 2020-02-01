@@ -70,6 +70,20 @@ namespace Capri.Database
             modelBuilder.Entity<GuidUserRole>()
                 .Property(userRole => userRole.Id)
                 .ValueGeneratedOnAdd();
+                
+
+            // modelBuilder.ApplyConfiguration(new UserConfiguration());
+            // modelBuilder.ApplyConfiguration(new GuidRoleConfiguration());
+            // modelBuilder.ApplyConfiguration(new GuidUserRoleConfiguration());
+
+            // modelBuilder.ApplyConfiguration(new StudentConfiguration());
+            // modelBuilder.ApplyConfiguration(new PromoterConfiguration());
+
+            // modelBuilder.ApplyConfiguration(new ProposalConfiguration());
+
+            // modelBuilder.ApplyConfiguration(new InstituteConfiguration());
+            // modelBuilder.ApplyConfiguration(new FacultyConfiguration());
+            // modelBuilder.ApplyConfiguration(new CourseConfiguration());
         }
     }
 }

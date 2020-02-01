@@ -5,6 +5,14 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Autofac.Configuration" Version="5.0.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.1" />
+    <PackageReference Include="PUT.WebServices.eDziekanatServiceClient" Version="1.2019.701.6" />
+    <PackageReference Include="PUT.WebServices.eKadryServiceClient" Version="1.2019.1024.7" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Capri.Database\Capri.Database.csproj" />
