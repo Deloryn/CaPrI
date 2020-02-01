@@ -15,7 +15,7 @@
 					<v-col cols="6">
 						<v-text-field
 							type="number"
-							label="Expected number of bachelor proposals" 
+							:label="$i18n.t('promoter.expectedNumberOfBachelorProposals')"
 							v-model="expectedBachelors"
 							:rules="expectedBachelorsRules"
 						/>
@@ -23,7 +23,7 @@
 					<v-col cols="6">
 						<v-text-field
 							type="number"
-							label="Expected number of master proposals"
+							:label="$i18n.t('promoter.expectedNumberOfMasterProposals')"
 							v-model="expectedMasters"
 							:rules="expectedMastersRules"
 						/>
@@ -36,7 +36,7 @@
 							class="cancelButton" 
 							@click="cancelPopUp"
 						>
-							Cancel
+							{{ $i18n.t('commons.cancel') }}
 						</v-btn>
 					</v-col>
 					<v-col>
@@ -100,14 +100,14 @@ export default Vue.component('updateProposalPopUp',{
 			expectedMasters: "",
 			
 			expectedBachelorsRules: [
-				v => !!v || 'This value is required',
-				v => v >= 0 || 'The value should be a non-negative number',
-				v => v <= 10 || 'The value should be less or equal to 10'
+				v => !!v || this.$i18n.t('rules.expectedBachelors.required'),
+				v => v >= 0 || this.$i18n.t('rules.expectedBachelors.nonNegative'),
+				v => v <= 10 || this.$i18n.t('rules.expectedBachelors.atMost10')
 			],
 			expectedMastersRules: [
-				v => !!v || 'This value is required',
-				v => v >= 0 || 'The value should be a non-negative number',
-				v => v <= 10 || 'The value should be less or equal to 10'
+				v => !!v || this.$i18n.t('rules.expectedMasters.required'),
+				v => v >= 0 || this.$i18n.t('rules.expectedMasters.nonNegative'),
+				v => v <= 10 || this.$i18n.t('rules.expectedMasters.atMost10')
 			]
 		}
 	},

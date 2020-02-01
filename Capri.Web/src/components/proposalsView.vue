@@ -98,7 +98,12 @@ export default {
                         
                         proposal.promoter = promoterFullName;
                     });
-                    proposal.topic = proposal.topicEnglish;
+                    if(this.$i18n.locale == 'pl') {
+                        proposal.topic = proposal.topicPolish;
+                    }
+                    else {
+                        proposal.topic = proposal.topicEnglish;
+                    }
                     proposal.freeSlots = proposal.maxNumberOfStudents - proposal.students.length;
                 });
             });            

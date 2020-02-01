@@ -1,7 +1,7 @@
 <template>
 	<v-card-actions class="mainCard">
 		<div class="sentence">
-			<strong>{{ listType }}</strong>
+			<strong>Capri2</strong>
 		</div>
 		<v-spacer></v-spacer>
 		<div class="headerElement">
@@ -24,20 +24,6 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import { bus } from '@src/services/eventBus'
 
 export default Vue.component('topBar', {
-	data() {
-		return {
-            showpopUp: false,
-            listType: 'Thesis list',
-            fontSize: { font: 12 },
-            items: [
-                { font: 8 },
-                { font: 12 },
-                { font: 16 },
-                { font: 20 },
-                { font: 24 },
-			],
-        }
-	},
 	methods: {
 		logout: function() {
 			sessionStorage.removeItem('token')

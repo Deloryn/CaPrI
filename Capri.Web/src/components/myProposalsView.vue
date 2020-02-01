@@ -2,8 +2,8 @@
 	<v-container fluid grid-list-xl class="mainView">
         <v-row>
             <v-col>
-                <p class="infoText">Expected BSc proposals: {{ numOfSubmittedBachelors + "/" + promoter.expectedNumberOfBachelorProposals }}</p>
-                <p class="infoText">Expected MSc proposals: {{ numOfSubmittedMasters + "/" + promoter.expectedNumberOfMasterProposals }}</p>
+                <p class="infoText">{{$i18n.t('promoter.expectedNumberOfBachelorProposals')}}: {{ numOfSubmittedBachelors + "/" + promoter.expectedNumberOfBachelorProposals }}</p>
+                <p class="infoText">{{$i18n.t('promoter.expectedNumberOfMasterProposals')}}: {{ numOfSubmittedMasters + "/" + promoter.expectedNumberOfMasterProposals }}</p>
             </v-col>
             <v-col>
                 <v-btn
@@ -12,7 +12,7 @@
                     text
                     @click="showProposalCreator"
                 >
-                    Create
+                    {{$i18n.t('commons.create')}}
                 </v-btn>
             </v-col>
         </v-row>
@@ -87,7 +87,7 @@ export default {
             headers: [
                 {
                     sortable: true,
-                    text: 'Topic',
+                    text: this.$i18n.t('proposal.topic'),
                     value: 'topic',
                     width: '55%',
                     align: 'center',
@@ -95,7 +95,7 @@ export default {
                 },
                 {
                     sortable: true,
-                    text: 'Level',
+                    text: this.$i18n.t('level.level'),
                     value: 'level',
                     width: '15%',
                     align: 'left',
@@ -103,7 +103,7 @@ export default {
                 },
                 {
                     sortable: true,
-                    text: 'Mode',
+                    text: this.$i18n.t('mode.mode'),
                     value: 'mode',
                     width: '15%',
                     algin: 'left',
@@ -111,7 +111,7 @@ export default {
                 },
                 {
                     sortable: true,
-                    text: 'State',
+                    text: this.$i18n.t('status.status'),
                     value: 'state',
                     width: '10%',
                     algin: 'left',
@@ -147,16 +147,22 @@ export default {
                     if(response.status == 200) {
                         this.myProposals = response.data;
                         this.myProposals.forEach(proposal => {
-                            proposal.topic = proposal.topicEnglish;
-                            proposal.levelText = this.toStudyLevel(proposal.level);
-                            if(proposal.levelText == "Bachelor") {
+                            if(this.$i18n.locale == 'pl') {
+                                proposal.topic = proposal.topicPolish;
+                            }
+                            else {
+                                proposal.topic = proposal.topicEnglish;
+                            }
+                            var level = this.toStudyLevel(proposal.level);
+                            proposal.levelText = level.name;
+                            if(level == 0) {
                                 this.numOfSubmittedBachelors += 1;
                             }
-                            else if(proposal.levelText == "Master") {
+                            else if(level == 1) {
                                 this.numOfSubmittedMasters += 1;
                             }
-                            proposal.modeText = this.toStudyMode(proposal.mode);
-                            proposal.stateText = this.toProposalStatusText(proposal);
+                            proposal.modeText = this.toStudyMode(proposal.mode).name;
+                            proposal.stateText = this.toProposalStatusText(proposal).name;
                         });
                     }
                 });
@@ -164,52 +170,88 @@ export default {
         toStudyMode: function(type) {
             switch(type) {
                 case 0: {
-                    return "Full-Time";
+                    return {
+                        value: 0,
+                        name: this.$i18n.t('mode.fullTime')
+                    };
                 }
                 case 1: {
-                    return "Part-Time";
+                    return {
+                        value: 1,
+                        name: this.$i18n.t('mode.partTime')
+                    };
                 }
                 default: {
-                    return "Unknown";
+                    return {
+                        value: 2,
+                        name: '?'
+                    };
                 }
             }
         },
         toStudyLevel: function(type) {
             switch(type) {
                 case 0: {
-                    return "Bachelor";
+                    return {
+                        value: 0,
+                        name: this.$i18n.t('level.bachelorShort')
+                    };
                 }
                 case 1: {
-                    return "Master";
+                    return {
+                        value: 1,
+                        name: this.$i18n.t('level.masterShort')
+                    };
                 }
                 default: {
-                    return "Unknown";
+                    return {
+                        value: 2,
+                        name: '?'
+                    };
                 }
             }
         },
         toStudyProfile: function(type) {
             switch(type) {
                 case 0: {
-                    return "General academic";
+                    return {
+                        value: 0,
+                        name: this.$i18n.t('profile.generalAcademic')
+                    };
                 }
                 default: {
-                    return "Unknown";
+                    return {
+                        value: 1,
+                        name: '?'
+                    };
                 }
             }
         },
         toProposalStatus: function(type) {
             switch(type) {
                 case 0: {
-                    return "Taken";
+                    return {
+                        value: 0,
+                        name: this.$i18n.t('status.taken')
+                    };
                 }
                 case 1: {
-                    return "Partially taken";
+                    return {
+                        value: 1,
+                        name: this.$i18n.t('status.partiallyTaken')
+                    };
                 }
                 case 2: {
-                    return "Free";
+                    return {
+                        value: 2,
+                        name: this.$i18n.t('status.free')
+                    };
                 }
                 default: {
-                    return "Unknown";
+                    return {
+                        value: 2,
+                        name: '?'
+                    };
                 }
             }
         },

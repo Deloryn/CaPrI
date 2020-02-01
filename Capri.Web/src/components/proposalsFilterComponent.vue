@@ -39,19 +39,19 @@ export default Vue.component('proposalsFilterComponent', {
     data() {
         return {
             anyFaculty: {
-                name: "Any",
+                name: this.$i18n.t('commons.any'),
                 id: null
             },
             anyCourse: {
-                name: "Any", 
+                name: this.$i18n.t('commons.any'),
                 id: null
             },
             anyLevel: {
-                name: 'Any',
+                name: this.$i18n.t('commons.any'),
                 value: null
             },
             anyMode: {
-                name: 'Any',
+                name: this.$i18n.t('commons.any'),
                 value: null
             },
             selectedFaculty: null,
@@ -60,46 +60,46 @@ export default Vue.component('proposalsFilterComponent', {
             selectedMode: null,
             filters: [
                 {
-                    name: 'Faculty',
+                    name: this.$i18n.t('faculty.faculty'),
                     values: [],
                     chosen: null,
                 },
                 {
-                    name: 'Field of study',
+                    name: this.$i18n.t('course.course'),
                     values: [],
                     chosen: null,
                 },
                 {
-                    name: 'Study level',
+                    name: this.$i18n.t('level.level'),
                     values: [
                                 {
-                                    name: 'Any',
+                                    name: this.$i18n.t('commons.any'),
                                     value: null
                                 },
                                 {
-                                    name: 'Bachelor',
+                                    name: this.$i18n.t('level.bachelor'),
                                     value: 0
                                 },
                                 {
-                                    name: 'Master',
+                                    name: this.$i18n.t('level.master'),
                                     value: 1
                                 }
                             ],
                     chosen: null,
                 },
                 {
-                    name: 'Study mode',
+                    name: this.$i18n.t('mode.mode'),
                     values: [
                                 {
-                                    name: 'Any',
+                                    name: this.$i18n.t('commons.any'),
                                     value: null
                                 },
                                 {
-                                    name: 'Full-Time',
+                                    name: this.$i18n.t('mode.fullTime'),
                                     value: 0
                                 },
                                 {
-                                    name: 'Part-Time',
+                                    name: this.$i18n.t('mode.partTime'),
                                     value: 1
                                 }
                             ],
@@ -128,7 +128,7 @@ export default Vue.component('proposalsFilterComponent', {
         update: function(filter) {
             var chosenValue = filter.chosen;
             switch(filter.name) {
-                case 'Faculty': {
+                case this.$i18n.t('faculty.faculty'): {
                     this.selectedFaculty = chosenValue;
                     this.filters[1].values = [this.anyCourse]
                     this.filters[1].chosen = this.anyCourse;
@@ -147,17 +147,17 @@ export default Vue.component('proposalsFilterComponent', {
                     this.emitFilters();
                     break;
                 }
-                case 'Field of study': {
+                case this.$i18n.t('course.course'): {
                     this.selectedCourse = chosenValue;
                     this.emitFilters();
                     break;
                 }
-                case 'Study level': {
+                case this.$i18n.t('level.level'): {
                     this.selectedLevel = chosenValue.value;
                     this.emitFilters();
                     break;
                 }
-                case 'Study mode': {
+                case this.$i18n.t('mode.mode'): {
                     this.selectedMode = chosenValue.value;
                     this.emitFilters();
                     break;

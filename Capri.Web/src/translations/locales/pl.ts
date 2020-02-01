@@ -1,4 +1,54 @@
 export default {
+    commons: {
+        create: 'Utwórz',
+        update: 'Aktualizuj',
+        cancel: 'Anuluj',
+        any: 'Dowolny',
+        optional: '(opcjonalnie)'
+    },
+    info: {
+        studentsAreNotNecessary: 'Na razie nie trzeba podawać studentów. Można dodać ich później',
+    },
+    rules: {
+        topic: {
+            required: 'Tytuł jest wymagany',
+            atLeast5Chars: 'Tytuł powinien składać się z co najmniej 5 znaków',
+            atMost100Chars: 'Tytuł powinien składać się z co najwyżej 100 znaków'
+        },
+        description: {
+            required: 'Opis jest wymagany',
+            atLeast5Chars: 'Opis powinien składać się z co najmniej 5 znaków',
+            atMost400Chars: 'Opis powinien składać się z co najmniej 400 znaków'
+        },
+        outputData: {
+            atMost400Chars: 'Dane wyjściowe powinny składać się z co najwyżej 400 znaków'
+        },
+        specialization: {
+            atMost50Chars: 'Specjalizacja powinna składać się z co najwyżej 50 znaków'
+        },
+        maxNumberOfStudents: {
+            required: 'Ta wartość jest wymagana',
+            atLeast1: 'Maks. liczba studentów powinna być większa lub równa 1',
+            atMost4: 'Maks. liczba studentów powinna wynosić co najwyżej 4'
+        },
+        select: {
+            required: 'Musisz wybrać wartość'
+        },
+        student: {
+            idAtLeast1: 'Numer indeksu powinien być większy lub równy 1',
+            idOnlyDigits: 'Numer indeksu powinien składać się z samych cyfr'
+        },
+        expectedBachelors: {
+            required: 'Ta wartość jest wymagana',
+            nonNegative: 'Wartość powinna być liczbą nieujemną',
+            atMost10: 'Wartość powinna wynosić co najwyżej 10'
+        },
+        expectedMasters: {
+            required: 'Ta wartość jest wymagana',
+            nonNegative: 'Wartość powinna być liczbą nieujemną',
+            atMost10: 'Wartość powinna wynosić co najwyżej 10'
+        }
+    },
     faculty: {
         faculty: 'Wydział',
         name: 'Nazwa'
@@ -43,6 +93,7 @@ export default {
     proposal: {
         proposal: 'Propozycja',
         proposalPlural: 'Propozycje tematów',
+        myProposals: 'Moje propozycje',
         topic: 'Temat',
         titlePolish: 'Tytuł (PL)',
         titleEnglish: 'Tytuł (ENG)',

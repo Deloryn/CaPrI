@@ -11,7 +11,7 @@
 						<v-select
 							:items="faculties"
 							:rules="selectRules"
-							:label="'Faculty*'"
+							:label="$i18n.t('faculty.faculty') + '*'"
 							v-model="chosenFaculty"
 							@change="onChangeFaculty"
 							return-object
@@ -29,7 +29,7 @@
 						<v-select
 							:items="courses"
 							:rules="selectRules"
-							:label="'Field of study*'"
+							:label="$i18n.t('course.course') + '*'"
 							:disabled="selectCoursesDisabled"
 							v-model="chosenCourse"
 							return-object
@@ -49,7 +49,7 @@
 						<v-select
 							:items="levels"
 							:rules="selectRules"
-							:label="'Study level*'"
+							:label="$i18n.t('level.level') + '*'"
 							v-model="chosenLevel"
 							return-object
 							color="rgb(18,98,141)"
@@ -66,7 +66,7 @@
 						<v-select
 							:items="modes"
 							:rules="selectRules"
-							:label="'Study mode*'"
+							:label="$i18n.t('mode.mode') + '*'"
 							v-model="chosenMode"
 							return-object
 							color="rgb(18,98,141)"
@@ -83,7 +83,7 @@
 						<v-select
 							:items="profiles"
 							:rules="selectRules"
-							:label="'Study profile*'"
+							:label="$i18n.t('profile.profile') + '*'"
 							v-model="chosenProfile"
 							return-object
 							color="rgb(18,98,141)"
@@ -100,7 +100,7 @@
 				<v-row>
 					<v-col>
 						<v-text-field 
-							:label="'Polish title*'" 
+							:label="$i18n.t('proposal.titlePolish') + '*'"
 							:rules="topicRules" 
 							v-model="topicPolish"
 						/>
@@ -109,7 +109,7 @@
 				<v-row>
 					<v-col>
 						<v-text-field 
-							:label="'English title*'" 
+							:label="$i18n.t('proposal.titleEnglish') + '*'" 
 							:rules="topicRules" 
 							v-model="topicEnglish"
 						/>
@@ -121,7 +121,7 @@
 							type="number"
 							single-line
 							:rules="maxNumberOfStudentsRules"
-							:label="'Maximal number of students*'" 
+							:label="$i18n.t('proposal.maxNumberOfStudents') + '*'" 
 							v-model="chosenMaximalNumberOfStudents"
 							@change="onChangeMaximalNumberOfStudents"
 						/>
@@ -132,7 +132,7 @@
 						<v-textarea 
 							:value="'Write a description here'" 
 							:rules="descriptionRules" 
-							:label="'Description*'" 
+							:label="$i18n.t('proposal.description') + '*'" 
 							v-model="description"
 						/>
 					</v-col>
@@ -141,7 +141,7 @@
 					<v-col>
 						<v-textarea 
 							:rules="outputDataRules"
-							:label="'Output data (optional)'" 
+							:label="$i18n.t('proposal.outputData') + ' ' + $i18n.t('commons.optional')"
 							v-model="outputData"
 						/>
 					</v-col>
@@ -150,7 +150,7 @@
 					<v-col>
 						<v-textarea 
 							:rules="specializationRules"
-							:label="'Specialization (optional)'" 
+							:label="$i18n.t('proposal.specialization') + ' ' + $i18n.t('commons.optional')"
 							v-model="specialization"
 						/>
 					</v-col>
@@ -159,7 +159,7 @@
 					<v-col>
 						<v-list>
 							<v-subheader>
-								Students (optional)
+								{{ $i18n.t('student.studentPlural') + ' ' + $i18n.t('commons.optional')}}
 							</v-subheader>
 							<v-list-item v-for="indexNumber in indexNumbers" :key="indexNumber">
 								<v-list-item-title>
@@ -185,12 +185,12 @@
 											single-line
 											prepend-icon="group_add"
 											:rules="studentRules"
-											:label="'Student ID'" 
+											:label="$i18n.t('student.indexNumber')"
 											v-model="chosenIndexNumber"
 											v-on="on"
 											/>
 										</template>
-										<span>Students are not necessary for now. You can add them later</span>
+										<span>{{ $i18n.t('info.studentsAreNotNecessary') }}</span>
 									</v-tooltip>
 								</v-list-item-title>
 							</v-list-item>
@@ -204,11 +204,16 @@
 							class="cancelButton" 
 							@click="cancelPopUp"
 						>
-							Cancel
+							{{ $i18n.t('commons.cancel') }}
 						</v-btn>
 					</v-col>
 					<v-col>
-						<v-btn class="submitButton green" @click="submit">Update</v-btn>
+						<v-btn 
+							class="submitButton green" 
+							@click="submit"
+						>
+							{{ $i18n.t('commons.create') }}
+						</v-btn>
 					</v-col>
 				</v-row>
 			</v-container>
@@ -359,27 +364,27 @@ export default Vue.component('updateProposalPopUp',{
 			courses: [],
 			levels: [
 				{
-					name: 'Bachelor',
+					name: this.$i18n.t('level.bachelor'),
 					value: 0
 				},
 				{
-					name: 'Master',
+					name: this.$i18n.t('level.master'),
 					value: 1
 				}
 			],
 			modes: [
 				{
-					name: 'Full-Time',
+					name: this.$i18n.t('mode.fullTime'),
 					value: 0
 				},
 				{
-					name: 'Part-Time',
+					name: this.$i18n.t('mode.partTime'),
 					value: 1
 				}
 			],
 			profiles: [
 				{
-					name: "General academic",
+					name: this.$i18n.t('profile.generalAcademic'),
 					value: 0
 				}
 			],
@@ -391,32 +396,32 @@ export default Vue.component('updateProposalPopUp',{
 			chosenIndexNumber: null,
 			chosenMaximalNumberOfStudents: null,
 			topicRules: [
-				v => !!v || 'Title is required',
-				v => v.length >= 5 || 'Title should contain at least 5 characters',
-				v => v.length <= 100 || 'Title should contain at most 100 characters'
+				v => !!v || this.$i18n.t('rules.topic.required'),
+				v => v.length >= 5 || this.$i18n.t('rules.topic.atLeast5Chars'),
+				v => v.length <= 100 || this.$i18n.t('rules.topic.atMost100Chars')
 			],
 			descriptionRules: [
-				v => !!v || 'Description is required',
-				v => v.length >= 5 || 'Description should contain at least 5 characters',
-				v => v.length <= 400 || 'Description should contain at most 400 characters'
+				v => !!v || this.$i18n.t('rules.description.required'),
+				v => v.length >= 5 || this.$i18n.t('rules.description.atLeast5Chars'),
+				v => v.length <= 400 || this.$i18n.t('rules.description.atMost400Chars')
 			],
 			outputDataRules: [
-				v => v.length <= 400 || 'Output data should contain at most 400 characters',
+				v => v.length <= 400 || this.$i18n.t('rules.outputData.atMost400Chars')
 			],
 			specializationRules: [
-				v => v.length <= 50 || 'Specialization should contain at most 50 characters'
+				v => v.length <= 50 || this.$i18n.t('rules.specialization.atMost50Chars')
 			],
 			maxNumberOfStudentsRules: [
-				v => !!v || 'This value is required',
-				v => v >= 1 || 'The maximal number of students should be greater or equal to 1',
-				v => v <= 4 || 'The maximal number of students should be less or equal to 4'
+				v => !!v || this.$i18n.t('rules.maxNumberOfStudents.required'),
+				v => v >= 1 || this.$i18n.t('rules.maxNumberOfStudents.atLeast1'),
+				v => v <= 4 || this.$i18n.t('rules.maxNumberOfStudents.atMost4')
 			],
 			selectRules: [
-				v => !!v || 'You must select a value'
+				v => !!v || this.$i18n.t('rules.select.required')
 			],
 			studentRules: [
-				v => v ? v >= 1 || 'Student ID number should be greater or equal to 1' : true,
-				v => v == "" ? 'Student ID number should contain only digits' : false
+				v => v ? v >= 1 || this.$i18n.t('rules.student.idAtLeast1') : true,
+				v => v == "" ? this.$i18n.t('rules.student.idOnlyDigits') : false
 			]
 		}
 	},

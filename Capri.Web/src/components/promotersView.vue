@@ -44,7 +44,7 @@ export default {
 		promoters: [],
 		headers: [
 			{ 
-				text: 'Promoter', 
+				text: this.$i18n.t('promoter.promoter'), 
 				value: 'name', 
 				class: 'blue--text text--darken-4 display-1', 
 				align: 'left', 
@@ -52,7 +52,7 @@ export default {
 				sortable: false 
 			},
 			{ 
-				text: 'BSc.', 
+				text: this.$i18n.t('level.bachelorShort'), 
 				value: 'expectedNumberOfBachelorProposals', 
 				class: 'blue--text text--darken-4 display-1', 
 				align: 'left', 
@@ -60,7 +60,7 @@ export default {
 				sortable: false 
 			},
 			{ 
-				text: 'MSc.', 
+				text: this.$i18n.t('level.masterShort'),
 				value: 'expectedNumberOfMasterProposals', 
 				class: 'blue--text text--darken-4 display-1', 
 				align: 'left', 

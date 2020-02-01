@@ -10,7 +10,7 @@
 					<v-col>
 						<v-text-field 
 							v-model="topicPolish"
-							label="Polish title"
+							:label="$i18n.t('proposal.titlePolish')"
 							readonly
 						/>
 					</v-col>
@@ -19,7 +19,7 @@
 					<v-col>
 						<v-text-field 
 							v-model="topicEnglish"
-							label="English title"
+							:label="$i18n.t('proposal.titleEnglish')"
 							readonly
 						/>
 					</v-col>
@@ -28,21 +28,21 @@
 					<v-col cols="4">
 						<v-text-field 
 							v-model="promoter"
-							label="Promoter"
+							:label="$i18n.t('promoter.promoter')"
 							readonly
 						/>
 					</v-col>
 					<v-col cols="4">
 						<v-text-field 
 							v-model="course"
-							label="Field of study"
+							:label="$i18n.t('course.course')"
 							readonly
 						/>
 					</v-col>
 					<v-col cols="4">
 						<v-text-field 
 							v-model="faculty"
-							label="Faculty"
+							:label="$i18n.t('faculty.faculty')"
 							readonly
 						/>
 					</v-col>
@@ -51,21 +51,21 @@
 					<v-col cols="4">
 						<v-text-field 
 							v-model="level"
-							label="Level"
+							:label="$i18n.t('level.level')"
 							readonly
 						/>
 					</v-col>
 					<v-col cols="4">
 						<v-text-field 
 							v-model="mode"
-							label="Mode"
+							:label="$i18n.t('mode.mode')"
 							readonly
 						/>
 					</v-col>
 					<v-col cols="4">
 						<v-text-field 
 							v-model="profile"
-							label="Profile"
+							:label="$i18n.t('profile.profile')"
 							readonly
 						/>
 					</v-col>
@@ -74,14 +74,14 @@
 					<v-col cols="6">
 						<v-text-field 
 							v-model="status"
-							label="Status"
+							:label="$i18n.t('status.status')"
 							readonly
 						/>
 					</v-col>
 					<v-col cols="6">
 						<v-text-field 
 							v-model="freeSlots"
-							label="Free places"
+							:label="$i18n.t('proposal.freeSlots')"
 							readonly
 						/>
 					</v-col>
@@ -90,7 +90,7 @@
 					<v-col cols="12">
 						<v-textarea
 							v-model="description"
-							label="Description"
+							:label="$i18n.t('proposal.description')"
 							readonly
 						/>
 					</v-col>
@@ -99,7 +99,7 @@
 					<v-col cols="12">
 						<v-textarea
 							v-model="outputData"
-							label="Output data"
+							:label="$i18n.t('proposal.outputData')"
 							readonly
 						/>
 					</v-col>
@@ -108,7 +108,7 @@
 					<v-col cols="4">
 						<v-text-field 
 							v-model="startDate"
-							label="Start date"
+							:label="$i18n.t('proposal.startingDate')"
 							readonly
 						/>
 					</v-col>
@@ -190,7 +190,6 @@ export default Vue.component('updateProposalPopUp',{
 																this.status = this.toProposalStatus(rawProposal.status);
 																this.mode = this.toStudyMode(rawProposal.mode);
 																this.profile = this.toStudyProfile(rawProposal.studyProfile);
-																this.startDate = startDate;
 														}
 													});
 											}
@@ -203,52 +202,52 @@ export default Vue.component('updateProposalPopUp',{
 		toStudyMode: function(type) {
             switch(type) {
                 case 0: {
-                    return "Full-Time";
+                    return this.$i18n.t('mode.fullTime');
                 }
                 case 1: {
-                    return "Part-Time";
+                    return this.$i18n.t('mode.partTime');
                 }
                 default: {
-                    return "Unknown";
+                    return '?';
                 }
             }
         },
         toStudyLevel: function(type) {
             switch(type) {
                 case 0: {
-                    return "Bachelor";
+                    return this.$i18n.t('level.bachelor');
                 }
                 case 1: {
-                    return "Master";
+                    return this.$i18n.t('level.master');
                 }
                 default: {
-                    return "Unknown";
+                    return '?';
                 }
             }
         },
         toStudyProfile: function(type) {
             switch(type) {
                 case 0: {
-                    return "General academic";
+                    return this.$i18n.t('profile.generalAcademic');
                 }
                 default: {
-                    return "Unknown";
+                    return '?';
                 }
             }
         },
         toProposalStatus: function(type) {
             switch(type) {
                 case 0: {
-                    return "Taken";
+                    return this.$i18n.t('status.taken');
                 }
                 case 1: {
-                    return "Partially taken";
+                    return this.$i18n.t('status.partiallyTaken');
                 }
                 case 2: {
-                    return "Free";
+                    return this.$i18n.t('status.free');
                 }
                 default: {
-                    return "Unknown";
+                    return '?';
                 }
             }
         }

@@ -3,7 +3,7 @@
         <div>
             <navBar>
                 <div slot="navItems">
-                    <navList :userType="parsedToken.role"></navList>
+                    <navList :userType="parsedToken.role" :key="$i18n.locale"></navList>
                 </div>
             </navBar>
             <topBar> </topBar>

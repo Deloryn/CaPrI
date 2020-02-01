@@ -10,7 +10,7 @@
             <template v-slot:activator>
                 <v-list-item-title v-text="link.text" class="margins"/>
             </template>
-            <component v-if="link.component" :is="link.component"></component>
+            <component v-if="link.component" :is="link.component" :key="$i18n.locale"></component>
         </v-list-group>
     </v-list>
 </template>
@@ -33,20 +33,20 @@ export default Vue.component('navList', {
                 promoters: {
                     to: '/view/promoters',
                     icon: 'mdi-account-multiple',
-                    text: 'Promoters',
+                    text: this.$i18n.t('promoter.promoterPlural'),
                     dropDownOnStart: false
                 },
                 proposals: {
                     to: '/view/proposals',
                     icon: 'mdi-school-outline',
-                    text: 'Proposals',
+                    text: this.$i18n.t('proposal.proposalPlural'),
                     dropDownOnStart: true,
                     component: proposalsFilterComponent
                 },
                 myProposals: {
                     to: '/view/my_proposals',
                     icon: 'mdi-book-open',
-                    text: 'My proposals',
+                    text: this.$i18n.t('proposal.myProposals'),
                     dropDownOnStart: false
                 },
             },
