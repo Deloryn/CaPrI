@@ -1,8 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Capri.Database.Entities;
-using Capri.Database.Entities.Configuration;
 
 using Capri.Database.Entities.Identity;
 
@@ -66,20 +64,6 @@ namespace Capri.Database
             modelBuilder.Entity<IntUserRole>()
                 .Property(userRole => userRole.Id)
                 .ValueGeneratedOnAdd();
-                
-
-            // modelBuilder.ApplyConfiguration(new UserConfiguration());
-            // modelBuilder.ApplyConfiguration(new GuidRoleConfiguration());
-            // modelBuilder.ApplyConfiguration(new GuidUserRoleConfiguration());
-
-            // modelBuilder.ApplyConfiguration(new StudentConfiguration());
-            // modelBuilder.ApplyConfiguration(new PromoterConfiguration());
-
-            // modelBuilder.ApplyConfiguration(new ProposalConfiguration());
-
-            // modelBuilder.ApplyConfiguration(new InstituteConfiguration());
-            // modelBuilder.ApplyConfiguration(new FacultyConfiguration());
-            // modelBuilder.ApplyConfiguration(new CourseConfiguration());
         }
     }
 }
