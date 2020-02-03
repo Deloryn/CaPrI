@@ -7,7 +7,7 @@ namespace Capri.Services.Courses
 {
     public interface ICourseGetter
     {
-        Task<IServiceResult<CourseViewModel>> Get(int id);
+        Task<IServiceResult<CourseViewModel>> Get(string id);
         IServiceResult<IEnumerable<CourseViewModel>> GetAll();
     }
 }

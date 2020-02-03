@@ -21,9 +21,7 @@ namespace Capri.Database.Migrations
 
             modelBuilder.Entity("Capri.Database.Entities.Course", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id");
 
                     b.Property<int>("FacultyId");
 
@@ -39,9 +37,7 @@ namespace Capri.Database.Migrations
 
             modelBuilder.Entity("Capri.Database.Entities.Faculty", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("Id");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -201,9 +197,7 @@ namespace Capri.Database.Migrations
 
             modelBuilder.Entity("Capri.Database.Entities.Institute", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("Id");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -218,9 +212,7 @@ namespace Capri.Database.Migrations
 
             modelBuilder.Entity("Capri.Database.Entities.Promoter", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("Id");
 
                     b.Property<int>("ExpectedNumberOfBachelorProposals");
 
@@ -256,7 +248,8 @@ namespace Capri.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CourseId");
+                    b.Property<string>("CourseId")
+                        .IsRequired();
 
                     b.Property<string>("Description")
                         .IsRequired();
@@ -296,9 +289,7 @@ namespace Capri.Database.Migrations
 
             modelBuilder.Entity("Capri.Database.Entities.Student", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("Id");
 
                     b.Property<string>("FirstName")
                         .IsRequired();

@@ -22,7 +22,7 @@ namespace Capri.Services.Courses
             _mapper = mapper;
         }
 
-        public async Task<IServiceResult<CourseViewModel>> Get(int id)
+        public async Task<IServiceResult<CourseViewModel>> Get(string id)
         {
             var course = await _context.Courses
                 .Include(c => c.Proposals)

@@ -1,14 +1,14 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Capri.Database.Entities
 {
-    public class Course : IEntity
+    public class Course
     {
         [Key]
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]

@@ -12,8 +12,7 @@ namespace Capri.Database.Migrations
                 name: "Faculties",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -25,8 +24,7 @@ namespace Capri.Database.Migrations
                 name: "Institutes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -156,8 +154,7 @@ namespace Capri.Database.Migrations
                 name: "Courses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     FacultyId = table.Column<int>(nullable: false)
                 },
@@ -176,8 +173,7 @@ namespace Capri.Database.Migrations
                 name: "Promoters",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<int>(nullable: false),
                     TitlePrefix = table.Column<string>(nullable: false),
                     TitlePostfix = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: false),
@@ -222,7 +218,7 @@ namespace Capri.Database.Migrations
                     Level = table.Column<int>(nullable: false),
                     Mode = table.Column<int>(nullable: false),
                     PromoterId = table.Column<int>(nullable: false),
-                    CourseId = table.Column<int>(nullable: false)
+                    CourseId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -245,8 +241,7 @@ namespace Capri.Database.Migrations
                 name: "Students",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
                     Semester = table.Column<int>(nullable: false),

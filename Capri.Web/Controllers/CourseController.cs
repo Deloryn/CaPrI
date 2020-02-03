@@ -16,7 +16,7 @@ namespace Capri.Web.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(string id)
         {
             var result = await _courseGetter.Get(id);
             if(result.Successful())

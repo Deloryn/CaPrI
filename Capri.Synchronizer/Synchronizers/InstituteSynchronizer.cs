@@ -1,3 +1,5 @@
+using System.Linq;
+using System;
 using AutoMapper;
 using PUT.WebServices.eKadryServiceClient;
 using DepartmentTreeElement = PUT.WebServices.eKadryServiceClient.eKadryService.DepartmentTreeElement;
@@ -24,12 +26,21 @@ namespace Capri.Synchronizer.Synchronizers
         }
 
         public void Synchronize() {
-            DepartmentTreeElement element = _eKadryClient.GetDepartmentsTree(null);
-            foreach(var departmentTreeElement in element.subdepartments) {
-                var department = departmentTreeElement.department;
-                var institute = _mapper.Map<Institute>(department);
-                _context.Institutes.Update(institute);
+            var rectorDepartmentId = 1174;
+            DepartmentTreeElement departmentTreeRoot = _eKadryClient.GetDepartmentsTree(rectorDepartmentId);
+            var instituteDepartments = departmentTreeRoot
+                .subdepartments
+                .Where(subTreeRoot => subTreeRoot.department.name.StartsWith("Wydział"))
+                .SelectMany(subTreeRoot => subTreeRoot.subdepartments)
+                .Where(subTreeRoot => subTreeRoot.department.name.StartsWith("Instytut"))
+                .Select(subTreeRoot => subTreeRoot.department);
+
+            foreach(var instituteDepartment in instituteDepartments)
+            {
+                var institute = _mapper.Map<Institute>(instituteDepartment);
+                _context.Institutes.Add(institute);
             }
+            _context.SaveChanges();
         }
     }
 }

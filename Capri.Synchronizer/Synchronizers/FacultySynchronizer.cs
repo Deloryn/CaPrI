@@ -34,8 +34,9 @@ namespace Capri.Synchronizer.Synchronizers
                     continue;
                 }
                 var capriFaculty = _mapper.Map<Faculty>(faculty);
-                _context.Faculties.Update(capriFaculty);
+                _context.Faculties.Add(capriFaculty);
             }
+            _context.SaveChanges();
         }
     }
 }

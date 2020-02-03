@@ -23,16 +23,17 @@ namespace Capri.Synchronizer.Synchronizers
         }
 
         public void Synchronize() {
-            var faculties = _context.Faculties;
-            foreach(var faculty in faculties) {
-                StudyScopeElement[] elements = _eDziekanatClient.GetFacultyStudies(faculty.Id, true);
-                foreach(StudyScopeElement element in elements)
-                {
-                    var course = _mapper.Map<Course>(element);
-                    course.FacultyId = faculty.Id;
-                    _context.Courses.Update(course);
-                }
-            }
+            // var faculties = _context.Faculties;
+            // foreach(var faculty in faculties) {
+            //     StudyScopeElement[] elements = _eDziekanatClient.GetFacultyStudies(faculty.Id, true);
+            //     foreach(StudyScopeElement element in elements)
+            //     {
+            //         var course = _mapper.Map<Course>(element);
+            //         course.FacultyId = faculty.Id;
+            //         _context.Courses.Add(course);
+            //     }
+            // }
+            // _context.SaveChanges();
         }
     }
 }

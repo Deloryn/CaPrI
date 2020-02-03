@@ -16,6 +16,7 @@ namespace Capri.Database
         DbSet<Course> Courses { get; set; }
         DbSet<Institute> Institutes { get; set; }
 
+        int SaveChanges();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

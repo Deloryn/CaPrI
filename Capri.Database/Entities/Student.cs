@@ -8,6 +8,7 @@ namespace Capri.Database.Entities
     public class Student : IEntity
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
         [Required]
         public string FirstName { get; set; }

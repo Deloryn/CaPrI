@@ -34,7 +34,7 @@ namespace Capri.Database.Entities
         [ForeignKey("PromoterId")]
         public virtual Promoter Promoter { get; set; }
         [Required]
-        public int CourseId { get; set; }
+        public string CourseId { get; set; }
         [ForeignKey("CourseId")]
         public virtual Course Course { get; set; }
         public virtual ICollection<Student> Students { get; set; }
