@@ -26,15 +26,15 @@ namespace Capri.Synchronizer.Synchronizers
 
         public void Synchronize()
         {
-            EDziekanatFaculty[] faculties = _eDziekanatClient.GetFaculties(true);
-            foreach(EDziekanatFaculty faculty in faculties)
+            var eDziekanatFaculties = _eDziekanatClient.GetFaculties(true);
+            foreach(var eDziekanatFaculty in eDziekanatFaculties)
             {
-                if(faculty.id == DoctoralSchool)
+                if(eDziekanatFaculty.id == DoctoralSchool)
                 {
                     continue;
                 }
-                var capriFaculty = _mapper.Map<Faculty>(faculty);
-                _context.Faculties.Add(capriFaculty);
+                var faculty = _mapper.Map<Faculty>(eDziekanatFaculty);
+                _context.Faculties.Add(faculty);
             }
             _context.SaveChanges();
         }

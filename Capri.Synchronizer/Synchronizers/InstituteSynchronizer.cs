@@ -27,7 +27,7 @@ namespace Capri.Synchronizer.Synchronizers
 
         public void Synchronize() {
             var rectorDepartmentId = 1174;
-            DepartmentTreeElement departmentTreeRoot = _eKadryClient.GetDepartmentsTree(rectorDepartmentId);
+            var departmentTreeRoot = _eKadryClient.GetDepartmentsTree(rectorDepartmentId);
             var instituteDepartments = departmentTreeRoot
                 .subdepartments
                 .Where(subTreeRoot => subTreeRoot.department.name.StartsWith("Wydział"))
