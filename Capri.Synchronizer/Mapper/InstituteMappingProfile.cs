@@ -6,7 +6,7 @@ namespace Capri.Synchronizer.Mapper
     public class InstituteMappingProfile : Profile
     {
         public InstituteMappingProfile() {
-            CreateMap<Department, Capri.Database.Entities.Course>()
+            CreateMap<Department, Capri.Database.Entities.Institute>()
             .ForMember(
                 capriInstitute=> capriInstitute.Id,
                 o=>o.MapFrom(department => department.id)

@@ -25,7 +25,8 @@ namespace Capri.Synchronizer.Synchronizers
 
         public void Synchronize() {
             DepartmentTreeElement element = _eKadryClient.GetDepartmentsTree(null);
-            foreach(var department in element.subdepartments) {
+            foreach(var departmentTreeElement in element.subdepartments) {
+                var department = departmentTreeElement.department;
                 var institute = _mapper.Map<Institute>(department);
                 _context.Institutes.Update(institute);
             }
