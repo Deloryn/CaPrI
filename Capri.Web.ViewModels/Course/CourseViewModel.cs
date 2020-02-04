@@ -1,11 +1,10 @@
-using System;
 using System.Collections.Generic;
 
 namespace Capri.Web.ViewModels.Course
 {
     public class CourseViewModel
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public int FacultyId { get; set; }
         public ICollection<int> Proposals { get; set; }

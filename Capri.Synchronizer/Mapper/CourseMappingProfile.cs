@@ -1,20 +1,20 @@
 using AutoMapper;
 using PUT.WebServices.eDziekanatServiceClient;
-using StudyScopeElement = PUT.WebServices.eDziekanatServiceClient.eDziekanatService.StudyScopeElement;
+using StudyScope = PUT.WebServices.eDziekanatServiceClient.eDziekanatService.StudyScope;
 
 namespace Capri.Synchronizer.Mapper
 {
     public class CourseMappingProfile : Profile
     {
         public CourseMappingProfile() {
-            CreateMap<StudyScopeElement, Capri.Database.Entities.Course>()
+            CreateMap<StudyScope, Capri.Database.Entities.Course>()
             .ForMember(
                 capriCourse=> capriCourse.Id,
-                o=>o.MapFrom(studyScopeElement => studyScopeElement.studyScope.symbol)
+                o=>o.Ignore()
             )
             .ForMember(
                 capriCourse=> capriCourse.Name,
-                o=>o.MapFrom(studyScopeElement => studyScopeElement.studyScope.GetName(Language.Polish))
+                o=>o.MapFrom(studyScope => studyScope.GetName(Language.Polish))
             );
         }
     }

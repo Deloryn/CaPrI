@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Capri.Database.Migrations
 {
     [DbContext(typeof(CapriDbContext))]
-    [Migration("20200203125932_InitialMigration")]
+    [Migration("20200204101152_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,7 +23,9 @@ namespace Capri.Database.Migrations
 
             modelBuilder.Entity("Capri.Database.Entities.Course", b =>
                 {
-                    b.Property<string>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("FacultyId");
 
@@ -250,8 +252,7 @@ namespace Capri.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CourseId")
-                        .IsRequired();
+                    b.Property<int>("CourseId");
 
                     b.Property<string>("Description")
                         .IsRequired();

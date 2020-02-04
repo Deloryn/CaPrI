@@ -1,6 +1,6 @@
+using System.Linq;
 using AutoMapper;
 using PUT.WebServices.eDziekanatServiceClient;
-using EDziekanatFaculty = PUT.WebServices.eDziekanatServiceClient.eDziekanatService.Faculty;
 using Capri.Database;
 using Capri.Database.Entities;
 
@@ -34,9 +34,21 @@ namespace Capri.Synchronizer.Synchronizers
                     continue;
                 }
                 var faculty = _mapper.Map<Faculty>(eDziekanatFaculty);
-                _context.Faculties.Add(faculty);
+                AddOrUpdate(faculty);
             }
             _context.SaveChanges();
+        }
+
+        private void AddOrUpdate(Faculty faculty)
+        {
+            if(_context.Faculties.Any(f => f.Id == faculty.Id))
+            {
+                _context.Faculties.Update(faculty);
+            }
+            else
+            {
+                _context.Faculties.Add(faculty);
+            }
         }
     }
 }

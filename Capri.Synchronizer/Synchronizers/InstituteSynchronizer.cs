@@ -1,8 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
-using System;
 using AutoMapper;
 using PUT.WebServices.eKadryServiceClient;
-using DepartmentTreeElement = PUT.WebServices.eKadryServiceClient.eKadryService.DepartmentTreeElement;
+using Department = PUT.WebServices.eKadryServiceClient.eKadryService.Department;
 using Capri.Database;
 using Capri.Database.Entities;
 
@@ -25,22 +25,39 @@ namespace Capri.Synchronizer.Synchronizers
             _mapper = mapper;
         }
 
-        public void Synchronize() {
+        public void Synchronize() 
+        {
+            var instituteDepartments = getInstituteDepartments();
+            foreach(var instituteDepartment in instituteDepartments)
+            {
+                var institute = _mapper.Map<Institute>(instituteDepartment);
+                AddOrUpdate(institute);
+            }
+            _context.SaveChanges();
+        }
+
+        private IEnumerable<Department> getInstituteDepartments()
+        {
             var rectorDepartmentId = 1174;
             var departmentTreeRoot = _eKadryClient.GetDepartmentsTree(rectorDepartmentId);
-            var instituteDepartments = departmentTreeRoot
+            return departmentTreeRoot
                 .subdepartments
                 .Where(subTreeRoot => subTreeRoot.department.name.StartsWith("Wydział"))
                 .SelectMany(subTreeRoot => subTreeRoot.subdepartments)
                 .Where(subTreeRoot => subTreeRoot.department.name.StartsWith("Instytut"))
                 .Select(subTreeRoot => subTreeRoot.department);
+        }
 
-            foreach(var instituteDepartment in instituteDepartments)
+        private void AddOrUpdate(Institute institute)
+        {
+            if(_context.Institutes.Any(i => i.Id == institute.Id))
             {
-                var institute = _mapper.Map<Institute>(instituteDepartment);
+                _context.Institutes.Update(institute);
+            }
+            else
+            {
                 _context.Institutes.Add(institute);
             }
-            _context.SaveChanges();
         }
     }
 }

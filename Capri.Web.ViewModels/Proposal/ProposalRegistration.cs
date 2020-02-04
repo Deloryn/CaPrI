@@ -41,7 +41,7 @@ namespace Capri.Web.ViewModels.Proposal
         public StudyMode Mode { get; set; }
 
         [Required]
-        public string CourseId { get; set; }
+        public int CourseId { get; set; }
         public ICollection<int> Students { get; set; }
     }
 }
