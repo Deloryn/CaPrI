@@ -1,7 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 using Capri.Services.Account;
+using Capri.Web.ViewModels.Common;
 
 namespace Capri.Web.Controllers
 {
@@ -16,15 +20,16 @@ namespace Capri.Web.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] string sessionAuthorizationKey)
+        [Consumes("application/x-www-form-urlencoded")]
+        public async Task<IActionResult> Login([FromForm] eLoginRedirection eLoginRedirection)
         {
-            if(sessionAuthorizationKey == null)
+            if(!ModelState.IsValid)
             {
-                return BadRequest("Bad session authorization key");
+                return BadRequest("The given data is not valid for this request");
             }
 
             var result = 
-                await _loginService.Login(sessionAuthorizationKey);
+                await _loginService.Login(eLoginRedirection.SessionAuthorizationKey);
 
             if(result.Successful())
             {

@@ -71,7 +71,16 @@ namespace Capri.Services.Account
 
         public async Task<IServiceResult<UserSecurityStamp>> Login(string sessionAuthorizationKey)
         {
-            var eKontoUserSession = _eKontoClient.EndUserAuth(sessionAuthorizationKey);
+            EKontoUserSession eKontoUserSession = null;
+            try
+            {
+                eKontoUserSession = _eKontoClient.EndUserAuth(sessionAuthorizationKey);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return ServiceResult<UserSecurityStamp>.Error("Failed to get session from eKonto");
+            }
             if(eKontoUserSession == null)
             {
                 return ServiceResult<UserSecurityStamp>.Error(
@@ -82,14 +91,15 @@ namespace Capri.Services.Account
             var roleNames = roles.Select(r => GetRoleName(r));
             var eKontoUser = eKontoUserSession.user;
             var user = _mapper.Map<User>(eKontoUser);
-            var userExists = await _userManager.FindByEmailAsync(user.Email) != null;
-            if(!userExists)
+            var existingUser = await _userManager.FindByEmailAsync(user.Email);
+            if(existingUser == null)
             {
                 await _userManager.CreateAsync(user);
                 await _userManager.AddToRolesAsync(user, roleNames);
             }
             else
             {
+                user = _mapper.Map(eKontoUser, existingUser);
                 await _userManager.UpdateAsync(user);
                 var currentRoles = await _userManager.GetRolesAsync(user);
                 await _userManager.RemoveFromRolesAsync(user, currentRoles);
@@ -138,8 +148,16 @@ namespace Capri.Services.Account
 
         private bool IsPromoter(EKontoUser user)
         {
-            var employee = _eKadryClient.GetEmployeeDataById(int.Parse(user.internalId));
-            return employee != null;
+            try
+            {
+                var employee = _eKadryClient.GetEmployeeDataById(int.Parse(user.internalId));
+                return employee != null;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
 
         private string GetRoleName(RoleType role)

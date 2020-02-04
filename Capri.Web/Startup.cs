@@ -39,6 +39,7 @@ namespace Capri.Web
             services.AddMapperConfiguration();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddServicesConfiguration();
+            services.AddHttpsRedirection(options => options.HttpsPort = 443);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +56,7 @@ namespace Capri.Web
 
             app.UseStaticFiles();
             app.UseAuthentication();
+            app.UseHttpsRedirection();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -41,7 +41,7 @@ namespace Capri.Web.Configuration.Mapper
             var email = GetEmailOf(eKontoUser);
             return new UpperInvariantLookupNormalizer()
                 .Normalize(email)
-                .ToUpperInvariant();
+                .ToLowerInvariant();
         }
 
         private string GetEmailOf(EKontoUser eKontoUser)
