@@ -21,7 +21,7 @@ namespace Capri.Synchronizer
 
         private static IContainer CompositionRoot()
         {
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "Capri.Synchronizer");
+            var path = Path.Combine(Directory.GetCurrentDirectory());
 
             var confBuilder = new ConfigurationBuilder()
                 .SetBasePath(path)
@@ -45,6 +45,7 @@ namespace Capri.Synchronizer
                 mc.AddProfile(new FacultyMappingProfile());
                 mc.AddProfile(new CourseMappingProfile());
                 mc.AddProfile(new InstituteMappingProfile());
+                mc.AddProfile(new PromoterMappingProfile());
             });
             var mapper = mappingConfig.CreateMapper();
 
@@ -57,6 +58,7 @@ namespace Capri.Synchronizer
             builder.RegisterType<FacultySynchronizer>().As<IFacultySynchronizer>();
             builder.RegisterType<CourseSynchronizer>().As<ICourseSynchronizer>();
             builder.RegisterType<InstituteSynchronizer>().As<IInstituteSynchronizer>();
+            builder.RegisterType<PromoterSynchronizer>().As<IPromoterSynchronizer>();
             builder.RegisterType<Application>();
 
             return builder.Build();
