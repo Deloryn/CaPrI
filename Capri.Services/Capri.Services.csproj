@@ -15,6 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="PUT.WebServices.eDziekanatServiceClient" Version="1.2019.701.6" />
+    <PackageReference Include="PUT.WebServices.eKadryServiceClient" Version="1.2019.1024.7" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Capri.Database\Capri.Database.csproj" />
     <ProjectReference Include="..\Capri.Web.ViewModels\Capri.Web.ViewModels.csproj" />
   </ItemGroup>

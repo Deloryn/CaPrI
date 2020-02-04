@@ -33,6 +33,7 @@ namespace Capri.Web
             services.AddDatabaseConfiguration(Configuration["DbConnectionString"]);
             services.AddIdentityConfiguration();
             services.AddSystemSettingsConfiguration(Configuration.GetSection("SystemSettings"));
+            services.AddPUTConfiguration(Configuration.GetSection("PUTSettings"));
             services.AddJwtConfiguration(Configuration.GetSection("JwtAuthorizationDetails"));
             services.AddSieveConfiguration(Configuration.GetSection("SieveSettings"));
             services.AddMapperConfiguration();

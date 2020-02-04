@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Capri.Web.ViewModels.User;
 using Capri.Services.Account;
 
 namespace Capri.Web.Controllers
@@ -17,20 +16,15 @@ namespace Capri.Web.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody]UserCredentials credentials)
+        public async Task<IActionResult> Login([FromBody] string sessionAuthorizationKey)
         {
-            if(credentials == null)
+            if(sessionAuthorizationKey == null)
             {
-                return BadRequest("Credentials not given");
-            }
-
-            if(!ModelState.IsValid)
-            {
-                return BadRequest("The given credentials are invalid");
+                return BadRequest("Bad session authorization key");
             }
 
             var result = 
-                await _loginService.Login(credentials.Email, credentials.Password);
+                await _loginService.Login(sessionAuthorizationKey);
 
             if(result.Successful())
             {

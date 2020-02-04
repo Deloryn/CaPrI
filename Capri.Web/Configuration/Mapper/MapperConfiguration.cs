@@ -10,6 +10,7 @@ namespace Capri.Web.Configuration.Mapper
         {
             var mappingConfig = new AutoMapper.MapperConfiguration(mc =>
             {
+                mc.AddProfile(new UserMappingProfile());
                 mc.AddProfile(new PromoterMappingProfile());
                 mc.AddProfile(new StudentMappingProfile());
                 mc.AddProfile(new ProposalMappingProfile());
