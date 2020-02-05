@@ -44,6 +44,18 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
+        [AllowedRoles(RoleType.Promoter)]
+        [HttpGet("mine")]
+        public async Task<IActionResult> GetMyData()
+        {
+            var result = await _promoterGetter.GetMyData();
+            if(result.Successful())
+            {
+                return Ok(result.Body());
+            }
+            return BadRequest(result.GetAggregatedErrors());
+        }
+
         [AllowedRoles(RoleType.Dean)]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(

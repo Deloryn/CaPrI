@@ -24,6 +24,14 @@ namespace Capri.Web.Configuration.Sieve
                 .CanFilter()
                 .CanSort();
 
+            mapper.Property<Proposal>(p => p.Course.Id)
+                .CanFilter()
+                .HasName("course_id");
+
+            mapper.Property<Proposal>(p => p.Course.Faculty.Id)
+                .CanFilter()
+                .HasName("faculty_id");
+
             mapper.Property<Proposal>(p => p.Status)
                 .CanFilter()
                 .CanSort();

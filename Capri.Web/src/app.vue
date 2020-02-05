@@ -1,25 +1,43 @@
 <template>
-  <div id="app">
-    <h1 class="test">Vue works!</h1>
-    <Test></Test>
-  </div>
+    <v-app id="app" class="appColor">
+        <div v-if="$route.path === '/login'">
+            <loginView />
+        </div>
+        <div v-else>
+            <mainView />
+        </div>
+    </v-app>
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import Test from '@src/test.vue';
+import mainView from './mainView.vue';
+import loginView from './components/loginView.vue';
+import navBar from './components/navBar.vue';
+import topBar from './components/topBar.vue';
+import downBar from './components/downBar.vue';
+import navStudentItems from './components/navStudentItems.vue';
+import navList from './components/navList.vue';
+import SessionService from './services/sessionService';
+
+enum UserType {
+    student = 'student',
+    promoter = 'promoter',
+    dean = 'dean',
+}
 
 @Component({
-  components: {
-    Test
-  }
+    components: {
+        mainView,
+        loginView
+    },
 })
 export default class App extends Vue {
-    readonly imagePath: string = '/assets/testImage.jpg';
+    public UserType = UserType;
+    public parsedToken = new SessionService().getParsedToken();
 }
 </script>
 <style lang="scss" scoped>
-.test {
-  color: #555555;
+.appColor {
+	background-color: #eeeeee;
 }
 </style>
-

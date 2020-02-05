@@ -1,12 +1,19 @@
 import App from '@src/app.vue';
 import { Vue } from 'vue-property-decorator';
-import { store } from '@src/store/store.ts';
-if (module['hot']) {
-    module['hot'].accept();
+import Vuetify from 'vuetify';
+import 'vuetify/dist/vuetify.min.css';
+import 'material-design-icons-iconfont/dist/material-design-icons.css';
+import router from './router';
+import i18n from './plugins/i18n';
+if (module.hot) {
+    module.hot.accept();
 }
+Vue.use(Vuetify);
 new Vue({
+    i18n: i18n,
+    router: router,
     el: '#app',
-    store: store,
+    vuetify: new Vuetify(),
     render: function (h) { return h(App); },
-});
+}).$mount('#app');
 //# sourceMappingURL=app.js.map

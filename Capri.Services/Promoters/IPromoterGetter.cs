@@ -8,5 +8,6 @@ namespace Capri.Services.Promoters
     {
         Task<IServiceResult<PromoterViewModel>> Get(int id);
         IServiceResult<IEnumerable<PromoterViewModel>> GetAll();
+        Task<IServiceResult<PromoterViewModel>> GetMyData();
     }
 }

@@ -54,7 +54,7 @@ const vueConfig = {
                 }]
             },
             {
-                test: /\.scss$/,
+                test: /\.(sc|sa|c)ss$/,
                 use: [{
                     loader: MiniCssExtractPlugin.loader,
                     options: {

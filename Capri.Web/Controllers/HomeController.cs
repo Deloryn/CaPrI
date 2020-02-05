@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Capri.Web.Controllers
 {
+    [Route("")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
