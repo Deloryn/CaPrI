@@ -39,7 +39,6 @@ namespace Capri.Web.Configuration.Service
         private static void AddStudentServicesConfiguration(this IServiceCollection services)
         {
             services.AddScoped<IStudentGetter, StudentGetter>();
-            services.AddScoped<IStudentGroupValidator, StudentGroupValidator>();
         }
 
         private static void AddProposalServicesConfiguration(this IServiceCollection services)
@@ -49,7 +48,6 @@ namespace Capri.Web.Configuration.Service
             services.AddScoped<IProposalGetter, ProposalGetter>();
             services.AddScoped<IProposalUpdater, ProposalUpdater>();
             services.AddScoped<ISubmittedProposalGetter, SubmittedProposalGetter>();
-            services.AddScoped<IProposalStatusGetter, ProposalStatusGetter>();
         }
 
         private static void AddTokenServicesConfiguration(this IServiceCollection services)
@@ -64,10 +62,7 @@ namespace Capri.Web.Configuration.Service
 
         private static void AddUserServicesConfiguration(this IServiceCollection services)
         {
-            services.AddScoped<IUserCreator, UserCreator>();
-            services.AddScoped<IUserUpdater, UserUpdater>();
             services.AddScoped<IUserGetter, UserGetter>();
-            services.AddScoped<IUserDeleter, UserDeleter>();
         }
 
         private static void AddCourseServicesConfiguration(this IServiceCollection services)

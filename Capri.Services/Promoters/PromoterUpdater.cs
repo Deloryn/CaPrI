@@ -15,18 +15,15 @@ namespace Capri.Services.Promoters
     {
         private readonly ISqlDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IUserUpdater _userUpdater;
         private readonly IInstituteGetter _instituteGetter;
 
         public PromoterUpdater(
             ISqlDbContext context,
             IMapper mapper,
-            IUserUpdater userUpdater,
             IInstituteGetter instituteGetter)
         {
             _context = context;
             _mapper = mapper;
-            _userUpdater = userUpdater;
             _instituteGetter = instituteGetter;
         }
 

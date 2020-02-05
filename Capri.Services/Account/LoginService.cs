@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -79,7 +79,7 @@ namespace Capri.Services.Account
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return ServiceResult<UserSecurityStamp>.Error("Failed to get session from eKonto");
+                return ServiceResult<UserSecurityStamp>.Error("Failed to obtain eKontoUserSession");
             }
             if(eKontoUserSession == null)
             {

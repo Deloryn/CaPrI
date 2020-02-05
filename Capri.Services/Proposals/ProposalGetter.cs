@@ -36,7 +36,7 @@ namespace Capri.Services.Proposals
         public async Task<IServiceResult<ProposalViewModel>> Get(int id)
         {
             var proposal = await _context.Proposals
-                .Include(p => p.Students)
+                .Include(p => p.StudentIndexNumbers)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if(proposal == null)
@@ -52,7 +52,7 @@ namespace Capri.Services.Proposals
         public async Task<IServiceResult<FileDescription>> GetCsvFileDescription(int id)
         {
             var proposal = await _context.Proposals
-                .Include(p => p.Students)
+                .Include(p => p.StudentIndexNumbers)
                 .Include(p => p.Course.Faculty)
                 .Include(p => p.Promoter.Institute)
                 .FirstOrDefaultAsync(p => p.Id == id);
@@ -86,9 +86,7 @@ namespace Capri.Services.Proposals
 
         public IServiceResult<IEnumerable<ProposalViewModel>> GetAll()
         {
-            var proposals = _context.Proposals
-                .Include(p => p.Students);
-
+            var proposals = _context.Proposals;
             var proposalViewModels = proposals.Select(p => _mapper.Map<ProposalViewModel>(p));
             return ServiceResult<IEnumerable<ProposalViewModel>>.Success(proposalViewModels);
         }

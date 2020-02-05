@@ -218,7 +218,8 @@ namespace Capri.Database.Migrations
                     Level = table.Column<int>(nullable: false),
                     Mode = table.Column<int>(nullable: false),
                     PromoterId = table.Column<int>(nullable: false),
-                    CourseId = table.Column<int>(nullable: false)
+                    CourseId = table.Column<int>(nullable: false),
+                    StudentIndexNumbers = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -233,36 +234,6 @@ namespace Capri.Database.Migrations
                         name: "FK_Proposals_Promoters_PromoterId",
                         column: x => x.PromoterId,
                         principalTable: "Promoters",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Students",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false),
-                    FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
-                    Semester = table.Column<int>(nullable: false),
-                    StudyLevel = table.Column<int>(nullable: false),
-                    StudyMode = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
-                    ProposalId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Students", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Students_Proposals_ProposalId",
-                        column: x => x.ProposalId,
-                        principalTable: "Proposals",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Students_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -303,28 +274,18 @@ namespace Capri.Database.Migrations
                 name: "IX_Proposals_PromoterId",
                 table: "Proposals",
                 column: "PromoterId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Students_ProposalId",
-                table: "Students",
-                column: "ProposalId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Students_UserId",
-                table: "Students",
-                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Proposals");
+
+            migrationBuilder.DropTable(
                 name: "RoleClaims");
 
             migrationBuilder.DropTable(
                 name: "Roles");
-
-            migrationBuilder.DropTable(
-                name: "Students");
 
             migrationBuilder.DropTable(
                 name: "UserClaims");
@@ -337,9 +298,6 @@ namespace Capri.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserTokens");
-
-            migrationBuilder.DropTable(
-                name: "Proposals");
 
             migrationBuilder.DropTable(
                 name: "Courses");

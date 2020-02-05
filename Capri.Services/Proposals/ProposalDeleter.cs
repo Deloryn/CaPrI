@@ -33,7 +33,6 @@ namespace Capri.Services.Proposals
         {
             var proposal = await _context
                 .Proposals
-                .Include(p => p.Students)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if(proposal == null)

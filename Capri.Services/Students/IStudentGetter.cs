@@ -1,15 +1,11 @@
-using System;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using Capri.Database.Entities;
-using Capri.Web.ViewModels.Student;
+using PUT.WebServices.eDziekanatServiceClient.eDziekanatService;
 
 namespace Capri.Services.Students
 {
     public interface IStudentGetter
     {
-        Task<IServiceResult<StudentViewModel>> Get(int id);
-        Task<IServiceResult<ICollection<Student>>> GetMany(IEnumerable<int> ids);
-        IServiceResult<IEnumerable<StudentViewModel>> GetAll();
+        IServiceResult<BasicStudentData[]> GetMany(ICollection<int> indexNumbers);
+        IServiceResult<BasicStudentData[]> GetMany(string indexNumbersString);
     }
 }

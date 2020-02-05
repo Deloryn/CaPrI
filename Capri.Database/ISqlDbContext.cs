@@ -9,7 +9,6 @@ namespace Capri.Database
     public interface ISqlDbContext
     {
         DbSet<User> Users { get; set; }
-        DbSet<Student> Students { get; set; }
         DbSet<Promoter> Promoters { get; set; }
         DbSet<Proposal> Proposals { get; set; }
         DbSet<Faculty> Faculties { get; set; }

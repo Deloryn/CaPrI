@@ -269,6 +269,8 @@ namespace Capri.Database.Migrations
 
                     b.Property<int>("Status");
 
+                    b.Property<string>("StudentIndexNumbers");
+
                     b.Property<int>("StudyProfile");
 
                     b.Property<string>("TopicEnglish")
@@ -284,35 +286,6 @@ namespace Capri.Database.Migrations
                     b.HasIndex("PromoterId");
 
                     b.ToTable("Proposals");
-                });
-
-            modelBuilder.Entity("Capri.Database.Entities.Student", b =>
-                {
-                    b.Property<int>("Id");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired();
-
-                    b.Property<string>("LastName")
-                        .IsRequired();
-
-                    b.Property<int?>("ProposalId");
-
-                    b.Property<int>("Semester");
-
-                    b.Property<int>("StudyLevel");
-
-                    b.Property<int>("StudyMode");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProposalId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("Capri.Database.Entities.Course", b =>
@@ -346,18 +319,6 @@ namespace Capri.Database.Migrations
                     b.HasOne("Capri.Database.Entities.Promoter", "Promoter")
                         .WithMany("Proposals")
                         .HasForeignKey("PromoterId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Capri.Database.Entities.Student", b =>
-                {
-                    b.HasOne("Capri.Database.Entities.Proposal", "Proposal")
-                        .WithMany("Students")
-                        .HasForeignKey("ProposalId");
-
-                    b.HasOne("Capri.Database.Entities.Identity.User", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

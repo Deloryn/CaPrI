@@ -11,7 +11,6 @@ namespace Capri.Database
         IntRoleClaim, IntUserToken>, 
         ISqlDbContext
     {
-        public DbSet<Student> Students { get; set; }
         public DbSet<Promoter> Promoters { get; set; }
         public DbSet<Proposal> Proposals { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
@@ -51,12 +50,6 @@ namespace Capri.Database
                 .HasOne(c => c.Faculty)
                 .WithMany(f => f.Courses)
                 .HasForeignKey(c => c.FacultyId);
-
-            modelBuilder.Entity<Student>()
-                .HasOne(s => s.Proposal)
-                .WithMany(p => p.Students)
-                .HasForeignKey(s => s.ProposalId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<IntUserRole>()
                 .HasKey(userRole => new { userRole.UserId, userRole.RoleId });

@@ -38,15 +38,10 @@ namespace Capri.Web.Configuration.Mapper
 
         private string GetNormalizedEmailOf(EKontoUser eKontoUser)
         {
-            var email = GetEmailOf(eKontoUser);
+            var email = eKontoUser.GetLogin();
             return new UpperInvariantLookupNormalizer()
                 .Normalize(email)
                 .ToLowerInvariant();
-        }
-
-        private string GetEmailOf(EKontoUser eKontoUser)
-        {
-            return eKontoUser.loginName + "@" + eKontoUser.loginDomain;
         }
     }
 }

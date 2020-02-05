@@ -1,3 +1,4 @@
+using System.Linq;
 using Microsoft.Extensions.Options;
 using Sieve.Services;
 using Sieve.Models;
@@ -40,7 +41,7 @@ namespace Capri.Web.Configuration.Sieve
                 .CanSort()
                 .HasName("promoter_lastname");
 
-            mapper.Property<Proposal>(p => p.Students.Count)
+            mapper.Property<Proposal>(p => p.StudentIndexNumbers.Count())
                 .CanSort()
                 .HasName("num_of_students");
 

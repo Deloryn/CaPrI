@@ -37,6 +37,6 @@ namespace Capri.Database.Entities
         public int CourseId { get; set; }
         [ForeignKey("CourseId")]
         public virtual Course Course { get; set; }
-        public virtual ICollection<Student> Students { get; set; }
+        public string StudentIndexNumbers { get; set; }
     }
 }
