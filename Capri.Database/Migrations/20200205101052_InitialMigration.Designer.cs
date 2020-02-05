@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Capri.Database.Migrations
 {
     [DbContext(typeof(CapriDbContext))]
-    [Migration("20200205094017_InitialMigration")]
+    [Migration("20200205101052_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,9 +56,7 @@ namespace Capri.Database.Migrations
 
             modelBuilder.Entity("Capri.Database.Entities.Identity.IntRole", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("Id");
 
                     b.Property<string>("ConcurrencyStamp");
 

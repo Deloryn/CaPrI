@@ -54,9 +54,7 @@ namespace Capri.Database.Migrations
 
             modelBuilder.Entity("Capri.Database.Entities.Identity.IntRole", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("Id");
 
                     b.Property<string>("ConcurrencyStamp");
 

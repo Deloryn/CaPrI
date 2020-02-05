@@ -54,6 +54,7 @@ namespace Capri.Synchronizer
             builder.RegisterInstance(eKontoClient).As<IEKontoClient>();
             builder.RegisterInstance(eDziekanatClient).As<IEDziekanatClient>();
             builder.RegisterInstance(eKadryClient).As<IEKadryClient>();
+            builder.RegisterType<RoleSynchronizer>().As<IRoleSynchronizer>();
             builder.RegisterType<FacultySynchronizer>().As<IFacultySynchronizer>();
             builder.RegisterType<CourseSynchronizer>().As<ICourseSynchronizer>();
             builder.RegisterType<InstituteSynchronizer>().As<IInstituteSynchronizer>();
