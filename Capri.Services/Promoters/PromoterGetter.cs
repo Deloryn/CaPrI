@@ -7,6 +7,9 @@ using AutoMapper;
 using Capri.Database;
 using Capri.Services.Users;
 using Capri.Web.ViewModels.Promoter;
+using Newtonsoft.Json;
+using System.Text;
+using Capri.Web.ViewModels.Common;
 
 namespace Capri.Services.Promoters
 {
@@ -56,26 +59,46 @@ namespace Capri.Services.Promoters
         public async Task<IServiceResult<PromoterViewModel>> GetMyData()
         {
             var userResult = await _userGetter.GetCurrentUser();
-            if(!userResult.Successful())
+            if (!userResult.Successful())
             {
                 var errors = userResult.GetAggregatedErrors();
                 return ServiceResult<PromoterViewModel>.Error(errors);
             }
 
             var currentUser = userResult.Body();
-            var promoter = 
+            var promoter =
                 await _context
                 .Promoters
                 .Include(p => p.Proposals)
                 .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
 
-            if(promoter == null)
+            if (promoter == null)
             {
                 return ServiceResult<PromoterViewModel>.Error("The current user has no associated promoter");
             }
 
             var promoterViewModel = _mapper.Map<PromoterViewModel>(promoter);
             return ServiceResult<PromoterViewModel>.Success(promoterViewModel);
+        }
+
+        public IServiceResult<FileDescription> GetAllWithJsonFormat()
+        {
+            var promoters = _context.Promoters;
+
+            var promoterJsonModels = promoters.Select(p => _mapper.Map<PromoterJsonRecord>(p));
+
+            var jsonText = JsonConvert.SerializeObject(promoterJsonModels, Formatting.Indented);
+
+            var bytes = Encoding.UTF8.GetBytes(jsonText);
+            var fileName = $"promoters-export.json";
+
+            var fileDescription = new FileDescription
+            {
+                Name = fileName,
+                Bytes = bytes
+            };
+
+            return ServiceResult<FileDescription>.Success(fileDescription);
         }
     }
 }

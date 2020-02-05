@@ -7,7 +7,6 @@ using Capri.Database.Entities.Identity;
 using Capri.Services.Proposals;
 using Capri.Web.Controllers.Attributes;
 using Capri.Web.ViewModels.Proposal;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Capri.Web.Controllers
 {
@@ -74,7 +73,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [Authorize(Roles = "dean")]
+        [AllowedRoles(RoleType.Dean)]
         [HttpGet("{id}/docx")]
         public async Task<IActionResult> GetDiplomaCardFile(int id)
         {

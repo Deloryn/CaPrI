@@ -1,13 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Capri.Database;
-using Capri.Database.Entities.Identity;
-using Capri.Services.Users;
 using Capri.Services.Institutes;
 using Capri.Web.ViewModels.Promoter;
-using Capri.Web.ViewModels.User;
 
 namespace Capri.Services.Promoters
 {
@@ -15,16 +11,13 @@ namespace Capri.Services.Promoters
     {
         private readonly ISqlDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IInstituteGetter _instituteGetter;
 
         public PromoterUpdater(
             ISqlDbContext context,
-            IMapper mapper,
-            IInstituteGetter instituteGetter)
+            IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
-            _instituteGetter = instituteGetter;
         }
 
         public async Task<IServiceResult<PromoterViewModel>> Update(
@@ -50,5 +43,6 @@ namespace Capri.Services.Promoters
             var promoterViewModel = _mapper.Map<PromoterViewModel>(existingPromoter);
             return ServiceResult<PromoterViewModel>.Success(promoterViewModel);
         }
+
     }
 }
