@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Capri.Database.Migrations
 {
     [DbContext(typeof(CapriDbContext))]
-    [Migration("20200205101052_InitialMigration")]
+    [Migration("20200205114401_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

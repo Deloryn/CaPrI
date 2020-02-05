@@ -9,6 +9,7 @@ namespace Capri.Database
     public interface ISqlDbContext
     {
         DbSet<User> Users { get; set; }
+        DbSet<IntUserRole> UserRoles { get; set; }
         DbSet<IntRole> Roles { get; set; }
         DbSet<Promoter> Promoters { get; set; }
         DbSet<Proposal> Proposals { get; set; }

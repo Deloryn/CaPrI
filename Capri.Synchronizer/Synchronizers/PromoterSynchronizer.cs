@@ -10,7 +10,6 @@ using Capri.Synchronizer.Synchronizers;
 using AutoMapper;
 using System.Linq;
 using Capri.Database.Entities.Identity;
-using Microsoft.AspNetCore.Identity;
 
 namespace Capri.Synchronizer
 {
@@ -45,7 +44,7 @@ namespace Capri.Synchronizer
             foreach (EKontoUser didacticUser in didacticEKontoUsers)
             {
                 EKadryEmployee employee = _eKadryClient.GetEmployeeDataById(int.Parse(didacticUser.internalId));
-                if (employee == null)
+                if(employee == null || employee.title == null)
                 {
                     continue;
                 }
@@ -56,54 +55,57 @@ namespace Capri.Synchronizer
                     continue;
                 }
 
-                //Faculty faculty = _context.Faculties.Where(f => f.Id == facultyDepartment.id).FirstOrDefault();
                 Institute institute = _context.Institutes.Where(i => i.Id == instituteDepartment.id).FirstOrDefault();
-
-                insertOrUpdateEmployee(didacticUser, employee, institute);
+                
+                AddOrUpdatePromoterUser(didacticUser);
+                AddOrUpdateEmployee(didacticUser, employee, institute);
             }
         }
 
-        private void insertOrUpdateEmployee(EKontoUser eKontoUser, EKadryEmployee eKadryEmployee, Institute institute)
+        private void AddOrUpdatePromoterUser(EKontoUser eKontoUser)
+        {
+            var role = _context.Roles.FirstOrDefault(r => r.Name == "Promoter");
+            var user = _mapper.Map<User>(eKontoUser);
+            var existingUser = _context.Users.FirstOrDefault(u => u.Id == eKontoUser.id);
+            if(existingUser == null)
+            {
+                _context.Users.Add(user);
+                _context.UserRoles.Add(new IntUserRole {
+                    UserId = eKontoUser.id,
+                    RoleId = role.Id
+                });
+            }
+            else
+            {
+                user = _mapper.Map(eKontoUser, existingUser);
+                _context.Users.Update(user);
+                var userRoles = _context.UserRoles.Where(r => r.UserId == eKontoUser.id);
+                _context.UserRoles.RemoveRange(userRoles);
+                _context.SaveChanges();
+                _context.UserRoles.Add(new IntUserRole {
+                    UserId = eKontoUser.id,
+                    RoleId = role.Id
+                });
+            }
+            _context.SaveChanges();
+        }
+
+        private void AddOrUpdateEmployee(EKontoUser eKontoUser, EKadryEmployee eKadryEmployee, Institute institute)
         {
             Promoter promoter = _context.Promoters.Where(p => p.Id == eKadryEmployee.id).FirstOrDefault();
 
-            if (promoter == null)
+            if(promoter == null)
             {
-                // TODO later something about creating user in database
-                var user = new User
-                {
-                    UserName = eKontoUser.GetLogin(),
-                    NormalizedUserName =
-                    new UpperInvariantLookupNormalizer()
-                        .Normalize(eKontoUser.GetLogin())
-                        .ToUpperInvariant(),
-                    Email = eKontoUser.GetLogin(),
-                    NormalizedEmail =
-                    new UpperInvariantLookupNormalizer()
-                        .Normalize(eKontoUser.GetLogin())
-                        .ToUpperInvariant(),
-                    EmailConfirmed = true,
-                    PasswordHash = new PasswordHasher<User>().HashPassword(null, "zaq1@WSX"),
-                };
-
-                _context.Users.Add(user);
-                _context.SaveChanges();
-
                 promoter = new Promoter
                 {
                     Id = eKadryEmployee.id,
                     InstituteId = institute.Id,
                     ExpectedNumberOfBachelorProposals = 0,
                     ExpectedNumberOfMasterProposals = 0,
-                    UserId = user.Id
+                    UserId = eKontoUser.id
                 };
                 _mapper.Map(eKontoUser, promoter);
                 _mapper.Map(eKadryEmployee, promoter);
-                if (promoter.TitlePrefix == null)
-                {
-                    promoter.TitlePrefix = "";
-                }
-
                 _context.Promoters.Add(promoter);
             }
             else
@@ -111,11 +113,6 @@ namespace Capri.Synchronizer
                 _mapper.Map(eKontoUser, promoter);
                 _mapper.Map(eKadryEmployee, promoter);
                 promoter.InstituteId = institute.Id;
-                if (promoter.TitlePrefix == null)
-                {
-                    promoter.TitlePrefix = "";
-                }
-
                 _context.Promoters.Update(promoter);
                 
             }
