@@ -120,7 +120,6 @@ namespace Capri.Services.Proposals
         public async Task<IServiceResult<FileDescription>> GetDiplomaCard(int id)
         {
             var proposal = await _context.Proposals
-                //.Include(p => p.Students)
                 .Include(p => p.Course.Faculty)
                 .Include(p => p.Promoter.Institute)
                 .FirstOrDefaultAsync(p => p.Id == id);

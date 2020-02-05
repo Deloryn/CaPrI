@@ -14,7 +14,7 @@ namespace Capri.Web.ViewModels.Proposal
         public string StudyProfile { get; set; }
         public string Mode { get; set; }
         public string Level { get; set; }
-        public ICollection<Student> Students { get; set; }
+        public ICollection<int> StudentIndexes { get; set; }
         public string TopicPolish { get; set; }
         public string TopicEnglish { get; set; }
         public string OutputData { get; set; }

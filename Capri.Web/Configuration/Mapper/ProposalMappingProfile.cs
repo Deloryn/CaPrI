@@ -34,10 +34,11 @@ namespace Capri.Web.Configuration.Mapper
             .ForMember(csv => csv.Institute, o => o.MapFrom(p => p.Promoter.Institute.Name));
 
             CreateMap<Proposal, ProposalDocRecord>()
-                .ForMember(csv => csv.Promoter, o => o.MapFrom(p => GetPromoterFullName(p.Promoter)))
-                .ForMember(csv => csv.Course, o => o.MapFrom(p => p.Course.Name))
-                .ForMember(csv => csv.Faculty, o => o.MapFrom(p => p.Course.Faculty.Name))
-                .ForMember(csv => csv.Institute, o => o.MapFrom(p => p.Promoter.Institute.Name));
+                .ForMember(doc => doc.Promoter, o => o.MapFrom(p => GetPromoterFullName(p.Promoter)))
+                .ForMember(doc => doc.Course, o => o.MapFrom(p => p.Course.Name))
+                .ForMember(doc => doc.Faculty, o => o.MapFrom(p => p.Course.Faculty.Name))
+                .ForMember(doc => doc.Institute, o => o.MapFrom(p => p.Promoter.Institute.Name))
+                .ForMember(doc => doc.StudentIndexes, o => o.MapFrom(p => GetStudentIndexNumbersFromString(p.StudentIndexNumbers)));
         }
 
         private ProposalStatus CalculateProposalStatus(ProposalRegistration registration)
