@@ -7,6 +7,7 @@ using Capri.Database.Entities.Identity;
 using Capri.Services.Proposals;
 using Capri.Web.Controllers.Attributes;
 using Capri.Web.ViewModels.Proposal;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Capri.Web.Controllers
 {
@@ -60,6 +61,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
+
         [AllowedRoles(RoleType.Promoter)]
         [HttpGet("mine")]
         public async Task<IActionResult> GetMyProposals() 
@@ -72,6 +74,18 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
+        [Authorize(Roles = "dean")]
+        [HttpGet("{id}/docx")]
+        public async Task<IActionResult> GetDiplomaCardFile(int id)
+        {
+            var result = await _proposalGetter.GetDiplomaCard(id);
+            if (result.Successful())
+            {
+                var fileDescription = result.Body();
+                return File(fileDescription.Bytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", fileDescription.Name);
+            }
+            return BadRequest(result.GetAggregatedErrors());
+        }
 
         [HttpGet]
         public IActionResult GetAll()
