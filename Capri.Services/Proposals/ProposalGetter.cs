@@ -12,6 +12,7 @@ using Capri.Services.Files;
 using Capri.Services.Users;
 using Capri.Web.ViewModels.Proposal;
 using Capri.Web.ViewModels.Common;
+using System.IO;
 
 namespace Capri.Services.Proposals
 {
@@ -22,19 +23,22 @@ namespace Capri.Services.Proposals
         private readonly ISieveProcessor _sieveProcessor;
         private readonly ICsvCreator _csvCreator;
         private readonly IUserGetter _userGetter;
+        private readonly IDiplomaCardCreator _diplomaCardCreator;
 
         public ProposalGetter(
             ISqlDbContext context,
             IMapper mapper,
             ISieveProcessor sieveProcessor,
             ICsvCreator csvCreator,
-            IUserGetter userGetter)
+            IUserGetter userGetter,
+            IDiplomaCardCreator diplomaCardCreator)
         {
             _context = context;
             _mapper = mapper;
             _sieveProcessor = sieveProcessor;
             _csvCreator = csvCreator;
             _userGetter = userGetter;
+            _diplomaCardCreator = diplomaCardCreator;
         }
 
         public async Task<IServiceResult<ProposalViewModel>> Get(Guid id)
@@ -90,20 +94,20 @@ namespace Capri.Services.Proposals
 
         public async Task<IServiceResult<IEnumerable<ProposalViewModel>>> GetMyProposals() {
             var userResult = await _userGetter.GetCurrentUser();
-            if(!userResult.Successful())
+            if (!userResult.Successful())
             {
                 var errors = userResult.GetAggregatedErrors();
                 return ServiceResult<IEnumerable<ProposalViewModel>>.Error(errors);
             }
 
             var currentUser = userResult.Body();
-            var promoter = 
+            var promoter =
                 await _context
                 .Promoters
                 .Include(p => p.Proposals)
                 .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
 
-            if(promoter == null)
+            if (promoter == null)
             {
                 return ServiceResult<IEnumerable<ProposalViewModel>>.Error("The current user has no associated promoter");
             }
@@ -113,6 +117,33 @@ namespace Capri.Services.Proposals
                 .Select(p => _mapper.Map<ProposalViewModel>(p));
 
             return ServiceResult<IEnumerable<ProposalViewModel>>.Success(proposalViewModels);
+        }
+
+        public async Task<IServiceResult<FileDescription>> GetDiplomaCard(Guid id)
+        {
+            var proposal = await _context.Proposals
+                .Include(p => p.Students)
+                .Include(p => p.Course.Faculty)
+                .Include(p => p.Promoter.Institute)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (proposal == null)
+            {
+                return ServiceResult<FileDescription>.Error($"Proposal with id {id} does not exist.");
+            }
+
+            var proposalDocRecord = _mapper.Map<ProposalDocRecord>(proposal);
+
+            var result = _diplomaCardCreator.CreateDiplomaCard(proposalDocRecord);
+
+            var fileName = $"document_{proposal.Id}.docx";
+
+            var fileDescription = new FileDescription {
+                Name = fileName,
+                Bytes = result.Body().ToArray()
+            };
+
+            return ServiceResult<FileDescription>.Success(fileDescription);
         }
 
         public IServiceResult<IEnumerable<ProposalViewModel>> GetAll()

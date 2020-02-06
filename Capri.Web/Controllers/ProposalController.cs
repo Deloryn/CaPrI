@@ -73,6 +73,18 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
+        [AllowedRoles(RoleType.Dean)]
+        [HttpGet("{id}/docx")]
+        public async Task<IActionResult> GetDiplomaCardFile(Guid id)
+        {
+            var result = await _proposalGetter.GetDiplomaCard(id);
+            if (result.Successful())
+            {
+                var fileDescription = result.Body();
+                return File(fileDescription.Bytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", fileDescription.Name);
+            }
+            return BadRequest(result.GetAggregatedErrors());
+        }
 
         [HttpGet]
         public IActionResult GetAll()

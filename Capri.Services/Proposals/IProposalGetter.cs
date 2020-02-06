@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Sieve.Models;
 using Capri.Web.ViewModels.Proposal;
 using Capri.Web.ViewModels.Common;
+using System.IO;
 
 namespace Capri.Services.Proposals
 {
@@ -13,6 +14,7 @@ namespace Capri.Services.Proposals
         Task<IServiceResult<ProposalViewModel>> Get(Guid id);
         Task<IServiceResult<FileDescription>> GetCsvFileDescription(Guid id);
         Task<IServiceResult<IEnumerable<ProposalViewModel>>> GetMyProposals();
+        Task<IServiceResult<FileDescription>> GetDiplomaCard(Guid id);
         IServiceResult<IEnumerable<ProposalViewModel>> GetAll();
         IServiceResult<IQueryable<ProposalViewModel>> GetFiltered(SieveModel sieveModel);
     }
