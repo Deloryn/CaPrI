@@ -30,12 +30,6 @@ router.beforeEach((to, from, next) => {
     }
 });
 
-router.afterEach((to, from) => {
-    console.log("From: ");
-    console.log(from);
-    console.log("=======")
-});
-
 Vue.axios.interceptors.request.use(
     config => {
         return config;

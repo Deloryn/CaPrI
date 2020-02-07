@@ -1,5 +1,7 @@
 export default {
     commons: {
+        loginViaElogin: 'Log in via eLogin',
+        tryingToLogin: 'Trying to log in...',
         create: 'Create',
         update: 'Update',
         cancel: 'Cancel',

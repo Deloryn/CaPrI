@@ -1,14 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions; 
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.SignalR;
-using Newtonsoft.Json;
 using Capri.Services.Account;
 using Capri.Web.ViewModels.Common;
 
@@ -18,10 +10,15 @@ namespace Capri.Web.Controllers
     public class AccountController : Controller
     {
         private readonly ILoginService _loginService;
+        private readonly ILogoutService _logoutService;
 
-        public AccountController(ILoginService loginService)
+        public AccountController(
+            ILoginService loginService,
+            ILogoutService logoutService
+        )
         {
             _loginService = loginService;
+            _logoutService = logoutService;
         }
 
         [AllowAnonymous]
@@ -42,6 +39,14 @@ namespace Capri.Web.Controllers
             }
             
             return BadRequest(result.GetAggregatedErrors());
+        }
+
+        [Authorize]
+        [HttpGet("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _logoutService.Logout();
+            return Ok();
         }
     }
 }

@@ -58,6 +58,7 @@ namespace Capri.Web.Configuration.Service
         private static void AddAccountServicesConfiguration(this IServiceCollection services)
         {
             services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<ILogoutService, LogoutService>();
         }
 
         private static void AddUserServicesConfiguration(this IServiceCollection services)

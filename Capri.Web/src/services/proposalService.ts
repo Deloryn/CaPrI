@@ -1,9 +1,25 @@
 import { requestService } from '@src/services/requestService'
-import { CrudService } from '@src/services/crudService'
 
-class ProposalService extends CrudService {
-    constructor() {
-        super("/proposals")
+class ProposalService {
+
+    public create(data={}) {
+        return requestService.request("POST", "/proposals", data)
+    }
+
+    public update(id: string, data={}) {
+        return requestService.request("PUT", "/proposals/" + id, data)
+    }
+
+    public delete(id: string) {
+        return requestService.request("DELETE", "/proposals/" + id)
+    }
+
+    public getAll() {
+        return requestService.request("GET", "/proposals")
+    }
+
+    public get(id: string) {
+        return requestService.request("GET", "/proposals/" + id)
     }
 
     public getMyProposals() {
