@@ -41,6 +41,6 @@ namespace Capri.Web
                 })
                 .UseNLog()
                 .UseStartup<Startup>()
-                .UseUrls("http://localhost", "https://localhost");
+                .UseUrls("https://localhost");
     }
 }

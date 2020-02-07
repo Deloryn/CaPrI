@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Security.Claims;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using EKontoUser = PUT.WebServices.eKontoServiceClient.eKontoService.User;
 using EKontoUserSession = PUT.WebServices.eKontoServiceClient.eKontoService.UserSession;
 using Capri.Database;
 using Capri.Database.Entities.Identity;
+using Capri.Services.Users;
 using Capri.Services.Token;
 using Capri.Web.ViewModels.User;
 
@@ -21,6 +23,7 @@ namespace Capri.Services.Account
         private readonly IEKadryClient _eKadryClient;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
+        private readonly IUserGetter _userGetter;
         private readonly ITokenGenerator _tokenGenerator;
         private readonly ISqlDbContext _context;
         private readonly IMapper _mapper;
@@ -56,6 +59,7 @@ namespace Capri.Services.Account
             IEKadryClient eKadryClient,
             SignInManager<User> signInManager, 
             UserManager<User> userManager,
+            IUserGetter userGetter,
             ITokenGenerator tokenGenerator,
             ISqlDbContext context,
             IMapper mapper)
@@ -64,6 +68,7 @@ namespace Capri.Services.Account
             _eKadryClient = eKadryClient;
             _signInManager = signInManager;
             _userManager = userManager;
+            _userGetter = userGetter;
             _tokenGenerator = tokenGenerator;
             _context = context;
             _mapper = mapper;
@@ -106,11 +111,13 @@ namespace Capri.Services.Account
                 await _userManager.AddToRolesAsync(user, roleNames);
             }
             await _context.SaveChangesAsync();
-            await _signInManager.SignInAsync(user, false);
 
             var userRoleNames = await _userManager.GetRolesAsync(user);
             string token = _tokenGenerator.GenerateTokenFor(user, userRoleNames);
             user.SecurityStamp = token;
+            await _userManager.UpdateAsync(user);
+
+            await _signInManager.SignInAsync(user, true);
             
             return ServiceResult<UserSecurityStamp>.Success(new UserSecurityStamp
             {

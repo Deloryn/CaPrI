@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Capri.Services.Settings;
 
 namespace Capri.Web.Configuration
@@ -16,6 +17,7 @@ namespace Capri.Web.Configuration
             var key = System.Text.Encoding.ASCII.GetBytes(secret);
             services.AddAuthentication(x =>
             {
+                x.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
