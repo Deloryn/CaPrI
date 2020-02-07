@@ -8,9 +8,7 @@ namespace Capri.Web.Configuration.Mapper
     public class InstituteMappingProfile : Profile
     {
         public InstituteMappingProfile()
-        {
-            CreateMap<InstituteRegistration, Institute>();
-            
+        {   
             CreateMap<Institute, InstituteViewModel>()
             .ForMember(
                 view=>view.Promoters, 

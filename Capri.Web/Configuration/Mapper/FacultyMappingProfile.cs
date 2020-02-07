@@ -9,8 +9,6 @@ namespace Capri.Web.Configuration.Mapper
     {
         public FacultyMappingProfile()
         {
-            CreateMap<FacultyRegistration, Faculty>();
-
             CreateMap<Faculty, FacultyViewModel>()
             .ForMember(
                 view=>view.Courses, 

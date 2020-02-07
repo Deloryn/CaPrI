@@ -6,7 +6,7 @@ namespace Capri.Web.ViewModels.Proposal
 {
     public class ProposalViewModel
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string TopicPolish { get; set; }
         public string TopicEnglish { get; set; }
         public string Description { get; set; }
@@ -18,8 +18,8 @@ namespace Capri.Web.ViewModels.Proposal
         public StudyLevel Level { get; set; }
         public StudyMode Mode { get; set; }
         public StudyProfile StudyProfile { get; set; }
-        public Guid PromoterId { get; set; }
-        public Guid CourseId { get; set; }
+        public int PromoterId { get; set; }
+        public int CourseId { get; set; }
         public ICollection<int> Students { get; set; }
     }
 }

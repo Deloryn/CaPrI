@@ -7,7 +7,7 @@ namespace Capri.Services.Proposals
     public interface ISubmittedProposalGetter
     {
         Task<IServiceResult<int>> CountSubmittedProposals(
-            Guid promoterId, 
+            int promoterId, 
             StudyLevel level);
     }
 }

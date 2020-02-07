@@ -9,6 +9,7 @@ namespace Capri.Database.Entities
         [Description("Częściowo zajęty")]
         PartiallyTaken = 1,
         [Description("Wolny")]
-        Free = 2
+        Free = 2,
+        Overloaded = 3
     };
 }

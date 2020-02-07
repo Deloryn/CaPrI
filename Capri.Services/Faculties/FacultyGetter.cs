@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
@@ -22,7 +21,7 @@ namespace Capri.Services.Faculties
             _mapper = mapper;
         }
 
-        public async Task<IServiceResult<FacultyViewModel>> Get(Guid id)
+        public async Task<IServiceResult<FacultyViewModel>> Get(int id)
         {
             var faculty = await _context.Faculties
                 .Include(f => f.Courses)

@@ -5,6 +5,6 @@ namespace Capri.Services.Account
 {
     public interface ILoginService
     {
-        Task<IServiceResult<UserSecurityStamp>> Login(string username, string password);
+        Task<IServiceResult<UserSecurityStamp>> Login(string sessionAuthorizationKey);
     }
 }

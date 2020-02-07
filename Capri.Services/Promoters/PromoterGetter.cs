@@ -26,7 +26,7 @@ namespace Capri.Services.Promoters
             _userGetter = userGetter;
         }
 
-        public async Task<IServiceResult<PromoterViewModel>> Get(Guid id)
+        public async Task<IServiceResult<PromoterViewModel>> Get(int id)
         {
             var promoter = 
                 await _context

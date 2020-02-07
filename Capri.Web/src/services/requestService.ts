@@ -2,7 +2,7 @@ import { Vue } from 'vue-property-decorator';
 import { Method } from 'axios';
 
 class RequestService {
-    private serverAddres: string = "http://localhost:5000";
+    private serverAddres: string = "https://capri.cs.put.poznan.pl";
 
     public request(method: string, api: string, data={}) {
         const token = sessionStorage.token;

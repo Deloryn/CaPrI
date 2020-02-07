@@ -9,13 +9,15 @@ namespace Capri.Database
     public interface ISqlDbContext
     {
         DbSet<User> Users { get; set; }
-        DbSet<Student> Students { get; set; }
+        DbSet<IntUserRole> UserRoles { get; set; }
+        DbSet<IntRole> Roles { get; set; }
         DbSet<Promoter> Promoters { get; set; }
         DbSet<Proposal> Proposals { get; set; }
         DbSet<Faculty> Faculties { get; set; }
         DbSet<Course> Courses { get; set; }
         DbSet<Institute> Institutes { get; set; }
 
+        int SaveChanges();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

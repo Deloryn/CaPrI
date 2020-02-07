@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Capri.Database.Entities
 {
     interface IEntity
     {
         [Key]
-        Guid Id { get; set; }
+        int Id { get; set; }
     }
 }

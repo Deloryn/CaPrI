@@ -61,7 +61,7 @@ export default Vue.component('navList', {
             else if (userType === 'Dean') {
                 newLinks.push(this.links.proposals, this.links.promoters);
             }
-            else if (userType === 'Student') {
+            else {
                 newLinks.push(this.links.proposals)
             }
             return newLinks;

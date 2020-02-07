@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Capri.Database.Entities;
 
@@ -42,7 +41,7 @@ namespace Capri.Web.ViewModels.Proposal
         public StudyMode Mode { get; set; }
 
         [Required]
-        public Guid CourseId { get; set; }
+        public int CourseId { get; set; }
         public ICollection<int> Students { get; set; }
     }
 }

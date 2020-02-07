@@ -1,19 +1,16 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Capri.Database.Entities;
-using Capri.Database.Entities.Configuration;
 
 using Capri.Database.Entities.Identity;
 
 namespace Capri.Database
 {
     public class CapriDbContext : IdentityDbContext
-        <User, GuidRole, Guid, GuidUserClaim, GuidUserRole, GuidUserLogin,
-        GuidRoleClaim, GuidUserToken>, 
+        <User, IntRole, int, IntUserClaim, IntUserRole, IntUserLogin,
+        IntRoleClaim, IntUserToken>, 
         ISqlDbContext
     {
-        public DbSet<Student> Students { get; set; }
         public DbSet<Promoter> Promoters { get; set; }
         public DbSet<Proposal> Proposals { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
@@ -54,36 +51,12 @@ namespace Capri.Database
                 .WithMany(f => f.Courses)
                 .HasForeignKey(c => c.FacultyId);
 
-            modelBuilder.Entity<Student>()
-                .HasOne(s => s.Proposal)
-                .WithMany(p => p.Students)
-                .HasForeignKey(s => s.ProposalId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
-
-            modelBuilder.Entity<Student>()
-                .HasIndex(s => s.IndexNumber)
-                .IsUnique();
-
-            modelBuilder.Entity<GuidUserRole>()
+            modelBuilder.Entity<IntUserRole>()
                 .HasKey(userRole => new { userRole.UserId, userRole.RoleId });
 
-            modelBuilder.Entity<GuidUserRole>()
+            modelBuilder.Entity<IntUserRole>()
                 .Property(userRole => userRole.Id)
                 .ValueGeneratedOnAdd();
-                
-
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
-            modelBuilder.ApplyConfiguration(new GuidRoleConfiguration());
-            modelBuilder.ApplyConfiguration(new GuidUserRoleConfiguration());
-
-            modelBuilder.ApplyConfiguration(new StudentConfiguration());
-            modelBuilder.ApplyConfiguration(new PromoterConfiguration());
-
-            modelBuilder.ApplyConfiguration(new ProposalConfiguration());
-
-            modelBuilder.ApplyConfiguration(new InstituteConfiguration());
-            modelBuilder.ApplyConfiguration(new FacultyConfiguration());
-            modelBuilder.ApplyConfiguration(new CourseConfiguration());
         }
     }
 }

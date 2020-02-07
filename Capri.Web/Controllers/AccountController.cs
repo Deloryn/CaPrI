@@ -1,11 +1,20 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.IO;
+using System.Text;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions; 
 using Microsoft.AspNetCore.Authorization;
-using Capri.Web.ViewModels.User;
+using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json;
 using Capri.Services.Account;
+using Capri.Web.ViewModels.Common;
 
 namespace Capri.Web.Controllers
 {
+    [Route("account")]
     public class AccountController : Controller
     {
         private readonly ILoginService _loginService;
@@ -16,26 +25,22 @@ namespace Capri.Web.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost]
-        public async Task<IActionResult> Login([FromBody]UserCredentials credentials)
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] VueRedirection vueRedirection)
         {
-            if(credentials == null)
-            {
-                return BadRequest("Credentials not given");
-            }
-
             if(!ModelState.IsValid)
             {
-                return BadRequest("The given credentials are invalid");
+                return BadRequest("The given data is not valid for this request");
             }
 
             var result = 
-                await _loginService.Login(credentials.Email, credentials.Password);
+                await _loginService.Login(vueRedirection.SessionAuthorizationKey);
 
             if(result.Successful())
             {
                 return Ok(result.Body());
             }
+            
             return BadRequest(result.GetAggregatedErrors());
         }
     }

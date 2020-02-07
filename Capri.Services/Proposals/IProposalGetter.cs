@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Sieve.Models;
@@ -11,10 +10,10 @@ namespace Capri.Services.Proposals
 {
     public interface IProposalGetter
     {
-        Task<IServiceResult<ProposalViewModel>> Get(Guid id);
-        Task<IServiceResult<FileDescription>> GetCsvFileDescription(Guid id);
+        Task<IServiceResult<ProposalViewModel>> Get(int id);
+        Task<IServiceResult<FileDescription>> GetCsvFileDescription(int id);
         Task<IServiceResult<IEnumerable<ProposalViewModel>>> GetMyProposals();
-        Task<IServiceResult<FileDescription>> GetDiplomaCard(Guid id);
+        Task<IServiceResult<FileDescription>> GetDiplomaCard(int id);
         IServiceResult<IEnumerable<ProposalViewModel>> GetAll();
         IServiceResult<IQueryable<ProposalViewModel>> GetFiltered(SieveModel sieveModel);
     }

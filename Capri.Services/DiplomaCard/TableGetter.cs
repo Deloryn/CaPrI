@@ -1,25 +1,29 @@
 ﻿using Capri.Web.ViewModels.Proposal;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Wordprocessing;
-using System.Reflection;
 using Microsoft.Extensions.Localization;
 using Capri.Services.Settings;
+using EKontoStudent = PUT.WebServices.eDziekanatServiceClient.eDziekanatService.BasicStudentData;
+using Capri.Services.Students;
 
 namespace Capri.Services.DiplomaCard
 {
     public class TableGetter: ITableGetter
     {
+        private readonly IStudentGetter _studentGetter;
         private readonly ITablePropertiesGetter _tablePropertiesGetter;
         private readonly IParagraphGetter _paragraphGetter;
         private readonly ISystemSettingsGetter _systemSettingsGetter;
         private readonly IStringLocalizer<TableGetter> _localizer;
 
         public TableGetter(
+            IStudentGetter studentGetter,
             ITablePropertiesGetter tablePropertiesGetter,
             IParagraphGetter paragraphGetter,
             ISystemSettingsGetter systemSettingsGetter,
             IStringLocalizer<TableGetter> localizer)
         {
+            _studentGetter = studentGetter;
             _tablePropertiesGetter = tablePropertiesGetter;
             _paragraphGetter = paragraphGetter;
             _systemSettingsGetter = systemSettingsGetter;
@@ -153,72 +157,32 @@ namespace Capri.Services.DiplomaCard
             stdTableCell14.Append(_paragraphGetter.getSmallCenteredText(_localizer["Data i podpis"]));
             stdTableRow1.Append(stdTableCell11, stdTableCell12, stdTableCell13, stdTableCell14);
 
-            var students = record.Students.GetEnumerator();
-            TableRow stdTableRow2 = new TableRow();
-            stdTableRow2.Append(new TableRowProperties(new TableRowHeight() { Val = 300 }));
-            TableCell stdTableCell21 = new TableCell();
-            stdTableCell21.Append(_tablePropertiesGetter.getTableCellPropCentered("1559"));
-            stdTableCell21.Append(_paragraphGetter.getNormalRightText(_localizer["Student:"]));
-            TableCell stdTableCell22 = new TableCell();
-            stdTableCell22.Append(_tablePropertiesGetter.getTableCellPropCentered("3694"));
-            stdTableCell22.Append(_paragraphGetter.getNormalText(students.MoveNext() ? students.Current.Id.ToString() : ""));
-            TableCell stdTableCell23 = new TableCell();
-            stdTableCell23.Append(_tablePropertiesGetter.getTableCellPropCentered("1575"));
-            stdTableCell23.Append(_paragraphGetter.getNormalText(""));
-            TableCell stdTableCell24 = new TableCell();
-            stdTableCell24.Append(_tablePropertiesGetter.getTableCellPropCentered("2351"));
-            stdTableCell24.Append(_paragraphGetter.getNormalText(""));
-            stdTableRow2.Append(stdTableCell21, stdTableCell22, stdTableCell23, stdTableCell24);
+            studentsTable.Append(stdTableRow1);
 
-            TableRow stdTableRow3 = new TableRow();
-            stdTableRow3.Append(new TableRowProperties(new TableRowHeight() { Val = 300 }));
-            TableCell stdTableCell31 = new TableCell();
-            stdTableCell31.Append(_tablePropertiesGetter.getTableCellPropCentered("1559"));
-            stdTableCell31.Append(_paragraphGetter.getNormalRightText(_localizer["Student:"]));
-            TableCell stdTableCell32 = new TableCell();
-            stdTableCell32.Append(_tablePropertiesGetter.getTableCellPropCentered("3694"));
-            stdTableCell32.Append(_paragraphGetter.getNormalText(students.MoveNext() ? students.Current.Id.ToString() : ""));
-            TableCell stdTableCell33 = new TableCell();
-            stdTableCell33.Append(_tablePropertiesGetter.getTableCellPropCentered("1575"));
-            stdTableCell33.Append(_paragraphGetter.getNormalText(""));
-            TableCell stdTableCell34 = new TableCell();
-            stdTableCell34.Append(_tablePropertiesGetter.getTableCellPropCentered("2351"));
-            stdTableCell34.Append(_paragraphGetter.getNormalText(""));
-            stdTableRow3.Append(stdTableCell31, stdTableCell32, stdTableCell33, stdTableCell34);
 
-            TableRow stdTableRow4 = new TableRow();
-            stdTableRow4.Append(new TableRowProperties(new TableRowHeight() { Val = 300 }));
-            TableCell stdTableCell41 = new TableCell();
-            stdTableCell41.Append(_tablePropertiesGetter.getTableCellPropCentered("1559"));
-            stdTableCell41.Append(_paragraphGetter.getNormalRightText(_localizer["Student:"]));
-            TableCell stdTableCell42 = new TableCell();
-            stdTableCell42.Append(_tablePropertiesGetter.getTableCellPropCentered("3694"));
-            stdTableCell42.Append(_paragraphGetter.getNormalText(students.MoveNext() ? students.Current.Id.ToString() : ""));
-            TableCell stdTableCell43 = new TableCell();
-            stdTableCell43.Append(_tablePropertiesGetter.getTableCellPropCentered("1575"));
-            stdTableCell43.Append(_paragraphGetter.getNormalText(""));
-            TableCell stdTableCell44 = new TableCell();
-            stdTableCell44.Append(_tablePropertiesGetter.getTableCellPropCentered("2351"));
-            stdTableCell44.Append(_paragraphGetter.getNormalText(""));
-            stdTableRow4.Append(stdTableCell41, stdTableCell42, stdTableCell43, stdTableCell44);
+            EKontoStudent[] students = _studentGetter.GetMany(record.StudentIndexes).Body();
+            for (int i = 0; i < 4; i++)
+            {
+                bool nextStudent = i < students.Length;
 
-            TableRow stdTableRow5 = new TableRow();
-            stdTableRow5.Append(new TableRowProperties(new TableRowHeight() { Val = 300 }));
-            TableCell stdTableCell51 = new TableCell();
-            stdTableCell51.Append(_tablePropertiesGetter.getTableCellPropCentered("1559"));
-            stdTableCell51.Append(_paragraphGetter.getNormalRightText(_localizer["Student:"]));
-            TableCell stdTableCell52 = new TableCell();
-            stdTableCell52.Append(_tablePropertiesGetter.getTableCellPropCentered("3694"));
-            stdTableCell52.Append(_paragraphGetter.getNormalText(students.MoveNext() ? students.Current.Id.ToString() : ""));
-            TableCell stdTableCell53 = new TableCell();
-            stdTableCell53.Append(_tablePropertiesGetter.getTableCellPropCentered("1575"));
-            stdTableCell53.Append(_paragraphGetter.getNormalText(""));
-            TableCell stdTableCell54 = new TableCell();
-            stdTableCell54.Append(_tablePropertiesGetter.getTableCellPropCentered("2351"));
-            stdTableCell54.Append(_paragraphGetter.getNormalText(""));
-            stdTableRow5.Append(stdTableCell51, stdTableCell52, stdTableCell53, stdTableCell54);
+                TableRow stdTableRow2 = new TableRow();
+                stdTableRow2.Append(new TableRowProperties(new TableRowHeight() { Val = 300 }));
+                TableCell stdTableCell21 = new TableCell();
+                stdTableCell21.Append(_tablePropertiesGetter.getTableCellPropCentered("1559"));
+                stdTableCell21.Append(_paragraphGetter.getNormalRightText(_localizer["Student:"]));
+                TableCell stdTableCell22 = new TableCell();
+                stdTableCell22.Append(_tablePropertiesGetter.getTableCellPropCentered("3694"));
+                stdTableCell22.Append(_paragraphGetter.getNormalText(nextStudent ? students[i].names[0] + " " + students[i].surname : ""));
+                TableCell stdTableCell23 = new TableCell();
+                stdTableCell23.Append(_tablePropertiesGetter.getTableCellPropCentered("1575"));
+                stdTableCell23.Append(_paragraphGetter.getNormalText(nextStudent ? students[i].studentNumber : ""));
+                TableCell stdTableCell24 = new TableCell();
+                stdTableCell24.Append(_tablePropertiesGetter.getTableCellPropCentered("2351"));
+                stdTableCell24.Append(_paragraphGetter.getNormalText(""));
+                stdTableRow2.Append(stdTableCell21, stdTableCell22, stdTableCell23, stdTableCell24);
 
-            studentsTable.Append(stdTableRow1, stdTableRow2, stdTableRow3, stdTableRow4, stdTableRow5);
+                studentsTable.Append(stdTableRow2);
+            }
 
             return studentsTable;
         }
@@ -306,8 +270,8 @@ namespace Capri.Services.DiplomaCard
             dipTableCell63.Append(_tablePropertiesGetter.getTableCellPropCentered("7087"));
             dipTableCell63.Append(_paragraphGetter.getNormalText(
                 record.Level.ToLower().Contains("mag") ? 
-                _systemSettingsGetter.GetSystemSettings().MasterThesisEndDate.ToString("yyyy'-'MM'-'dd") :
-                _systemSettingsGetter.GetSystemSettings().BachelorThesisEndDate.ToString("yyyy'-'MM'-'dd")));
+                _systemSettingsGetter.GetSystemSettings().MasterThesisFinishDate.ToString("yyyy'-'MM'-'dd") :
+                _systemSettingsGetter.GetSystemSettings().BachelorThesisFinishDate.ToString("yyyy'-'MM'-'dd")));
             dipTableRow6.Append(dipTableCell61, dipTableCell62, dipTableCell63);
 
             TableRow dipTableRow7 = new TableRow();

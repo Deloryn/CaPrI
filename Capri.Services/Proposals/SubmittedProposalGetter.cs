@@ -17,7 +17,7 @@ namespace Capri.Services.Proposals
         }
 
         public async Task<IServiceResult<int>> CountSubmittedProposals(
-            Guid promoterId, 
+            int promoterId, 
             StudyLevel level)
         {
             var promoter = await _context.Promoters

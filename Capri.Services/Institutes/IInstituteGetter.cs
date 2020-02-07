@@ -7,7 +7,7 @@ namespace Capri.Services.Institutes
 {
     public interface IInstituteGetter
     {
-        Task<IServiceResult<InstituteViewModel>> Get(Guid id);
+        Task<IServiceResult<InstituteViewModel>> Get(int id);
         IServiceResult<IEnumerable<InstituteViewModel>> GetAll();
     }
 }

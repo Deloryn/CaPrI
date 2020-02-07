@@ -1,7 +1,5 @@
-using System.Linq;
 using Microsoft.Extensions.Options;
 using Capri.Database;
-using Capri.Database.Entities;
 
 namespace Capri.Services.Settings
 {
