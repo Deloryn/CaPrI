@@ -44,9 +44,7 @@ export default {
     },
     watch: {
         lang: function(val) {
-            console.log("watcher");
             this.lang = val;
-            console.log("lang: " + this.lang);
         }
     },
     data() {

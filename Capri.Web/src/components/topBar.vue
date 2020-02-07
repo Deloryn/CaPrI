@@ -22,12 +22,16 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { bus } from '@src/services/eventBus'
+import { accountService } from '@src/services/accountService'
 
 export default Vue.component('topBar', {
 	methods: {
 		logout: function() {
-			sessionStorage.removeItem('token')
-			this.$router.push('/login')
+			accountService.logout()
+				.then(response => {
+					sessionStorage.removeItem('token');
+					window.location.href = 'https://elogin.put.poznan.pl/?do=Logout&system=capri.esys.put.poznan.pl';
+				});
 		},
 		changeLocale: function(locale) {
 			this.$i18n.locale = locale;

@@ -1,8 +1,12 @@
-import { CrudService } from '@src/services/crudService'
+import { requestService } from '@src/services/requestService'
 
-class CourseService extends CrudService {
-    constructor() {
-        super("/courses")
+class CourseService {
+    public getAll() {
+        return requestService.request("GET", "/courses")
+    }
+
+    public get(id: string) {
+        return requestService.request("GET", "/courses/" + id)
     }
 }
 

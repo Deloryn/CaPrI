@@ -9,9 +9,12 @@
 								<v-toolbar-title>CaPri Login</v-toolbar-title>
 								<div class="flex-grow-1"></div>
 							</v-toolbar>
-							<v-card-text>
+							<v-card-text v-if="sessionKeyAvailable">
+								<span>{{ $i18n.t('commons.tryingToLogin') }}</span>
+							</v-card-text>
+							<v-card-text v-else>
 								<a :href="eLogin">
-									<img src="/img/eLoginLogo.png" alt="login via eLogin"/>
+									<img src="/img/eLoginLogo.png" :alt="$i18n.t('commons.loginViaElogin')"/>
 								</a>
 							</v-card-text>
 						</v-card>
@@ -28,23 +31,27 @@ import { accountService } from '@src/services/accountService'
 export default Vue.component('loginPanel', {
 	data() {
 		return {
-			eLogin: 'https://elogin.put.poznan.pl/?do=Authorize&system=capri.esys.put.poznan.pl'
+			eLogin: 'https://elogin.put.poznan.pl/?do=Authorize&system=capri.esys.put.poznan.pl',
+			sessionKeyAvailable: false
 		}
 	},
 	methods: {
-		tryToLogin: function() {
-			console.log(this.$route);
-			var sessionAuthorizationKey = document.getElementById("sessionKey").value;
-			if(sessionAuthorizationKey) {
-				accountService.login(sessionAuthorizationKey)
-					.then(x => {
-						this.$router.push('/');
-					});
-			}
+		tryToLogin: function(sessionAuthorizationKey) {
+			accountService.login(sessionAuthorizationKey)
+				.then(x => {
+					this.$router.push('/');
+				});
 		}
 	},
 	created() {
-		this.tryToLogin();
+		var sessionAuthorizationKey = document.getElementById("sessionKey").value;
+		if(sessionAuthorizationKey) {
+			this.sessionKeyAvailable = true;
+			this.tryToLogin(sessionAuthorizationKey);
+		}
+		else {
+			this.sessionKeyAvailable = false;
+		}
 	}
 });
 </script>
