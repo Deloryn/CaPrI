@@ -136,7 +136,7 @@ namespace Capri.Services.Proposals
 
             var result = _diplomaCardCreator.CreateDiplomaCard(proposalDocRecord);
 
-            var fileName = $"document_{proposal.Id}.docx";
+            var fileName = $"karta_tematu_pracy_{proposal.Id}.docx";
 
             var fileDescription = new FileDescription {
                 Name = fileName,

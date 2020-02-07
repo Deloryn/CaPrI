@@ -14,6 +14,13 @@
                         <td>{{ item.topic }}</td>
                         <td>{{ item.promoter }}</td>
                         <td>{{ item.freeSlots }}</td>
+                        <td>
+                            <v-btn @click.stop="generateDiplomaCard(item.id)">
+                                <v-icon large color="blue darken-2">
+                                    assignment
+                                </v-icon>
+                            </v-btn>
+                        </td>
                         </tr>
                     </template>
 
@@ -111,6 +118,23 @@ export default {
         showDetails: function(proposalId) {
             bus.$emit('displayProposal', proposalId);
 			this.displayDetailsPopUpParams.show = true;
+        },
+        generateDiplomaCard: function(proposalId) {
+            proposalService.getDiplomaCard(proposalId)
+                .then(response => {
+                    let filename = response.headers['content-disposition'];
+                    filename = filename.slice(filename.indexOf('filename=')+9, 
+                        filename.indexOf('.docx', filename.indexOf('filename='))+5);
+                    if (!filename.endsWith('.docx')) filename += '.docx';
+
+                    const url = window.URL.createObjectURL(new Blob([response.data], 
+                        {type: response.headers['content-type']}));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', filename);
+                    document.body.appendChild(link);
+                    link.click();
+                })
         },
         filterProposals: function(chosenFilters) {
             this.proposals = [];
