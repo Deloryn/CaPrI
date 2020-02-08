@@ -18,22 +18,19 @@ namespace Capri.Web.Controllers
         private readonly IProposalGetter _proposalGetter;
         private readonly IProposalUpdater _proposalUpdater;
         private readonly ISubmittedProposalGetter _submittedProposalGetter;
-        private readonly UserManager<User> _userManager;
 
         public ProposalController(
             IProposalCreator proposalCreator,
             IProposalDeleter proposalDeleter,
             IProposalGetter proposalGetter,
             IProposalUpdater proposalUpdater,
-            ISubmittedProposalGetter submittedProposalGetter,
-            UserManager<User> userManager)
+            ISubmittedProposalGetter submittedProposalGetter)
         {
             _proposalCreator = proposalCreator;
             _proposalDeleter = proposalDeleter;
             _proposalGetter = proposalGetter;
             _proposalUpdater = proposalUpdater;
             _submittedProposalGetter = submittedProposalGetter;
-            _userManager = userManager;
         }
 
         [HttpGet("{id}")]
@@ -72,6 +69,18 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
+        [AllowedRoles(RoleType.Dean)]
+        [HttpGet("{id}/docx")]
+        public async Task<IActionResult> GetDiplomaCardFile(int id)
+        {
+            var result = await _proposalGetter.GetDiplomaCard(id);
+            if (result.Successful())
+            {
+                var fileDescription = result.Body();
+                return File(fileDescription.Bytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", fileDescription.Name);
+            }
+            return BadRequest(result.GetAggregatedErrors());
+        }
 
         [HttpGet]
         public IActionResult GetAll()

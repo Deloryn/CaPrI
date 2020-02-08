@@ -38,6 +38,10 @@ class ProposalService {
         return requestService.request("GET", "/proposals/" + id + "/csv")
     }
 
+    public getDiplomaCard(id: string) {
+        return requestService.requestFile("GET", "/proposals/" + id + "/docx")
+    }
+
     public calculateSubmittedBachelorProposals(promoterId: string) {
         return requestService.request("GET", "/proposals/submitted/bachelor/" + promoterId)
     }

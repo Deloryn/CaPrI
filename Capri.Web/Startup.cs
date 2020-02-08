@@ -8,6 +8,8 @@ using Capri.Web.Configuration;
 using Capri.Web.Configuration.Sieve;
 using Capri.Web.Configuration.Mapper;
 using Capri.Web.Configuration.Service;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace Capri.Web
 {
@@ -29,6 +31,18 @@ namespace Capri.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("pl")
+                };
+                options.DefaultRequestCulture = new RequestCulture(culture: "pl", uiCulture: "pl");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
             services.AddMvc();
             services.AddDatabaseConfiguration(Configuration["DbConnectionString"]);
             services.AddIdentityConfiguration();
@@ -56,6 +70,7 @@ namespace Capri.Web
 
             app.UseStaticFiles();
             app.UseAuthentication();
+            app.UseRequestLocalization();
             app.UseHttpsRedirection();
             app.UseMvc(routes =>
             {
