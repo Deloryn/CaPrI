@@ -6,6 +6,8 @@ export default {
         update: 'Aktualizuj',
         cancel: 'Anuluj',
         any: 'Dowolny',
+        import: 'Importuj',
+        export: 'Eksportuj',
         optional: '(opcjonalnie)'
     },
     info: {
@@ -125,5 +127,10 @@ export default {
         firstName: 'Imię',
         lastName: 'Nazwisko',
         semester: 'Semestr'
+    },
+
+    import: {
+        importTitle: 'Importuj promotorów',
+        importLabel: 'Wybierz plik w formacie json'
     }
 };

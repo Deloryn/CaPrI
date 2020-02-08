@@ -5,6 +5,10 @@ using Capri.Database.Entities.Identity;
 using Capri.Services.Promoters;
 using Capri.Web.Controllers.Attributes;
 using Capri.Web.ViewModels.Promoter;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Capri.Web.Controllers
 {
@@ -13,13 +17,16 @@ namespace Capri.Web.Controllers
     {
         private readonly IPromoterUpdater _promoterUpdater;
         private readonly IPromoterGetter _promoterGetter;
+        private readonly IPromoterImporter _promoterImporter;
 
         public PromoterController(
             IPromoterUpdater promoterUpdater,
-            IPromoterGetter promoterGetter)
+            IPromoterGetter promoterGetter,
+            IPromoterImporter promoterImporter)
         {
             _promoterUpdater = promoterUpdater;
             _promoterGetter = promoterGetter;
+            _promoterImporter = promoterImporter;
         }
 
         [HttpGet("{id}")]
@@ -78,6 +85,45 @@ namespace Capri.Web.Controllers
                 return Ok(result.Body());
             }
             return BadRequest(result.GetAggregatedErrors());
+        }
+
+        [AllowedRoles(RoleType.Dean)]
+        [HttpGet("export")]
+        public IActionResult Export()
+        {
+            var result = _promoterGetter.GetAllWithJsonFormat();
+            if (result.Successful())
+            {
+                var fileDescription = result.Body();
+                return File(fileDescription.Bytes, "application/json", fileDescription.Name);
+            }
+            return BadRequest(result.GetAggregatedErrors());
+        }
+
+        [AllowedRoles(RoleType.Dean)]
+        [HttpPost("import")]
+        public async Task<IActionResult> Import(IFormFile promotersImport)
+        {
+            if (promotersImport != null && promotersImport.Length > 0)
+            {
+                var stream = new StreamReader(promotersImport.OpenReadStream());
+                var text = await stream.ReadToEndAsync();
+                IEnumerable<PromoterJsonRecord> promotersList;
+
+                try
+                {
+                    promotersList = JsonConvert.DeserializeObject<IEnumerable<PromoterJsonRecord>>(text);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest("Wrong JSON format");
+                }
+
+                var result = await _promoterImporter.Import(promotersList);
+
+                return Ok(result.Body());
+            }
+            return BadRequest("The file is empty.");
         }
     }
 }
