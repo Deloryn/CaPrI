@@ -1,6 +1,6 @@
-﻿using System.Security.Claims;
-using System;
+﻿using System;
 using System.Linq;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -54,6 +54,32 @@ namespace Capri.Services.Account
             { 79, new int[9] { FacultyWA, FacultyWARiE, FacultyWIiT, FacultyWILiT, FacultyWIM, FacultyWIMiFT, FacultyWISiE, FacultyWIZ, FacultyWTCh } }
         };
 
+        public EKontoUserSession mockPromoterUserSession = new EKontoUserSession {
+                identifier = "1509",
+                user = new EKontoUser {
+                    loginName = "jerzy.nawrocki",
+                    loginDomain = "put.poznan.pl",
+                    name = "Jerzy",
+                    surname = "Nawrocki",
+                    passwordExpired = false,
+                    internalId = "1509",
+                    id = 1509,
+                }
+        };
+
+        public EKontoUserSession mockDeanUserSession = new EKontoUserSession {
+                identifier = "5061",
+                user = new EKontoUser {
+                    loginName = "katarzyna.malkowska",
+                    loginDomain = "put.poznan.pl",
+                    name = "Katarzyna",
+                    surname = "Małkowska",
+                    passwordExpired = false,
+                    internalId = "5061",
+                    id = 5061
+                }
+        };
+
         public LoginService(
             IEKontoClient eKontoClient,
             IEKadryClient eKadryClient,
@@ -76,49 +102,17 @@ namespace Capri.Services.Account
 
         public async Task<IServiceResult<UserSecurityStamp>> Login(string sessionAuthorizationKey)
         {
-            EKontoUserSession eKontoUserSession = null;
-            try
-            {
-                eKontoUserSession = _eKontoClient.EndUserAuth(sessionAuthorizationKey);
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return ServiceResult<UserSecurityStamp>.Error("Failed to obtain eKontoUserSession");
-            }
+            var eKontoUserSession = GetEKontoUserSessionFrom(sessionAuthorizationKey);
             if(eKontoUserSession == null)
             {
                 return ServiceResult<UserSecurityStamp>.Error(
-                    "No eKonto user session found for the given session authorization key"
+                    "Failed to get eKonto user session"
                 );
             }
-            var roles = GetRoles(eKontoUserSession);
-            var roleNames = roles.Select(r => GetRoleName(r));
-            var eKontoUser = eKontoUserSession.user;
-            var user = _mapper.Map<User>(eKontoUser);
-            var existingUser = await _userManager.FindByEmailAsync(user.Email);
-            if(existingUser == null)
-            {
-                await _userManager.CreateAsync(user);
-                await _userManager.AddToRolesAsync(user, roleNames);
-            }
-            else
-            {
-                user = _mapper.Map(eKontoUser, existingUser);
-                await _userManager.UpdateAsync(user);
-                var currentRoles = await _userManager.GetRolesAsync(user);
-                await _userManager.RemoveFromRolesAsync(user, currentRoles);
-                await _userManager.AddToRolesAsync(user, roleNames);
-            }
-            await _context.SaveChangesAsync();
 
-            var userRoleNames = await _userManager.GetRolesAsync(user);
-            string token = _tokenGenerator.GenerateTokenFor(user, userRoleNames);
-            user.SecurityStamp = token;
-            await _userManager.UpdateAsync(user);
-
+            var user = await CreateOrUpdateUserFrom(eKontoUserSession);
             await _signInManager.SignInAsync(user, true);
-            
+
             return ServiceResult<UserSecurityStamp>.Success(new UserSecurityStamp
             {
                 Email = user.Email,
@@ -126,22 +120,90 @@ namespace Capri.Services.Account
             });
         }
 
-        private RoleType[] GetRoles(EKontoUserSession eKontoUserSession)
+        private EKontoUserSession GetEKontoUserSessionFrom(string sessionAuthorizationKey)
         {
-            var roles = new RoleType[]{};
+            try
+            {
+                return _eKontoClient.EndUserAuth(sessionAuthorizationKey);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private async Task<User> CreateOrUpdateUserFrom(EKontoUserSession eKontoUserSession)
+        {
+            var eKontoUser = eKontoUserSession.user;
+            var roleNames = GetRoleNamesFor(eKontoUserSession);
+            var existingUser = await _userManager.FindByIdAsync(eKontoUser.id.ToString());
+
+            if(existingUser == null)
+            {
+                return await CreateUserFrom(eKontoUser, roleNames);
+            }
+            else
+            {
+                return await UpdateUser(existingUser, eKontoUser, roleNames);
+            }
+        }
+
+        private async Task<User> CreateUserFrom(EKontoUser eKontoUser, IEnumerable<string> roleNames)
+        {
+            var user = new User();
+
+            user = _mapper.Map(eKontoUser, user);
+            user.Id = eKontoUser.id;
+            user.SecurityStamp = "";
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            await _userManager.AddToRolesAsync(user, roleNames);
+            await SetSecurityStampAsync(user, roleNames);
+
+            return user;
+        }
+
+        private async Task<User> UpdateUser(User existingUser, EKontoUser eKontoUser, IEnumerable<string> roleNames)
+        {
+            var user = _mapper.Map(eKontoUser, existingUser);
+
+            var currentRoles = await _userManager.GetRolesAsync(user);
+            await _userManager.RemoveFromRolesAsync(user, currentRoles);
+            await _userManager.AddToRolesAsync(user, roleNames);
+            await _context.SaveChangesAsync();
+            await SetSecurityStampAsync(user, roleNames);
+            
+            return user;
+        }
+
+        private async Task SetSecurityStampAsync(User user, IEnumerable<string> roleNames)
+        {
+            string token = _tokenGenerator.GenerateTokenFor(user, roleNames.ToArray());
+            user.SecurityStamp = token;
+            await _context.SaveChangesAsync();
+        }
+
+        private IEnumerable<string> GetRoleNamesFor(EKontoUserSession eKontoUserSession)
+        {
+            var roles = new List<string>();
             if(IsDeanEmployee(eKontoUserSession))
             {
-                roles.Append(RoleType.Dean);
+                roles.Add("Dean");
             }
             else if(IsPromoter(eKontoUserSession.user))
             {
-                roles.Append(RoleType.Promoter);
+                roles.Add("Promoter");
             }
             return roles;
         }
 
         private bool IsDeanEmployee(EKontoUserSession eKontoUserSession)
         {
+            if(eKontoUserSession.user.loginDomain != "put.poznan.pl")
+            {
+                return false;
+            }
             var userEKontoGroups = _eKontoClient.GetUserGroups(eKontoUserSession.identifier);
             foreach (var eKontoGroup in userEKontoGroups)
             {
@@ -155,21 +217,11 @@ namespace Capri.Services.Account
 
         private bool IsPromoter(EKontoUser user)
         {
-            try
+            if(user.loginDomain != "put.poznan.pl")
             {
-                var employee = _eKadryClient.GetEmployeeDataById(int.Parse(user.internalId));
-                return employee != null;
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
                 return false;
             }
-        }
-
-        private string GetRoleName(RoleType role)
-        {
-            return Enum.GetName(typeof(RoleType), role);
+            return _context.Promoters.Any(p => p.UserId == user.id);
         }
     } 
 }

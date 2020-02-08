@@ -34,9 +34,8 @@ namespace Capri.Services.Students
                 var result = _eDziekanatClient.GetAllStudentsByIds(indexNumbers.ToArray());
                 return ServiceResult<BasicStudentData[]>.Success(result);
             }
-            catch(Exception ex)
+            catch
             {
-                Console.WriteLine(ex.Message);
                 return ServiceResult<BasicStudentData[]>.Error(
                     $"Failed to obtain data of the students with the given ids"
                 );

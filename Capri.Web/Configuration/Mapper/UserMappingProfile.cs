@@ -12,7 +12,7 @@ namespace Capri.Web.Configuration.Mapper
             CreateMap<EKontoUser, User>()
                 .ForMember(
                     user => user.Id,
-                    o => o.MapFrom(eKontoUser => eKontoUser.id)
+                    o => o.Ignore()
                 )
                 .ForMember(
                     user => user.Email,

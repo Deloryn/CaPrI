@@ -65,10 +65,13 @@ namespace Capri.Synchronizer
         private void AddOrUpdatePromoterUser(EKontoUser eKontoUser)
         {
             var role = _context.Roles.FirstOrDefault(r => r.Name == "Promoter");
-            var user = _mapper.Map<User>(eKontoUser);
             var existingUser = _context.Users.FirstOrDefault(u => u.Id == eKontoUser.id);
             if(existingUser == null)
             {
+                var user = new User();
+                user = _mapper.Map(eKontoUser, user);
+                user.Id = eKontoUser.id;
+                user.SecurityStamp = "";
                 _context.Users.Add(user);
                 _context.UserRoles.Add(new IntUserRole {
                     UserId = eKontoUser.id,
@@ -77,7 +80,7 @@ namespace Capri.Synchronizer
             }
             else
             {
-                user = _mapper.Map(eKontoUser, existingUser);
+                var user = _mapper.Map(eKontoUser, existingUser);
                 _context.Users.Update(user);
                 var userRoles = _context.UserRoles.Where(r => r.UserId == eKontoUser.id);
                 _context.UserRoles.RemoveRange(userRoles);

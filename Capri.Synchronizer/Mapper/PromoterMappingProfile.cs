@@ -1,7 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using EKontoUser = PUT.WebServices.eKontoServiceClient.eKontoService.User;
 using EKadryEmployee = PUT.WebServices.eKadryServiceClient.eKadryService.Employee;
 using Capri.Database.Entities;
