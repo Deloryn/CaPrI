@@ -25,7 +25,8 @@ namespace Capri.Web.Configuration.Mapper
             CreateMap<Proposal, ProposalViewModel>()
             .ForMember(
                 view=>view.Students, 
-                o=>o.MapFrom(proposal=> GetStudentIndexNumbersFromString(proposal.StudentIndexNumbers)));
+                o=>o.MapFrom(proposal=> GetStudentIndexNumbersFromString(proposal.StudentIndexNumbers))
+            );
 
             CreateMap<Proposal, ProposalCsvRecord>()
             .ForMember(csv => csv.Promoter, o => o.MapFrom(p => GetPromoterFullName(p.Promoter)))

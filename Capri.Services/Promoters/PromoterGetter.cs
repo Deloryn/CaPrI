@@ -47,6 +47,7 @@ namespace Capri.Services.Promoters
             var promoter = 
                 await _context
                 .Promoters
+                .Include(p => p.ApplicationUser)
                 .Include(p => p.Proposals)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
@@ -63,6 +64,7 @@ namespace Capri.Services.Promoters
         public IServiceResult<IEnumerable<PromoterViewModel>> GetAll()
         {
             var promoters = _context.Promoters
+                .Include(p => p.ApplicationUser)
                 .Include(p => p.Proposals);
                 
             var promoterViewModels = promoters.Select(p => _mapper.Map<PromoterViewModel>(p));
@@ -71,7 +73,10 @@ namespace Capri.Services.Promoters
 
         public IServiceResult<IQueryable<PromoterViewModel>> GetFiltered(SieveModel sieveModel)
         {
-            var promoters = _context.Promoters.AsQueryable();
+            var promoters = _context.Promoters
+                .Include(p => p.ApplicationUser)
+                .AsQueryable();
+                
             var filtered = _sieveProcessor.Apply(sieveModel, promoters);
             var promoterViewModels = filtered.Select(p => _mapper.Map<PromoterViewModel>(p));
 
@@ -91,6 +96,7 @@ namespace Capri.Services.Promoters
             var promoter = 
                 await _context
                 .Promoters
+                .Include(p => p.ApplicationUser)
                 .Include(p => p.Proposals)
                 .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
 

@@ -181,7 +181,7 @@ export default {
                 filters += "level==" + this.level + ",";
             }
             if(this.mode != null) {
-                filters += "mode==" + chosenFilters.mode + ",";
+                filters += "mode==" + this.mode + ",";
             }
             if(this.course && this.course.id) {
                 filters += "course_id==" + this.course.id + ",";

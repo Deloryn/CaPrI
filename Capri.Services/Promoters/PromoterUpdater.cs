@@ -26,6 +26,7 @@ namespace Capri.Services.Promoters
             var existingPromoter = 
                 await _context
                 .Promoters
+                .Include(p => p.ApplicationUser)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if (existingPromoter == null)

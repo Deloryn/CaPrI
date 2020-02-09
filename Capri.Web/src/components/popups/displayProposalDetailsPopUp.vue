@@ -25,21 +25,30 @@
 					</v-col>
 				</v-row>
 				<v-row>
-					<v-col cols="4">
+					<v-col cols="6">
 						<v-text-field 
 							v-model="promoter"
 							:label="$i18n.t('promoter.promoter')"
 							readonly
 						/>
 					</v-col>
-					<v-col cols="4">
+					<v-col cols="6">
+						<v-text-field 
+							v-model="promoterEmail"
+							:label="$i18n.t('promoter.contact')"
+							readonly
+						/>
+					</v-col>
+				</v-row>
+				<v-row>
+					<v-col cols="6">
 						<v-text-field 
 							v-model="course"
 							:label="$i18n.t('course.course')"
 							readonly
 						/>
 					</v-col>
-					<v-col cols="4">
+					<v-col cols="6">
 						<v-text-field 
 							v-model="faculty"
 							:label="$i18n.t('faculty.faculty')"
@@ -145,6 +154,7 @@ export default Vue.component('updateProposalPopUp',{
 				this.course = "";
 				this.faculty = "";
 				this.promoter = "";
+				this.promoterEmail = "";
 				this.level = "";
 				this.status = "";
 				this.mode = "";
@@ -177,6 +187,7 @@ export default Vue.component('updateProposalPopUp',{
 																	promoterFullName += rawPromoter.titlePostfix
 																}
 																this.promoter = promoterFullName;
+																this.promoterEmail = rawPromoter.email;
 																this.freeSlots = rawProposal.maxNumberOfStudents - rawProposal.students.length;
 																this.startDate = rawProposal.startingDate.substring(0, 10);
 																this.topicPolish = rawProposal.topicPolish;

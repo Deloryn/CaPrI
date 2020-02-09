@@ -1,11 +1,11 @@
 ﻿<template>
 	<v-container fluid grid-list-xl class="mainView">
         <v-row>
-            <v-col>
+            <v-col cols="9">
                 <p class="infoText">{{$i18n.t('promoter.expectedNumberOfBachelorProposals')}}: {{ numOfSubmittedBachelors + "/" + promoter.expectedNumberOfBachelorProposals }}</p>
                 <p class="infoText">{{$i18n.t('promoter.expectedNumberOfMasterProposals')}}: {{ numOfSubmittedMasters + "/" + promoter.expectedNumberOfMasterProposals }}</p>
             </v-col>
-            <v-col>
+            <v-col cols="3">
                 <v-btn
                     id="createButton"
                     class="promoterButton green"
@@ -133,39 +133,38 @@ export default {
     },
     methods: {
         getData: function() {
+            this.numOfSubmittedBachelors = 0;
+            this.numOfSubmittedMasters = 0;
             promoterService.getMyData()
                 .then(response => {
                     if(response.status == 200) {
                         this.promoter = response.data;
-                    }
-                });
-            
-            this.numOfSubmittedBachelors = 0;
-            this.numOfSubmittedMasters = 0;
-            proposalService.getMyProposals()
-                .then(response => {
-                    if(response.status == 200) {
-                        var myProposals = response.data;
-                        this.myProposals = [];
-                        myProposals.forEach(proposal => {
-                            if(this.$i18n.locale == 'pl') {
-                                proposal.topic = proposal.topicPolish;
-                            }
-                            else {
-                                proposal.topic = proposal.topicEnglish;
-                            }
-                            var level = this.toStudyLevel(proposal.level);
-                            proposal.levelText = level.name;
-                            if(level == 0) {
-                                this.numOfSubmittedBachelors += 1;
-                            }
-                            else if(level == 1) {
-                                this.numOfSubmittedMasters += 1;
-                            }
-                            proposal.modeText = this.toStudyMode(proposal.mode).name;
-                            proposal.stateText = this.toProposalStatusText(proposal);
-                            this.myProposals.push(proposal);
-                        });
+                        proposalService.getMyProposals()
+                            .then(response => {
+                                if(response.status == 200) {
+                                    var myProposals = response.data;
+                                    this.myProposals = [];
+                                    myProposals.forEach(proposal => {
+                                        if(this.$i18n.locale == 'pl') {
+                                            proposal.topic = proposal.topicPolish;
+                                        }
+                                        else {
+                                            proposal.topic = proposal.topicEnglish;
+                                        }
+                                        var level = this.toStudyLevel(proposal.level);
+                                        proposal.levelText = level.name;
+                                        if(level.value == 0) {
+                                            this.numOfSubmittedBachelors += 1;
+                                        }
+                                        else if(level.value == 1) {
+                                            this.numOfSubmittedMasters += 1;
+                                        }
+                                        proposal.modeText = this.toStudyMode(proposal.mode).name;
+                                        proposal.stateText = this.toProposalStatusText(proposal);
+                                        this.myProposals.push(proposal);
+                                    });
+                                }
+                            });
                     }
                 });
         },

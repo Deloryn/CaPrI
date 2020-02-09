@@ -115,6 +115,7 @@ export default {
 
     promoter: {
         promoter: 'Promoter',
+        contact: 'Contact',
         promoterPlural: 'Promoters',
         titlePrefix: 'Title (prefix)',
         titlePostfix: 'Title (suffix)',
