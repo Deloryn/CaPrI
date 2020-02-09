@@ -8,7 +8,9 @@ export default {
         exportPromoters: 'Eksportuj dane o promotorach do pliku...',
         create: 'Utwórz',
         update: 'Aktualizuj',
+        delete: 'Usuń',
         cancel: 'Anuluj',
+        close: 'Zamknij',
         any: 'Dowolny',
         import: 'Importuj',
         export: 'Eksportuj',
@@ -137,5 +139,19 @@ export default {
     import: {
         importTitle: 'Importuj promotorów',
         importLabel: 'Wybierz plik w formacie json'
+    },
+
+    confirm: {
+        deleteProposal: 'Czy na pewno chcesz usunąć temat?'
+    },
+
+    reaction: {
+        success: 'Akcja wykonana pomyślnie.',
+        serverError: 'Nie można połączyć się z serwerem.',
+        badRequest: 'Wykonano nieprawidłowe zapytanie.',
+        unauthorized: 'Aby wykonać tę akcję należy się uwierzytelnić.',
+        forbidden: 'Nie masz uprawnień by wykonać tę akcję.',
+        notFound: 'Nie można znaleźć danego zasobu.',
+        otherError: 'Wystąpił nieznany błąd.'
     }
 };

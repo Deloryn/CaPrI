@@ -8,7 +8,9 @@ export default {
         exportPromoters: 'Export promoters data to a file...',
         create: 'Create',
         update: 'Update',
+        delete: 'Delete',
         cancel: 'Cancel',
+        close: 'Close',
         any: 'Any',
         import: 'Import',
         export: 'Export',
@@ -137,5 +139,19 @@ export default {
     import: {
         importTitle: 'Import promoters',
         importLabel: 'Select file in json format'
+    },
+
+    confirm: {
+        deleteProposal: 'Are you sure to delete proposal?'
+    },
+
+    reaction: {
+        success: 'Action successful.',
+        serverError: 'Cannot connect to the server.',
+        badRequest: 'Bad request.',
+        unauthorized: 'Action unauthorized.',
+        forbidden: 'You do not have permission to perform that action.',
+        notFound: 'Cannot find given resource.',
+        otherError: 'Unknown error occured.'
     }
 };

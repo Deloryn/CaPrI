@@ -1,17 +1,17 @@
 ﻿<template>
-	<v-container fluid grid-list-xl class="mainView">
+    <v-container fluid grid-list-xl class="mainView">
+        <confirmationPopUp ref="confirm"></confirmationPopUp>
+        <reactionPopUp ref="reaction"></reactionPopUp>
         <v-row>
             <v-col cols="9">
                 <p class="infoText">{{$i18n.t('promoter.expectedNumberOfBachelorProposals')}}: {{ numOfSubmittedBachelors + "/" + promoter.expectedNumberOfBachelorProposals }}</p>
                 <p class="infoText">{{$i18n.t('promoter.expectedNumberOfMasterProposals')}}: {{ numOfSubmittedMasters + "/" + promoter.expectedNumberOfMasterProposals }}</p>
             </v-col>
             <v-col cols="3">
-                <v-btn
-                    id="createButton"
-                    class="promoterButton green"
-                    text
-                    @click="showProposalCreator"
-                >
+                <v-btn id="createButton"
+                       class="promoterButton green"
+                       text
+                       @click="showProposalCreator">
                     {{$i18n.t('commons.create')}}
                 </v-btn>
             </v-col>
@@ -19,39 +19,33 @@
         <v-row justify="center">
             <createProposalPopUp :params="createProposalParams" />
         </v-row>
-		<v-row justify="center">
+        <v-row justify="center">
             <updateProposalPopUp :params="updateProposalParams" />
-			<v-col cols="12">
-				<v-data-table
-					:headers="headers"
-					:items="myProposals"
-					class="whiteBack"
-                    id="myproposalstable"
-				>
+            <v-col cols="12">
+                <v-data-table :headers="headers"
+                              :items="myProposals"
+                              class="whiteBack"
+                              id="myproposalstable">
                     <template v-slot:item="{ item }">
-                            <tr @click="showProposalUpdater(item)">
+                        <tr @click="showProposalUpdater(item)">
                             <td>{{ item.topic }}</td>
                             <td>{{ item.levelText }}</td>
                             <td>{{ item.modeText }}</td>
                             <td>{{ item.stateText }}</td>
                             <td>
-                                <v-btn
-                                    @click.stop="deleteMyProposal(item)"
-                                >
-                                    <v-icon 
-                                        color="rgba(255, 0, 0, 0.9)" 
-                                        large
-                                    >
+                                <v-btn @click.stop="deleteMyProposal(item)">
+                                    <v-icon color="rgba(255, 0, 0, 0.9)"
+                                            large>
                                         delete
                                     </v-icon>
                                 </v-btn>
                             </td>
-                            </tr>
+                        </tr>
                     </template>
-				</v-data-table>
-			</v-col>
-		</v-row>
-	</v-container>
+                </v-data-table>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 <script>
 import { proposalService } from '@src/services/proposalService'
@@ -59,6 +53,8 @@ import { facultyService } from '@src/services/facultyService'
 import { courseService } from '@src/services/courseService'
 import createProposalPopUp from '@src/components/popups/createProposalPopUp.vue'
 import updateProposalPopUp from '@src/components/popups/updateProposalPopUp.vue'
+import confirmationPopUp from '@src/components/popups/confirmationPopUp.vue'
+import reactionPopUp from '@src/components/popups/reactionPopUp.vue'
 import { promoterService } from '../services/promoterService'
 import { bus } from '@src/services/eventBus'
 
@@ -67,6 +63,8 @@ export default {
     components: {
         createProposalPopUp,
         updateProposalPopUp,
+        confirmationPopUp,
+        reactionPopUp
     },
     data() {
         return {
@@ -261,13 +259,19 @@ export default {
         toProposalStatusText: function(proposal) {
             return proposal.students.length + " / " + proposal.maxNumberOfStudents;
         },
-        deleteMyProposal: function(proposal) {
-            proposalService.delete(proposal.id)
-                .then(response => {
-                    if(response.status == 200) {
-                        this.getData();
+        deleteMyProposal: function (proposal) {
+            this.$refs.confirm.open(this.$i18n.t('commons.delete'), this.$i18n.t('confirm.deleteProposal'), { color: 'error' })
+                .then((confirm) => {
+                    if (confirm) {
+                        proposalService.delete(proposal.id)
+                            .then(response => {
+                                this.$refs.reaction.open(response.status);
+                                if(response.status == 200) {
+                                    this.getData();
+                                }
+                            });
                     }
-                });
+                })
         },
         showProposalCreator: function() {
             this.createProposalParams.show = true;
