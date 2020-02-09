@@ -26,10 +26,10 @@ export default {
         description: {
             required: 'Opis jest wymagany',
             atLeast5Chars: 'Opis powinien składać się z co najmniej 5 znaków',
-            atMost400Chars: 'Opis powinien składać się z co najmniej 400 znaków'
+            atMost1000Chars: 'Opis powinien składać się z co najwyżej 1000 znaków'
         },
         outputData: {
-            atMost400Chars: 'Dane wyjściowe powinny składać się z co najwyżej 400 znaków'
+            atMost1000Chars: 'Dane wyjściowe powinny składać się z co najwyżej 1000 znaków'
         },
         specialization: {
             atMost50Chars: 'Specjalizacja powinna składać się z co najwyżej 50 znaków'

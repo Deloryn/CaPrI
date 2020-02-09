@@ -19,7 +19,7 @@ import topBar from './components/topBar.vue';
 import downBar from './components/downBar.vue';
 import proposalsFilterComponent from './components/proposalsFilterComponent.vue';
 import navList from './components/navList.vue';
-import SessionService from '@src/services/sessionService'
+import { sessionService } from '@src/services/sessionService'
 
 enum UserType {
     student = 'Student',
@@ -38,7 +38,7 @@ enum UserType {
 })
 export default class mainView extends Vue {
     public UserType = UserType;
-    public parsedToken = new SessionService().getParsedToken();
+    public parsedToken = sessionService.getParsedToken();
     public checkNav(): string {
         return this.parsedToken["role"]
     }

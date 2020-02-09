@@ -29,7 +29,7 @@
                         <td>{{ item.topic }}</td>
                         <td>{{ item.promoter }}</td>
                         <td>{{ item.freeSlots }}</td>
-                        <td>
+                        <td v-if="role == 'Dean'">
                             <v-btn @click.stop="generateDiplomaCard(item.id)">
                                 <v-icon large color="blue darken-2">
                                     assignment
@@ -61,6 +61,7 @@ import { promoterService } from '@src/services/promoterService'
 import { proposalService } from '@src/services/proposalService'
 import { facultyService } from '@src/services/facultyService'
 import { courseService } from '@src/services/courseService'
+import { sessionService } from '@src/services/sessionService'
 import displayProposalDetailsPopUp from '@src/components/popups/displayProposalDetailsPopUp.vue'
 
 export default {
@@ -81,6 +82,7 @@ export default {
     },
     data() {
         return {
+            role: "",
             page: 1,
             howManyPagesInTotal: 10,
             itemsPerPage: 10,
@@ -130,6 +132,7 @@ export default {
     created() {
         bus.$on('proposalsFiltersWereChosen', this.onFiltersChange);
         bus.$on('proposalWasCreated', this.getFilteredProposals);
+        this.role = sessionService.getParsedToken()["role"];
         this.getFilteredProposals();
     },
     methods: {
@@ -205,7 +208,7 @@ export default {
                                                     promoterFullName = promoter.lastName + " " + promoter.firstName;
                                                 }
                                                 proposal.promoter = promoterFullName;
-                                                if(this.$i18n.locale == 'pl') {
+                                                if(this.$root.$i18n.locale == 'pl') {
                                                     proposal.topic = proposal.topicPolish;
                                                 }
                                                 else {

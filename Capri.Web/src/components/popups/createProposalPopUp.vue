@@ -1,5 +1,6 @@
 <template>
     <v-dialog
+		@click:outside="clearInputs"
 		v-model="params.show"
 		:max-width="params.maxWidth"
 	>
@@ -276,6 +277,21 @@ export default Vue.component('createProposalPopUp',{
 			var i = this.indexNumbers.indexOf(indexNumber);
 			if (i !== -1) this.indexNumbers.splice(i, 1);
 		},
+		clearInputs: function() {
+			this.$refs.updateProposalForm.resetValidation();
+			this.chosenFaculty = null;
+			this.chosenCourse = null;
+			this.courses = [];
+			this.chosenLevel = null;
+			this.chosenMode = null;
+			this.chosenProfile = null;
+			this.topicPolish = "";
+			this.topicEnglish = "";
+			this.description = "";
+			this.outputData = "";
+			this.specialization = "";
+			this.chosenMaximalNumberOfStudents = "";
+		},
 		submit: function() {
 			if(this.$refs.studentIndexNumberInput.value == "") {
 				this.$refs.studentIndexNumberInput.resetValidation();
@@ -299,7 +315,7 @@ export default Vue.component('createProposalPopUp',{
 						if(response.status == 200) {
 							bus.$emit('proposalWasCreated');
 							this.params.show = false;
-							this.$refs.createProposalForm.reset();
+							this.clearInputs();
 						}
 					});
 			}
@@ -359,10 +375,10 @@ export default Vue.component('createProposalPopUp',{
 			descriptionRules: [
 				v => !!v || this.$i18n.t('rules.description.required'),
 				v => v.length >= 5 || this.$i18n.t('rules.description.atLeast5Chars'),
-				v => v.length <= 400 || this.$i18n.t('rules.description.atMost400Chars')
+				v => v.length <= 1000 || this.$i18n.t('rules.description.atMost1000Chars')
 			],
 			outputDataRules: [
-				v => v.length <= 400 || this.$i18n.t('rules.outputData.atMost400Chars')
+				v => v.length <= 1000 || this.$i18n.t('rules.outputData.atMost1000Chars')
 			],
 			specializationRules: [
 				v => v.length <= 50 || this.$i18n.t('rules.specialization.atMost50Chars')

@@ -26,10 +26,10 @@ export default {
         description: {
             required: 'Description is required',
             atLeast5Chars: 'Description should contain at least 5 characters',
-            atMost400Chars: 'Description should contain at most 400 characters'
+            atMost1000Chars: 'Description should contain at most 1000 characters'
         },
         outputData: {
-            atMost400Chars: 'Output data should contain at most 400 characters'
+            atMost1000Chars: 'Output data should contain at most 1000 characters'
         },
         specialization: {
             atMost50Chars: 'Specialization should contain at most 50 characters'

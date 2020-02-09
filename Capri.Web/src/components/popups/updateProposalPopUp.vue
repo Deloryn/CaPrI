@@ -403,10 +403,10 @@ export default Vue.component('updateProposalPopUp',{
 			descriptionRules: [
 				v => !!v || this.$i18n.t('rules.description.required'),
 				v => v.length >= 5 || this.$i18n.t('rules.description.atLeast5Chars'),
-				v => v.length <= 400 || this.$i18n.t('rules.description.atMost400Chars')
+				v => v.length <= 1000 || this.$i18n.t('rules.description.atMost1000Chars')
 			],
 			outputDataRules: [
-				v => v.length <= 400 || this.$i18n.t('rules.outputData.atMost400Chars')
+				v => v.length <= 1000 || this.$i18n.t('rules.outputData.atMost1000Chars')
 			],
 			specializationRules: [
 				v => v.length <= 50 || this.$i18n.t('rules.specialization.atMost50Chars')

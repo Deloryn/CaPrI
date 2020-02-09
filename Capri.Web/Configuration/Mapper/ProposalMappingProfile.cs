@@ -46,7 +46,7 @@ namespace Capri.Web.Configuration.Mapper
             var students = registration.Students;
             var maxNumberOfStudents = registration.MaxNumberOfStudents;
 
-            if(students == null)
+            if(students == null || students.Count() == 0)
             {
                 return ProposalStatus.Free;
             }
@@ -72,10 +72,17 @@ namespace Capri.Web.Configuration.Mapper
 
         private ICollection<int> GetStudentIndexNumbersFromString(string indexNumbersString)
         {
-            return indexNumbersString
-                .Split(",")
-                .Select(str => Int32.Parse(str))
-                .ToList();
+            if(indexNumbersString == String.Empty)
+            {
+                return new List<int>();
+            }
+            else
+            {
+                return indexNumbersString
+                    .Split(",")
+                    .Select(str => Int32.Parse(str))
+                    .ToList();
+            }
         }
 
         private string GetPromoterFullName(Promoter promoter)

@@ -17,7 +17,7 @@ import topBar from './components/topBar.vue';
 import downBar from './components/downBar.vue';
 import navStudentItems from './components/navStudentItems.vue';
 import navList from './components/navList.vue';
-import SessionService from './services/sessionService';
+import { sessionService } from './services/sessionService';
 
 enum UserType {
     student = 'student',
@@ -33,7 +33,7 @@ enum UserType {
 })
 export default class App extends Vue {
     public UserType = UserType;
-    public parsedToken = new SessionService().getParsedToken();
+    public parsedToken = sessionService.getParsedToken();
 }
 </script>
 <style lang="scss" scoped>
