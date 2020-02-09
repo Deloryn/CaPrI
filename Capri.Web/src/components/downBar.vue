@@ -1,7 +1,7 @@
 <template>
 	<v-footer fixed height="50">
 		<v-spacer></v-spacer>
-		<div class="footer">&copy; 2020</div>
+		<div class="footer">&copy; 2020 Michalak Krzysztof, Liszka Szymon, Karczewski Krzysztof, Ginna Naatay</div>
 	</v-footer>
 </template>
 
@@ -13,7 +13,7 @@ export default class DownBar extends Vue {}
 </script>
 <style lang="scss" scoped>
 .footer {
-	font-size: 30px;
+	font-size: 16px;
 	color: rgb(0, 100, 139);
 	position: absolute;
 	left: 50%;

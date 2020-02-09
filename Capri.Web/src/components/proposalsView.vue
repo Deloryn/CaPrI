@@ -1,14 +1,29 @@
 ﻿<template v-key="lang">
 	<v-container fluid grid-list-xl class="mainView">
+        <v-row>
+			<v-col cols="2" offset="10">
+				<v-select
+					v-model="itemsPerPage"
+					:items="itemsPerPageOptions"
+					:label="$i18n.t('commons.itemsPerPage')"
+				/>
+			</v-col>
+		</v-row>
 		<v-row justify="center">
 			<displayProposalDetailsPopUp :params="displayDetailsPopUpParams" />
             <v-col cols="12">
                 <v-data-table 
                     :headers="headers"
                     :items="proposals"
+                    :items-per-page="itemsPerPage"
+					:page.sync="page"
+					hide-default-footer
                     id="proposalstable"
                     class="table"
                 >
+                    <template slot="no-data">
+                        {{ $i18n.t('commons.dataLoading') }}
+                    </template>
                     <template v-slot:item="{ item }">
                         <tr @click="showDetails(item.id)">
                         <td>{{ item.topic }}</td>
@@ -26,6 +41,17 @@
 
                 </v-data-table>
             </v-col>
+		</v-row>
+        <v-row>
+			<v-col>
+					<v-pagination
+						v-model="page"
+						:length="howManyPagesInTotal"
+						:total-visible="totalVisible"
+						next-icon="navigate_next"
+						prev-icon="navigate_before"
+					/>
+			</v-col>
 		</v-row>
 	</v-container>
 </template>
@@ -45,10 +71,29 @@ export default {
     watch: {
         lang: function(val) {
             this.lang = val;
-        }
+        },
+        page: function(newpage) {
+			this.getFilteredProposals();
+		},
+		itemsPerPage: function(newItemsPerPage) {
+			this.getFilteredProposals();
+		}
     },
     data() {
         return {
+            page: 1,
+            howManyPagesInTotal: 10,
+            itemsPerPage: 10,
+            itemsPerPageOptions: [
+                5,
+                10,
+                15
+            ],
+            totalVisible: 8,
+            faculty: null,
+            course: null,
+            level: null,
+            mode: null,
             proposals: [],
             displayDetailsPopUpParams: {
                 show: false,
@@ -83,35 +128,18 @@ export default {
         }
     },
     created() {
-        this.getData();
-        bus.$on('proposalsFiltersWereChosen', this.filterProposals);
-        bus.$on('proposalWasCreated', this.getData);
+        bus.$on('proposalsFiltersWereChosen', this.onFiltersChange);
+        bus.$on('proposalWasCreated', this.getFilteredProposals);
+        this.getFilteredProposals();
     },
     methods: {
-        getData: function() {
-            proposalService.getAll().then((response) => {
-                var proposals = response.data;
-                this.proposals = [];
-                proposals.forEach(proposal => {
-                    promoterService.get(proposal.promoterId)
-                    .then((response) => {
-                        let promoterFullName = "";
-                        if(response.status == 200) {
-                            var promoter = response.data;
-                            promoterFullName = promoter.lastName + " " + promoter.firstName;
-                        }
-                        proposal.promoter = promoterFullName;
-                        if(this.$i18n.locale == 'pl') {
-                            proposal.topic = proposal.topicPolish;
-                        }
-                        else {
-                            proposal.topic = proposal.topicEnglish;
-                        }
-                        proposal.freeSlots = proposal.maxNumberOfStudents - proposal.students.length;
-                        this.proposals.push(proposal);
-                    });
-                });
-            });            
+        onFiltersChange: function(filters) {
+            this.page = 1;
+            this.faculty = filters.faculty;
+            this.course = filters.course;
+            this.level = filters.level;
+            this.mode = filters.mode;
+            this.getFilteredProposals();
         },
         showDetails: function(proposalId) {
             bus.$emit('displayProposal', proposalId);
@@ -134,42 +162,61 @@ export default {
                     link.click();
                 })
         },
-        filterProposals: function(chosenFilters) {
+        getFilteredProposals: function() {
             this.proposals = [];
+            var page = this.page;
+            var pageSize = this.itemsPerPage;
             var sorts = "";
-            var page = 1;
-            var pageSize = 10;
-            var filters = "";
-            if(chosenFilters.level != null) {
-                filters += "level==" + chosenFilters.level + ",";
+            if(this.$i18n.locale == 'pl') {
+                sorts="topicpolish";
             }
-            if(chosenFilters.mode != null) {
+            else {
+                sorts = "topicenglish";
+            }
+            var filters = "";
+            if(this.level != null) {
+                filters += "level==" + this.level + ",";
+            }
+            if(this.mode != null) {
                 filters += "mode==" + chosenFilters.mode + ",";
             }
-            if(chosenFilters.course && chosenFilters.course.id) {
-                filters += "course_id==" + chosenFilters.course.id + ",";
+            if(this.course && this.course.id) {
+                filters += "course_id==" + this.course.id + ",";
             }
-            if(chosenFilters.faculty && chosenFilters.faculty.id) {
-                filters += "faculty_id==" + chosenFilters.faculty.id + ",";
+            if(this.faculty && this.faculty.id) {
+                filters += "faculty_id==" + this.faculty.id + ",";
             }
 
-            proposalService.getFiltered(sorts, filters, page, pageSize)
+            proposalService.count(sorts, filters)
                 .then(response => {
                     if(response.status == 200) {
-                        this.proposals = response.data;
-                        this.proposals.forEach(proposal => {
-                            promoterService.get(proposal.promoterId)
-                                .then((response) => {
-                                    let promoterFullName = "";
-                                    if(response.status == 200) {
-                                        var promoter = response.data;
-                                        promoterFullName = promoter.lastName + " " + promoter.firstName;
-                                    }
-                                    proposal.promoter = promoterFullName;
-                                });
-                            proposal.topic = proposal.topicEnglish;
-                            proposal.freeSlots = proposal.maxNumberOfStudents - proposal.students.length;
-                        });
+                        var total = response.data;
+                        this.howManyPagesInTotal = Math.ceil(total/this.itemsPerPage);
+                        proposalService.getFiltered(sorts, filters, page, pageSize)
+                            .then(response => {
+                                if(response.status == 200) {
+                                    var proposals = response.data;
+                                    proposals.forEach(proposal => {
+                                        promoterService.get(proposal.promoterId)
+                                            .then((response) => {
+                                                let promoterFullName = "";
+                                                if(response.status == 200) {
+                                                    var promoter = response.data;
+                                                    promoterFullName = promoter.lastName + " " + promoter.firstName;
+                                                }
+                                                proposal.promoter = promoterFullName;
+                                                if(this.$i18n.locale == 'pl') {
+                                                    proposal.topic = proposal.topicPolish;
+                                                }
+                                                else {
+                                                    proposal.topic = proposal.topicEnglish;
+                                                }
+                                                proposal.freeSlots = proposal.maxNumberOfStudents - proposal.students.length;
+                                                this.proposals.push(proposal);
+                                            });
+                                    });
+                                }
+                            });
                     }
                 });
         }
