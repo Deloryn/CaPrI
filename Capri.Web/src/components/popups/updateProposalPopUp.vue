@@ -212,7 +212,7 @@
 							class="submitButton green" 
 							@click="submit"
 						>
-							{{ $i18n.t('commons.create') }}
+							{{ $i18n.t('commons.update') }}
 						</v-btn>
 					</v-col>
 				</v-row>

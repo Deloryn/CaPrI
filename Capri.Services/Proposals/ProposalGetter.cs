@@ -11,7 +11,6 @@ using Capri.Services.Files;
 using Capri.Services.Users;
 using Capri.Web.ViewModels.Proposal;
 using Capri.Web.ViewModels.Common;
-using System.IO;
 
 namespace Capri.Services.Proposals
 {
@@ -154,11 +153,19 @@ namespace Capri.Services.Proposals
         public IServiceResult<IQueryable<ProposalViewModel>> GetFiltered(SieveModel sieveModel)
         {
             var proposals = _context.Proposals.AsQueryable();
-
             var filtered = _sieveProcessor.Apply(sieveModel, proposals);
-            
             var proposalViewModels = filtered.Select(p => _mapper.Map<ProposalViewModel>(p));
+
             return ServiceResult<IQueryable<ProposalViewModel>>.Success(proposalViewModels);
+        }
+
+        public IServiceResult<int> Count(SieveModel sieveModel)
+        {
+            var proposals = _context.Proposals.AsQueryable();
+            var filtered = _sieveProcessor.Apply(sieveModel, proposals, null, true, true, false);
+            var total = filtered.Count();
+
+            return ServiceResult<int>.Success(total);
         }
     }
 }

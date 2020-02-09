@@ -17,6 +17,7 @@
 <script>
 import { Vue } from 'vue-property-decorator';
 import proposalsFilterComponent from '@src/components/proposalsFilterComponent'
+import promotersFilterComponent from '@src/components/promotersFilterComponent'
 import router from '@src/router'
 import { bus } from '@src/services/eventBus'
 
@@ -25,7 +26,8 @@ export default Vue.component('navList', {
 		userType: ''
     },
     components: {
-        proposalsFilterComponent
+        proposalsFilterComponent,
+        promotersFilterComponent
     },
     data() {
         return {
@@ -34,7 +36,8 @@ export default Vue.component('navList', {
                     to: '/view/promoters',
                     icon: 'mdi-account-multiple',
                     text: this.$i18n.t('promoter.promoterPlural'),
-                    dropDownOnStart: false
+                    dropDownOnStart: false,
+                    component: promotersFilterComponent
                 },
                 proposals: {
                     to: '/view/proposals',
@@ -69,6 +72,7 @@ export default Vue.component('navList', {
         render: function(url) {
             router.push(url);
             bus.$emit('clearProposalFilters');
+            bus.$emit('clearPromoterFilters');
         }
 	}
 })

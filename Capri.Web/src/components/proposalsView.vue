@@ -84,7 +84,7 @@ export default {
     },
     created() {
         this.getData();
-        bus.$on('filtersWereChosen', this.filterProposals);
+        bus.$on('proposalsFiltersWereChosen', this.filterProposals);
         bus.$on('proposalWasCreated', this.getData);
     },
     methods: {

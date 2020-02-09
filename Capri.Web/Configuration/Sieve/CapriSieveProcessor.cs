@@ -16,6 +16,13 @@ namespace Capri.Web.Configuration.Sieve
 
         protected override SievePropertyMapper MapProperties(SievePropertyMapper mapper)
         {
+            mapper.Property<Promoter>(p => p.InstituteId)
+                .CanFilter();
+
+            mapper.Property<Promoter>(p => p.LastName)
+                .CanFilter()
+                .CanSort();
+
             mapper.Property<Proposal>(p => p.TopicPolish)
                 .CanFilter()
                 .CanSort();

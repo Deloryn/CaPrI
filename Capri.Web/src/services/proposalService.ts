@@ -2,6 +2,12 @@ import { requestService } from '@src/services/requestService'
 
 class ProposalService {
 
+    public count(sorts: string, filters: string) {
+        var queryString = "?sorts=" + sorts
+                        + "&filters=" + filters
+        return requestService.request("GET", "/proposals/filtered/total" + queryString)
+    }
+
     public create(data={}) {
         return requestService.request("POST", "/proposals", data)
     }

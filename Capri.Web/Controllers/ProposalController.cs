@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Sieve.Models;
 using Capri.Database.Entities;
 using Capri.Database.Entities.Identity;
@@ -33,6 +33,7 @@ namespace Capri.Web.Controllers
             _submittedProposalGetter = submittedProposalGetter;
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -82,6 +83,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -93,10 +95,23 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
+        [Authorize]
         [HttpGet("filtered")]
         public IActionResult GetFiltered(SieveModel sieveModel)
         {
             var result = _proposalGetter.GetFiltered(sieveModel);
+            if(result.Successful())
+            {
+                return Ok(result.Body());
+            }
+            return BadRequest(result.GetAggregatedErrors());
+        }
+
+        [Authorize]
+        [HttpGet("filtered/total")]
+        public IActionResult Count(SieveModel sieveModel)
+        {
+            var result = _proposalGetter.Count(sieveModel);
             if(result.Successful())
             {
                 return Ok(result.Body());

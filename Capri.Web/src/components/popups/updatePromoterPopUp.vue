@@ -40,7 +40,7 @@
 						</v-btn>
 					</v-col>
 					<v-col>
-						<v-btn class="submitButton green" @click="submit">Update</v-btn>
+						<v-btn class="submitButton green" @click="submit">{{ $i18n.t('commons.update') }}</v-btn>
 					</v-col>
 				</v-row>
 			</v-container>

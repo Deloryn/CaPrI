@@ -165,7 +165,7 @@ export default Vue.component('proposalsFilterComponent', {
             }
         },
         emitFilters: function() {
-            bus.$emit('filtersWereChosen', {
+            bus.$emit('proposalsFiltersWereChosen', {
                     faculty: this.selectedFaculty,
                     course: this.selectedCourse,
                     level: this.selectedLevel,

@@ -1,9 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using Sieve.Models;
+using Sieve.Services;
 using Capri.Database;
 using Capri.Services.Users;
 using Capri.Web.ViewModels.Promoter;
@@ -13,17 +14,29 @@ namespace Capri.Services.Promoters
     public class PromoterGetter : IPromoterGetter
     {
         private readonly ISqlDbContext _context;
-        private readonly IMapper _mapper;
         private readonly IUserGetter _userGetter;
+        private readonly IMapper _mapper;
+        private readonly ISieveProcessor _sieveProcessor;
 
         public PromoterGetter(
             ISqlDbContext context,
+            IUserGetter userGetter,
             IMapper mapper,
-            IUserGetter userGetter)
+            ISieveProcessor sieveProcessor)
         {
             _context = context;
-            _mapper = mapper;
             _userGetter = userGetter;
+            _mapper = mapper;
+            _sieveProcessor = sieveProcessor;
+        }
+
+        public IServiceResult<int> Count(SieveModel sieveModel)
+        {
+            var promoters = _context.Promoters.AsQueryable();
+            var filtered = _sieveProcessor.Apply(sieveModel, promoters, null, true, true, false);
+            var total = filtered.Count();
+            
+            return ServiceResult<int>.Success(total);
         }
 
         public async Task<IServiceResult<PromoterViewModel>> Get(int id)
@@ -51,6 +64,15 @@ namespace Capri.Services.Promoters
                 
             var promoterViewModels = promoters.Select(p => _mapper.Map<PromoterViewModel>(p));
             return ServiceResult<IEnumerable<PromoterViewModel>>.Success(promoterViewModels);
+        }
+
+        public IServiceResult<IQueryable<PromoterViewModel>> GetFiltered(SieveModel sieveModel)
+        {
+            var promoters = _context.Promoters.AsQueryable();
+            var filtered = _sieveProcessor.Apply(sieveModel, promoters);
+            var promoterViewModels = filtered.Select(p => _mapper.Map<PromoterViewModel>(p));
+
+            return ServiceResult<IQueryable<PromoterViewModel>>.Success(promoterViewModels);
         }
 
         public async Task<IServiceResult<PromoterViewModel>> GetMyData()

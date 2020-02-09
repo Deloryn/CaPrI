@@ -2,6 +2,10 @@ export default {
     commons: {
         loginViaElogin: 'Zaloguj się przez eLogin',
         tryingToLogin: 'Próbuję się zalogować...',
+        dataLoading: 'Wczytywanie danych...',
+        itemsPerPage: 'Liczba elem. na stronie',
+        importPromoters: 'Importuj dane promotorów z pliku...',
+        exportPromoters: 'Eksportuj dane o promotorach do pliku...',
         create: 'Utwórz',
         update: 'Aktualizuj',
         cancel: 'Anuluj',
