@@ -100,12 +100,12 @@ export default Vue.component('updateProposalPopUp',{
 			expectedMasters: "",
 			
 			expectedBachelorsRules: [
-				v => !!v || this.$i18n.t('rules.expectedBachelors.required'),
+				v => /^\d+$/.test(v) || this.$i18n.t('rules.expectedBachelors.required'),
 				v => v >= 0 || this.$i18n.t('rules.expectedBachelors.nonNegative'),
 				v => v <= 10 || this.$i18n.t('rules.expectedBachelors.atMost10')
 			],
 			expectedMastersRules: [
-				v => !!v || this.$i18n.t('rules.expectedMasters.required'),
+				v => /^\d+$/.test(v) || this.$i18n.t('rules.expectedMasters.required'),
 				v => v >= 0 || this.$i18n.t('rules.expectedMasters.nonNegative'),
 				v => v <= 10 || this.$i18n.t('rules.expectedMasters.atMost10')
 			]
