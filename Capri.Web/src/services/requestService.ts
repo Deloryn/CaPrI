@@ -16,13 +16,13 @@ class RequestService {
         })
     }
 
-    public requestFile(method: string, api: string, data={}) {
+    public requestFile(method: string, api: string, data = null) {
         const token = sessionStorage.token;
         return Vue.axios.request({
             url: this.serverAddres + api,
             method: method as Method,
             data: data,
-            responseType: 'blob',
+            responseType: method.toLowerCase().includes('get') ? 'blob' : 'json',
             headers: {
                 'Authorization': 'Bearer ' + token
             }

@@ -12,9 +12,13 @@ namespace Capri.Web.Configuration.Mapper
             CreateMap<PromoterUpdate, Promoter>();
 
             CreateMap<Promoter, PromoterViewModel>()
-            .ForMember(
-                view=>view.Proposals, 
-                o=>o.MapFrom(promoter=>promoter.Proposals.Select(p=>p.Id)));
+                .ForMember(
+                    view => view.Proposals, 
+                    o => o.MapFrom(promoter => promoter.Proposals.Select(p => p.Id)));
+
+            CreateMap<Promoter, PromoterJsonRecord>();
+
+            CreateMap<PromoterJsonRecord, PromoterUpdate>();
         }
     }
 }

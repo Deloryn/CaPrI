@@ -2,20 +2,22 @@
 	<v-container fluid grid-list-xl class="mainView">
 		<v-row>
 			<v-col cols="3">
-				<v-file-input
-					id="promotersFileInput"
-					style="display: none"
-				/>
-				<v-btn 
-					@click="chooseFile"
-				>
-					{{ $i18n.t('commons.importPromoters') }}
-				</v-btn>
+				<v-card class="buttonCard">
+					<v-btn class="importButton"
+						color="primary"
+						@click.stop="importPromoters()">
+						{{ $i18n.t('commons.importPromoters') }}
+					</v-btn>
+				</v-card>
 			</v-col>
 			<v-col cols="3">
-				<v-btn>
-					{{ $i18n.t('commons.exportPromoters') }}
-				</v-btn>
+				<v-card class="buttonCard">
+					<v-btn class="importButton"
+						color="primary"
+						@click.stop="exportPromoters()">
+						{{ $i18n.t('commons.exportPromoters') }}
+					</v-btn>
+				</v-card>
 			</v-col>
 			<v-col cols="2" offset="4">
 				<v-select
@@ -27,6 +29,7 @@
 		</v-row>
 		<v-row justify="center" class="rowMargin">
 			<updatePromoterPopUp :params="updatePromoterPopUpParams" />
+			<importPromotersPopUp :params="importPromotersPopUpParams" />
 			<v-col cols="12">
 				<v-data-table
 					:headers="headers"
@@ -74,12 +77,14 @@ import {promoterService} from '@src/services/promoterService'
 import {instituteService} from '@src/services/instituteService'
 import {proposalService} from '@src/services/proposalService'
 import updatePromoterPopUp from '@src/components/popups/updatePromoterPopUp.vue'
+import importPromotersPopUp from '@src/components/popups/importPromotersPopUp.vue'
 import { bus } from '@src/services/eventBus'
 
 export default {
 	name: 'promotersView',
 	components: {
-        updatePromoterPopUp
+		updatePromoterPopUp,
+		importPromotersPopUp
 	},
 	watch: {
 		page: function(newpage) {
@@ -131,6 +136,10 @@ export default {
 		updatePromoterPopUpParams: {
 			show: false,
 			maxWidth: 1000,
+        },
+        importPromotersPopUpParams: {
+			show: false,
+			maxWidth: 800,
 		}
       }
 	},
@@ -205,7 +214,27 @@ export default {
 		showUpdatePromoterPopUp: function(promoter) {
 			bus.$emit('showPromoterToUpdate', promoter);
 			this.updatePromoterPopUpParams.show = true;
-    	}
+        },
+        importPromoters: function() {
+			this.importPromotersPopUpParams.show = true;
+		},
+		exportPromoters: function() {
+			promoterService.exportPromoters()
+				.then(response => {
+					let filename = response.headers['content-disposition'];
+                    filename = filename.slice(filename.indexOf('filename=')+9, 
+                        filename.indexOf('.json', filename.indexOf('filename='))+5);
+                    if (!filename.endsWith('.json')) filename += '.json';
+
+                    const url = window.URL.createObjectURL(new Blob([response.data], 
+                        {type: response.headers['content-type']}));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', filename);
+                    document.body.appendChild(link);
+                    link.click();
+				})
+		}
 	},
   }
 

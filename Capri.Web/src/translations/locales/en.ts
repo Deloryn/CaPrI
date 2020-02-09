@@ -10,6 +10,8 @@ export default {
         update: 'Update',
         cancel: 'Cancel',
         any: 'Any',
+        import: 'Import',
+        export: 'Export',
         optional: '(optional)'
     },
     info: {
@@ -129,5 +131,10 @@ export default {
         firstName: 'First name',
         lastName: 'Last name',
         semester: 'Semester'
+    },
+
+    import: {
+        importTitle: 'Import promoters',
+        importLabel: 'Select file in json format'
     }
 };
