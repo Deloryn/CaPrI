@@ -1,25 +1,21 @@
 <template>
 	<v-container fluid grid-list-xl class="mainView">
 		<v-row>
-			<v-col cols="3">
-				<v-card class="buttonCard">
-					<v-btn class="importButton"
-						color="primary"
-						@click.stop="importPromoters()">
-						{{ $i18n.t('commons.importPromoters') }}
-					</v-btn>
-				</v-card>
+			<v-col cols="1">
+				<v-btn class="importButton buttonCard"
+					color="primary"
+					@click.stop="importPromoters()">
+					{{ $i18n.t('commons.importPromoters') }}
+				</v-btn>
 			</v-col>
-			<v-col cols="3">
-				<v-card class="buttonCard">
-					<v-btn class="importButton"
-						color="primary"
-						@click.stop="exportPromoters()">
-						{{ $i18n.t('commons.exportPromoters') }}
-					</v-btn>
-				</v-card>
+			<v-col cols="1" offset="1">
+				<v-btn class="importButton buttonCard"
+					color="primary"
+					@click.stop="exportPromoters()">
+					{{ $i18n.t('commons.exportPromoters') }}
+				</v-btn>
 			</v-col>
-			<v-col cols="2" offset="4">
+			<v-col cols="2" offset="7">
 				<v-select
 					v-model="itemsPerPage"
 					:items="itemsPerPageOptions"
