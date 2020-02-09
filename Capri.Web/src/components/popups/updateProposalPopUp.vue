@@ -231,7 +231,6 @@ import { bus } from '@src/services/eventBus'
 
 export default Vue.component('updateProposalPopUp',{
 	props: {
-		proposal: Object,
 		params: Object,
 	},
 	methods: {
@@ -247,6 +246,7 @@ export default Vue.component('updateProposalPopUp',{
 			this.chosenLevel = null;
 			this.chosenMode = null;
 			this.chosenProfile = null;
+			this.indexNumbers = [];
 			this.topicPolish = "";
 			this.topicEnglish = "";
 			this.description = "";
@@ -255,35 +255,39 @@ export default Vue.component('updateProposalPopUp',{
 			this.chosenMaximalNumberOfStudents = "";
 		},
 		fillInputs: function(proposal) {
+			this.proposal = proposal;
 			facultyService.getAll()
 			.then(response => {
 				if(response.status == 200) {
 					this.faculties = response.data;
+					courseService.get(proposal.courseId)
+						.then(response => {
+							if(response.status == 200) {
+								this.chosenCourse = response.data;
+								facultyService.get(this.chosenCourse.facultyId)
+									.then(response => {
+										if(response.status == 200) {
+											this.chosenFaculty = response.data;
+											this.topicPolish = proposal.topicPolish;
+											this.topicEnglish = proposal.topicEnglish;
+											this.description = proposal.description;
+											this.outputData = proposal.outputData;
+											this.chosenMaximalNumberOfStudents = proposal.maxNumberOfStudents.toString();
+											if(proposal.students) {
+												this.indexNumbers = proposal.students;
+											}
+											else {
+												this.indexNumbers = [];
+											}
+											this.chosenLevel = this.levels[proposal.level];
+											this.chosenMode = this.modes[proposal.mode];
+											this.chosenProfile = this.profiles[proposal.studyProfile];
+										}
+									});
+							}
+						});
 				}
 			});
-
-			courseService.get(proposal.courseId)
-				.then(response => {
-					if(response.status == 200) {
-						this.chosenCourse = response.data;
-						facultyService.get(this.chosenCourse.facultyId)
-							.then(response => {
-								if(response.status == 200) {
-									this.chosenFaculty = response.data;
-								}
-							});
-					}
-				});
-
-			this.topicPolish = proposal.topicPolish;
-			this.topicEnglish = proposal.topicEnglish;
-			this.description = proposal.description;
-			this.outputData = proposal.outputData;
-			this.chosenMaximalNumberOfStudents = proposal.maxNumberOfStudents.toString();
-			this.indexNumbers = proposal.indexNumbers;
-			this.chosenLevel = this.levels[proposal.level];
-			this.chosenMode = this.modes[proposal.mode];
-			this.chosenProfile = this.profiles[proposal.studyProfile];
 		},
 		addStudent: function() {
 			var maxNumOfStudents = parseInt(this.chosenMaximalNumberOfStudents);
@@ -342,7 +346,7 @@ export default Vue.component('updateProposalPopUp',{
 				proposalService.update(this.proposal.id, proposalRegistration)
 					.then(response => {
 						if(response.status == 200) {
-							bus.$emit('proposalWasCreated');
+							bus.$emit('proposalWasUpdated');
 							this.params.show = false;
 							this.clearInputs();
 						}
@@ -354,6 +358,7 @@ export default Vue.component('updateProposalPopUp',{
 		return {
 			isFormValid: false,
 			selectCoursesDisabled: true,
+			proposal: null,
 			topicPolish: "",
 			topicEnglish: "",
 			description: "",

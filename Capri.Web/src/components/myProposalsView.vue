@@ -129,6 +129,8 @@ export default {
         }
     },
     created() {
+        bus.$on('proposalWasCreated', this.getData);
+        bus.$on('proposalWasUpdated', this.getData);
         this.getData();
     },
     methods: {

@@ -14,7 +14,7 @@
 							</v-card-text>
 							<v-card-text v-else>
 								<a :href="eLogin">
-									<img src="/img/eLoginLogo.png" :alt="$i18n.t('commons.loginViaElogin')"/>
+									<img src="img/eLoginLogo.png" :alt="$i18n.t('commons.loginViaElogin')"/>
 								</a>
 							</v-card-text>
 						</v-card>

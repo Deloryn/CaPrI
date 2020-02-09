@@ -18,10 +18,10 @@ namespace Capri.Web.ViewModels.Proposal
 
         [Required]
         [MinLength(5)]
-        [MaxLength(400)]
+        [MaxLength(1000)]
         public string Description { get; set; }
 
-        [MaxLength(400)]
+        [MaxLength(1000)]
         public string OutputData { get; set; }
 
         [MaxLength(50)]

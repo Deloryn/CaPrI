@@ -132,6 +132,7 @@ export default {
     created() {
         bus.$on('proposalsFiltersWereChosen', this.onFiltersChange);
         bus.$on('proposalWasCreated', this.getFilteredProposals);
+        bus.$on('proposalWasUpdated', this.getFilteredProposals);
         this.role = sessionService.getParsedToken()["role"];
         this.getFilteredProposals();
     },

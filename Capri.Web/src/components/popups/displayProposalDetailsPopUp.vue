@@ -274,6 +274,7 @@ export default Vue.component('updateProposalPopUp',{
 			course: "",
 			faculty: "",
 			promoter: "",
+			promoterEmail: "",
 			level: "",
 			status: "",
 			mode: "",
