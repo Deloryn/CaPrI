@@ -50,9 +50,11 @@ export default {
                 promoterService.importPromoters(formData)
                     .then(response => {
                         this.$refs.reaction.open(response.status);
+                    })
+                    .catch(error => {
+                        this.$refs.reaction.open(error.response.status);
                     });
-                this.file = null;
-                this.params.show = false;
+                this.closePopUp();
             }
         }
 	},

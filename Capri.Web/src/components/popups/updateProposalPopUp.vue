@@ -326,7 +326,10 @@ export default Vue.component('updateProposalPopUp',{
                         }
                         this.params.show = false;
 						this.clearInputs();
-					});
+                    })
+                    .catch(error => {
+                        this.$refs.reaction.open(error.response.status);
+                    });
 			}
 		},
 	},

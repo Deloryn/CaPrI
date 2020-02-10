@@ -269,6 +269,9 @@ export default {
                                 if(response.status == 200) {
                                     this.getData();
                                 }
+                            })
+                            .catch(error => {
+                                this.$refs.reaction.open(error.response.status);
                             });
                     }
                 })

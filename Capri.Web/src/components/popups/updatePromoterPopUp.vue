@@ -85,11 +85,13 @@ export default Vue.component('updateProposalPopUp',{
                         this.$refs.reaction.open(response.status);
 						if(response.status == 200) {
 							bus.$emit('promoterWasUpdated');
-							
+							this.params.show = false;
+					        this.clearInputs();
                         }
-                        this.params.show = false;
-					    this.clearInputs();
-					});
+                    })
+                    .catch(error => {
+                        this.$refs.reaction.open(error.response.status);
+                    });
 			}
 		},
 	},

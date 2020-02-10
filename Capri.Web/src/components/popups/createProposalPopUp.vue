@@ -293,7 +293,10 @@ export default Vue.component('createProposalPopUp',{
 							this.params.show = false;
 							this.clearInputs();
 						}
-					});
+                    })
+                    .catch(error => {
+                        this.$refs.reaction.open(error.response.status);
+                    });
 			}
 		},
 	},
