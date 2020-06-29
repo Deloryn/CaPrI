@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Autofac;
+using Autofac.Core;
 using AutoMapper;
 using PUT.WebServices.eDziekanatServiceClient;
 using PUT.WebServices.eKontoServiceClient;
@@ -36,9 +37,18 @@ namespace Capri.Synchronizer
 
             string systemName = configuration["SystemName"];
             string systemPassword = configuration["SystemPassword"];
+            string adminEmail = configuration["AdminEmail"];
+            string adminPassword = configuration["AdminPassword"];
+
+            var adminParameters = new Parameter[] {
+                new NamedParameter("adminEmail", adminEmail),
+                new NamedParameter("adminPassword", adminPassword)
+            };
+
             var eKontoClient = new eKontoClient(systemName, systemPassword);
             var eDziekanatClient = new eDziekanatClient(eKontoClient);
             var eKadryClient = new eKadryClient(eKontoClient);
+            
 
             var mappingConfig = new AutoMapper.MapperConfiguration(mc =>
             {
@@ -61,6 +71,7 @@ namespace Capri.Synchronizer
             builder.RegisterType<CourseSynchronizer>().As<ICourseSynchronizer>();
             builder.RegisterType<InstituteSynchronizer>().As<IInstituteSynchronizer>();
             builder.RegisterType<PromoterSynchronizer>().As<IPromoterSynchronizer>();
+            builder.RegisterType<AdminAccountSynchronizer>().WithParameters(adminParameters).As<IAdminAccountSynchronizer>();
             builder.RegisterType<Application>();
 
             return builder.Build();

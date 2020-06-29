@@ -1,5 +1,8 @@
 export default {
     commons: {
+        email: 'Email',
+        password: 'Password',
+        login: 'Login',
         loginViaElogin: 'Log in via eLogin',
         tryingToLogin: 'Trying to log in...',
         dataLoading: 'Loading data...',

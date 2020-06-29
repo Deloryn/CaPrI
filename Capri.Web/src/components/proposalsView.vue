@@ -29,7 +29,7 @@
                         <td>{{ item.topic }}</td>
                         <td>{{ item.promoter }}</td>
                         <td>{{ item.freeSlots }}</td>
-                        <td v-if="role == 'Dean'">
+                        <td v-if="role == 'Dean' || role == 'Admin'">
                             <v-btn @click.stop="exportCsv(item.id)">
                                 <v-icon large color="green darken-2">
                                     insert_drive_file

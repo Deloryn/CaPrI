@@ -24,6 +24,11 @@ namespace Capri.Synchronizer.Synchronizers
                     Id = 1,
                     Name = "Dean",
                     NormalizedName = "Dean"
+                },
+                new IntRole() {
+                    Id = 2,
+                    Name = "Admin",
+                    NormalizedName = "Admin"
                 }
             };
 
