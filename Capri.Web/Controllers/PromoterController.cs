@@ -90,7 +90,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [AllowedRoles(RoleType.Dean)]
+        [AllowedRoles(RoleType.Dean, RoleType.Admin)]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(
             int id,
@@ -114,7 +114,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [AllowedRoles(RoleType.Dean)]
+        [AllowedRoles(RoleType.Dean, RoleType.Admin)]
         [HttpGet("export")]
         public IActionResult Export()
         {
@@ -127,7 +127,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [AllowedRoles(RoleType.Dean)]
+        [AllowedRoles(RoleType.Dean, RoleType.Admin)]
         [HttpPost("import")]
         public async Task<IActionResult> Import(IFormFile promotersImport)
         {

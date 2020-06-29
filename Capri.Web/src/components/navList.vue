@@ -61,11 +61,11 @@ export default Vue.component('navList', {
             if (userType === 'Promoter') {
                 newLinks.push(this.links.proposals, this.links.myProposals);
             } 
-            else if (userType === 'Dean') {
+            else if (userType === 'Dean' || userType === 'Admin') {
                 newLinks.push(this.links.proposals, this.links.promoters);
             }
             else {
-                newLinks.push(this.links.proposals)
+                newLinks.push(this.links.proposals);
             }
             return newLinks;
         },

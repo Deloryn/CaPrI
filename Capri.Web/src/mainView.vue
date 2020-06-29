@@ -25,6 +25,7 @@ enum UserType {
     student = 'Student',
     promoter = 'Promoter',
     dean = 'Dean',
+    admin = 'Admin'
 }
 
 @Component({

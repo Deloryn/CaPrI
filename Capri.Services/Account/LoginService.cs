@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Diagnostics;
+﻿using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -54,32 +52,6 @@ namespace Capri.Services.Account
             { 79, new int[9] { FacultyWA, FacultyWARiE, FacultyWIiT, FacultyWILiT, FacultyWIM, FacultyWIMiFT, FacultyWISiE, FacultyWIZ, FacultyWTCh } }
         };
 
-        public EKontoUserSession mockPromoterUserSession = new EKontoUserSession {
-                identifier = "1509",
-                user = new EKontoUser {
-                    loginName = "jerzy.nawrocki",
-                    loginDomain = "put.poznan.pl",
-                    name = "Jerzy",
-                    surname = "Nawrocki",
-                    passwordExpired = false,
-                    internalId = "1509",
-                    id = 1509,
-                }
-        };
-
-        public EKontoUserSession mockDeanUserSession = new EKontoUserSession {
-                identifier = "5061",
-                user = new EKontoUser {
-                    loginName = "katarzyna.malkowska",
-                    loginDomain = "put.poznan.pl",
-                    name = "Katarzyna",
-                    surname = "Małkowska",
-                    passwordExpired = false,
-                    internalId = "5061",
-                    id = 5061
-                }
-        };
-
         public LoginService(
             IEKontoClient eKontoClient,
             IEKadryClient eKadryClient,
@@ -98,6 +70,35 @@ namespace Capri.Services.Account
             _tokenGenerator = tokenGenerator;
             _context = context;
             _mapper = mapper;
+        }
+
+        public async Task<IServiceResult<UserSecurityStamp>> Login(string email, string password) {
+            var user = _context.Users.FirstOrDefault(u => u.Email.Equals(email));
+            if (user == null) 
+            {
+                return ServiceResult<UserSecurityStamp>.Error($"There is no account with email {email}");
+            }
+
+            var isPasswordValid = await _userManager.CheckPasswordAsync(user, password);
+            if (!isPasswordValid) 
+            {
+                return ServiceResult<UserSecurityStamp>.Error($"Could not sign in with the provided password");
+            }
+
+            var roleNames = GetRoleNamesFor(user);
+            await SetSecurityStampAsync(user, roleNames);
+
+            var signInResult = await _signInManager.PasswordSignInAsync(user, password, true, false);
+            
+            if (signInResult.Succeeded) {
+                return ServiceResult<UserSecurityStamp>.Success(new UserSecurityStamp
+                {
+                    Email = user.Email,
+                    SecurityStamp = user.SecurityStamp
+                });
+            }
+            
+            return ServiceResult<UserSecurityStamp>.Error($"Failed to sign in");
         }
 
         public async Task<IServiceResult<UserSecurityStamp>> Login(string sessionAuthorizationKey)
@@ -182,6 +183,14 @@ namespace Capri.Services.Account
             string token = _tokenGenerator.GenerateTokenFor(user, roleNames.ToArray());
             user.SecurityStamp = token;
             await _context.SaveChangesAsync();
+        }
+
+        private IEnumerable<string> GetRoleNamesFor(User user) {
+            return _context.UserRoles
+                .Where(userRole => userRole.UserId.Equals(user.Id))
+                .Select(userRole => _context.Roles.FirstOrDefault(role => role.Id.Equals(userRole.RoleId)))
+                .Select(role => role.Name)
+                .ToArray();
         }
 
         private IEnumerable<string> GetRoleNamesFor(EKontoUserSession eKontoUserSession)

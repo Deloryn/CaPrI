@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Capri.Services.Account;
 using Capri.Web.ViewModels.Common;
+using Capri.Web.ViewModels.User;
 
 namespace Capri.Web.Controllers
 {
@@ -19,6 +20,26 @@ namespace Capri.Web.Controllers
         {
             _loginService = loginService;
             _logoutService = logoutService;
+        }
+
+        [AllowAnonymous]
+        [HttpPost("login/direct")]
+        public async Task<IActionResult> Login([FromBody] UserCredentials userCredentials)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest("The given data is not valid for this request");
+            }
+
+            var result = 
+                await _loginService.Login(userCredentials.Email, userCredentials.Password);
+
+            if(result.Successful())
+            {
+                return Ok(result.Body());
+            }
+            
+            return BadRequest(result.GetAggregatedErrors());
         }
 
         [AllowAnonymous]

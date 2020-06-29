@@ -45,7 +45,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [AllowedRoles(RoleType.Dean)]
+        [AllowedRoles(RoleType.Dean, RoleType.Admin)]
         [HttpGet("{id}/csv")]
         public async Task<IActionResult> GetCsvFile(int id)
         {
@@ -70,7 +70,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [AllowedRoles(RoleType.Dean)]
+        [AllowedRoles(RoleType.Dean, RoleType.Admin)]
         [HttpGet("{id}/docx")]
         public async Task<IActionResult> GetDiplomaCardFile(int id)
         {
@@ -119,7 +119,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [AllowedRoles(RoleType.Dean, RoleType.Promoter)]
+        [AllowedRoles(RoleType.Dean, RoleType.Promoter, RoleType.Admin)]
         [HttpGet("submitted/bachelor/{promoterId}")]
         public async Task<IActionResult> GetSubmittedBachelorProposals(int promoterId)
         {
@@ -134,7 +134,7 @@ namespace Capri.Web.Controllers
             return BadRequest(result.GetAggregatedErrors());
         }
 
-        [AllowedRoles(RoleType.Dean, RoleType.Promoter)]
+        [AllowedRoles(RoleType.Dean, RoleType.Promoter, RoleType.Admin)]
         [HttpGet("submitted/master/{promoterId}")]
         public async Task<IActionResult> GetSubmittedMasterProposals(int promoterId)
         {
